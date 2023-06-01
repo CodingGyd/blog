@@ -283,6 +283,8 @@ export const enSidebar = sidebar({
         "domain",
         "poi",
         "ruzhi",
+        "blog-create",
+
       ],
    
     },

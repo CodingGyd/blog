@@ -1,19 +1,13 @@
 ---
 date: 2022-01-09
 category:
-  - 实用工具
+  - 离线工具
 tag:
-  - 红
-  - 小
-  - 圆
+  - 离线工具
 ---
 
-# 破解工具
+# 离线工具
+- jar包反编译工具 [jd-gui](https://github.com/java-decompiler/jd-gui/releases)  
+- 桌面录屏截图工具  [faststonecapture](https://www.faststonecapture.cn/download)    百度搜索有破解版哦~
 
-## 标题 2
-
-这里是内容。
-
-### 标题 3
-
-破解工具
+ 
