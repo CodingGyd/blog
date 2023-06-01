@@ -1,10 +1,9 @@
 ---
 date: 2022-01-09
 category:
-  - 面试题
+  - 面试题库
 tag:
-  - java基础
-  - IO
+  - javaIO流面试题
 ---
 
 # IO

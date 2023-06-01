@@ -3,15 +3,15 @@ home: true
 layout: BlogHome
 icon: home
 title: 博客主页
-heroImage: /logo.png
-heroText: 代码小郭的技术博客
+heroImage: /images/logo.png
+heroText: 代码小郭的技术博客(开发中...)
 heroFullScreen: false
-tagline:  我们一起在技术的海洋乘风破浪！
+tagline:  我们一起来搬砖
 projects:
   - icon: project
     name: 超神之路
     desc: JAVA程序员超神之路
-    link: /chaoshenzhilu/
+    link: home.md
 
   - icon: link
     name: 学习路线
