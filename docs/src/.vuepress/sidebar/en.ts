@@ -67,8 +67,7 @@ export const enSidebar = sidebar({
           {text:"Java的历史",link:"what-is-java"},
           "jdk-install",
           "idea-install",
-          "eclipse-install",
-          "hello-with-java",
+          {text:"第一个Java程序",link:"hello-with-java"},
           ],
         },
         {
@@ -284,6 +283,7 @@ export const enSidebar = sidebar({
         "poi",
         "ruzhi",
         "blog-create",
+        "markdown",
 
       ],
    
