@@ -9,6 +9,10 @@ tag:
 
 这里收集了我经常使用的网址，分享给大家,我会持续更新
 # 实用网站
+
+## 编程官方手册
+[Java学习|官方权威手册](https://docs.oracle.com/javase/tutorial/java/index.html)<br/>
+
 ## 技术论坛
 [GitHub|开源及私有软件项目的大型托管平台](http://www.github.com/)<br/>
 [CSDN|全球最大中文IT社区](http://www.csdn.net/)<br/>
@@ -30,4 +34,9 @@ tag:
 
 ## 小众搜索引擎
  [ecosia|小众搜索引擎1]( https://www.ecosia.org/)<br/>
+
+
+##开发工具-数据库客户端
+[Dbeaver|免费，同时支持多平台数据库客户端工具](https://dbeaver.io/)<br/>
+
     

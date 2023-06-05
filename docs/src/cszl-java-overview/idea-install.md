@@ -11,6 +11,7 @@ tag:
 # IDEA安装
 ## 1.IDEA简介
 IDEA全称是IntelliJ IDEA，由JetBrains公司开发，是业界公认最好的JAVA编程工具之一。IDEA是具有高级代码导航和可靠代码重构的首批Java IDE中的一员，经过长期迭代已发展成为具备高效软件开发所需的所有关键工具和实用功能以及一套基于IntelliJ平台的其他IDE的综合型IDE。IDEA在智能代码助手、代码自动提示、J2EE支持、Ant、Junit、CVS整合、代码审查等方面的功能都是非常优秀的。<br/>
+
 IntelliJ IDEA在官网是这样介绍自己的：IntelliJ IDEA是Java和Kotliin开发的领先IDE。它具有一套有助于提高效率的功能，包括智能编码辅助、可靠重构、即时代码导航、内置开发者工具、Web和企业开发支持等。<br/>
 
 IDEA支持功能特性主要围绕以下几个方面：

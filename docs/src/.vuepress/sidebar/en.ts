@@ -284,7 +284,7 @@ export const enSidebar = sidebar({
         "ruzhi",
         "blog-create",
         "markdown",
-
+        "git",
       ],
    
     },

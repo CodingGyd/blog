@@ -29,8 +29,8 @@ projects:
     link: /mianshi/
 
   - icon: friend
-    name: 破解工具
-    desc: 开发常用的免费工具
+    name: 离线工具
+    desc: 好用的离线小工具
     link: /zhencangziyuan/tools.md
 
   - icon: /logo.svg
