@@ -52,3 +52,26 @@ Process finished with exit code 0
 
 解决方式：<br/>
 排查发现此类问题是因为 mybatis-spring-boot-starter 和 mybatis-plus-boot-starter同时引入项目导致的，排除其中一个即可
+
+
+## java.nio.charset.MalformedInputException: Input length = 1
+JAR启动并加载/解析Nacos yml格式的配置文件报错<br/>
+
+**原因1：字符集不匹配**<br/>
+nacos中配置文件的字符集为A，应用程序的读取配置文件时使用了字符集B，导致使用字符集B解码文件二进制流时字符解码失败。一般问题出在中文注释上
+
+两种解决方式：<br/>
+1.打JAR包时，在pom.xml指定JAR包内的字符集
+```java
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+```
+2.jar包启动时，全局指定文件编码类型
+```java
+java -Dfile.encoding=utf-8 -jar app.jar
+```
+
+
+**原因2：(yml文件)配置格式有误**<br/>
+解决方式：当然是检查文件格式啦！
+ 
