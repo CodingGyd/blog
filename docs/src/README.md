@@ -9,7 +9,7 @@ heroFullScreen: false
 tagline:  我们一起来搬砖
 projects:
   - icon: project
-    name: 超神之路
+    name: 超神笔记
     desc: JAVA程序员超神之路
     link: home.md
 
