@@ -89,6 +89,9 @@ export const enSidebar = sidebar({
           collapsible: true,
           children: [
           "collections",
+          "arraylist",
+          "linkedlist",
+
           ],
         },
         {
@@ -285,6 +288,7 @@ export const enSidebar = sidebar({
         "blog-create",
         "markdown",
         "git",
+        "linux"
       ],
    
     },

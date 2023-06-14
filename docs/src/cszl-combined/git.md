@@ -37,6 +37,9 @@ git push origin main
 ```
 
 ## 本地仓库关联远端
+语法格式：git  remote add  [远端名称(可随意命名)]  [远端地址(ssh或http)]
+
+示例：
 ```
 cd existing_folder
 git init --initial-branch=main
@@ -44,3 +47,12 @@ git remote add origin http://git.wingdata.dev.com/wcos/major-events.git
 git add .
 git commit -m "Initial commit"
 ```
+
+
+## 查看本地和远端的关联
+git remote -v
+
+## 本地仓库移除和远端的关联
+语法格式： git remote remove [远端名称，当时关联设置的名称]
+
+
