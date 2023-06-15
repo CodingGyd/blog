@@ -183,3 +183,23 @@ diff 不能同时和其他语言的高亮同时显示，且需要调整代码主
 | ----------- | ----------- |
 | Header      | Title       |
 | Paragraph   | Text        |
+
+
+## 超链接
+链接文本放在中括号内，链接地址放在后面的括号中，链接title可选。  
+
+超链接Markdown语法代码：
+```
+[超链接显示名](超链接地址 "超链接title")  
+```
+
+对应的HTML代码：
+```
+<a href="超链接地址" title="超链接title">超链接显示名</a>
+```
+示例：
+```
+这是一个链接 [菜鸟教程|HashMap](https://www.runoob.com/java/java-hashmap.html)。
+```
+效果如下：  
+这是一个链接 [菜鸟教程|HashMap](https://www.runoob.com/java/java-hashmap.html)。

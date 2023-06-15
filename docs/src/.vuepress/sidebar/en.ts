@@ -91,6 +91,7 @@ export const enSidebar = sidebar({
           "collections",
           "arraylist",
           "linkedlist",
+          "hashmap",
 
           ],
         },

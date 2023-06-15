@@ -5,7 +5,7 @@ date: 2018-01-05
 category:
   - Java
 tag:
-  - 集合
+  - LinkedList
 ---
 
 # LinkedList

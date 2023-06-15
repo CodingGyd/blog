@@ -25,8 +25,6 @@ JVM根据底层不同的操作系统，通过java命令将class文件翻译成�
 
 整体流程是：
 <img src="/images/java/java-hello-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-脚注名:脚注内容
-[^2]:HyperText Markup Language 超文本标记语言
 
 ## 编写一个HelloWorld
 -  我们先用最朴素的方式-记事本 来敲第一个java程序，在控制台输出"HelloWorld！"信息，该程序文件名是HelloWorld.java,文件内容如下：
