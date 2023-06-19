@@ -1,6 +1,6 @@
 ---
 # icon: lock
-date: 2023-03-02
+date: 2023-04-02
 
 category:
   - Java环境
@@ -27,6 +27,11 @@ JDK全称是Java Development ToolKit，也就是Java开发工具包。JDK是JAVA
 注意：官方下载链接有时候会比较慢，可以自行搜索国内网站进行下载，只要版本对应就可以。
 ## 3.安装JDK
 下载完毕后，双击JDK安装包，按照弹出框提示一步步安装。 这里尽量不要改动安装路径。
+<img src="/images/java/java-jdk-5.png"  style="zoom: 40%;margin:0 auto;display:block"/><br/>
+<img src="/images/java/java-jdk-6.png"  style="zoom: 40%;margin:0 auto;display:block"/><br/>
+<img src="/images/java/java-jdk-7.png"  style="zoom: 40%;margin:0 auto;display:block"/><br/>
+<img src="/images/java/java-jdk-8.png"  style="zoom: 40%;margin:0 auto;display:block"/><br/>
+
 ## 4.环境变量配置
 啥叫环境变量呀？ 我认为它其实就是指定一个程序的安装路径，然后我们可以在操作系统的任何地方执行该程序暴露的关键字而无需指定全路径，操作系统在执行这个关键字时不仅会在当前目录下寻找对应的可执行程序，也会在环境变量映射的安装路径下寻找可执行程序，进而执行关键字背后的动作。环境变量分用户级别和系统级别，我们一般直接配置系统级别，对所有用户生效。
 

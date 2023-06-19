@@ -49,7 +49,7 @@ git commit -m "Initial commit"
 ```
 
 
-## 查看本地和远端的关联
+## 查看本地和远端的关联列表
 git remote -v
 
 ## 本地仓库移除和远端的关联

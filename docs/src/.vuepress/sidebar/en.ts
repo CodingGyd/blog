@@ -101,6 +101,8 @@ export const enSidebar = sidebar({
           collapsible: true,
           children: [
           "thread",
+          "completableFuture",
+
           ],
         },
         {
@@ -289,7 +291,10 @@ export const enSidebar = sidebar({
         "blog-create",
         "markdown",
         "git",
-        "linux"
+        "linux",
+        "cros",
+        "books"
+
       ],
    
     },
@@ -299,6 +304,8 @@ export const enSidebar = sidebar({
       prefix: "cszl-sop/",
       children: [   
         "exception-sop",
+        "compute-sop",
+
       ],
    
     }

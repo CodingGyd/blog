@@ -19,9 +19,9 @@ projects:
     link: /xuexiluxian/
 
   - icon: book
-    name: PDF资源下载
-    desc: 各种编程电子书资源
-    link: /zhencangziyuan/pdf.md
+    name: 学习教程
+    desc: 各种编程学习资源
+    link: /zhencangziyuan/learn.md
 
   - icon: article
     name: 面试题库
