@@ -40,9 +40,4 @@ public static <U> CompletableFuture<U> supplyAsync(Supplier<U> supplier,Executor
 
 ## 3 总结
 
-
-
-
-
-
 todo

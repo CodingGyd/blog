@@ -3,14 +3,16 @@ date: 2022-01-09
 category:
   - 珍藏资源
 tag:
-  - 工具类推荐
+  - 代码片段
 ---
 
-# 工具类推荐 
+# 代码片段 
+> 更多实用代码片段 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
+> excel导入导出组件 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>
 
 ## 数值精确运算
 ```java
-package com.gyd.util;
+package com.codinggyd.utils;
 import java.math.BigDecimal;
 
 /**

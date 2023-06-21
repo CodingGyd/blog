@@ -19,10 +19,24 @@ tag:
 这样项目的默认受保护分支就变成master了。
 > 注意：自2020年10月1日起，官方就把所有在Github上创建的新代码仓库的默认受保护分支命名为"main"了！
 
-## 全局用户设置
+## 配置文件修改git config
+可以直接编辑文件的方式：
 ```
+//全局配置修改
+git config --global --edit
+
+//局部配置修改
+git config --edit
+```
+### 修改用户信息
+```
+//全局用户修改
 git config --global user.name "xxx"
 git config --global user.email "xxx@xxx.com"
+
+//局部用户修改
+git config user.name "xxx"
+git config user.email "xxx@xxx.com"
 ```
 
 ## 初始化空仓库

@@ -10,9 +10,9 @@ export const enNavbar = navbar([
     prefix: "/zhencangziyuan/",
     children: [
       { text: "学习资源", link: "learn" },
-      { text: "破解工具", link: "tools" },
+      { text: "工具软件", link: "tools" },
       { text: "实用网站", link: "websites" },
-      { text: "工具类推荐",link: "code" },
+      { text: "代码片段",link: "code" },
 
     ],
   },

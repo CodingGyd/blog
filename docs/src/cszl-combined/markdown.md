@@ -9,6 +9,26 @@ tag:
 
 # Markdown语法
  
+## 图片
+用法一
+```
+<img src="/images/logo.png"  style="zoom: 20%;margin:0 auto;display:block"/><br/>
+```
+
+示例：
+<img src="/images/logo.png"  style="zoom: 20%;margin:0 auto;display:block"/>  
+
+
+
+用法二(带底部文字说明)
+```
+![底部说明文字](/images/logo.png)
+```
+
+示例：
+
+![底部说明文字](/images/logo.png)
+
 
 ## 标题
 标准语法是在文字前面加#和空格， 一个#是一级标题，二个#是二级标题，以此类推。支持六级标题

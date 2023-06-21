@@ -19,7 +19,7 @@ projects:
     link: /xuexiluxian/
 
   - icon: book
-    name: 学习教程
+    name: 学习资源
     desc: 各种编程学习资源
     link: /zhencangziyuan/learn.md
 
@@ -29,8 +29,8 @@ projects:
     link: /mianshi/
 
   - icon: friend
-    name: 离线工具
-    desc: 好用的离线小工具
+    name: 工具软件
+    desc: 好用的工具软件
     link: /zhencangziyuan/tools.md
 
   - icon: /logo.svg

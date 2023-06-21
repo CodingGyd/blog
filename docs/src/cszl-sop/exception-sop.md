@@ -20,7 +20,6 @@ tag:
 我的javassist在本地MAVEN仓库的路径是D:\developer\apache-maven-3.3.9-bin\repository\org\javassist
 
 
-
 ## java.lang.NoClassDefFoundError: org/mybatis/logging/LoggerFactory
 SpringBoot + Mybatis-plus 整合的时候发生的异常。
 

@@ -27,7 +27,9 @@ tag:
   </tr>
 </table>
 
-以上两种方案我都有尝试过，一开始用的是方案一，前端后端都是自己实现的服务，整体看下来界面感觉不是很好看，很多功能都比较粗糙，感觉平时花费在编写前后端功能模块代码的时间多过博客文章的总结编写，已经偏离了自己搭建博客的初衷。<br/>
+以上两种方案我都有尝试过，一开始用的是方案一，前端后端都是自己实现的服务，整体看下来界面感觉不是很好看，很多功能都比较粗糙，感觉平时花费在编写前后端功能模块代码的时间多过博客文章的总结编写，已经偏离了自己搭建博客的初衷。
+附上源代码链接： <a href="https://github.com/CodingGyd/mine-client" text="前端工程" target="_blank"></a> <a href="https://github.com/CodingGyd/mine-server" text="后端工程" target="_blank"></a> <a href="https://github.com/CodingGyd/mine-sys" text="管理后台工程" target="_blank"></a>
+<br/>
 
 我目前采用的是方案二vuepress模板来搭建的，前端功能基本使用现成的轮子组装使用即可，博客整体框架搭建和部署只花了大概2天的时间。接下来大部分精力可以用来思考如何写出好的文章啦。<br/>
 

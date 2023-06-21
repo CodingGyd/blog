@@ -293,8 +293,8 @@ export const enSidebar = sidebar({
         "git",
         "linux",
         "cros",
-        "books"
-
+        "books",
+        "elasticjob"
       ],
    
     },
