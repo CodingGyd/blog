@@ -52,7 +52,10 @@ IntelliJ IDEA 提供了开发者适应远程工作所需的工具。 开发者�
 ## 3.遇到的问题
 注意jdk版本和idea版本要匹配https://www.jetbrains.com/help/idea/supported-java-versions.html
 
-## 好用的idea插件推荐
+
+## 4.IDEA破解
+[IDEA2023.1永久破解教程（亲测有效）](../zhencangziyuan/tools.md#idea20231永久破解教程亲测有效)
+## 5.好用的idea插件推荐
 - POJO to json
 dto转json
 - Maven helper
@@ -62,3 +65,6 @@ dto转json
 - Database navigate
 数据库插件，可以查看数据库
 
+
+## idea快捷键
+查看类的方法列表 ALT+7  
