@@ -124,7 +124,129 @@ Process finished with exit code 0
 
 ```
 
-## 应用场景
+## 3.常用方法
+### 3.1 获得结果和触发计算
+```java
+package com.gyd;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class CompletableFutureDemo4 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return "abc";
+        });
+
+        //不见不散
+//        System.out.println(completableFuture.get());
+        //过时不候（抛出TimeoutException）
+//        System.out.println(completableFuture.get(2,TimeUnit.SECONDS));
+        //立即返回(立即获取结果不阻塞，没有计算完成的情况 给一个默认值)
+//        System.out.println(completableFuture.getNow("xxx"));
+
+        //complete方法用于判断是否执行完成，未执行完成则返回默认值，注意该方法只能被执行一次
+        TimeUnit.SECONDS.sleep(4);
+        System.out.println(completableFuture.complete("completeValue")+" "+completableFuture.join());
+
+    }
+}
+
+```
+
+### 3.2 对计算结果进行处理
+thenApply：计算结果存在依赖，不同步骤的线程执行串行化，若某个步骤发生异常，则不进入下一步骤并直接进入异常处理流程。  
+```java
+package com.gyd;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo5 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("111");
+            return 1;
+        },executorService).thenApply(f ->{
+            System.out.println("222");
+            //若当前步骤有异常，则不会继续执行后续步骤，直接进入异常处理流程exceptionally
+            return f+2;
+        }).thenApply(f->{
+            System.out.println("333");
+            return f+3;
+        }).whenComplete((v,e) ->{
+            if (e == null) System.out.println("v: "+v);
+        }).exceptionally( e ->{
+            //发生异常时的处理
+            e.printStackTrace();
+            System.out.println("发生异常");
+            return null;
+        });
+
+        System.out.println(Thread.currentThread().getName()+"先去忙别的事情");
+
+    }
+}
+```
+handle：计算结果存在依赖，不同步骤的线程执行串行化，若某个步骤发生异常，携带异常信息继续执行下一步骤。  
+```java
+package com.gyd;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo6 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        CompletableFuture<Integer> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("111");
+            return 1;
+        },executorService).handle((f,e) ->{
+            System.out.println("222");
+            //若当前步骤有异常，则携带异常信息继续执行后续步骤
+            int i = 10/0;
+            return f+2;
+        }).handle((f,e)->{
+            System.out.println("上一步骤异常信息："+e);
+            System.out.println("333");
+            return f+3;
+        }).whenComplete((v,e) ->{
+            if (e == null) System.out.println("v: "+v);
+        }).exceptionally( e ->{
+            //发生异常时的处理
+            e.printStackTrace();
+            System.out.println("发生异常");
+            return null;
+        });
+
+        System.out.println(Thread.currentThread().getName()+"先去忙别的事情");
+
+    }
+}
+
+```
+
+### 3.3 对计算结果进行消费
+## 4.应用场景
 **先A后B的场景应用**
 ```java
 package com.gyd;
@@ -168,6 +290,84 @@ public class CompletableFutureDemo2 {
             executorService.shutdown();
         }
     }
+}
+
+```
+
+**并发执行并获取汇总结果的场景应用**
+```java
+package com.gyd;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
+
+public class CompletableFutureDemo3 {
+    static List<NetMall> list = Arrays.asList(
+            new NetMall("jd"),
+            new NetMall("dangdang"),
+            new NetMall("taobao"));
+
+    //串行版本
+    public static List<String> getPrice(List<NetMall> list,String productName) {
+       return list.stream()
+                  .map(netMall ->
+                          String.format(productName+" in %s price is %.2f",
+                                  netMall.getNetMallName(),
+                                  netMall.calPrice(productName)))
+                  .collect(Collectors.toList());
+    }
+
+    //并行版本
+    public static List<String> getPriceByCompletableFuture(List<NetMall> list,String productName) {
+        return list.stream().map(netMall -> CompletableFuture.supplyAsync(() ->
+                        String.format(productName+"in %s price is %.2f",netMall.getNetMallName(),netMall.calPrice(productName))))
+                .collect(Collectors.toList())
+                .stream()
+                .map(s -> s.join())
+                .collect(Collectors.toList());
+
+    }
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+       long startTime = System.currentTimeMillis();
+       List<String> list1 = getPrice(list,"mysql");
+       for (String element : list1) {
+           System.out.println(element);
+       }
+       long endTime = System.currentTimeMillis()-startTime;
+       System.out.println("costTime:"+endTime);
+
+       System.out.println("=======================");
+       startTime = System.currentTimeMillis();
+       List<String> list2 = getPriceByCompletableFuture(list,"mysql");
+       for (String element : list2) {
+           System.out.println(element);
+       }
+       endTime = System.currentTimeMillis()-startTime;
+       System.out.println("======costTime2 "+endTime);
+    }
+}
+
+class NetMall {
+    String netMallName;
+
+    public String getNetMallName() {
+        return netMallName;
+    }
+
+    public NetMall(String netMallName){this.netMallName = netMallName;}
+
+    public Double calPrice(String productName){
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ThreadLocalRandom.current().nextDouble()*2+productName.charAt(0);
+    }
+
 }
 
 ```
