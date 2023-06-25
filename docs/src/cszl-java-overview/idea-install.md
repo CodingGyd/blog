@@ -1,11 +1,12 @@
 ---
 # icon: lock
-date: 2018-01-05
+date: 2023-06-25
 
 category:
   - Java环境
 tag:
   - 编译器
+  - IDEA
 ---
 
 # IDEA安装
@@ -65,6 +66,77 @@ dto转json
 - Database navigate
 数据库插件，可以查看数据库
 
+## 6.IDEA配置groovy环境
+我在用idea的database功能根据表生成pojo时报如下错误，查了下是缺少配置groovy环境。
+```groovy
+Error running 'Generate POJOs': Argument for @NotNull parameter 'module' of org/jetbrains/plugins/groovy/runner/DefaultGroovyScriptRunner.configureGenericGroovyRunner must not be null
+```
+
+**在此记录下IDEA中如何配置groovy环境。** 
+
+### 6.1 下载groovy安装包  
+ [官方地址点击下载](http://www.groovy-lang.org/download.html)  
+下载好后解压到自己本机想要的目录下，我这边是放在D:\apache-groovy-sdk-4.0.12\groovy-4.0.12
+ <img src="/images/java/java-idea-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+### 6.2 添加环境变量
+这里建议直接添加系统级别的环境变量。  
+
+新增变量名：GROOVY_HOME
+变量值：解压后的目录
+ <img src="/images/java/java-idea-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+
+在path路径中追加：%GROOVY_HOME%\bin  
+<img src="/images/java/java-idea-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+### 6.3 检查环境变量配置是否生效
+打开cmd，输入"groovy -v"
+<img src="/images/java/java-idea-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+只要是这样就说明成功了。
+
+## 7. 配置常用代码注释模板
+[注释模板获取](../cszl-java-basic/javadoc.html##注释模板)
+
+### 7.1 类文件注释 
+<img src="/images/java/java-idea-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+（1）按照上图的提示，找到位置1的File and Code Templates  
+（2）选择右侧的Files选项卡，选择位置2的Class（如果需要设置接口和枚举的注释模版，只需要选择Interface和Enum，按照步骤3配置一下就ok了）  
+（3）在最右侧的输入栏中，输入位置3框住的一段注释代码，然后点击保存即可  
+
+### 7.2 方法签名注释  
+方法签名注释的配置需要手工设置。
+首先进入Editor》Live Templates，在右上角+号选择Template Group，新增一个组，我取名为DIYMethod。
+<img src="/images/java/java-idea-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="/images/java/java-idea-12.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+然后按下图1、2、3、4分别进行设置  
+```
+配置的内容：
+1）Abbreviation：模板的缩写。
+
+2）Description：模板的描述。
+
+3）Template text：模板的内容 ，图中第一个/不是我漏掉了，只要写上第一个/，生成的注释@param和@return都会为null。
+
+4）Options→Expand with：模板的扩展快捷键，可以按照个人习惯选择，我用的是Enter键。
+
+下边的“Define” 或者‘change’要点进去进行勾选，可以选everyone 也可以只选java。
+```
+<img src="/images/java/java-idea-13.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="/images/java/java-idea-14.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+
+
+点击Edit variables：设置变量参数。
+点击Edit variables，列表中显示的就是配置的模板内容中的参数的参数名。
+<img src="/images/java/java-idea-15.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+上图中的param脚本
+```groovy
+groovyScript("if(\"${_1}\".length() == 2) {return '';} else {def result=''; def params=\"${_1}\".replaceAll('[\\\\[|\\\\]|\\\\s]', '').split(',').toList();for(i = 0; i < params.size(); i++) {result+='\\n' + ' * @param ' + params[i] + ' '}; return result;}", methodParameters());
+```
+最终效果展示：
+<img src="/images/java/java-idea-16.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## idea快捷键
 查看类的方法列表 ALT+7  
