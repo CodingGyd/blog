@@ -44,7 +44,7 @@ public class ThreadDemo {
 
 ## 线程基础
 线程的生命周期
-
+todo
 线程的各种属性
 todo
 

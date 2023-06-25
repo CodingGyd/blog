@@ -1,6 +1,6 @@
 ---
 # icon: lock
-date: 2023-06-01
+date: 2023-06-25
 
 category:
   - Java
@@ -246,7 +246,319 @@ public class CompletableFutureDemo6 {
 ```
 
 ### 3.3 对计算结果进行消费
-## 4.应用场景
+thenAccept: 任务A执行完继续执行任务B，任务B需要依赖任务A的计算结果，但任务B无返回值
+
+```java
+package com.gyd;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo7 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        CompletableFuture.supplyAsync(() ->{
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("111");
+            return 1;
+        },executorService).thenApply(f ->{
+            System.out.println("222");
+            return f+2;
+        }).thenApply(f->{
+            return f+3;
+        }).thenAccept(f -> {
+            //接受任务的计算结果，进行消费处理，无返回结果
+            System.out.println("完成前两个步骤的任务，消费结果="+f);
+        });
+        executorService.shutdown();
+    }
+}
+
+```
+
+thenRun: 任务A执行完继续执行任务B，任务B不需要任务A的计算结果
+```java
+package com.gyd;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo8 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        CompletableFuture.supplyAsync(() ->{
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("111");
+            return 1;
+        },executorService).thenApply(f ->{
+            System.out.println("222");
+            return f+2;
+        }).thenApply(f->{
+            return f+3;
+        }).thenRun(() ->{
+            System.out.println("执行完前两个步骤后，继续执行当前步骤");
+        });
+
+        executorService.shutdown();
+     }
+
+    
+}
+
+```
+
+### 3.3 比较哪个步骤的任务执行快
+
+applyToEither: 可以用来选出执行速度快的步骤。  
+```java
+package com.gyd;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo10 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+
+       CompletableFuture<String> playA = CompletableFuture.supplyAsync(() ->{
+           try {TimeUnit.SECONDS.sleep(3);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            return "playA";
+       });
+
+        CompletableFuture<String> playB = CompletableFuture.supplyAsync(() ->{
+            try {TimeUnit.SECONDS.sleep(2);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            return "playB";
+        });
+        CompletableFuture<String> winer = playA.applyToEither(playB,f -> f+" is winer");
+        System.out.println(Thread.currentThread().getName()+"\t"+"-----:" + winer.join());
+     }
+
+}
+
+```
+
+### 3.4 对多个步骤的任务结果进行合并输出
+thenCombine： 等待多个CompletionStage任务都完成后，最终把多个任务的结果合并处理输出。  
+
+示例将两个CompletionStage结果进行合并输出：
+```java
+package com.gyd;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+public class CompletableFutureDemo11 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+
+       CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() ->{
+           try {TimeUnit.SECONDS.sleep(1);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            return "task1";
+       });
+       CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() ->{
+            try {TimeUnit.SECONDS.sleep(2);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            return "task2";
+        });
+        CompletableFuture<String> future3 = future1.thenCombine(future2, (x , y) -> {
+            return "合并："+x+y;
+        });
+        System.out.println(future3.join());
+     }
+
+}
+
+```
+## 4. 线程池的运行选择
+ 废话少说，直接上代码:
+ ```java
+ package com.gyd;
+
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo9 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+
+        //a.模拟任务执行速度快的情况，系统底层会使用main线程处理任务
+        //运行结果：
+        //1号任务	ForkJoinPool.commonPool-worker-25
+        //2号任务	ForkJoinPool.commonPool-worker-25
+        //3号任务	main
+        //4号任务	main
+        System.out.println("===模拟任务执行速度快的情况，系统底层会使用main线程处理任务====");
+        test0();
+
+         //b.使用内置默认线程池+thenRun执行任务
+        //运行结果：
+        //1号任务	ForkJoinPool.commonPool-worker-25
+        //2号任务	ForkJoinPool.commonPool-worker-25
+        //3号任务	ForkJoinPool.commonPool-worker-25
+        //4号任务	ForkJoinPool.commonPool-worker-25
+        //null
+        System.out.println("===使用内置默认线程池+thenRun执行任务====");
+        test1();
+
+         //c.使用自定义线程池+thenRun执行任务
+        //运行结果：
+        //1号任务	pool-1-thread-1
+        //2号任务	pool-1-thread-1
+        //3号任务	pool-1-thread-1
+        //4号任务	pool-1-thread-1
+        System.out.println("===使用自定义线程池+thenRun执行任务====");
+        test2();
+
+         //d.使用内置默认线程池+thenRunAsync执行任务
+        //运行结果：
+        //1号任务	ForkJoinPool.commonPool-worker-25
+        //2号任务	ForkJoinPool.commonPool-worker-25
+        //3号任务	ForkJoinPool.commonPool-worker-25
+        //4号任务	ForkJoinPool.commonPool-worker-25
+        System.out.println("===使用内置默认线程池+thenRunAsync执行任务====");
+        test3();
+
+         //e.使用自定义线程池+thenRunAsync执行任务
+        //运行结果：
+        //1号任务	pool-2-thread-1
+        //2号任务	ForkJoinPool.commonPool-worker-25
+        //3号任务	ForkJoinPool.commonPool-worker-25
+        //4号任务	ForkJoinPool.commonPool-worker-25
+        System.out.println("===使用自定义线程池+thenRunAsync执行任务====");
+        test4();
+
+     }
+
+     //a.使用内置默认线程池+thenRun执行任务
+    private static void test1() throws ExecutionException, InterruptedException, TimeoutException {
+        CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("1号任务"+"\t"+Thread.currentThread().getName());
+            return "abcd";
+        }).thenRun(() ->{
+            try {Thread.sleep(200);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("2号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("3号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("4号任务"+"\t"+Thread.currentThread().getName());
+        });
+
+        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+        System.out.println("===============");
+    }
+
+    //b.使用自定义线程池+thenRun执行任务
+    private static void test2() throws ExecutionException, InterruptedException, TimeoutException {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("1号任务"+"\t"+Thread.currentThread().getName());
+            return "abcd";
+        },executorService).thenRun(() ->{
+            try {Thread.sleep(200);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("2号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("3号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("4号任务"+"\t"+Thread.currentThread().getName());
+        });
+
+        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+        executorService.shutdown();
+        System.out.println("===============");
+
+    }
+
+    //c.使用内置默认线程池+thenRunAsync执行任务
+    private static void test3() throws ExecutionException, InterruptedException, TimeoutException {
+        CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("1号任务"+"\t"+Thread.currentThread().getName());
+            return "abcd";
+        }).thenRunAsync(() ->{
+            try {Thread.sleep(200);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("2号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("3号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("4号任务"+"\t"+Thread.currentThread().getName());
+        });
+
+        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+        System.out.println("===============");
+
+    }
+    //d.使用自定义线程池+thenRunAsync执行任务
+    private static void test4() throws ExecutionException, InterruptedException, TimeoutException {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() ->{
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("1号任务"+"\t"+Thread.currentThread().getName());
+            return "abcd";
+        },executorService).thenRunAsync(() ->{
+            try {Thread.sleep(200);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("2号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("3号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            try {Thread.sleep(100);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("4号任务"+"\t"+Thread.currentThread().getName());
+        });
+
+        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+        executorService.shutdown();
+        System.out.println("===============");
+
+    }
+
+    //e.模拟任务执行速度快的情况，系统底层会使用main线程处理任务
+    private static void test0() throws ExecutionException, InterruptedException, TimeoutException {
+        CompletableFuture<Void> completableFuture = CompletableFuture.supplyAsync(() ->{
+            System.out.println("1号任务"+"\t"+Thread.currentThread().getName());
+            return "abcd";
+        }).thenRun(() ->{
+            System.out.println("2号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            System.out.println("3号任务"+"\t"+Thread.currentThread().getName());
+        }).thenRun(() -> {
+            System.out.println("4号任务"+"\t"+Thread.currentThread().getName());
+        });
+
+        System.out.println(completableFuture.get(2L,TimeUnit.SECONDS));
+        System.out.println("===============");
+    }
+}
+
+ ```  
+**线程池运行选择总结**  
+
+    1）没有传入自定义线程池时，都使用默认线程池ForkJoinPool；
+
+    2）执行第一个任务时传入了一个自定义线程池 则当使用thenRun执行之后的任务时，都共用同一个自定义线程池；
+
+    3）执行第一个任务时传入了一个自定义线程池 则当使用thenRunAsync执行之后的任务时，只有第一个任务使用的自定义线程池，后续任务都使用的是默认ForkJoin线程池；
+
+    4）有可能处理太快的时候，由于系统底层优化原则，直接利用main线程处理任务。
+
+    5）其它如thenAccept、thenAcceptAsync、thenApply和thenApplyAsync等，它们之间的区别也同理。
+
+
+## 5.应用场景
 **先A后B的场景应用**
 ```java
 package com.gyd;
