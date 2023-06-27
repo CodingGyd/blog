@@ -24,7 +24,7 @@ POI版本：3.15<br/>
 组件版本：V1.0<br/>
 
 ## 3.使用示例
- 定义excel记录行实体结构,并用注解进行配置说明。配置描述请参考源码地址的注释说明https://gitee.com/guoyading/excel-utils.git
+ 定义excel记录行实体结构,并用注解进行配置说明。配置描述请参考源码地址的注释说明<a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>
 
  ```java
  package com.codinggyd.excel.example;

@@ -102,6 +102,7 @@ export const enSidebar = sidebar({
           children: [
           "thread",
           "completableFuture",
+          "lock"
 
           ],
         },
@@ -287,14 +288,15 @@ export const enSidebar = sidebar({
       children: [   
         "domain",
         "poi",
-        "ruzhi",
         "blog-create",
         "markdown",
         "git",
         "linux",
         "cros",
         "books",
-        "elasticjob"
+        "elasticjob",
+        "jenkins",
+        "nginx"
       ],
    
     },

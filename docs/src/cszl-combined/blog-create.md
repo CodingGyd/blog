@@ -33,9 +33,11 @@ tag:
 
 我目前采用的是方案二vuepress模板来搭建的，前端功能基本使用现成的轮子组装使用即可，博客整体框架搭建和部署只花了大概2天的时间。接下来大部分精力可以用来思考如何写出好的文章啦。<br/>
 
-vuepress小白教程：https://theme-hope.vuejs.press/zh/cookbook/tutorial/
+vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutorial/" text="戳这里！" target="_blank"></a>  
+
 ## 评论插件接入
- 详情参考：https://plugin-comment2.vuejs.press/zh/guide/giscus.html
+ 详情参考：<a href="https://plugin-comment2.vuejs.press/zh/guide/giscus.html" text="戳这里！" target="_blank"></a>  
+
 
 ### 如何配置
 - 在github上新建一个公开的仓库，并开启评论功能

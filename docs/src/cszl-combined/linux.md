@@ -633,3 +633,24 @@ echo $SHELL命令:看当前用户Shell类型
 
 ```
 
+## 查找文件路径
+```
+ which 文件关键字
+
+ //示例查找java路径
+ which java
+```
+
+
+## RPM 包的安装
+安装 RPM 的命令格式为：rpm -ivh 包全名
+此命令中各选项参数的含义为：  
+- -i：安装（install）;  
+- -v：显示更详细的信息（verbose）;  
+- -h：打印 #，显示安装进度（hash）;  
+
+示例安装jdk-11.0.19_linux-x64_bin.rpm
+ <img src="/images/linux/linux-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+上面会报错V3 RSA/SHA256 Signature, keykey ID c105b9de: NOKEY。解决的方法就是在rpm 语句后面加上 --force --nodeps   
+即原本为 rpm -ivh *.rpm 现在改成 rpm -ivh *.rpm --force --nodeps就可以了。nodeps的意思是忽视依赖关系。因为各个软件之间会有多多少少的联系。有了这两个设置选项就忽略了这些依赖关系，强制安装或者卸载

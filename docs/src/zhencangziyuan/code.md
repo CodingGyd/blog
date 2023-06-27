@@ -8,7 +8,7 @@ tag:
 
 # 代码片段 
 > 更多实用代码片段 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
-> excel导入导出组件 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>
+> excel导入导出组件 <a href="https://github.com/CodingGyd/excel-utils" text="戳这里！" target="_blank"></a>
 
 ## 数值精确运算
 ```java
