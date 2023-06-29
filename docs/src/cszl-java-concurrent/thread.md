@@ -43,8 +43,71 @@ public class ThreadDemo {
 即使是单核处理器也是支持多个线程同时执行的。这里的"同时"其实是假象，实际是CPU通过给每个线程分配时间片来实现这个假象的。时间片就是CPU分配给每个线程的可支配时间，每个时间片特别短，一般几十毫秒。当某个线程获取到时间片就会执行线程相关逻辑，时间片时间结束后就会保存当前线程的状态，然后把时间片按某种算法分配给下一个线程执行。  
 
 ## 线程基础
-线程的生命周期
-todo
+### 线程的生命周期
+开篇先放张图：
+<img src="/images/java/concurrent/thread-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+从Thread.State内部类源码也可以得出线程主要有以下几种状态：
+```java
+public enum State {
+        //新建状态 
+        NEW,
+        //就绪状态
+        RUNNABLE,
+        //阻塞状态
+        BLOCKED,
+        //等待状态
+        WAITING,
+        //超时等待状态
+        TIMED_WAITING,
+        //终止状态
+        TERMINATED;
+    }
+```
+**新建（NEW）**：当我们创建一个新的线程实例时，线程就处于新建状态。这时候线程的start()方法还未被调用，线程对象还未开始执行。在这个状态下，Java虚拟机（JVM）已经为此线程分配了必要的内存。
+```java
+Thread t = new Thread();//线程此时处于新建状态
+```
+
+**就绪状态（RUNNABLE）**：当线程对象调用了start()方法后，该线程就处于就绪状态。就绪状态的线程在获得CPU时间片后就可以开始运行。这个状态的线程位于可运行线程池中，等待被线程调度选中，获得CPU的使用权。
+```java
+t.start(); // 线程此时处于Runnable状态
+```
+
+**运行状态（Running）**：线程获取到CPU时间片后，就进入运行状态，开始执行run()方法中的代码。值得注意的是，代码执行的实际速度和效率与处理器的速度以及多核处理器的核数有关。
+```java
+public void run() {
+    System.out.println("Thread is running.");
+}
+// 如果此时这个方法正在执行，那么线程就处于Running状态
+```
+
+**阻塞状态（Blocked）**：当一个线程试图获取一个内部的对象锁（也就是进入一个synchronized块），而该锁被其他线程持有，则该线程进入阻塞状态。阻塞状态的线程在锁被释放时，将会进入就绪状态。
+```java
+synchronized(object) {
+    // 如果此时object的锁被其他线程持有，那么线程就处于Blocked状态
+}
+```
+
+**等待状态（Waiting）**：线程通过调用其自身的wait()方法、join()方法或LockSupport.park()方法，或者通过调用其他线程的join()方法，可以进入等待状态。在等待状态的线程不会被分配CPU时间片，它们只能通过被其他线程显式唤醒进入就绪状态。
+```java
+t.wait();  // 线程此时处于Waiting状态
+t.join();  // 线程此时处于Waiting状态
+```
+
+**超时等待状态（Timed Waiting）**：当线程调用了sleep(long ms)，wait(long ms)，join(long ms)，或者LockSupport.parkNanos(), LockSupport.parkUntil()等具有指定等待时间的方法，线程就会进入超时等待状态。当超时时间到达后，线程会自动返回到就绪状态。
+```java
+Thread.sleep(1000); // 线程此时处于Timed Waiting状态
+```
+
+**终止状态（Terminated）**：当线程的run()方法执行完毕，或者线程中断，线程就会进入终止状态。在这个状态下，线程已经完成了它的全部工作。
+```java
+// 当run()方法执行完毕，线程处于Terminated状态
+public void run() {
+    System.out.println("Thread is running.");
+}
+```
+
 线程的各种属性
 todo
 
@@ -87,13 +150,7 @@ public class ThreadDemo {
 ```
 
 ### CompletableFuture
-1. 简介  
-
-FutureTask的get()方法在Future计算完成之前会一直处于阻塞状态下，isDone()方法容易耗费CPU资源，对于真正的异步处理我们是希望能通过传入回调函数，在Future结束时自动调用该回调函数，这样，我们就不用等待结果。阻塞的方式和异步编程的设计理念相违背，而轮询的方式也会耗费CPU资源。因此JDK8中出现了一种新的工具类：CompletableFuture。
-
-CompletableFuture是FutureTask的增强版，提供的是一种类似观察者模式的机制，可以让任务执行完成后通知监听的一方。在任务执行完成之前，监听方可以去干别的事情。
-
-在Java8中，CompletableFuture提供了非常强大的Future的扩展功能，可以帮助我们简化异步编程的复杂性，并且提供了函数式编程的能力，可以通过回调的方式处理计算结果，也提供了转换和组合CompletableFuture的方法。它实现了Future和CompletionStage接口。
+[CompletableFuture入门](../cszl-java-concurrent/completableFuture.md)
 
 
 ## 总结

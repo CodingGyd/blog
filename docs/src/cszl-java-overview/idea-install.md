@@ -139,4 +139,5 @@ groovyScript("if(\"${_1}\".length() == 2) {return '';} else {def result=''; def 
 <img src="/images/java/java-idea-16.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## idea快捷键
-查看类的方法列表 ALT+7  
+查看类的方法列表 ALT+7    
+大小写转换 CTRL+SHIFT+U  

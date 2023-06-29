@@ -265,6 +265,9 @@ values()	|返回 hashMap 中存在的所有 value 值。
 |computeIfAbsent()	|对 hashMap 中指定 key 的值进行重新计算，如果不存在这个 key，则添加到 hasMap 中
 |computeIfPresent()	|对 hashMap 中指定 key 的值进行重新计算，前提是该 key 存在于 hashMap 中。
 
+
+## hashmap实现策略模式
+参考：https://www.cnblogs.com/keeya/p/13187727.html
 ## 参考资料
 1. [HashMap|菜鸟教程](https://www.runoob.com/java/java-hashmap.html)<br/>
 2. [哈希冲突|掘金社区](https://juejin.cn/post/7088332200130658312)<br/>

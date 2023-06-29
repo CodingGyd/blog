@@ -315,7 +315,7 @@ public class CompletableFutureDemo8 {
 
 ```
 
-### 3.3 比较哪个步骤的任务执行快
+### 3.4 比较哪个步骤的任务执行快
 
 applyToEither: 可以用来选出执行速度快的步骤。  
 ```java
@@ -344,7 +344,7 @@ public class CompletableFutureDemo10 {
 
 ```
 
-### 3.4 对多个步骤的任务结果进行合并输出
+### 3.5 对多个步骤的任务结果进行合并输出
 thenCombine： 等待多个CompletionStage任务都完成后，最终把多个任务的结果合并处理输出。  
 
 示例将两个CompletionStage结果进行合并输出：
@@ -372,6 +372,46 @@ public class CompletableFutureDemo11 {
             return "合并："+x+y;
         });
         System.out.println(future3.join());
+     }
+
+}
+
+```
+
+### 3.6 等待多个并行任务执行完成后返回
+比如需要获取完整订单数据，可能需要填充订单的付款信息、地址信息、商品信息,这三部分数据都来自不同系统,互相没有依赖，可以并行获取。
+```java
+package com.gyd;
+
+import java.util.Map;
+import java.util.concurrent.*;
+
+public class CompletableFutureDemo12 {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+        Map<String,Object> orderMap = new ConcurrentHashMap<>();
+       CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() ->{
+           try {TimeUnit.SECONDS.sleep(1);} catch (InterruptedException e) {throw new RuntimeException(e);}
+           System.out.println("获取地址信息...");
+           orderMap.put("address","湖南");
+            return "task1";
+       });
+       CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() ->{
+            try {TimeUnit.SECONDS.sleep(2);} catch (InterruptedException e) {throw new RuntimeException(e);}
+           System.out.println("获取支付信息...");
+           orderMap.put("payinfo","10元");
+           return "task2";
+        });
+        CompletableFuture<String> future3 = CompletableFuture.supplyAsync(() ->{
+            try {TimeUnit.SECONDS.sleep(2);} catch (InterruptedException e) {throw new RuntimeException(e);}
+            System.out.println("获取商品信息...");
+            orderMap.put("goods","袜子");
+            return "task3";
+        });
+        CompletableFuture<Void> result = CompletableFuture.allOf(future1,future2,future3);
+        result.join();
+
+        System.out.println("完整的订单数据:"+orderMap.toString());
      }
 
 }

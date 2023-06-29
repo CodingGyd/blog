@@ -2,6 +2,7 @@
 home: true
 layout: BlogHome
 icon: home
+
 title: 博客主页
 heroImage: /images/logo.png
 heroText: 代码小郭的技术博客(开发中...)
