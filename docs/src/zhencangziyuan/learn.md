@@ -8,7 +8,11 @@ tag:
 ---
 
 # 学习资源  
-
+各种电子书籍免费分享给大家： 
+```
+百度云网盘链接：https://pan.baidu.com/s/10IxaMX7KRI7sS15AKgKANw 
+提取码：jg8x
+```
 ## JAVA并发编程  
 
 **入门**  
@@ -21,3 +25,5 @@ tag:
 
 视频教程《JUC并发编程与源码分析》：  
  https://www.gulixueyuan.com/my/course/531  
+
+

@@ -102,8 +102,8 @@ export const enSidebar = sidebar({
           children: [
           "thread",
           "completableFuture",
-          "lock"
-
+          "lock",
+          "synchronized"
           ],
         },
         {

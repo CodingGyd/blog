@@ -45,4 +45,7 @@ tag:
 ## 开发工具-数据库客户端
 [Dbeaver|免费，同时支持多平台数据库客户端工具](https://dbeaver.io/)<br/>
 
+
+## 摸鱼解压
+[一款AI智能创新摸鱼神器](https://thief.im/)<br/>
     

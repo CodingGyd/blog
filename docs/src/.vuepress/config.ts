@@ -43,6 +43,16 @@ export default defineUserConfig({
       })();
       `
     ],
+    [
+      //集成Google AdSense
+      "script",
+      {
+        "data-ad-client": "ca-pub-1601618516206303",
+        async: true,
+        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      }
+    ],
+
     //网页头像
     ["link", { rel: "icon", href: "/assets/icon/avata.jpg" }],
 
@@ -58,21 +68,9 @@ export default defineUserConfig({
       // 索引全部内容
       indexContent: true,
     }),
-    // commentPlugin({
-    //   // 插件选项
-    //   provider: "Giscus", //评论服务提供者。
-    //   comment: true, //启用评论功能
-    //   repo: "CodingGyd/blog-giscus", //远程仓库
-    //   repoId: "R_kgDOJqDkjg", //对应自己的仓库Id
-    //   category: "Announcements",
-    //   categoryId: "DIC_kwDOJqDkjs4CW4Jo" //对应自己的分类Id
-
-    // }),
   ],
 
   theme,
-   // Enable it with pwa
-  // shouldPrefetch: false,
  
 });
 

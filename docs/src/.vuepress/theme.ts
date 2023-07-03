@@ -97,10 +97,12 @@ export default hopeTheme({
       align: true,
       attrs: true,
       chart: true,
+      //代码块分组支持
       codetabs: true,
       demo: true,
       echarts: true,
       figure: true,
+      // 支持流程图
       flowchart: true,
       gfm: true,
        // 启用图片懒加载
