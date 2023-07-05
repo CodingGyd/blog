@@ -103,7 +103,8 @@ export const enSidebar = sidebar({
           "thread",
           "completableFuture",
           "lock",
-          "synchronized"
+          "synchronized",
+          "volatile"
           ],
         },
         {
@@ -286,6 +287,7 @@ export const enSidebar = sidebar({
       collapsible: true,
       prefix: "cszl-combined/",
       children: [   
+        "layered-architecture",
         "domain",
         "poi",
         "blog-create",

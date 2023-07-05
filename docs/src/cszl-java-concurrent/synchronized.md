@@ -11,7 +11,11 @@ tag:
 ---
 # synchronized关键字
 
-synchronized关键字是jdk提供的锁的一种实现方式。可以用于修饰实例方法、静态方法、代码块。当一个线程试图访问同步代码时必须首先获得锁，正常退出或者抛出异常时必须释放锁。 
+## 简介 
+在多线程并发编程中 synchronized 是历史很悠久的概念，它可以用于修饰实例方法、静态方法、代码块。当一个线程试图访问同步代码时必须首先获得锁，正常退出或者抛出异常时必须释放锁。 由于会导致争用不到锁的线程进入阻塞状态，因此很多人都会称呼synchronized为重量级锁。
+
+但是，随着 Java SE 1.6以后 对 synchronized 进行了各种优化之后，有些情况下它就并不那么重了。Java SE 1.6 中为了减少获得锁和释放锁带来的性能消耗而引入了无锁状态、偏向锁、轻量级锁、重量级锁、自旋等一系列锁升级概念。
+
 
 这里顺便提一下阿里开发手册中的几个用锁原则：  
 - 尽可能使加锁的代码块工作量尽可能的小，避免在锁代码块中调用rpc方法或者耗时的io操作。
@@ -265,6 +269,7 @@ SourceFile: "LockDemo5.java"
 从上面的汇编结果可以看出，静态同步方法m1所在的flag除了ACC_SYNCHRONIZED访问标志，还多了一个ACC_STATIC标记。 这就是用来区分普通同步方法的标志。其它和普通同步方法相同。
 
 ## 修饰同步代码块
+锁的是 synchonized 括号里配置的对象。
 使用示例：
 ```java
 package com.gyd;
@@ -407,4 +412,33 @@ public class com.gyd.LockDemo3 {
 从上述两种反汇编结果可以总结一个结论：使用同步块时，底层汇编代码一般情况会生成1个monitorenter指令和2个monitorexit指令。极端情况下是一个monitorenter和1个monitorexit指令。   
 
 
+## Java对象头
+synchronized 用的锁是存在 Java 对象头里的。如果对象是数组类型，则虚拟机用 3个字宽（Word）存储对象头，如果对象是非数组类型，则用 2 字宽存储对象头。在 32位虚拟机中，1字宽等于 4 字节，即 32bit，如表所示：
 
+|长度|内容|说明|
+| ----------- | ----------- |--|
+|32/64bit|Mark Word|存储对象的hashcode或锁信息等|
+|32/64bit|Class Metadata Address|存储到对象类型数据的指针|
+|32/64bit|Array Length|数组的长度(如果当前对象是数组)|
+
+
+
+synchronized锁升级过程和对象头的Mark Word区域有着密切关系，该区域主要存储HashCode、分代年龄和锁标记位等信息。32
+位 JVM 的 Mark Word 的默认存储结构如表所示：  
+
+| 锁状态      | 25bit | 4bit | 1bit是否是偏向锁 | 2bit锁标志位 | 
+| ----------- | ----------- |----|---|---|
+| 无锁状态      | 对象的hashcode |对象的分代年龄   | 0 |01 |
+
+
+
+在运行期间，synchronized锁触发升级时，Mark Word 里存储的数据会随着锁标志位的变化而变化。Mark Word
+可能变化为存储以下 4 种数据：
+<img src="/images/java/concurrent/synchronized-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+## 锁升级过程
+
+
+
+## 参考资料
+《Java并发编程的艺术》  

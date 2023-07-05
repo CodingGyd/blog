@@ -37,40 +37,52 @@ tag:
 
 **synchronized**  
 synchronized可以用于修饰实例方法、静态方法、代码块。当一个线程试图访问同步代码时必须首先获得锁，正常退出或者抛出异常时必须释放锁。  
-- 修饰实例方法  
-一个对象里如果有多个synchronized方法，某一个时刻内，只要有一个线程去调用其中的任何一个synchronized方法了，其它的线程都只能等待，也就是说，某一个时刻内，只能有一个线程去访问这些synchronized方法。synchronized锁的是当前对象this，被锁定后，其它的线程都不能进入到当前对象的其它的synchronized方法
-```java
-    public synchronized void printB(){
-        System.out.println("BBBBB");
-    }
-
-```
-作用于实例方法时，当前实例枷锁，进入同步代码前要抢到当前实例的锁才可以继续执行，否则阻塞。
-
-- 修饰静态方法  
-
-对于静态同步方法，锁的是当前类的class对象，所有该类的实例都受影响。也就是说一旦一个静态同步方法获取锁之后，其他的静态同步方
-法都必须等待该方法释放锁后才能获取锁。
-```java
-    public static synchronized void printB(){
-        System.out.println("BBBBB");
-    }
-
-```
-作用于静态方法，当前类加锁，进入同步代码前要抢到当前类class对象的锁才可以继续执行，否则阻塞。
-
-- 修饰同步代码块
-```java
-    public void printB(){
-      synchronized() {
-        System.out.println("BBBBB");
-      }
-    }
-```
-作用于代码块，对括号里配置的对象加锁。
-
-
+[synchronized笔记](./synchronized.md)
+ 
 这里提一下阿里开发手册中的几个用锁原则：  
 - 尽可能使加锁的代码块工作量尽可能的小，避免在锁代码块中调用rpc方法或者耗时的io操作。
 - 能锁代码块，就不要锁整个方法体；能用对象锁，就不要用类锁。
 
+
+### 死锁
+
+应用中多个线程需要以独占的方式访问同一个资源，当多个线程去并发访问资源时同一个时间段只能有一个线程占用该资源，另一个线程只能阻塞等待，如果两个线程永远都在等待对方释放独占的资源，则会永远阻塞不能执行，这种现象就叫死锁。
+
+**源码示例**
+```java
+package com.gyd;
+
+public class DeadLockDemo {
+    private static String A = "A";
+    private static String B = "B";
+
+    private void deadLockTest() {
+        Thread t1 = new Thread(() -> {
+            synchronized (A) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                synchronized (B){
+                    System.out.println("1");
+                }
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            synchronized (B) {
+                synchronized (A){
+                    System.out.println("2");
+                }
+            }
+        });
+        t1.start();
+        t2.start();
+    }
+    public static void main(String[] args) {
+        new DeadLockDemo().deadLockTest();
+    }
+}
+
+```
+实际我们一般不会写出逻辑如此简单的死锁，上面只是演示一下死锁现象是如何产生。生产环境需要分析线程堆栈情况才能发现死锁现象
