@@ -21,6 +21,37 @@ tag:
 
 JVM中的同步也是基于进入和退出监视器对象(Monitor管程对象)来实现的，每个对象实例都会伴随有一个Monitor对象，Monitor对象会和对象实例一同创建并销毁，Monitor底层是由C++语言实现的。
 
+在HotSpot虚拟机中，monitor采用ObjectMonitor实现:
+```java
+ObjectMonitor(){
+    _header = NULL;
+    _count = 0;
+    _waiter = 0;
+    _recursions = 0;
+    object = NULL;
+    owner = NULL;
+    _WaitSet = NULL;
+    _WaitSetLock = 0;
+    _Responsible = NULL;
+    _succ = NULL;
+    _cxq = NULL;
+    FreeNext = NULL;
+    _EntryList = NULL;
+    _SpinFreq = 0;
+    _SpinClock = 0;
+    OwnerIsThread = 0;
+    _previous_owner_tid = 0;
+}
+```
+ObjectMonitor中有几个关键属性：
+<table>
+<tr><td>_owner</td><td>指向持有ObjectMonitor对象的线程</td></tr>
+<tr><td>_WaitSet</td><td>存放处于wait状态的线程队列</td></tr>
+<tr><td>_EntryList</td><td>存放处于等待锁block状态的线程队列</td></tr>
+<tr><td>_recursions</td><td>锁的重入次数</td></tr>
+<tr><td>_count</td><td>用来记录该线程获取锁的次数</td></tr>
+</table>
+
 ### 用户线程(User Thread)
 用户线程是系统的工作线程，负责完成程序需要完成的业务操作。一般情况下不做特别说明配置，默认都是用户线程。
 
