@@ -45,7 +45,9 @@ export const enSidebar = sidebar({
       text: '关于',
       link: '/about/',
       children: [   
-        { text: "个人介绍",  link: "intro" },
+        { text: "站点介绍", link: "zd" },
+        { text: "站长介绍", link: "intro" },
+        { text: "版权声明", link: "copyright" },
       ],
     }
   ],

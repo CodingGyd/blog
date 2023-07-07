@@ -11,10 +11,10 @@ tag:
 
 ## 理论基础
 ### 进程
-简单来说，在系统中运行的一个应用程序就是一个进程，每一个进程都拥有自己独立的内存空间和系统资源。  
+简单来说，在系统中运行的一个应用程序就是一个进程，比如启动一个java程序，系统就会创建一个对应的进程。 每一个进程都拥有自己独立的内存空间和系统资源。  
 
 ### 线程
-也称为轻量级线程，每一个进程下都至少有1个或多个线程。线程是大多数操作系统进行时间片分配调度的基本单元。  
+线程(Light Weight Process)也称为轻量级线程，线程是大多数操作系统进行时间片分配调度的基本单元，是调度的最小单位。每一个进程下都至少有1个或多个线程，每个线程拥有独立的程序计数器、堆栈、局部变量等信息，并且能够访问共享变量。处理器在这些线程之间进行高速切换执行，让用户以为是在并发执行。
 
 ### 管程
 也叫Monitor(监视器)，也就是我们平时常说的锁(synchronized)。  Monitor是一种同步机制，目的是保证同一时间只能有一个线程可以访问被保护的代码和数据。  
@@ -74,11 +74,52 @@ public class ThreadDemo {
 即使是单核处理器也是支持多个线程同时执行的。这里的"同时"其实是假象，实际是CPU通过给每个线程分配时间片来实现这个假象的。时间片就是CPU分配给每个线程的可支配时间，每个时间片特别短，一般几十毫秒。当某个线程获取到时间片就会执行线程相关逻辑，时间片时间结束后就会保存当前线程的状态，然后把时间片按某种算法分配给下一个线程执行。  
 
 ## 线程基础
+
+一个 最简单的Java Hello程序其实也包含了多个线程。从 main()方法开始执行，然后按照既定的代码逻辑执行，看似没有其他线程参与，但实际上 Java 程序天生就是多线程程序，因为执行 main()方法的是一个名称为 main 的主线程。下面使用 JMX 来查看一个普通的 Java 程序包含有多少个线程：
+```java
+package com.gyd;
+
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+
+public class ThreadBasicDemo1 {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+        // 获取 Java 线程管理 MXBean
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        // 不需要获取同步的 monitor 和 synchronizer 信息，仅获取线程和线程堆栈信息
+        ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(false, false);
+        // 遍历线程信息，仅打印线程 ID 和线程名称信息
+        for (ThreadInfo threadInfo : threadInfos) {
+            System.out.println("[" + threadInfo.getThreadId() + "] " + threadInfo.
+                    getThreadName());
+        }
+    }
+}
+
+```
+
+执行结果如下：
+```
+Hello World!
+[6] Monitor Ctrl-Break
+[5] Attach Listener
+[4] Signal Dispatcher  // 分发处理发送给 JVM 信号的线程
+[3] Finalizer   // 调用对象 finalize 方法的线程
+[2] Reference Handler  // 清除 Reference 的线
+[1] main   //主线程 用户程序入口
+```
+
+可以看出，我们写的java程序启动后，jvm还启动了多个负责不同任务的子线程在后台同时执行。
+
+
 ### 线程的生命周期
 开篇先放张图：
 <img src="/images/java/concurrent/thread-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 从Thread.State内部类源码也可以得出线程主要有以下几种状态：
+
 ```java
 public enum State {
         //新建状态 
@@ -95,17 +136,20 @@ public enum State {
         TERMINATED;
     }
 ```
-**新建（NEW）**：当我们创建一个新的线程实例时，线程就处于新建状态。这时候线程的start()方法还未被调用，线程对象还未开始执行。在这个状态下，Java虚拟机（JVM）已经为此线程分配了必要的内存。
+**新建（NEW）**  
+当我们创建一个新的线程实例时，线程就处于新建状态。这时候线程的start()方法还未被调用，线程对象还未开始执行。在这个状态下，Java虚拟机（JVM）已经为此线程分配了必要的内存。
 ```java
 Thread t = new Thread();//线程此时处于新建状态
 ```
 
-**就绪状态（RUNNABLE）**：当线程对象调用了start()方法后，该线程就处于就绪状态。就绪状态的线程在获得CPU时间片后就可以开始运行。这个状态的线程位于可运行线程池中，等待被线程调度选中，获得CPU的使用权。
+**就绪状态（RUNNABLE）**  
+当线程对象调用了start()方法后，该线程就处于就绪状态。就绪状态的线程在获得CPU时间片后就可以开始运行。这个状态的线程位于可运行线程池中，等待被线程调度选中，获得CPU的使用权。
 ```java
 t.start(); // 线程此时处于Runnable状态
 ```
 
-**运行状态（Running）**：线程获取到CPU时间片后，就进入运行状态，开始执行run()方法中的代码。值得注意的是，代码执行的实际速度和效率与处理器的速度以及多核处理器的核数有关。
+**运行状态（Running）**  
+线程获取到CPU时间片后，就进入运行状态，开始执行run()方法中的代码。值得注意的是，代码执行的实际速度和效率与处理器的速度以及多核处理器的核数有关。
 ```java
 public void run() {
     System.out.println("Thread is running.");
@@ -113,37 +157,220 @@ public void run() {
 // 如果此时这个方法正在执行，那么线程就处于Running状态
 ```
 
-**阻塞状态（Blocked）**：当一个线程试图获取一个内部的对象锁（也就是进入一个synchronized块），而该锁被其他线程持有，则该线程进入阻塞状态。阻塞状态的线程在锁被释放时，将会进入就绪状态。
+<font color='red'>注意：</font>Java 将操作系统中的运行和就绪两个状态合并称为运行状态，因此在前面的Thread.State内部类源码中没有Running这个类型。
+
+
+**阻塞状态（Blocked）**  
+当一个线程试图获取一个内部的对象锁（也就是进入一个synchronized块），而该锁被其他线程持有，则该线程进入阻塞状态。阻塞状态的线程在锁被释放时，将会进入就绪状态。  
 ```java
 synchronized(object) {
     // 如果此时object的锁被其他线程持有，那么线程就处于Blocked状态
 }
 ```
 
-**等待状态（Waiting）**：线程通过调用其自身的wait()方法、join()方法或LockSupport.park()方法，或者通过调用其他线程的join()方法，可以进入等待状态。在等待状态的线程不会被分配CPU时间片，它们只能通过被其他线程显式唤醒进入就绪状态。
+**等待状态（Waiting）**  
+线程通过调用其自身的wait()方法、join()方法或LockSupport.park()方法，或者通过调用其他线程的join()方法，可以进入等待状态。在等待状态的线程不会被分配CPU时间片，它们只能通过被其他线程显式唤醒进入就绪状态。
 ```java
 t.wait();  // 线程此时处于Waiting状态
 t.join();  // 线程此时处于Waiting状态
 ```
 
-**超时等待状态（Timed Waiting）**：当线程调用了sleep(long ms)，wait(long ms)，join(long ms)，或者LockSupport.parkNanos(), LockSupport.parkUntil()等具有指定等待时间的方法，线程就会进入超时等待状态。当超时时间到达后，线程会自动返回到就绪状态。
+**超时等待状态（Timed Waiting）**  
+当线程调用了sleep(long ms)，wait(long ms)，join(long ms)，或者LockSupport.parkNanos(), LockSupport.parkUntil()等具有指定等待时间的方法，线程就会进入超时等待状态。当超时时间到达后，线程会自动返回到就绪状态。
 ```java
 Thread.sleep(1000); // 线程此时处于Timed Waiting状态
 ```
 
-**终止状态（Terminated）**：当线程的run()方法执行完毕，或者线程中断，线程就会进入终止状态。在这个状态下，线程已经完成了它的全部工作。
+**终止状态（Terminated）**  
+当线程的run()方法执行完毕，或者线程中断，线程就会进入终止状态。在这个状态下，线程已经完成了它的全部工作。
 ```java
 // 当run()方法执行完毕，线程处于Terminated状态
 public void run() {
     System.out.println("Thread is running.");
 }
 ```
+ 
+### 线程的中断机制 
 
-线程的各种属性
-todo
+如何停止中断运行中的线程？
 
-线程并发锁的概念  
+- volatile
+```java
+package com.gyd;
 
+import java.util.concurrent.TimeUnit;
+
+public class InterruptDemo1 {
+    static volatile boolean isStop = false;
+    public static void main(String[] args) {
+        new Thread(()->{
+            while(true) {
+                if (isStop) {
+                    System.out.println(Thread.currentThread().getName()+" 被中断");
+                    break;
+                }
+                System.out.println("t1 --- hello volatile");
+            }
+        },"t1").start();
+
+
+        try {
+            TimeUnit.MICROSECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        new Thread(()->{
+            isStop = true;
+        },"t2").start();
+
+    }
+}
+
+```
+
+- AtomicBoolean
+```java
+package com.gyd;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+public class InterruptDemo2 {
+    static AtomicBoolean isStop = new AtomicBoolean(false);
+
+    public static void main(String[] args) {
+        new Thread(()->{
+            while(true) {
+                if (isStop.get()) {
+                    System.out.println(Thread.currentThread().getName()+" 被中断");
+                    break;
+                }
+                System.out.println("t1 --- hello volatile");
+            }
+        },"t1").start();
+
+
+        try {
+            TimeUnit.MICROSECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        new Thread(()->{
+            isStop.set(true);
+        },"t2").start();
+  
+    }
+}
+
+```
+
+- interrupt
+```java
+package com.gyd;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class InterruptDemo3 {
+
+    public static void main(String[] args) {
+       Thread t1= new Thread(()->{
+            while(true) {
+                if (Thread.currentThread().isInterrupted()) {
+                    System.out.println(Thread.currentThread().getName()+" 被中断");
+                    break;
+                }
+                System.out.println("t1 --- hello volatile");
+            }
+        },"t1");
+       t1.start();
+
+
+        try {
+            TimeUnit.MICROSECONDS.sleep(20);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        new Thread(()->{
+            t1.interrupt();
+        },"t2").start();
+  
+    }
+}
+
+```
+
+### 线程属性-优先级  
+
+目前的操作系统基本是采用时分的形式调度各个线程，每个线程根据分配到的若干个时间片来执行自己的任务，当线程的时间片用完时就会发生线程调度，该线程需要等待下一次分配时间片后才能继续执行。线程根据时间片分配来分配处理器资源，而线程的优先级属性就保证了线程能够多分配或者少分配处理器资源。  
+
+通过查看Thread.java类源码可以看出，一个java线程可以通过priority属性来设置自身的优先级，priority的范围是从1到10，数值越大代表优先级越高，默认值是5。
+```java
+public class Thread implements Runnable {
+
+    private int            priority;
+
+    /*** 优先级最小值*/
+    public final static int MIN_PRIORITY = 1;
+
+    /*** 优先级默认值*/
+    public final static int NORM_PRIORITY = 5;
+
+    /*** 优先级最大值*/
+    public final static int MAX_PRIORITY = 10;
+
+    public final void setPriority(int newPriority) {
+        ThreadGroup g;
+        checkAccess();
+        if (newPriority > MAX_PRIORITY || newPriority < MIN_PRIORITY) {
+            throw new IllegalArgumentException();
+        }
+        if((g = getThreadGroup()) != null) {
+            if (newPriority > g.getMaxPriority()) {
+                newPriority = g.getMaxPriority();
+            }
+            setPriority0(priority = newPriority);
+        }
+    }
+
+    ....
+}
+```
+
+设置线程优先级时，通常的方式是针对频繁阻塞（休眠或者 I/O 操作）的线程需要设置较高优先级，而偏重计算（需要较多 CPU时间或者偏运算）的线程则设置较低的优先级，确保处理器不会被独占。在不同的 JVM以及操作系统上，线程规划会存在差异，有些操作系统甚至会忽略对线程优先级的设定，因此线程优先级不能作为程序正确性的依赖。
+
+### 线程属性-Daemon
+
+Daemon 线程是一种支持型线程(常被叫做守护线程)，因为它主要被用作程序中后台调度以及支持性工作。这意味着，当一个 Java 虚拟机中不存在非 Daemon 线程的时候，Java 虚拟机将会退出。可以通过调用 Thread.setDaemon(true)将线程设置为 Daemon 线程。  
+
+Daemon 属性需要在启动线程之前设置，不能在启动线程之后设置。Daemon 线程被用作完成支持性工作，但是在 Java 虚拟机退出时 Daemon 线程中的逻辑不一定保证会执行。
+```java
+package com.gyd;
+
+public class ThreadBasicDemo2 {
+    public static void main(String[] args) {
+        Thread thread = new Thread(new DaemonRunner(),"DaemonRunner");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    static class DaemonRunner implements Runnable{
+
+        @Override
+        public void run() {
+            try {
+                System.out.println("daemon...");
+            } finally {
+                System.out.println("exit daemon...");
+            }
+        }
+    }
+}
+
+```
+上面的程序中，当main程序执行完成时，DaemonRunner中的run方法逻辑不一定会被执行完成。
 
 ## 常用接口和类介绍
 ### FutureTask
@@ -185,5 +412,9 @@ public class ThreadDemo {
 
 
 ## 总结
+
+
+## 参考资料
+《Java并发编程的艺术》
 
  

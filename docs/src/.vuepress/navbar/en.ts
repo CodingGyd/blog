@@ -23,11 +23,14 @@ export const enNavbar = navbar([
   },
   { text: "副业探索", icon: "edit", link: "/fuye/" },
   {
-    text: "关于",
+    text: "关于本站",
     icon: "edit",
     prefix: "/about/",
     children: [
-      { text: "个人介绍", icon: "edit", link: "intro" },
+      { text: "站点介绍", icon: "edit", link: "zd" },
+      { text: "站长介绍", icon: "edit", link: "intro" },
+      { text: "版权声明", icon: "edit", link: "copyright" },
+
     ],
   },
 
