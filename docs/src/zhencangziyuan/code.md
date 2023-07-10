@@ -10,6 +10,124 @@ tag:
 > 更多实用代码片段 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
 > excel导入导出组件 <a href="https://github.com/CodingGyd/excel-utils" text="戳这里！" target="_blank"></a>
 
+## 参数校验工具
+
+需要在pom引入相关依赖  
+```java
+	<dependency>
+		<groupId>jakarta.validation</groupId>
+		<artifactId>jakarta.validation-api</artifactId>
+		<version>2.0.2</version>
+	</dependency>
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-validator</artifactId>
+		<version>5.1.0.Final</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.el</groupId>
+		<artifactId>javax.el-api</artifactId>
+		<version>2.2.4</version>
+	</dependency>
+```
+Jakarta就是Java更名之后的名称，官网https://beanvalidation.org/，Jakarta Bean Validation也就是Java Bean Validation，是一套Java的规范，它可以：
+- 通过使用注解的方式在对象模型上表达约束 
+- 以扩展的方式编写自定义约束
+- 提供了用于验证对象和对象图的API
+- 提供了用于验证方法和构造方法的参数和返回值的API
+- 报告违反约定的集合
+- 运行在Java SE，并且集成在Jakarta EE8中
+
+Jakarta Bean Validation只是一套标准，我们需要使用其他组织机构提供的实现来进行验证，官方支持的为Hibernate Validator
+
+如果是spring项目在参数上加上@Valid或@Validated即可，还可以在代码中通过工具类的方式主动调用，下面是封装好的工具类：
+``` java
+package com.codinggyd.utils;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.Iterator;
+import java.util.Set;
+
+
+public class ValidatorUtils {
+    private static ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+
+    public ValidatorUtils() {
+    }
+
+    public static <T> void validate(T object, Class<?>... groups) {
+        Validator validator = validatorFactory.getValidator();
+
+        Set<ConstraintViolation<T>> errors = validator.validate(object, groups);
+        if (errors.size() != 0) {
+            StringBuilder builder = new StringBuilder();
+            if (errors.size() > 6) {
+                builder.append(String.format("校验未通过：共%d项错误</br>", errors.size()));
+            } else {
+                builder.append("校验不通过：**");
+            }
+
+            int i = 1;
+            for(Iterator var5 = errors.iterator(); var5.hasNext(); ++i) {
+                ConstraintViolation<T> error = (ConstraintViolation)var5.next();
+                if (i > 6) {
+                    builder.append("......");
+                    break;
+                }
+                builder.append(error.getMessage()).append("**");
+            }
+            throw new RuntimeException(builder.toString());
+        }
+    }
+}
+
+```
+
+使用实例：
+```java
+package com.codinggyd;
+
+import com.codinggyd.utils.ValidatorUtils;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
+public class User {
+
+    @NotNull(message = "name不能为空！")
+    private String name;
+
+    @Digits(integer = 1,fraction = 10,message = "年龄不能大于10")
+    private Integer age;
+
+    public void setName(String name) {this.name = name;}
+
+    public String getName() {return name;}
+
+    public void setAge(Integer age) {this.age = age;}
+
+    public Integer getAge() {return age;}
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.setAge(100);
+        ValidatorUtils.validate(user);
+    }
+}
+
+```
+
+输出:
+```java
+INFO: HV000001: Hibernate Validator 5.1.0.Final
+Exception in thread "main" java.lang.RuntimeException: 校验不通过：**name不能为空！**年龄不能大于10**
+	at com.codinggyd.utils.ValidatorUtils.validate(ValidatorUtils.java:38)
+	at com.codinggyd.User.main(User.java:27)
+```
+
 ## 数值精确运算
 ```java
 package com.codinggyd.utils;

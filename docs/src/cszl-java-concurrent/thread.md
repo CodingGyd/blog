@@ -302,6 +302,152 @@ public class InterruptDemo3 {
 
 ```
 
+<br/>
+<font color="blue">线程中断的三大API方法：</font>
+
+> public void interrupt()  
+是一个实例方法，它通知目标线程商量中断，也仅仅是设置目标线程的中断标志位为true，至于是否中断是由目标线程自己控制。  
+
+> public boolean isInterrupted()  
+是一个实例方法，它判断当前线程是否被中断(通过检查中断标志位)，并返回中断标志。  
+
+> public static boolean interrupted()  
+是Thread类的静态方法，返回当前线程的中断状态真实值并将当前线程的中断状态设置为false。此方法调用之后会清除当前线程的中断标志位(当中断标志置为false)， 返回当前值并清零置为false
+
+
+### 线程的等待和唤醒机制
+- 方式1-wait和notify  
+
+wait和notify方法必须在同步块或者同步方法中使用，且必须成对出现，先执行wait才可以执行notify方法
+```java
+package com.gyd;
+
+import java.util.concurrent.TimeUnit;
+
+public class LockSupportDemo1 {
+
+    private static Object lockObject = new Object();
+
+    public static void main(String[] args) throws InterruptedException {
+        new Thread(() -> {
+            synchronized (lockObject) {
+                System.out.println(Thread.currentThread().getName()+" enter");
+                try {
+                    lockObject.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println(Thread.currentThread().getName()+" 被唤醒");
+            }
+        },"AAA").start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        new Thread(()->{
+            synchronized (lockObject) {
+                lockObject.notify();
+                System.out.println(Thread.currentThread().getName()+" 发出唤醒通知");
+            }
+        },"BBB").start();
+    }
+}
+
+```
+
+- 方式2-Condition中的await和signal   
+
+await和signal方法必须在同步块或者同步方法中使用，必须先执行await，再执行signal 
+```java
+package com.gyd;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LockSupportDemo2 {
+
+    public static void main(String[] args) throws InterruptedException {
+        Lock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
+        new Thread(() -> {
+            lock.lock();
+            try {
+                System.out.println(Thread.currentThread().getName()+" enter");
+                condition.await();
+                System.out.println(Thread.currentThread().getName()+" 被唤醒");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+                lock.unlock();
+            }
+        },"AAA").start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        new Thread(()->{
+            lock.lock();
+            try {
+                condition.signal();
+                System.out.println(Thread.currentThread().getName()+" 发起唤醒");
+            } finally {
+                lock.unlock();
+            }
+        },"BBB").start();
+    }
+}
+
+```
+
+- 方式3-LockSupport   
+前面的等待和唤醒方式都有两个限制条件：  
+
+    a. 线程必须要先获得并持有锁，必须在锁块中(synchronized或Lock)。  
+    b. 必须先等待后唤醒，线程才能够被正确唤醒。  
+
+而LockSupport就突破了这两个限制条件，使用时不需要额外关注锁的持有和释放动作，且可以突破wait/notify 、await/signal的原有调用顺序。  
+
+
+使用示例：
+```java
+package com.gyd;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.LockSupport;
+public class LockSupportDemo3 {
+
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread thread = new Thread(() -> {
+            System.out.println(Thread.currentThread().getName()+" enter");
+            LockSupport.park();
+            System.out.println(Thread.currentThread().getName()+" 被唤醒");
+        },"AAA");
+        thread.start();
+
+        TimeUnit.SECONDS.sleep(1);
+
+        new Thread(()->{
+            LockSupport.unpark(thread);
+            System.out.println(Thread.currentThread().getName()+" 发起唤醒");
+
+        },"BBB").start();
+    }
+}
+
+```
+
+LockSupport是一个线程阻塞工具类，所有的方法都是静态方法，可以让线程在任意位置进行阻塞(LockSupport.park())，阻塞之后也有对应的唤醒方法(LockSupport.unpark())。LockSupport底层调用的是Unsafe中的native代码。   
+
+LockSupport和每个使用它的线程都有一个许可证(permit)关联。每个线程最多只能有一个permit许可证，重复调用unpark也不会积累凭证。   
+
+**当调用park方法时**  
+   a. 如果有凭证，则使用完这个凭证并退出(凭证可以提前发放，这里就是为什么可以突破wait/notify、await/signal调用顺序的原因)。  
+   b. 如果没有凭证， 则线程会阻塞直到unpark发放一个凭证才能退出。  
+
+当调用unpark方法时，会给对应的线程增加一个凭证(最多增加一个)，多次调用unpark也不会重复发放凭证。  
+
+
 ### 线程属性-优先级  
 
 目前的操作系统基本是采用时分的形式调度各个线程，每个线程根据分配到的若干个时间片来执行自己的任务，当线程的时间片用完时就会发生线程调度，该线程需要等待下一次分配时间片后才能继续执行。线程根据时间片分配来分配处理器资源，而线程的优先级属性就保证了线程能够多分配或者少分配处理器资源。  
@@ -414,7 +560,7 @@ public class ThreadDemo {
 ## 总结
 
 
-## 参考资料
+## 参考资料  
 《Java并发编程的艺术》
 
  

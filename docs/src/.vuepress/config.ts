@@ -30,6 +30,8 @@ export default defineUserConfig({
       },
     ],
     ["meta", { name: "apple-mobile-web-app-capable", content: "yes" }],
+    //百度联盟
+    ["meta", { name: "baidu_union_verify", content: "a47546c48f2c51c0e92b3baaace680cb" }],
 
     [
       //集成百度访问统计
@@ -43,15 +45,15 @@ export default defineUserConfig({
       })();
       `
     ],
-    [
-      //集成Google AdSense
-      "script",
-      {
-        "data-ad-client": "ca-pub-1601618516206303",
-        async: true,
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-      }
-    ],
+    // [
+    //   //集成Google AdSense
+    //   "script",
+    //   {
+    //     "data-ad-client": "ca-pub-1601618516206303",
+    //     async: true,
+    //     src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    //   }
+    // ],
 
     //网页头像
     ["link", { rel: "icon", href: "/assets/icon/avata.jpg" }],
