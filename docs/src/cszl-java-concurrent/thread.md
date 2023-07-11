@@ -1,6 +1,6 @@
 ---
 # icon: lock
-date: 2023-06-01
+date: 2023-07-09
 
 category:
   - Java
@@ -15,6 +15,25 @@ tag:
 
 ### 线程
 线程(Light Weight Process)也称为轻量级线程，线程是大多数操作系统进行时间片分配调度的基本单元，是调度的最小单位。每一个进程下都至少有1个或多个线程，每个线程拥有独立的程序计数器、堆栈、局部变量等信息，并且能够访问共享变量。处理器在这些线程之间进行高速切换执行，让用户以为是在并发执行。
+
+线程又可以分为用户线程和守护线程：  
+
+- 用户线程(User Thread)  
+用户线程是系统的工作线程，负责完成程序需要完成的业务操作。一般情况下不做特别说明配置，默认都是用户线程。
+
+比如下面的main方法所在的线程就属于用户线程：  
+
+```java
+public class ThreadDemo {
+    public static void main(String[] args) {
+    }
+}
+```
+
+- 守护线程(Daemon Thread)  
+是一种特殊的服务线程，主要为其它线程服务的，一般负责在后台完成一些非业务功能型、系统性的服务。比如我们的垃圾回收线程就是最典型的守护线程。  
+
+既然做为一种服务线程，在服务对象终止运行时，守护线程也没有必要继续运行了。因此当我们的用户线程结束时，表明我们的程序业务操作也结束了，此时JVM不会去关心守护线程的运行状态，会直接自动退出。
 
 ### 管程
 也叫Monitor(监视器)，也就是我们平时常说的锁(synchronized)。  Monitor是一种同步机制，目的是保证同一时间只能有一个线程可以访问被保护的代码和数据。  
@@ -52,26 +71,14 @@ ObjectMonitor中有几个关键属性：
 <tr><td>_count</td><td>用来记录该线程获取锁的次数</td></tr>
 </table>
 
-### 用户线程(User Thread)
-用户线程是系统的工作线程，负责完成程序需要完成的业务操作。一般情况下不做特别说明配置，默认都是用户线程。
-
-比如下面的main方法所在的线程就属于用户线程：  
-
-```java
-public class ThreadDemo {
-    public static void main(String[] args) {
-    }
-}
-```
-
-### 守护线程(Daemon Thread)
-是一种特殊的服务线程，主要为其它线程服务的，一般负责在后台完成一些非业务功能型、系统性的服务。比如我们的垃圾回收线程就是最典型的守护线程。  
-
-既然做为一种服务线程，在服务对象终止运行时，守护线程也没有必要继续运行了。因此当我们的用户线程结束时，表明我们的程序业务操作也结束了，此时JVM不会去关心守护线程的运行状态，会直接自动退出。
-
 
 ### 上下文切换
 即使是单核处理器也是支持多个线程同时执行的。这里的"同时"其实是假象，实际是CPU通过给每个线程分配时间片来实现这个假象的。时间片就是CPU分配给每个线程的可支配时间，每个时间片特别短，一般几十毫秒。当某个线程获取到时间片就会执行线程相关逻辑，时间片时间结束后就会保存当前线程的状态，然后把时间片按某种算法分配给下一个线程执行。  
+
+### 线程池  
+创建一个线程是比较耗费系统资源的，受限于硬件配置和CPU核数限制，一个机器上能创建的线程数是有限制的。线程的创建和销毁也会导致操作系统底层进行频繁的上下文切换动作。对于需要支持高并发请求量的系统来说，允许无限制的创建线程是可怕的。
+
+线程池技术能很好解决这些问题，线程池技术是指提前准备了一个池子，预先初始化好了一定数量的线程放入其中，并通过一定策略对池子中的线程进行新增和销毁。用户在使用过程中不能自己对线程进行创建和销毁，只能重复使用池子里的线程。通过这种方式，能很好的解决频繁创建线程导致操作系统上下文频繁切换的开销问题，而且面对过量任务请求的提交能够进行平滑的控制，增强系统的可用性。
 
 ## 线程基础
 
@@ -316,7 +323,10 @@ public class InterruptDemo3 {
 
 
 ### 线程的等待和唤醒机制
+是指一个线程 A 调用了对象 O 的 等待方法(wait、await、park)进入等待状态，而另一个线程 B 调用了对象 O 的唤醒方法(notify、nofityAll、signal、unpark)，线程 A 收到通知后从对象 O 的等待方法返回，进而执行后续操作。上述两个线程通过对象 O 来完成交互，而对象上的等待方法和唤醒方法的关系就如同开关信号一样，用来完成等待方和通知方之间的交互工作。
+等待方法和唤醒方法有三组，下面介绍下每一组的概念和用法
 - 方式1-wait和notify  
+<img src="/images/java/concurrent/thread-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 wait和notify方法必须在同步块或者同步方法中使用，且必须成对出现，先执行wait才可以执行notify方法
 ```java
@@ -353,6 +363,7 @@ public class LockSupportDemo1 {
 }
 
 ```
+
 
 - 方式2-Condition中的await和signal   
 
@@ -447,6 +458,170 @@ LockSupport和每个使用它的线程都有一个许可证(permit)关联。每�
 
 当调用unpark方法时，会给对应的线程增加一个凭证(最多增加一个)，多次调用unpark也不会重复发放凭证。  
 
+
+从上面三组等待通知方法可以提炼出其中的经典范式，该范式分为两部分，分别针对等待方（消费者）和通知方（生产者）。  
+
+等待方遵循如下原则:  
+1) 获取对象的锁。  
+2) 如果条件不满足，那么调用对象的 wait()方法，被通知后仍要检查条件。  
+3) 条件满足则执行对应的逻辑。 
+
+对应的伪代码如下。  
+```
+synchronized(对象) {
+ while(条件不满足) { 
+ 对象.wait();
+ }
+ 对应的处理逻辑
+}
+```
+
+通知方遵循如下原则:  
+1) 获得对象的锁。  
+2) 改变条件。  
+3) 通知所有等待在对象上的线程。  
+
+对应的伪代码如下。 
+```
+synchronized(对象){
+ 改变条件
+ 对象.notifyAll();
+}
+``` 
+
+
+线程还有一个join方法，也是等待唤醒机制的一种。如果一个线程 A 执行了 thread.join()语句，其含义是：当前线程 A 等待 thread 线程终止之后才从 thread.join()返回。线程 Thread 除了提供 join()方法之外，还提供了 join(long millis)和 join(longmillis,int nanos)两个具备超时特性的方法。这两个超时方法表示，如果线程 thread 在给定的超时时间里没有终止，那么将会从该超时方法中返回。  
+
+jdk中Thread类中join方法的源码：  
+```java
+    public final synchronized void join(long millis)
+    throws InterruptedException {
+        long base = System.currentTimeMillis();
+        long now = 0;
+
+        if (millis < 0) {
+            throw new IllegalArgumentException("timeout value is negative");
+        }
+
+        if (millis == 0) {
+            while (isAlive()) {
+                wait(0);
+            }
+        } else {
+            //条件不满足继续等待
+            while (isAlive()) {
+                long delay = millis - now;
+                if (delay <= 0) {
+                    break;
+                }
+                wait(delay);
+                now = System.currentTimeMillis() - base;
+            }
+            //条件满足，停止等待，方法返回。
+        }
+    }
+```
+可以看出源码中join方法的逻辑也基本符合等待/通知经典范式的思想。  
+
+在下面所示的例子中，创建了 10 个线程，编号 0~9，每个线程调用前一个线程的 join()方法，也就是线程 0 结束了，线程 1 才能从 join()方法中返回，而线程 0 需要等待 main 线程结束。
+
+```java
+public class JoinDemo {
+    public static void main(String[] args) throws Exception {
+        Thread previous = Thread.currentThread();
+        for (int i = 0; i < 10; i++) {
+            // 每个线程拥有前一个线程的引用，需要等待前一个线程终止，才能从等待中返回
+            Thread thread = new Thread(new Domino(previous), String.valueOf(i));
+            thread.start();
+            previous = thread;
+        }
+        TimeUnit.SECONDS.sleep(5);
+        System.out.println(Thread.currentThread().getName() + " terminate.");
+    }
+    static class Domino implements Runnable {
+        private Thread thread;
+        public Domino(Thread thread) {
+            this.thread = thread;
+        }
+        public void run() {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+            }
+            System.out.println(Thread.currentThread().getName() + " terminate.");
+        }
+    }
+}
+```
+上面会按顺序输出结果：
+```java
+main terminate.
+0 terminate.
+1 terminate.
+2 terminate.
+3 terminate.
+4 terminate.
+5 terminate.
+6 terminate.
+7 terminate.
+8 terminate.
+9 terminate.
+```
+
+
+### 线程的管道输入输出流  
+管道输入/输出流和普通的文件输入/输出流或者网络输入/输出流不同之处在于，它主要用于线程之间的数据传输，而传输的媒介为内存。管道输入/输出流主要包括了如下
+4 种具体实现：PipedOutputStream、PipedInputStream、PipedReader 和 PipedWriter，前两种面向字节，而后两种面向字符。
+
+下面是一个管道输入输出的示例程序：  
+```java
+public class Piped {
+    public static void main(String[] args) throws Exception {
+        PipedWriter out = new PipedWriter();
+        PipedReader in = new PipedReader();
+        // 对于 Piped 类型的流，必须先要进行绑定，也就是调用 connect()方法，将输出流和输入流进行连接，否则在使用时会抛出 IOException
+        out.connect(in);
+        Thread printThread = new Thread(new Print(in), "PrintThread");
+        printThread.start();
+        int receive = 0;
+        try {
+            while ((receive = System.in.read()) != -1) {
+                out.write(receive);
+            }
+        } finally {
+            out.close();
+        }
+    }
+    static class Print implements Runnable {
+        private PipedReader in;
+        public Print(PipedReader in) {
+            this.in = in;
+        }
+        public void run() {
+            int receive = 0;
+            try {
+                while ((receive = in.read()) != -1) {
+                    System.out.print((char) receive);
+                }
+            } catch (IOException ex) {
+            }
+        }
+    }
+}
+```
+上面程序中创建了 printThread，它用来接受 main 线程的输入，任何 main 线程的输入均通过 PipedWriter 写入，而printThread 在另一端通过 PipedReader 将内容读出并打印。
+
+运行上面程序，输入一组字符串，可以看到被 printThread 进行了原样输出。  
+```
+111
+111
+222
+222
+333
+333
+444
+444
+``` 
 
 ### 线程属性-优先级  
 

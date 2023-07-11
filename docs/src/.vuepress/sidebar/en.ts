@@ -106,7 +106,9 @@ export const enSidebar = sidebar({
           "completableFuture",
           "lock",
           "synchronized",
-          "volatile"
+          "volatile",
+          "threadlocal"
+
           ],
         },
         {
@@ -301,7 +303,9 @@ export const enSidebar = sidebar({
         "elasticjob",
         "jenkins",
         "nginx",
-        "todo-list"
+        "todo-list",
+        "industry-lossary"
+
       ],
    
     },

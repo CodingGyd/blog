@@ -432,20 +432,23 @@ synchronized锁升级过程和对象头的Mark Word区域有着密切关系，�
 
 
 
-在运行期间，synchronized锁触发升级时，Mark Word 里存储的数据会随着锁标志位的变化而变化。Mark Word
-可能变化为存储以下 4 种数据：
+在运行期间，synchronized锁触发升级时，Mark Word 里存储的数据会随着锁标志位的变化而变化。64位的操作系统中Mark Word
+可能变化为存储以下几种数据：
 <img src="/images/java/concurrent/synchronized-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## 锁升级过程  
 
 > 用户态和内核态的切换会消耗大量的系统资源，因为用户态和内核态都有各自专用的内存空间、寄存器等，用户态切换至内核态需要传递许多变量、参数给内核，
 内核也需要保护好用户态在切换时的一些寄存器值、变量等，以便内核态调用结束后切换回用户态继续工作。
+<img src="/images/java/concurrent/synchronized-4.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
 
 java早期版本中，synchronized属于重量级锁，效率低下，因为监视器(monitor)是依赖底层操作系统的Mutex Lock(系统互斥量)来实现的，挂起线程和恢复线程都需要从用户态切换到内核态去完成。  
 
 jdk1.6以后为了减少获得锁和释放锁带来的性能消耗，引入了多个锁状态，级别从低到高依次是无锁状态、偏向锁、轻量级锁、重量级锁状态，
 这几个状态会随着竞争情况逐渐升级。锁的升级过程是不可逆的，也就是说偏向锁升级为轻量级锁后不能再降级为偏向锁，轻量级锁升级为重量级锁后也不能再降级为轻量级锁。
 这种锁升级却不能降级的策略也是为了提高获得锁和释放锁的效率。
+<img src="/images/java/concurrent/synchronized-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 <table>
   <tr>
@@ -479,6 +482,144 @@ jdk1.6以后为了减少获得锁和释放锁带来的性能消耗，引入了�
     <td>追求吞吐量、同步代码块执行时间较长</td>
   </tr>
 </table>
+
+synchronized用到的锁是存在Java对象头里的MarkWord中，锁升级主要依赖MarkWord中锁的标志位和释放偏向锁标志位。  
+
+
+接下来我们来分析下锁升级过程，在分析之前先要引入一个jar包：
+```java
+    <dependency>
+      <groupId>org.openjdk.jol</groupId>
+      <artifactId>jol-core</artifactId>
+      <version>0.9</version>
+    </dependency>
+```
+### 升级过程-无锁状态  
+编写代码：
+```java
+
+import org.openjdk.jol.info.ClassLayout;
+
+public class SynchronizedUpDemo {
+    public static void main(String[] args) {
+        Object object = new Object();
+        //object.hashCode();
+        //System.out.println("10进制："+object.hashCode());
+        //System.out.println("16进制："+Integer.toHexString(object.hashCode()));
+        //System.out.println("2进制："+Integer.toBinaryString(object.hashCode()));
+        //输出对象内存布局
+        System.out.println(ClassLayout.parseInstance(object).toPrintable());
+    }
+
+}
+```
+运行上述代码，输出结果如下：
+```java
+java.lang.Object object internals:
+ OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
+      0     4        (object header)                           01 00 00 00 (00000001 00000000 00000000 00000000) (1)  //Mark Word
+      4     4        (object header)                           00 00 00 00 (00000000 00000000 00000000 00000000) (0) //class point指针
+      8     4        (object header)                           e5 01 00 f8 (11100101 00000001 00000000 11111000) (-134217243)
+     12     4        (loss due to the next object alignment)
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+```
+
+如果在打印内存布局前调用hashCode方法，会在对象头中存储生成的hashCode，输出结果如下：
+```java
+10进制：1735600054
+16进制：677327b6
+2进制：1100111011100110010011110110110
+java.lang.Object object internals:
+ OFFSET  SIZE   TYPE DESCRIPTION                               VALUE
+      0     4        (object header)                           01 b6 27 73 (00000001 10110110 00100111 01110011) (1931982337)  
+      4     4        (object header)                           67 00 00 00 (01100111 00000000 00000000 00000000) (103)
+      8     4        (object header)                           e5 01 00 f8 (11100101 00000001 00000000 11111000) (-134217243)
+     12     4        (loss due to the next object alignment)
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 4 bytes external = 4 bytes total
+
+
+Process finished with exit code 0
+```
+
+上面两个程序的结果如何分析呢？ 我们从第二行的末尾往回看，每个8位字节从左往右看， 可以得出无锁状态最后3位是001，这就是无锁状态 锁标记位的值(详情查阅前面提到过的Mark Word存储区域介绍)
+
+### 升级过程-偏向锁状态
+> 偏向锁是指当线程A第一次竞争到锁时，通过操作修改MarkWord中的偏向线程ID。如果不存在其它新的线程来竞争，那么持有偏向锁的线程将永远不需要进行同步了，省去了加锁和解锁的过程。  
+> 偏向锁的出现是为了解决只有在一个线程执行同步时提高程序性能。
+
+来看一个偏向锁的例子：
+```java
+
+public class BiaseLockDemo {
+    private int number = 30;
+
+    Object lock = new Object();
+
+    public void require(){
+        synchronized (lock){
+            if (number > 0) {
+                System.out.println(Thread.currentThread().getName()+" 抢到一个令牌");
+                number--;
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        BiaseLockDemo biaseLockDemo = new BiaseLockDemo();
+        new Thread(()->{for (int i=0;i<30;i++) {biaseLockDemo.require();}}).start();
+        new Thread(()->{for (int i=0;i<30;i++) {biaseLockDemo.require();}}).start();
+        new Thread(()->{for (int i=0;i<30;i++) {biaseLockDemo.require();}}).start();
+        TimeUnit.SECONDS.sleep(5);
+    }
+
+}
+
+```
+
+上面程序启动了三个线程同时去抢令牌，令牌总量只有30个，运行该程序得到输出结果：
+```
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+Thread-0 抢到一个令牌
+
+Process finished with exit code 0
+
+```
+我们发现，大部分情况令牌都会被其中一个线程获得，该线程被偏爱了，这就是偏向锁的效果了。
+
+多次运行上面程序，也会存在不同线程都获得部分令牌的情况，这就是出现了线程竞争。线程竞争的情况分为下面几种：
+- 竞争成功
+- 竞争失败
+
 
 ## 参考资料  
 《Java并发编程的艺术》  
