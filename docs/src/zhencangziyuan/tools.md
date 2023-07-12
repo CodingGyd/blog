@@ -59,3 +59,7 @@ https://www.jetbrains.com/idea/download/?var=1&section=windows
 注意，这里显示只激活到2025年，但实际是永久激活的，即使过了这个时间，此激活也仍然有效，IDEA也可以继续使用。    
 
 原文链接：https://www.cnblogs.com/xxcbdhxx/p/17271151.html
+
+
+## Navicate破解
+https://www.cnblogs.com/cdaniu/p/17300147.html

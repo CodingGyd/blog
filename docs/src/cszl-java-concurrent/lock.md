@@ -416,3 +416,88 @@ Found 1 deadlock.
 
 <img src="/images/java/concurrent/lock-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="/images/java/concurrent/lock-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+
+## 偏向锁/轻量级锁/重量级锁
+
+[详细介绍戳synchronized笔记](./synchronized.md#锁升级过程)
+ 
+
+## AQS笔记
+AQS(全称AbstractQueuedSynchronizer，中文是抽象队列同步器)是java锁的基石。 java中的锁底层都是继承AbstractQueuedSynchronizer来做具体实现的。
+
+AQS同步器使用一个int类型的state变量来定义当前同步的状态，使用一个FIFO类型的队列来控制多线程的竞争排队顺序。其内部仅仅是定义了若干同步状态获取和释放的方法来供自定义同步组件使用。通常的方式是在自定义同步组件中实现一个AQS同步器的子类，该子类是作为自定义同步组件的静态内部类。
+
+常见的自定义同步组件有ReentrantLock、ReentrantReadWriteLock 、CountDownLatch等。
+
+查看自定义同步组件源码可以看出这些自定义同步组件中都有一个继承AQS类的静态内部类：
+
+
+ReentrantLock源码：
+```java
+public class ReentrantLock implements Lock, Serializable{
+    abstract static class Sync extends AbstractQueuedSynchronizer {
+        //对AQS模板中的同步状态获取和释放的相关方法进行重写
+        //略。。。
+    }
+    //其它代码略...
+}
+```
+
+ReentrantReadWriteLock源码：
+```java
+public class ReentrantReadWriteLock
+        implements ReadWriteLock, java.io.Serializable {
+    abstract static class Sync extends AbstractQueuedSynchronizer {
+        //对AQS模板中的同步状态获取和释放的相关方法进行重写
+        //略。。。
+    }
+    //其它代码略...
+}
+```
+
+
+CountDownLatch源码：
+```java
+public class CountDownLatch {
+    private static final class Sync extends AbstractQueuedSynchronizer {
+        //对AQS模板中的同步状态获取和释放的相关方法进行重写
+        //略。。。
+    }
+    //其它代码略...
+}
+```
+
+AQS同步器的设计是基于模板方法模式的，也就是说，使用者需要继承同步器并重写指定的方法，随后将同步器组合在自定义同步组件的实现中，并调用同步器提供的模板方法，而这些模板方法将会调用使用者重写的方法。重写同步器指定的方法时，需要调用同步器提供的如下3 个方法来访问或修改同步状态。
+
+- getState()：获取当前同步状态。
+
+- setState(int newState)：设置当前同步状态。
+
+- compareAndSetState(int expect,int update)：使用 CAS 设置当前状态，该方法能够保证状态设置的原子性。
+
+上面三个方法在同步器基类中是final类型的，也就是说不能被子类重写，只能被子类调用，这三个方法封装了底层与操作系统交互的细节，能够保证原子操作。
+
+自定义同步组件中可重写同步器基类中的方法有如下：
+<table>
+  <tr>
+    <th>方法名称</th>
+    <th>描述</th>
+  </tr>
+  <tr>
+    <td>protected boolean tryAcquire(int arg)</td>
+    <td>独占方式获取同步状态，实现该方法需要查询当前状态并判断同步状态是否符合预期，然后再进行CAS设置同步状态</td>
+  </tr>
+  <tr>
+    <td>protected boolean tryRelease(int arg)</td>
+    <td>独占方式释放同步状态，在队列中阻塞等待获取同步状态的线程此时将有机会获取同步状态</td>
+  </tr>
+  <tr>
+    <td>protected int tryAcquireShared(int arg)</td>
+    <td>共享方式获取同步状态，返回大于等于0的值，表示获取成功，否则获取失败</td>
+  </tr>
+ <tr>
+    <td>protected int tryReleaseShared(int arg)</td>
+    <td>共享方式释放同步状态</td>
+  </tr>
+</table>
