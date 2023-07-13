@@ -108,7 +108,8 @@ export const enSidebar = sidebar({
           "synchronized",
           "volatile",
           "threadlocal",
-          "thread-pool"
+          "thread-pool",
+          "aqs"
           ],
         },
         {
