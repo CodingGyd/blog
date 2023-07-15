@@ -56,7 +56,7 @@ export default defineUserConfig({
     // ],
 
     //网页头像
-    ["link", { rel: "icon", href: "/assets/icon/avata.jpg" }],
+    ["link", { rel: "icon", href: "/assets/icon/avata.svg" }],
 
   ],
   locales: {

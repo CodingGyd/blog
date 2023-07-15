@@ -68,7 +68,8 @@ pom依赖分析
 - Thief-Book 
 真摸鱼插件，看txt小说用！！ 缺点是只能看txt。。  非插件方式的桌面安装方式支持pdf:https://thief.im/
 thief.com 摸鱼官网
-
+- EasyCode
+支持一键生成mvc模式的增删改查代码，能大大提高开发效率(摸鱼时间更多^_^)！
 
 ## 6.IDEA配置groovy环境
 我在用idea的database功能根据表生成pojo时报如下错误，查了下是缺少配置groovy环境。

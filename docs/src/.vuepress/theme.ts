@@ -5,7 +5,7 @@ import { enSidebar, zhSidebar } from "./sidebar/index.js";
 export default hopeTheme({
   hostname: "http://www.gydblog.com/",
   //网站左上角logo
-  logo: "/assets/icon/avata.jpg",
+  logo: "/assets/icon/avata.png",
   // 文章信息，可以填入数组，数组的顺序是各条目显示的顺序
   pageInfo: ["Author","Date","Original","Category","Tag","ReadingTime","Word","PageView"],
  
@@ -40,11 +40,11 @@ export default hopeTheme({
       displayFooter: true,
       blog: {
         // 博主头像
-        avatar: "/assets/icon/avata.jpg",
+        avatar: "/assets/icon/avata.svg",
         // 圆角  
-        roundAvatar: true,
+        roundAvatar: false,
         // 座右铭
-        description: "博客目前列出的文章标题均为我工作期间接触过的技术栈，目前正在持续重新学习和整理内容中。)",
+        description: "专心写代码，写到没人要为止",
          // 个人介绍页地址
         intro: "/about/intro.html",
         medias: {
