@@ -3,7 +3,7 @@
 date: 2018-01-05
 
 category:
-  - Java
+  - Java核心
 tag:
   - 集合框架
 ---

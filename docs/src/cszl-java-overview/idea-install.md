@@ -3,8 +3,9 @@
 date: 2023-06-25
 
 category:
-  - Java环境
+  - Java核心
 tag:
+  - JAVA开发环境
   - 编译器
   - IDEA
 ---

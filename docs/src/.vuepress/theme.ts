@@ -5,7 +5,7 @@ import { enSidebar, zhSidebar } from "./sidebar/index.js";
 export default hopeTheme({
   hostname: "http://www.gydblog.com/",
   //网站左上角logo
-  logo: "/assets/icon/avata.png",
+  logo: "/assets/icon/avata.svg",
   // 文章信息，可以填入数组，数组的顺序是各条目显示的顺序
   pageInfo: ["Author","Date","Original","Category","Tag","ReadingTime","Word","PageView"],
  
@@ -49,6 +49,8 @@ export default hopeTheme({
         intro: "/about/intro.html",
         medias: {
           GitHub: "https://github.com/CodingGyd/",
+          CSDN: "https://github.com/CodingGyd/",
+
         },
       },
 

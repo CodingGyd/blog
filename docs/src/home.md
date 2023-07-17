@@ -6,7 +6,7 @@ title: 代码小郭的JAVA超神之路
 description: Java程序员超神之路，从入门到超神
 
 category:
-  - JAVA
+  - 栏目介绍
 head:
   - - meta
     - name: keywords

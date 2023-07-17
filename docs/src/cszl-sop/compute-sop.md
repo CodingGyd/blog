@@ -5,7 +5,7 @@ category:
   - SOP
 tag:
   - 笔记本使用SOP
-  - 异常
+  - 问题记录
 ---
 
 # 笔记本使用SOP

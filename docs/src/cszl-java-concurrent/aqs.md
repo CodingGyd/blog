@@ -3,14 +3,13 @@
 date: 2023-06-26
 
 category:
-  - Java
+  - Java核心
 tag:
   - 并发编程
-  - 锁
-  - AQS笔记
+  - AQS基础知识
 ---
 
-# AQS笔记
+# AQS基础知识
 ## 简介  
 AQS(全称AbstractQueuedSynchronizer，中文是抽象队列同步器)是java锁的基石。 java中的锁底层都是继承AbstractQueuedSynchronizer来做具体实现的。
 

@@ -17,7 +17,7 @@ export const enSidebar = sidebar({
   ],
   "/zhencangziyuan/": [
     {
-      text: '珍藏资源',
+      text: '葵花宝典',
       link: '/zhencangziyuan/',
       children: "structure",
     }
@@ -46,6 +46,7 @@ export const enSidebar = sidebar({
       link: '/about/',
       children: [   
         { text: "站点介绍", link: "zd" },
+        {text: "建站记录", link: "blog-create"},
         { text: "站长介绍", link: "intro" },
         { text: "版权声明", link: "copyright" },
       ],
@@ -295,7 +296,6 @@ export const enSidebar = sidebar({
         "layered-architecture",
         "domain",
         "poi",
-        "blog-create",
         "markdown",
         "git",
         "linux",

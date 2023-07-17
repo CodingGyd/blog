@@ -3,7 +3,7 @@
 date: 2023-07-03
 
 category:
-  - Java
+  - Java核心
 tag:
   - 并发编程
   - 锁

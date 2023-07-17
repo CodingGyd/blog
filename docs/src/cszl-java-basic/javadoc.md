@@ -3,10 +3,9 @@
 date: 2018-01-05
 
 category:
-  - Java
+  - Java核心
 tag:
-  - Java基础
-  - Java注释
+  - 注释
 
 ---
 

@@ -3,9 +3,9 @@
 date: 2018-01-05
 
 category:
-  - Java
+  - Java核心
 tag:
-  - Java泛型
+  - 泛型
 ---
 
 # 泛型与反射

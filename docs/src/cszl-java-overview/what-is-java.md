@@ -2,9 +2,9 @@
 # icon: lock
 date: 2023-04-01
 category:
-  - Java
+  - Java核心
 tag:
-  - Java简介
+  - Java的发展历程
 ---
 
 # Java 的完整故事，从 1991 年到 2022 年

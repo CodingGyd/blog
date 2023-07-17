@@ -3,9 +3,9 @@
 date: 2018-01-05
 
 category:
-  - Java
+  - Java核心
 tag:
-  - Java异常
+  - 异常体系
 ---
 
 # 异常处理

@@ -3,9 +3,9 @@
 date: 2018-01-05
 
 category:
-  - Java
+  - Java核心
 tag:
-  - Java面向对象
+  - 面向对象编程
 ---
 
 # 面向对象编程

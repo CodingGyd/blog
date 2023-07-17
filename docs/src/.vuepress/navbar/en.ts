@@ -5,7 +5,7 @@ export const enNavbar = navbar([
   { text: "超神笔记", icon: "discover", link: "/home.md" },
   { text: "学习路线", icon: "discover", link: "/xuexiluxian/"},
   {
-    text: "珍藏资源",
+    text: "葵花宝典",
     icon: "edit",
     prefix: "/zhencangziyuan/",
     children: [
@@ -14,8 +14,6 @@ export const enNavbar = navbar([
       { text: "实用网站", link: "websites" },
       { text: "代码片段",link: "code" },
       { text: "偷懒神器",link: "effect-raising" },
-
-
     ],
   },
   {
@@ -30,6 +28,7 @@ export const enNavbar = navbar([
     prefix: "/about/",
     children: [
       { text: "站点介绍", icon: "edit", link: "zd" },
+      { text: "建站记录", icon: "edit", link: "blog-create" },
       { text: "站长介绍", icon: "edit", link: "intro" },
       { text: "版权声明", icon: "edit", link: "copyright" },
 

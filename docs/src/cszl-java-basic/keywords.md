@@ -3,11 +3,9 @@
 date: 2018-01-05
 
 category:
-  - Java
+  - Java核心
 tag:
-  - Java基础
-  - Java关键字
-  - Java保留字
+  - 关键字和保留字
 ---
 
 # 关键字和保留字

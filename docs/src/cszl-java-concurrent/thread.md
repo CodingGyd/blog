@@ -3,9 +3,10 @@
 date: 2023-07-09
 
 category:
-  - Java
+  - Java核心
 tag:
   - 并发编程
+  - 线程
 ---
 # 多线程入门
 

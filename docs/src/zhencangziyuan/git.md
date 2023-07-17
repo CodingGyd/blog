@@ -1,7 +1,7 @@
 ---
 date: 2023-06-20
 category:
-  - github
+  - 葵花宝典
 tag:
   - github
 ---
