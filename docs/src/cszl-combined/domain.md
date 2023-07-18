@@ -24,10 +24,10 @@ tag:
 
 **<font color='red'>这里重点记录下遇到的问题</font>**  
 一开始我在只配置了以下两条解析规则
- <img src="/images/cszl-combined/domain-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/cszl-combined/domain-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 也就是说浏览器输入"www.gydblog.com" 和"xx.gydblog.com"是都可以被dns服务器解析到并提供访问的，但是如果我直接输入主域名"gydblog.com"就无法访问了。 因此根据官方说明，还需要增加一个匹配主域名的解析规则：
- <img src="/images/cszl-combined/domain-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/cszl-combined/domain-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 只需要*、www、@ 这三条规则就可以覆盖所有访问方式了！
 

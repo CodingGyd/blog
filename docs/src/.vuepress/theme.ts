@@ -18,6 +18,10 @@ export default hopeTheme({
    // 阿里妈妈图标的前缀
   //  iconPrefix: "iconfont icon-",
    // Iconfont 精选图标 和 阿里妈妈的互斥
+
+   //Iconify: https://icon-sets.iconify.design/
+  // Iconfont: https://www.iconfont.cn/
+  //Fontawesome: https://fontawesome.com/icons
   iconAssets: "iconfont",
    
   //Git仓库和编辑链接
@@ -49,8 +53,10 @@ export default hopeTheme({
         intro: "/about/intro.html",
         medias: {
           GitHub: "https://github.com/CodingGyd/",
-          CSDN: "https://github.com/CodingGyd/",
-
+          Zhihu: "https://www.zhihu.com/people/guoyading",
+          Baidu: "https://blog.csdn.net/u011208987",//没有对应csdn的图标
+          // Weibo: "https://blog.sina.com.cn/u/3373065440",
+          
         },
       },
 

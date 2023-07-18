@@ -2,9 +2,7 @@
 # icon: lock
 date: 2022-02-05
 category:
-  - Markdown语法
-tag:
-  - Markdown语法
+  - Markdown
 ---
 
 # Markdown语法
@@ -12,22 +10,22 @@ tag:
 ## 图片
 用法一
 ```
-<img src="/images/logo.png"  style="zoom: 20%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/logo.png"  style="zoom: 20%;margin:0 auto;display:block"/><br/>
 ```
 
 示例：
-<img src="/images/logo.png"  style="zoom: 20%;margin:0 auto;display:block"/>  
+<img src="http://cdn.gydblog.com/images/logo.png"  style="zoom: 20%;margin:0 auto;display:block"/>  
 
 
 
 用法二(带底部文字说明)
 ```
-![底部说明文字](/images/logo.png)
+![底部说明文字](http://cdn.gydblog.com/images/logo.png)
 ```
 
 示例：
 
-![底部说明文字](/images/logo.png)
+![底部说明文字](http://cdn.gydblog.com/images/logo.png)
 
 
 ## 标题

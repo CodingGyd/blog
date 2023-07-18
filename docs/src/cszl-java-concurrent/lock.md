@@ -18,10 +18,10 @@ tag:
 
 多线程访问会涉及到线程安全问题，而锁可以用来解决这种并发访问导致的问题。
 
-## 锁的常见分类
-<img src="/images/java/concurrent/lock-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+## 01、锁的常见分类
+<img src="http://cdn.gydblog.com/images/java/concurrent/lock-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 乐观锁和悲观锁
+## 02、乐观锁和悲观锁
 
 ### 乐观锁 
 乐观锁是指认为自己在使用数据时不会有别的线程来修改数据，所以不会添加锁。
@@ -53,7 +53,7 @@ synchronized可以用于修饰实例方法、静态方法、代码块。当一�
 - 能锁代码块，就不要锁整个方法体；能用对象锁，就不要用类锁。
 
 
-## 公平锁和非公平锁
+## 03、公平锁和非公平锁
 
 公平锁：多个线程按照申请锁的顺序来获取锁，先来先得，类似排队打饭机制，这是公平的
 ```java
@@ -112,7 +112,7 @@ public class LockDemo6 {
 ```
 
 
-## 可重入锁(递归锁)
+## 04、可重入锁(递归锁)
 
 可重入锁是指同一个线程在外层方法获取到锁，在进入同一线程的内层方法或代码块时会自动获取锁，不会因为之前已经获取过锁还没有释放而阻塞等待。(外层和内层的锁对象需要是同一个对象)
 java中ReentranLock和Synchronized都是可重入锁，可重入锁的优点是能够在一定程度避免死锁的发生。
@@ -195,12 +195,10 @@ java中ReentranLock和Synchronized都是可重入锁，可重入锁的优点是�
     ```
 
 
-## 可重入锁原理分析
+### 可重入锁原理分析
 以ReentrantLock中的非公平锁实现为例，看下jdk是如何实现可重入的。
 ```java
 ```
-
-
 
 核心是底层的objectMonitor锁对象。每个锁对象都拥有一个锁计数器和一个指向持有该锁的线程的指针。 
 
@@ -211,7 +209,7 @@ java中ReentranLock和Synchronized都是可重入锁，可重入锁的优点是�
 当执行monitorexit指令时，jvm会将锁对象的计数器减1，计数器值为0时代表锁已被释放。
 
 
-## 死锁
+## 05、死锁
 
 应用中多个线程需要以独占的方式访问同一个资源，当多个线程去并发访问资源时同一个时间段只能有一个线程占用该资源，另一个线程只能阻塞等待，如果两个线程永远都在等待对方释放独占的资源，则都会永远阻塞不能执行，两败俱伤了，这种现象就叫死锁。
 
@@ -421,18 +419,18 @@ Found 1 deadlock.
 
 上面演示的是命令行方式排查死锁现象，还可以用图形化的jconsole来排查死锁现象，在cmd中执行jconsole即可调出图形化界面(需要先配置好java环境变量)
 
-<img src="/images/java/concurrent/lock-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-<img src="/images/java/concurrent/lock-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/lock-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/lock-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 独占锁
+## 06、独占锁
 
 独占锁就是在同一时刻只能有一个线程获取到锁，而其他获取锁的线程只能处于同步队列中等待，只有获取锁的线程释放了锁，后继的线程才能够获取锁。
 
-## 偏向锁/轻量级锁/重量级锁
+## 07、偏向锁/轻量级锁/重量级锁
 
 [详细介绍戳synchronized笔记](./synchronized.md#锁升级过程)
  
 
-## AQS笔记
+## 08、AQS笔记
  [详细介绍戳AQS笔记](./aqs.md)
 

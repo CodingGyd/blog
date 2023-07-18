@@ -11,7 +11,7 @@ tag:
 # 新手无法逃避的HelloWorld
 
 
-## Java程序的执行逻辑
+## 01、Java程序的执行逻辑
 以HelloWorld.java程序举例，其生命周期会经历如下几个阶段：
 
 - 产生源文件<br/>
@@ -24,10 +24,10 @@ tag:
 JVM根据底层不同的操作系统，通过java命令将class文件翻译成机器可以执行的机器码指令(01,二进制)
 
 整体流程是：
-<img src="/images/java/java-hello-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/java-hello-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 编写一个HelloWorld
--  我们先用最朴素的方式-记事本 来敲第一个java程序，在控制台输出"HelloWorld！"信息，该程序文件名是HelloWorld.java,文件内容如下：
+## 02、编写一个HelloWorld
+我们先用最朴素的方式-记事本 来敲第一个java程序，在控制台输出"HelloWorld！"信息，该程序文件名是HelloWorld.java,文件内容如下：
 ```java
 public class HelloWorld {
     public static void main(String[] args) {
@@ -35,18 +35,17 @@ public class HelloWorld {
     }
 } 
 ```
-- 然后在HelloWorld.java文件所在目录调出cmd对话框，输入命令"javac 源文件名"，回车，编译生成字节码class文件
 
+然后在HelloWorld.java文件所在目录调出cmd对话框，输入命令"javac 源文件名"，回车，编译生成字节码class文件
 
 >注意：
 >编译生成的字节码文件的文件名对应java源文件中的类名，与java源文件的文件名是不一致的。因此当一个声明了多个类的源文件经过编译之后
 > 会生成多个字节码文件！
 
-
- <img src="/images/java/java-hello-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/java/java-hello-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 输入命令"java HelloWorld" 执行编译后的字节码文件
- <img src="/images/java/java-hello-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/java/java-hello-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 

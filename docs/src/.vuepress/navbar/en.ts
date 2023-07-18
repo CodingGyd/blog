@@ -2,11 +2,10 @@ import { navbar } from "vuepress-theme-hope";
 
 export const enNavbar = navbar([
   "/",
-  { text: "超神笔记", icon: "discover", link: "/home.md" },
-  { text: "学习路线", icon: "discover", link: "/xuexiluxian/"},
+  { text: "小郭笔记", icon: "note", link: "/home.md" },
   {
     text: "葵花宝典",
-    icon: "edit",
+    icon: "repo",
     prefix: "/zhencangziyuan/",
     children: [
       { text: "学习资源", link: "learn" },
@@ -18,13 +17,13 @@ export const enNavbar = navbar([
   },
   {
     text: "面试题库",
-    icon: "edit",
+    icon: "question",
     link: "/mianshi/"
   },
-  { text: "副业探索", icon: "edit", link: "/fuye/" },
+  { text: "副业探索", icon: "ability", link: "/fuye/" },
   {
     text: "关于本站",
-    icon: "edit",
+    icon: "info",
     prefix: "/about/",
     children: [
       { text: "站点介绍", icon: "edit", link: "zd" },

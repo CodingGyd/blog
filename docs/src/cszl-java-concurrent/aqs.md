@@ -10,11 +10,11 @@ tag:
 ---
 
 # AQS基础知识
-## 简介  
+## 01、简介  
 AQS(全称AbstractQueuedSynchronizer，中文是抽象队列同步器)是java锁的基石。 java中的锁底层都是继承AbstractQueuedSynchronizer来做具体实现的。
 
 
-## 内置的自定义同步组件
+## 02、内置的自定义同步组件
 AQS同步器使用一个int类型的state变量来定义当前同步的状态，使用一个Thread类型的变量来定义当前占用锁的线程信息，使用一个FIFO类型的队列来控制多线程的竞争排队顺序。其内部仅仅是定义了若干同步状态获取和释放的方法来供自定义同步组件使用。
 ```java
 /**
@@ -127,7 +127,7 @@ AQS同步器的设计是基于模板方法模式的，也就是说，使用者�
 </table>
 
 
-## 底层分析
+## 03、底层分析
 
 底层核心的三个方面是同步队列、独占锁、共享锁。
 
@@ -158,12 +158,12 @@ AQS底层是通过一个先进先出(FIFO)的同步队列来对等待线程进�
 ```
 
 同步队列的结构大致如下：
-<img src="/images/java/concurrent/aqs-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/aqs-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 同步器设置首节点无需CAS操作保证线程安全：  
 
 是通过获取同步状态成功的线程来完成的，当首节点的线程能够成功获取到同步状态，则会把同步器的首节点指向当前首节点的后继节点（由于只会有一个线程能获取到同步状态，这里无需cas操作），并断开原来首节点的next引用。原先的首节点线程由于已经获取到了同步状态，则从队列出栈去执行完成自己的业务逻辑即可。 
-<img src="/images/java/concurrent/aqs-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/aqs-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 同步器设置尾节点需要通过CAS操作来保证线程安全：  
 
@@ -252,7 +252,7 @@ acquireQueued():
     }
 ```
 下面是基本的独占锁获取流程：  
-<img src="/images/java/concurrent/aqs-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/aqs-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 **独占锁的释放**  
@@ -369,7 +369,7 @@ private void doAcquireShared(int arg) {
 
 
 
-## 基于AQS实现一个自定义同步组件  
+## 04、基于AQS实现一个自定义同步组件  
 AQS已经给我们定义好了底层的模板，只需要写一个静态内部类，继承AbstractQueuedSynchronizer实现其中获取锁tryAcquireShared和释放锁的tryReleaseShared方法即可。
 ```java
 

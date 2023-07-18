@@ -9,7 +9,7 @@ tag:
   - threadlocal
 ---
 # ThreadLocal的用法
-## 原理
+## 01、原理
 ThreadLocal(线程本地变量)，是一个以 ThreadLocal 对象为键、任意对象为值的存储结构，底层是map键值对方式。  
 
 查看Thread类源码可以看到每个线程实例都会有自己的一个成员变量threadLocalMap：   
@@ -70,7 +70,7 @@ ThreadLocalMap这个结构被附带在每个线程上，也就是说一个线程
 
 在后端开发中，ThreadLocal有大量的应用场景，尤其是在并发访问的场景下用来保障并发数据安全，比如Spring采用Threadlocal的方式，来保证单个线程中的数据库操作使用的是同一个数据库连接。还有比如用于web场景保存用户信息。  
 
-## 使用示例
+## 02、使用示例
 ThreadLocal是一个泛型类，泛型表示ThreadLocal可以存储的类型，它的使用非常简单。  
 
 举个例子，统计主线程和子线程各自的执行耗时，代码如下：  
@@ -119,7 +119,7 @@ class TimeRecorder {
 上面演示了main线程和子线程分别统计各自执行耗时的逻辑。
 
 
-## 内存泄漏问题  
+## 03、内存泄漏问题  
 通过查看ThreadLocal源码得知，其中的map元素结构entry继承了一个弱引用WeakReference：
 ```java
         static class Entry extends WeakReference<ThreadLocal<?>> {
@@ -136,6 +136,6 @@ class TimeRecorder {
 为什么ThreadLocalMap中的Entry要继承WeakReference，使ThreadLocal作为一个弱引用呢？我们知道，弱引用在发生GC时这个对象一定会被回收。通常来说使用弱引用是为了避免内存泄漏。这里也不例外，ThreadLocal使用弱引用可以避免内存泄漏问题的发生。
 
 然而，仅仅将Entry继承WeakReference，只依赖这一点来避免内存泄漏是不太现实的。因为在使用ThreadLocal时存在以下引用链路：
-<img src="/images/java/concurrent/threadlocal-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/threadlocal-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 如果我们的Thread一直在运行，Value是强引用的类型，那么此时由于强引用的Value无法被GC自动回收，此种情况下也可能出现内存泄漏的问题。因此，一般情况下，在不需要使用这个ThreadLocal变量的使用，需要主动调用ThreadLocal.remove方法来避免内存泄漏的风险。

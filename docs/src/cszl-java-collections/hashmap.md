@@ -10,15 +10,15 @@ tag:
 ---
 
 # HashMap
-## 简介  
+## 01、简介  
 HashMap是java集合框架中非常重要的一种类型，也是开发业务系统时常用的数据结构。    
 HashMap是一个散列表，数据是以键值对(Key-Value)的形式存储。  
 HashMap 实现了 Map 接口，根据键的 HashCode 值存储数据，具有很快的访问速度，最多允许一条记录的键为 null，不支持线程同步。  
 HashMap 是无序的，不会记录插入的顺序。  
 HashMap 继承于AbstractMap，实现了 Map、Cloneable、java.io.Serializable 接口。  
- <img src="/images/java/collections/hashmap-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/java/collections/hashmap-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 数据结构  
+## 02、数据结构  
 
  在JDK1.8以前，HashMap底层是由数组+链表实现的，数组是HashMap的主体，查询复杂度是O(1)，链表是为了解决hash冲突而存在的("拉链法"解决冲突)，查询复杂度是O(n)。  
 
@@ -64,25 +64,25 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 ```
 
  数组里面都是Key-Value的实例，在JDK1.8之前每个数组元素叫Entry，JDK1.8以后叫Node。
-  <img src="/images/java/collections/hashmap-2.png"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-2.png"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
 
-## put流程
+## 03、put流程
 从HashMap的put方法分析得出以下流程
-  <img src="/images/java/collections/hashmap-3.png"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-3.png"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
 
 注意：jdk7和jdk8的put实现有细微区别，整体流程差不多。
 
-## get流程
+## 04、get流程
 从HashMap的get方法分析得出以下流程
-  <img src="/images/java/collections/hashmap-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 注意：jdk7和jdk8的get实现有细微区别，整体流程差不多。
 
-## 哈希冲突
+## 05、哈希冲突
 针对HashMap的hash冲突场景，通俗的讲就是在put操作中，不同的key计算出的hashcode相同导致的冲突，这时候我们是直接覆盖存储还是追加存储或者其他方式解决呢？  
 
 了解Hash冲突如何解决需要首先了解Hash算法和Hash表的概念。
-  <img src="/images/java/collections/hashmap-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 1.Hash算法就是把任意长度的输入通过散列算法变成固定长度的输出，这个输出结果就是一个散列值。  
 2.Hash表又叫做“散列表”，它是通过key直接访问到内存存储位置的数据结构，在具体的实现上，我们通过Hash函数，把key映射到表中的某个位置，来获取这个位置的数据，从而加快数据的查找。  
 
@@ -93,13 +93,13 @@ Hash冲突是由于哈希算法，被计算的数据是无限的，而计算后�
 - 开放定址法  
   也称为线性探测法，就是从发生冲突的那个位置开始，按照一定次序从Hash表找到一个空闲位置，然后把发生冲突的元素存入到该空闲位置，我们熟悉的java-ThreadLocal机制就用到了线性探测法来解决Hash冲突。
 
-  <img src="/images/java/collections/hashmap-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 如上图，在Hash表索引1的位置存了key=name，再向它添加key=hobby的时候，假设计算得到的索引也是1，那么这个时候发生哈希冲突，而开放开放定址法就是按照顺序向前找到一个空闲的位置，来存储这个冲突的key。
 
 - 链式寻址法  
 简单理解就是把存在Hash冲突的key，在冲突位置上拉出来一个链表，以单向链表来存储，HashMap在jdk1.8就是采用此方式解决Hash冲突的(还有红黑树方式，红黑树是为了优化Hash链表过长导致时间复杂度增加的问题)。
 
-  <img src="/images/java/collections/hashmap-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 如上图，存在冲突的key直接是以单向链表的方式去进行存储的。  
 
 - 再Hash法  
@@ -108,7 +108,7 @@ Hash冲突是由于哈希算法，被计算的数据是无限的，而计算后�
 - 建立公共溢出区  
 就是把Hash表分为基本表和溢出表两个部分，凡是存在冲突的元素，均放到溢出表中。  
 
-## 扩容机制  
+## 06、扩容机制  
 **1. 什么时候会需要扩容？**
 - 在首次调用put方法的时候，初始化数组table  
 
@@ -232,14 +232,14 @@ final Node<K,V>[] resize() {
 }
 ```
 
-## JDK的差异
-1. JDK1.7采用的是头插法，JDK1.8采用的是尾插法。  
+## 07、JDK的差异
+- JDK1.7采用的是头插法，JDK1.8采用的是尾插法。  
 
-2. JDK1.8以前 底层数据结构是数组+链表，JDK1.8之后是数组+链表or红黑树。
+- JDK1.8以前 底层数据结构是数组+链表，JDK1.8之后是数组+链表or红黑树。
 
 
 
-## 常用方法列表  
+## 08、常用方法列表  
 
 |方法	|描述
 | ----------- | ----------- |
@@ -267,9 +267,9 @@ values()	|返回 hashMap 中存在的所有 value 值。
 |computeIfPresent()	|对 hashMap 中指定 key 的值进行重新计算，前提是该 key 存在于 hashMap 中。
 
 
-## hashmap实现策略模式
+## 09、hashmap实现策略模式
 参考：https://www.cnblogs.com/keeya/p/13187727.html
-## 参考资料
+## 10、参考资料
 1. [HashMap|菜鸟教程](https://www.runoob.com/java/java-hashmap.html)<br/>
 2. [哈希冲突|掘金社区](https://juejin.cn/post/7088332200130658312)<br/>
 3. [扩容机制|CSDN](https://dalianpai.blog.csdn.net/article/details/113726055)<br/>

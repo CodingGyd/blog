@@ -8,16 +8,16 @@ tag:
 ---
 
 # 研发过程-提效工具(偷懒神器)
-## 前言
+## 01、前言
 作为一名从业多年的业务CRUD工程师， 我发现在日常编码工作中的大部分时间都是在重复做一些CV操作，看似一直在忙碌，其实并没有给我带来太多成长。温水煮青蛙，会逐渐在就业市场上失去竞争力，最后的结果就是被更廉价的劳动力替代~    
 
 一直在做重复CV操作，这应该就是大家自嘲码农的原因之一吧。你别不信，我认为大部分人都正在做这样的CV工作。  
 
-因此，我们必须得学会在不延误工作的前提下摸鱼，哦不对是提高我们的工作效率。寻找合适的方法解放我们的双手，把精力从重复CV操作中解放出来，每天在不影响工作产出的前提下留出一些时间来持续学习技术，保持自己的核心竞争力。
+因此，我们必须得学会提高我们的工作效率(学会正确的摸鱼姿势)，寻找合适的方法解放我们的双手，把精力从重复CV操作中解放出来，每天在不影响工作产出的前提下留出一些时间来持续学习技术，保持自己的核心竞争力。
 
 下面会持续记录一些解放个人生产力的神器，也是我目前在用的一些好用工具，推荐给大家。
  
-## 数据库设计工具
+## 02、数据库设计工具
 ### 经验分享
 一个需求流转到开发人员手上后，我们需要先做底层的分析设计，而数据库设计是重要的底层设计之一。数据库方案设计的好不好，会直接影响到之后的应用代码编写过程以及上线之后的维护。这个就跟建造房屋一个道理，万丈高楼平地起，一砖一瓦皆根基，基建质量直接影响到之后房屋的质量。
 
@@ -44,21 +44,21 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 
 接下来用5个问题来分析拆解该需求，最终产出数据库设计方案(此处不考虑数据库设计的一些规范原则如三大范式，目的仅说明er图工具如何使用)。  
 
-### 1.有哪些业务实体？ 
+### 1) 有哪些业务实体？ 
 
 涉及班级、学生这两个实体  
 
-### 2.每个实体的属性有哪些？
+### 2) 每个实体的属性有哪些？
 
 班级：班级号、班级名称、创建时间、更新时间、操作人；  
 
 学生：学生号、姓名、性别、身份证、联系方式、住址、备注、录入时间、更新时间、操作人。
 
-### 3.实体与实体之间是什么关联关系?
+### 3) 实体与实体之间是什么关联关系?
 
 班级和学生是1:N的关联关系，一个班级里有多个学生，一个学生只能属于某一个班级。
  
-### 4.属性应该定义成什么类型？
+### 4) 属性应该定义成什么类型？
 
 ##班级##  
 班级号：字符串  
@@ -79,85 +79,85 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 更新时间：日期(精确到秒)   
 操作人：字符串  
 
-### 5.属性字段长度应设计成多少？
+### 5) 属性字段长度应设计成多少？
 
 此处日期类型默认限制了长度，字符串类型统一设置成255(注意实际业务需要按具体场景设计每个字段长度，否则会造成表空间资源的浪费)  
 
  
 ### ER图绘制
-1. 新建ER文件
+#### 新建ER文件
 
 打开我们的PowerDesigner，左上角选择File-New Model，输入er图名称，点击[ok]创建空文件。
 
-<img src="/images/zhencangziyuan/er-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-<img src="/images/zhencangziyuan/er-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-2. 定义实体和关系
+#### 定义实体和关系
 
-2-1. 班级实体定义
+- 班级实体定义
 
 在右侧Toolbox上选中table图标，然后单击中间绘图区域添加一个表区域
 
-<img src="/images/zhencangziyuan/er-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-<img src="/images/zhencangziyuan/er-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 注意：上面的Toolbox视图如果没有，则在软件左上角选择View-ToolBox 勾选中即可展示。  
 
 
 接下来双击绘制区域的表区域，弹出编辑框，在Tab[Generals]开始编辑表的名称和描述信息
 
-<img src="/images/zhencangziyuan/er-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 编辑框切到Tab[Columns]定义字段配置信息
 
-<img src="/images/zhencangziyuan/er-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 编辑框的Tab[Preview]可以预览对应的SQL语句
 
-<img src="/images/zhencangziyuan/er-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 表配置和字段配置定义好后，先点击编辑框右下角的【应用】，然后点击【确定】完成班级表的配置
 
-<img src="/images/zhencangziyuan/er-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 班级表在ER图展示如下
 
-<img src="/images/zhencangziyuan/er-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-2-2. 学生实体定义
+- 学生实体定义
 
 同班级表结构定义步骤。
 
-2-3 关联关系定义
+- 关联关系定义
 
 班级和学生实体定义完成后，在ER图中效果如下
 
-<img src="/images/zhencangziyuan/er-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 接下来选中右侧ToolBox-Pyhsical Diagram-Reference，然后对班级表和学生表进行关联
-<img src="/images/zhencangziyuan/er-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 注意：箭头指向的是主表(班级表)，箭尾是子表(学生表)。
 
 双击画好的连接线，弹出编辑框，切换到Tab[Joins]定义字段关联关系
-<img src="/images/zhencangziyuan/er-12.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-12.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 注意：学生和班级通过班级号来进行关联，学生和班级是1:N的关系
 
 
-3. 导出建表语句
+#### 导出建表语句
 实体和关系的ER图绘制完成后，接下来就是导出建表SQL语句了。
 
 在软件左上角选择DataBase-Generate Database，弹出如下界面进行导出配置：
-<img src="/images/zhencangziyuan/er-13.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-13.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 上面可以选择导出文件名称和导出路径，也可以切换到PreView页面预览导出的sql：
-<img src="/images/zhencangziyuan/er-14.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-14.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 最终导出的sql文件：
-<img src="/images/zhencangziyuan/er-15.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-15.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 ### 工具问题记录
@@ -167,7 +167,7 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 原因是因为PowerDesigner默认配置的导出不带注释，需要手动修改下导出的sql配置信息，针对mysql5.0修改方式如下：
 
 软件左上角Database --> Edit Current DBMS，弹出编辑框后找到 MySqlX.X --> Script --> Objects --> Column --> Add：
-<img src="/images/zhencangziyuan/er-16.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-16.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 原始内容：
 ```
@@ -182,7 +182,7 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 
 
 
-## 代码生成工具
+## 03、代码生成工具
 ### 千篇一律的CRUD工作
 
 CRUD工程师们的日常开发工作流程通常是下面的形式：
@@ -215,16 +215,16 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 
 ### IDEA集成EasyCode工具说明
 
-#### 1) IDEA中安装EasyCode插件
+- IDEA中安装EasyCode插件
 
 在idea的plugins 插件市场搜索EasyCode，点击Install按钮进行安装：
-<img src="/images/zhencangziyuan/easycode-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-#### 2) 插件配置
+- 插件配置
 
 配置入口路径是IDEA的File>>Settings>>Other Settings>>EasyCode: 
 
-<img src="/images/zhencangziyuan/easycode-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 配置EasyCode全局信息
 可配置用户名（对应生成代码注释中的@author字段），支持自定义模板的导出和导入，用户也可以自定义  
@@ -241,7 +241,7 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 可以点击+/-号添加/或删除映射关系。
 
 示例中数据库的integer类型和java.lang.Integer类对应:  
-<img src="/images/zhencangziyuan/easycode-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 - Template配置代码模板    
@@ -252,13 +252,13 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 
 > 添加模板时名称尽量带扩展名，如entity.java 这样可以实现代码语法高亮。
 
-<img src="/images/zhencangziyuan/easycode-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - Global Config全局配置  
 
 全局变量主要是用来定义宏（velocity宏定义），或者用来编写一大段重复代码：  
 
-<img src="/images/zhencangziyuan/easycode-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 > 例如添加一个全局变量名称为demo值为Hello,那么就可以在任意模板中通过$!demo去使用这个全局变量。当然通常并不会这么使用，而是使用velocity语法中的#set来完成。
 
@@ -268,21 +268,21 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 暂未用到，没有深入了解过
 
 ### EasyCode工具的使用  
-#### 01 数据表结构
+#### 1）数据表结构
 假设一个业务需求分析下来需要设计下面的Demo表，表结构如下：
-<img src="/images/zhencangziyuan/easycode-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
  
 
-#### 02 使用easycode导出代码
+#### 2）使用easycode导出代码
 找到IDEA的database插件(若不了解该插件的使用，百度一下)，连接到表所在的数据库，然后选中要生成代码的表，右键点击EasyCode》Generate Code: 
-<img src="/images/zhencangziyuan/easycode-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 弹出如下代码生成选型，勾选相关配置(主要是选择配置好的代码模板)，点击【ok】，即可生成对应的代码了！
-<img src="/images/zhencangziyuan/easycode-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 最终生成的代码文件：
-<img src="/images/zhencangziyuan/easycode-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 经过上面步骤生成了基本的MVC三层代码，我只需要根据具体业务逻辑做一些定制化的修改即可，至少给我节省了30%的开发时间了！！！
 

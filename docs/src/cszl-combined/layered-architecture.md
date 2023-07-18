@@ -2,9 +2,9 @@
 # icon: lock
 date: 2023-07-05
 category:
-  - Springboot的项目分层
+  - SpringBoot
 tag:
-  - Springboot的项目分层
+  - 项目分层
 ---
 
 # Springboot的项目分层
@@ -13,8 +13,8 @@ tag:
 ## 初学时简单分层-单个module
 初学时一般都是一些简单项目，单个module即可满足需求，该module内划分如下：
 
- <img src="/images/cszl-combined/layered-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
- <img src="/images/cszl-combined/layered-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/cszl-combined/layered-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/cszl-combined/layered-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### controller层
 controller层是用来接受前端提交的数据并调用一个或多个service层接口执行，返回请求结果的。该层一般不能包含任何业务处理逻辑，通常在该层做一些系统级别的参数校验、鉴权、限流、入参出参打印、耗时统计等切面拦截。 controller层应该只是一个转发者，不能包含太重的处理逻辑！
@@ -162,7 +162,7 @@ public class ArithmeticUtils {
 ```
 
 ## 进阶多模块分层-多个module
- <img src="/images/cszl-combined/layered-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/cszl-combined/layered-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 主要分成以下几层来划分module：
 ```
 控制层：xxx-controller 

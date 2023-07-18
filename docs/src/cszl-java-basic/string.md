@@ -9,13 +9,13 @@ tag:
 ---
 
 # 字符串
-## 概述
+## 01、概述
 字符串(String)是由下划线、数字、字母组成的一串字符，格式是s="i1i2i3i···in"。字符串在存储上类似字符数组，它的每一个单位元素都是可以通过索引提取的，如s="abcdef"，则s[0]="a"，s[1]="b"。  
 字符串广泛应用于Java语法中。
 
-## 创建方式
+## 02、创建方式
 java支持使用构造方法和直接方式两种方式创建一个字符串，直接方式创建的字符串在内存中是存储在公共区域，而构造方法创建的字符串是存储在堆中：
- <img src="/images/java/java-string-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/java/java-string-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 构造方法
 翻看java的String类源码，可以看到Java为我们默认提供了11个构造方法构造String对象，下面列出几个常见的构造方法示例：
@@ -76,7 +76,7 @@ public class Test {
 
 }
 ```
-## 字符串的常用方法
+## 03、字符串的常用方法
 ### 字符串长度获取
 
 int length()方法：返回字符串对象包含的字符数。

@@ -10,7 +10,7 @@ tag:
 ---
 # 多线程入门
 
-## 理论基础
+## 01、理论基础
 ### 进程
 简单来说，在系统中运行的一个应用程序就是一个进程，比如启动一个java程序，系统就会创建一个对应的进程。 每一个进程都拥有自己独立的内存空间和系统资源。  
 
@@ -81,7 +81,7 @@ ObjectMonitor中有几个关键属性：
 
 线程池技术能很好解决这些问题，线程池技术是指提前准备了一个池子，预先初始化好了一定数量的线程放入其中，并通过一定策略对池子中的线程进行新增和销毁。用户在使用过程中不能自己对线程进行创建和销毁，只能重复使用池子里的线程。通过这种方式，能很好的解决频繁创建线程导致操作系统上下文频繁切换的开销问题，而且面对过量任务请求的提交能够进行平滑的控制，增强系统的可用性。
 
-## 线程基础
+## 02、线程基础
 
 一个 最简单的Java Hello程序其实也包含了多个线程。从 main()方法开始执行，然后按照既定的代码逻辑执行，看似没有其他线程参与，但实际上 Java 程序天生就是多线程程序，因为执行 main()方法的是一个名称为 main 的主线程。下面使用 JMX 来查看一个普通的 Java 程序包含有多少个线程：
 ```java
@@ -124,7 +124,7 @@ Hello World!
 
 ### 线程的生命周期
 开篇先放张图：
-<img src="/images/java/concurrent/thread-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/thread-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 从Thread.State内部类源码也可以得出线程主要有以下几种状态：
 
@@ -327,7 +327,7 @@ public class InterruptDemo3 {
 是指一个线程 A 调用了对象 O 的 等待方法(wait、await、park)进入等待状态，而另一个线程 B 调用了对象 O 的唤醒方法(notify、nofityAll、signal、unpark)，线程 A 收到通知后从对象 O 的等待方法返回，进而执行后续操作。上述两个线程通过对象 O 来完成交互，而对象上的等待方法和唤醒方法的关系就如同开关信号一样，用来完成等待方和通知方之间的交互工作。
 等待方法和唤醒方法有三组，下面介绍下每一组的概念和用法
 - 方式1-wait和notify  
-<img src="/images/java/concurrent/thread-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/concurrent/thread-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 wait和notify方法必须在同步块或者同步方法中使用，且必须成对出现，先执行wait才可以执行notify方法
 ```java
@@ -694,7 +694,7 @@ public class ThreadBasicDemo2 {
 ```
 上面的程序中，当main程序执行完成时，DaemonRunner中的run方法逻辑不一定会被执行完成。
 
-## 常用接口和类介绍
+## 03、常用接口和类介绍
 ### FutureTask
 优点：Future+线程池异步多线程任务配合，能够显著提高程序的执行效率。  
 缺点：获取结果的get操作容易导致阻塞，一般建议放在程序后面，如果不希望阻塞太长时间，可以设置阻塞最大时间，超过指定时间后自动返回。
@@ -733,10 +733,10 @@ public class ThreadDemo {
 [CompletableFuture入门](../cszl-java-concurrent/completableFuture.md)
 
 
-## 总结
+## 04、总结
 
 
-## 参考资料  
+## 05、参考资料  
 《Java并发编程的艺术》
 
  

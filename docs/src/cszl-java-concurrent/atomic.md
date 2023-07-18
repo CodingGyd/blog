@@ -16,7 +16,7 @@ tag:
 在Java中是通过锁和循环CAS的方式来实现原子操作的。JDK1.5的juc并发包里提供了很多原子操作类，比如AtomicBoolean、AtomicInteger、AtomicLong等。这些原子操作类还提供了有用的工具方法，比如以原子的
 方式自增1和自减1
 
-## 代码实例
+## 01、代码实例
 以下代码实现了一个基于CAS线程安全的原子计数器方法safeCount和一个非线程安全的计数器count方法：
 
 
@@ -79,7 +79,7 @@ public class AtomicDemo {
 ```
 上面代码模拟100个线程对成员变量进行自增操作，从程序运行结果来看只有safeCount才能保证并发安全。
 
-## CAS操作
+## 02、CAS操作
 CAS（Compare and Swap）比较并交换，顾名思义：比较两个值，如果他们两者相等就把他们交换，CAS 也被认为是一种乐观锁。
 
 java.util.concurrent.atomic 并发包下的所有原子类都是基于 CAS 来实现的。

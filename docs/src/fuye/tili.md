@@ -15,3 +15,4 @@ tag:
 
 我在周末亲身实践了一段时间，非常费体力，多劳多得。一小时平均20元左右。相比写代码的时薪差距太大。好处是时间自由，想接就接，适合空余时间出去兜风的时候顺便做做。
 
+<img src="http://cdn.gydblog.com/images/fuye/fuye-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>

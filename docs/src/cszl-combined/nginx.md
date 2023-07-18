@@ -2,9 +2,9 @@
 # icon: lock
 date: 2023-06-26
 category:
-  - 持续集成(CI)
+  - 反向代理
 tag:
-  - Jenkins
+  - nginx
 ---
 
 # nginx的简单使用

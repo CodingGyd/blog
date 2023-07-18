@@ -1,9 +1,9 @@
 ---
 date: 2022-01-09
 category:
-  - 面试题库
+  - Java核心
 tag:
-  - javaIO流面试题
+  - IO编程面试题
 ---
 
 # IO

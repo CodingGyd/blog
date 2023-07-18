@@ -16,7 +16,7 @@ tag:
 
 轻量级无中心化解决方案，使用jar 的形式提供分布式任务的协调服务
 
-![架构](/images/cszl-combined/elasticjob-1.png)
+![架构](http://cdn.gydblog.com/images/cszl-combined/elasticjob-1.png)
 
 ## 2. elasticjob-lite接入
 
@@ -222,15 +222,15 @@ spring.datasource.default.password=000000
 
 ### 2.1 启动zookeeper
 
-![启动zookeeper](/images/cszl-combined/elasticjob-2.png)
+![启动zookeeper](http://cdn.gydblog.com/images/cszl-combined/elasticjob-2.png)
 
 ### 2.2 启动业务模块的job服务
 
-![业务job服务启动成功日志](/images/cszl-combined/elasticjob-3.png)
+![业务job服务启动成功日志](http://cdn.gydblog.com/images/cszl-combined/elasticjob-3.png)
 
 
 ### 2.3 启动elasticjob运维管理平台
-![elasticjob运维管理平台启动成功日志](/images/cszl-combined/elasticjob-4.png)
+![elasticjob运维管理平台启动成功日志](http://cdn.gydblog.com/images/cszl-combined/elasticjob-4.png)
 
 
 ## 4.验证
@@ -239,29 +239,29 @@ spring.datasource.default.password=000000
 
 数据库表是否自动创建：
 
-![elasticjob相关数据库表](/images/cszl-combined/elasticjob-5.png)
+![elasticjob相关数据库表](http://cdn.gydblog.com/images/cszl-combined/elasticjob-5.png)
 
 
 
 运维平台连接zookeeper配置
 
-![运维平台连接zookeeper配置](/images/cszl-combined/elasticjob-6.png)
+![运维平台连接zookeeper配置](http://cdn.gydblog.com/images/cszl-combined/elasticjob-6.png)
 
 
 
 作业维度查看和操作具体任务
 
-![作业维度查看和操作具体任务](/images/cszl-combined/elasticjob-7.png)
+![作业维度查看和操作具体任务](http://cdn.gydblog.com/images/cszl-combined/elasticjob-7.png)
 
 
 服务器维度查看任务
 
-![服务器维度查看和操作具体任务](/images/cszl-combined/elasticjob-8.png)
+![服务器维度查看和操作具体任务](http://cdn.gydblog.com/images/cszl-combined/elasticjob-8.png)
 
 
 查看任务历史运行数据
 
-![查看任务历史运行数据](/images/cszl-combined/elasticjob-9.png)
+![查看任务历史运行数据](http://cdn.gydblog.com/images/cszl-combined/elasticjob-9.png)
 
 
 
@@ -269,7 +269,7 @@ spring.datasource.default.password=000000
 
 使用zktools查看zookeeper中生成的znode数据
 
-![zookeeper的node结构](/images/cszl-combined/elasticjob-10.png)
+![zookeeper的node结构](http://cdn.gydblog.com/images/cszl-combined/elasticjob-10.png)
 
 
 ## 5. 接入时遇到的问题
@@ -283,18 +283,18 @@ elasticjob要求jdk1.8和zookeeper3.6.0以上，而我们的业务项目目前�
 
 ​	**方式1**- 尝试下载3.6.0版本以上的zookeeper-api源码和5.1.0版本的zookeeper客户端curator源码，修改包路径和pom描述符，重新打包给项目引用，尝试了下，操作繁琐，后期不好维护，不采用。
 
-![](/images/cszl-combined/elasticjob-11.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-11.png)
 
 
-![](/images/cszl-combined/elasticjob-12.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-12.png)
 
 
 ​     **方式2**- 尝试在项目中同时引入多个版本的zookeeper相关jar包，发现项目启动时会报少量zookeeper链接错误,运行过程中观察任务可以正常调度，dubbo接口可以正常调用，目前采用此方法
 
-![](/images/cszl-combined/elasticjob-13.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-13.png)
 
 
-![](/images/cszl-combined/elasticjob-14.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-14.png)
 
 备注：若elasticjob投产，线上需要单独增加部署版本>=3.6.0的zookeeper服务
 
@@ -304,7 +304,7 @@ elasticjob要求jdk1.8和zookeeper3.6.0以上，而我们的业务项目目前�
 
 项目中3.4.x和3.7.0版本zookeeper并存时，项目启动初期会刷如下错误，但是不影响最终启动，dubbo接口最终能正常访问
 
-![](/images/cszl-combined/elasticjob-15.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-15.png)
 
 ### maven仓库缺失elasticjob相关jar包
 
@@ -328,11 +328,11 @@ cd shardingsphere-elasticjob-ui-3.0.0-release
 
 执行mvn clean package -Prelease 报错 node服务连接超时，公司司网络问题，换自己手机热点解决
 
-![](/images/cszl-combined/elasticjob-16.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-16.png)
 
 打包报assembly文件错误，因为是在window环境下的打包，需要把打包描述文件里的<outputDirectory>/</outputDirectory>` 替换为 `<outputDirectory>${file.separator}</outputDirectory>(这个错误似乎不影响最终的tar包生成，可忽略)
 
-![](/images/cszl-combined/elasticjob-17.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-17.png)
 
 
 
@@ -342,7 +342,7 @@ cd shardingsphere-elasticjob-ui-3.0.0-release
 
 (官方网站下载的打包好的tar，在我本机window解压也有问题，见截图，lib目录里的jar文件名称被截断了)
 
-![](/images/cszl-combined/elasticjob-18.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-18.png)
 
 
 
@@ -352,21 +352,21 @@ cd shardingsphere-elasticjob-ui-3.0.0-release
 
 （谨慎使用该配置，若管理员在运维平台对任务配置做了修改且开启了此配置，则下次应用服务重启时会覆盖当时管理员做的修改！）
 
-![](/images/cszl-combined/elasticjob-19.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-19.png)
 
 
 
 ### 任务描述信息中文编码问题
 
-![](/images/cszl-combined/elasticjob-20.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-20.png)
 
 
 在运维平台查看某个任务描述信息时出现乱码，需查看应用中的配置文件编码是否正确，我本机是改成UTF-8后，删除zookeeper中znode数据，再去运维平台查看任务描述信息恢复正常
 
-![](/images/cszl-combined/elasticjob-21.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-21.png)
 
 
-![](/images/cszl-combined/elasticjob-22.png)
+![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-22.png)
 
 
 

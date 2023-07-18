@@ -8,17 +8,17 @@ tag:
 ---
 
 # Java 的完整故事，从 1991 年到 2022 年
-## 1.前言
+## 01、前言
 今天，Java已经发展为世界上最流行和最受欢迎的编程语言之一，每年有超过数以万计的人在学习Java或从事Java开发相关的工作。毋庸置疑，Java技术已经深入各行各业。<br/> 附上TIOBE 2023年4月排行榜：
-<img src="/images/java/java-paiming.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/java-paiming.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 你可能知道也可能不知道，Java已经有一个很长的历史了(将近30年)。Java的雏形诞生于1990年代初，最初是叫Oak（领导办公室外的一棵橡树），当时的目标是将其用于数字有线电视行业的程序架构，各种消费性电子产品例如机顶盒、智能电视等数字设备。<br/>
 
 人不能忘本，否则做人会很失败。我觉得学一门技术也一样，需要从根学起，基础要打好。我断定如今大多数学习Java的初学者，甚至从事Java开发工作多年的专业技术人员通常都缺乏Java是如何随着时间的推移而演变的知识，因此我想从Java的根开始说起，让大家了解一下Java的完整故事。
-## 2.JDK版本迭代史
+## 02、JDK版本迭代史
 ### 1991年(Java的诞生)
 Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项目，当时是由Sun公司的一个小工程师团队在设计和开发。该团队称自己为绿队(Green Term)，团队成员有James Gosling、Mike Sheridan、 Patrick Naughton等人。James Gosling(詹姆斯高斯林)是项目负责人。Oak中文名是"橡树"，橡树是力量和耐用性的象征。时间证明，这个名字是非常适合的，甚至是预言性的，尽管在1995年被迫改名为Java(当时Oak已经被注册为另一个商标的一部分导致无法继续使用)。先附上一张JAVA爸爸(詹姆斯高斯林)的帅照：<br/><br/>
-<img src="/images/java/java-baba.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/java/java-baba.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 1995年
 <font color="red">1995年</font>当时在美国的硅谷有一个大会，号称是全球最顶尖的软件和硬件厂商都会在这个大会展示自家的产品，那么Sun公司的负责人James Gosling也带着他的Oak项目去展示了。参会时一个偶然的机会让他发现他的项目名字早已被人注册商标了，没办法了只能重新给Oak取一个新的名字(早在国外的时候人们对于版权看的非常重要)。James Gosling和他的团队经过讨论后最终决定重命名为Java(爪哇，是印度尼西亚生产第一杯咖啡的一个岛屿名称。因为当时美国非常多的人喜欢喝咖啡)。同年Sun公司正式公开发布Java语言(只是面世，还没有进行开发工具包JDK的发布，大家还无法使用)，并且第一次提出了"Write Once，Run Anywhere"(WORA,一次编写，到处运行)的口号。《时代》杂志将Java评为了1995年十大最佳产品之一。<br/><br/>
@@ -321,7 +321,7 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 虚拟线程(一次预览中)
 - 结构化并发(一次孵化中)
 
-## 3.结束语
+## 03、结束语
 如今在全世界的各行各业的信息设施中几乎都有Java的身影，有大量的Java需求需要人员去开发，但还是有人会抱怨找不到工作，其实我认为是因为学艺不精！我相信合格和经验丰富的Java开发人员是不会缺少工作机会的，尤其是当前出现的AI、云计算、大数据、物联网、区块链、chatgpt等新兴技术都或多或少会依赖Java技术的，因此Java就业方向只会多不会少！
 
 

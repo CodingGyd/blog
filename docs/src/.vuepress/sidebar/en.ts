@@ -8,13 +8,6 @@ export const enSidebar = sidebar({
   // ],
   
   
-  "/xuexiluxian/": [
-    {
-      text: '学习路线',
-      link: '/xuexiluxian/',
-      children: "structure",
-    }
-  ],
   "/zhencangziyuan/": [
     {
       text: '葵花宝典',
@@ -118,7 +111,7 @@ export const enSidebar = sidebar({
           text: "2.5 IO编程",
           collapsible: true,
           children: [
-          "io",
+          // "io",
           ],
         },
         {
@@ -126,7 +119,7 @@ export const enSidebar = sidebar({
           text: "2.6 异常处理",
           collapsible: true,
           children: [
-          "exception",
+          // "exception",
           ],
         },
         {
@@ -134,7 +127,7 @@ export const enSidebar = sidebar({
           text: "2.7 网络编程",
           collapsible: true,
           children: [
-          "net",
+          // "net",
           ],
         },
         {
@@ -142,7 +135,7 @@ export const enSidebar = sidebar({
           text: "2.8 面向对象编程",
           collapsible: true,
           children: [
-          "object",
+          // "object",
           ],
         },
         {
@@ -150,7 +143,7 @@ export const enSidebar = sidebar({
           text: "2.9 JVM",
           collapsible: true,
           children: [
-          "jvm",
+          // "jvm",
           ],
         },
       ],
@@ -165,7 +158,7 @@ export const enSidebar = sidebar({
           text: "3.1 Spring",
           collapsible: true,
           children: [
-          "spring",
+          // "spring",
           
           ],
         },
@@ -174,7 +167,7 @@ export const enSidebar = sidebar({
           text: "3.2 SpringBoot",
           collapsible: true,
           children: [
-          "springboot",
+          // "springboot",
           
           ],
         },
@@ -183,7 +176,7 @@ export const enSidebar = sidebar({
           text: "3.3 消息中间件",
           collapsible: true,
           children: [
-          "message",
+          // "message",
           
           ],
         },
@@ -192,7 +185,7 @@ export const enSidebar = sidebar({
           text: "3.4 RPC框架",
           collapsible: true,
           children: [
-          "dubbo",
+          // "dubbo",
           
           ],
         },
@@ -201,7 +194,7 @@ export const enSidebar = sidebar({
           text: "3.5 注册中心",
           collapsible: true,
           children: [
-          "zookeeper",
+          // "zookeeper",
           
           ],
         },
@@ -210,8 +203,8 @@ export const enSidebar = sidebar({
           text: "3.6 配置中心",
           collapsible: true,
           children: [
-          "apollo",
-          "eurka",
+          // "apollo",
+          // "eurka",
 
           ],
         },
@@ -220,11 +213,11 @@ export const enSidebar = sidebar({
           text: "3.7 分布式",
           collapsible: true,
           children: [
-          "distributed",
-          "rongduan",
-          "xianliu",
-          "jiangji",
-          "lock",
+          // "distributed",
+          // "rongduan",
+          // "xianliu",
+          // "jiangji",
+          // "lock",
           ],
         },
         {
@@ -232,7 +225,7 @@ export const enSidebar = sidebar({
           text: "3.8 代码质量控制",
           collapsible: true,
           children: [
-          "code-quality",
+          // "code-quality",
           
           ],
         },
@@ -241,10 +234,10 @@ export const enSidebar = sidebar({
           text: "3.9 测试",
           collapsible: true,
           children: [
-          "unit-testing",
-          "functional-testing",
-          "automated-testing",
-          "performance-testing",
+          // "unit-testing",
+          // "functional-testing",
+          // "automated-testing",
+          // "performance-testing",
 
           ],
         },
@@ -253,13 +246,13 @@ export const enSidebar = sidebar({
           text: "3.10 开发/构建工具",
           collapsible: true,
           children: [
-          "git",
-          "svn",
-          "maven",
-          "nginx",
-          "jenkins",
-          "ide",
-          "xshell",
+          // "git",
+          // "svn",
+          // "maven",
+          // "nginx",
+          // "jenkins",
+          // "ide",
+          // "xshell",
           ],
         },
         {
@@ -267,9 +260,8 @@ export const enSidebar = sidebar({
           text: "3.11 好用的解决方案",
           collapsible: true,
           children: [
-          "log",
-          "mybatis",
-         
+          // "log",
+          // "mybatis",
           ],
         },
       ],
@@ -280,11 +272,11 @@ export const enSidebar = sidebar({
       collapsible: true,
       prefix: "cszl-db/",
       children: [   
-        "redis",
-        "mongodb",
-        "mysql",
-        "oracle",
-        "sqlserver",
+        // "redis",
+        // "mongodb",
+        // "mysql",
+        // "oracle",
+        // "sqlserver",
       ],
    
     },
@@ -303,7 +295,7 @@ export const enSidebar = sidebar({
         "books",
         "elasticjob",
         "jenkins",
-        "nginx",
+        // "nginx",
         "todo-list",
         "industry-lossary"
 
@@ -317,7 +309,7 @@ export const enSidebar = sidebar({
       children: [   
         "exception-sop",
         "compute-sop",
-
+        "axure",
       ],
    
     }

@@ -10,11 +10,11 @@ tag:
 ---
 # 手写一个简单的线程池
 
-## 废话少说，先上代码
+## 01、废话少说，先上代码
 
 下面代码实现了一个简单的，比较潦草的线程池~
 
-- 1.先定义一个线程池能力接口
+### 定义线程池顶层接口
 ```java
 public interface ThreadPool<T> {
     // 执行一个 Job，这个 Job 需要实现 Runnable
@@ -30,7 +30,7 @@ public interface ThreadPool<T> {
 }
 ```
 
-- 2.实现线程池能力接口具体逻辑
+### 实现线程池能力接口具体逻辑
 ```java
 package com.gyd;
 
@@ -184,7 +184,7 @@ public class ThreadPoolDemo<T> implements ThreadPool<T> {
 ```
 
 
-- 3.使用线程池：
+### 使用线程池
 ```java
  public static void main(String[] args) throws InterruptedException {
         ThreadPoolDemo threadPoolDemo = new ThreadPoolDemo();
@@ -211,7 +211,7 @@ thread-1 销毁了
 thread-4 销毁了
 ```
 
-## 看看官方权威的线程池源码
+## 02、看看官方权威的线程池源码
 ThreadPoolExecutor是JDK中的线程池实现，在juc包中，下面是它的构造方法源码：
 ```java
  public ThreadPoolExecutor(int corePoolSize, //核心线程数
@@ -307,7 +307,7 @@ JDK默认的拒绝策略有四种：
 - DiscardOldestPolicy：丢弃队列最前面的任务，然后重新提交被拒绝的任务。
 - CallerRunsPolicy：由调用线程处理该任务。 
 
-## 线程池的内置类型
+## 03、线程池的内置类型
 java内置了线程池工具类，可以方便的创建不同类型的线程池，主要有下面四种：
 ```java
 // 实例化一个单线程的线程池
@@ -322,7 +322,7 @@ ExecutorService cachedExecutor = Executors.newScheduledThreadPool();
 
 但是在实际开发中并不推荐直接使用Executors来创建线程池，而是需要根据项目实际情况配置(线程池七大参数)适合自己项目的线程池。
 
-## 线程池生命周期
+## 04、线程池生命周期
 线程池从创建到销毁会经历RUNNING、SHUTDOWN、STOP、TIDYING、TERMINATED五个生命周期状态。
 
 - **RUNNING** 表示线程池处于运行状态，能够接受新提交的任务且能对已添加的任务进行处理。RUNNING状态是线程池的初始化状态，线程池一旦被创建就处于RUNNING状态。  
@@ -340,16 +340,15 @@ ExecutorService cachedExecutor = Executors.newScheduledThreadPool();
 - **TERMINATED** 线程终止状态。处于TIDYING状态的线程执行terminated()后进入TERMINATED状态。
  
 
-## 线程池的工作机制
-<img src="/images/java/concurrent/threadpool-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+## 05、线程池的工作机制
+<img src="http://cdn.gydblog.com/images/java/concurrent/threadpool-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 来个小总结
+## 06、来个小总结
 线程池的本质就是统一管理线程资源，使用了一个线程安全的工作队列连接工作者线程和客户端线程，客户端线程将任务放入工作队列后便返回，而工作者线程则不断地从工作队列上取出工作并执行。当工作队列为空时，所有的工作者线程均阻塞等待在工作队列上，当有客户端提交了一个任务之后会通知任意一个工作者线程，随着大量的任务被提交，更多的工作者线程会被唤醒。当唤醒的工作者线程达到数量限制时，又会有一些策略来进行线程的回收管理和任务的提交请求处理。
 
 一个完善的线程池有七大核心参数：核心线程数、最大线程数、空闲线程存活时间、时间单位、线程工厂、拒绝策略、工作队列。
- 
 
 
-## 参考资料
+## 07、参考资料
 https://blog.csdn.net/Anenan/article/details/115603481
 

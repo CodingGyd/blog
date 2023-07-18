@@ -10,15 +10,15 @@ tag:
 
 # 数据类型
 
-## 概述
+## 01、概述
 我们在编写代码的时候通常会定义大量的变量，有全局变量、局部变量、静态变量、实例变量等等。<br/>
 
 那么什么是变量呢？我认为变量就是申请内存来存储一个值。也就是说，当创建变量的时候，需要在内存中申请空间。内存管理系统会根据变量的类型为变量分配不同的存储空间，只要定义了变量的类型，就告诉了内存管理系统分配多少内存空间以及变量的存储方式。<br/>
 
 Java语言中划分了两大数据类型：基本数据类型(内置数据类型)、引用数据类型：
- <img src="/images/java/java-basic-data-type-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/java/java-basic-data-type-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 基本数据类型
+## 02、基本数据类型
 基本数据类型分为三大类：数值型、字符型、布尔型。
 [官网](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)的描述：
 
@@ -103,7 +103,7 @@ long maxLong = 9223372036854775807L + 1; //结果为-9223372036854775808
 
 
 ### 数值型-浮点型
- **float**  
+**float**  
 float类型数值在内存中占用4个字节，也就是32位(bit)，我们称为单精度浮点数。默认值 0.0f，"f"也不区分大小写，可以写成"F"。浮点数无法用于表示精确的数值。Float和Double的最小值和最大值都是以科学记数法的形式输出的，结尾的"E+数字"表示E之前的数字要乘以10的多少次方。比如3.14E3就是3.14 × 10^3^ =3140，3.14E-3 就是 3.14 x 10^-3^ =0.00314。java代码定义变量示例如下：
 ```java
 float f1 = 222.2f;
@@ -140,7 +140,7 @@ boolean f2 = false; //编译成功
 boolean f1 = 1;//编译报错
 ```
 
-## 引用数据类型
+## 03、引用数据类型
 java的引用类型有类、接口、数组形式。和基础类型的区别是引用类型可以直接赋值位null，代表空。可以说所有的非基本数据类型都是引用类型，例如String类型就是引用类型，还有Double、Byte、Long、Boolean等许许多多jdk提供的基本类型包装类(java自带自动装箱拆箱机制)，还有面向对象程序设计中我们会涉及大量的引用数据类型。java简单定义引用类型变量示例如下：
 ```java
 Object object = null;             //类引用类型

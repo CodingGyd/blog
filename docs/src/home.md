@@ -2,17 +2,17 @@
 date: 2023-02-05
 
 isOriginal: true
-title: 代码小郭的JAVA超神之路
-description: Java程序员超神之路，从入门到超神
+title: 小郭的技术笔记大杂烩
+description: Java程序员笔记，从入门到跑路
 
 category:
   - 栏目介绍
 head:
   - - meta
     - name: keywords
-      content: Java,java,springboot,mysql,redis,教程,git,软件,编程,开发,互联网,Java 基础,Java 教程,Java程序员超神之路,Java 入门
+      content: Java,java,springboot,mysql,redis,教程,git,软件,编程,开发,互联网,Java 基础,Java 教程,Java程序员笔记,Java 入门
     - name: description
-      content: Java程序员超神之路，从入门到超神
+      content: Java程序员笔记，从入门到跑路
 ---
 
 ## 为什么会有这个栏目

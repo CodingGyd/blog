@@ -2,9 +2,7 @@
 # icon: lock
 date: 2023-06-18
 category:
-  - linux常用操作
-tag:
-  - linux常用操作
+  - linux
 ---
 # Linux操作
 
@@ -133,7 +131,7 @@ esac
 语法格式：ssh 用户名@IP地址 -p 端口号
 
 示例：
- <img src="/images/linux/linux-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/linux/linux-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## 全文检索指定字符串-grep
 Linux grep (global regular expression) 命令用于查找文件里符合条件的字符串或正则表达式。  
@@ -142,7 +140,7 @@ Linux grep (global regular expression) 命令用于查找文件里符合条件�
 
 示例：检索文件dump.txt中匹配“java.lang.Thread.State”的部分
 
- <img src="/images/linux/linux-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/linux/linux-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## 文本分析命令-awk
 AWK 是一种处理文本文件的语言，是一个强大的文本分析工具。  
@@ -153,7 +151,7 @@ awk命令很复杂，详细教程可参考https://www.runoob.com/linux/linux-com
 
 示例 使用awk和grep组合分析字符串出现的次数 ：  
 grep java.lang.Thread.State dump.txt | awk '{print $2$3$4$5}' | sort | uniq -c
- <img src="/images/linux/linux-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/linux/linux-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 ## 线上查询及帮助命令（2个）
@@ -650,7 +648,7 @@ echo $SHELL命令:看当前用户Shell类型
 - -h：打印 #，显示安装进度（hash）;  
 
 示例安装jdk-11.0.19_linux-x64_bin.rpm
- <img src="/images/linux/linux-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/linux/linux-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 上面会报错V3 RSA/SHA256 Signature, keykey ID c105b9de: NOKEY。解决的方法就是在rpm 语句后面加上 --force --nodeps   
 即原本为 rpm -ivh *.rpm 现在改成 rpm -ivh *.rpm --force --nodeps就可以了。nodeps的意思是忽视依赖关系。因为各个软件之间会有多多少少的联系。有了这两个设置选项就忽略了这些依赖关系，强制安装或者卸载
