@@ -11,7 +11,7 @@ tag:
 
 
 ## 前言
-工作中经常会遇到对excel这类文件进行导入导出的业务需求, 这些需求其实从根本上看都是对excel的解析处理,因此我花了两天时间基于POI封装了一套通用的导入导出工具组件，为以后实现这类需求提高效率。当前版本V1.0，源码地址:https://gitee.com/guoyading/excel-utils.git
+工作中经常会遇到对excel这类文件进行导入导出的业务需求, 这些需求其实从根本上看都是对excel的解析处理,因此我花了两天时间基于POI封装了一套通用的导入导出工具组件，为以后实现这类需求提高效率。当前版本V1.0，源码地址:https://github.com/CodingGyd/excel-utils
 ## 1.组件简介
 V1.0版实现了结合JAVA注解和反射思想进行excel的解析规则配置,两行代码即可完成对2007版和2003版excel文件的导入导出功能。<br/>
 希望能将该组件迭代成一款通用的数据导入导出工具组件,追求在不改代码的前提下，进行极少的规则配置即可完成对excel、txt、dbf、pdf等各种格式数据文件的高效读取或生成。
@@ -24,7 +24,7 @@ POI版本：3.15<br/>
 组件版本：V1.0<br/>
 
 ## 3.使用示例
- 定义excel记录行实体结构,并用注解进行配置说明。配置描述请参考源码地址的注释说明<a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>
+ 定义excel记录行实体结构,并用注解进行配置说明。配置描述请参考源码地址的注释说明<a href="https://github.com/CodingGyd/excel-utils" text="戳这里！" target="_blank"></a>
 
  ```java
  package com.codinggyd.excel.example;

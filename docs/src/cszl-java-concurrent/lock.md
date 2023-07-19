@@ -422,15 +422,59 @@ Found 1 deadlock.
 <img src="http://cdn.gydblog.com/images/java/concurrent/lock-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/java/concurrent/lock-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 06、独占锁
+## 06、读写锁(独占锁、共享锁)
 
-独占锁就是在同一时刻只能有一个线程获取到锁，而其他获取锁的线程只能处于同步队列中等待，只有获取锁的线程释放了锁，后继的线程才能够获取锁。
+写锁又名独占锁，就是在同一时刻只能有一个线程获取到锁，而其他获取锁的线程只能处于同步队列中等待，只有获取锁的线程释放了锁，后继的线程才能够获取锁。  
+
+读锁又名共享锁，在同一时刻可以允许多个读线程访问。
+
+读写锁维护了一对锁，一个读锁和一个写锁，通过分离读锁和写锁，使得并发性相比一般的排他锁有了很大提升。  
+
+java5以后提供了读写锁的实现ReentrantReadWriteLock，下面是一个该读写锁的使用示例：
+```java
+//一句话概括背景：在程序中定义一个共享的用作缓存数据结构，它大部分时间提供读服务（例如查询和搜索），而写操作占有的时间很少，但是写操作完成之后的更新需要对后续的读服务可见。
+
+public class ReadWriteLockDemo {
+    static Map<String, Object> map = new HashMap<>();
+    static ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    static Lock r = rwl.readLock();
+    static Lock w = rwl.writeLock(); // 获取一个 key 对应的 value
+    public static final Object get(String key) {
+        r.lock();
+        try {
+            return map.get(key);
+        } finally {
+            r.unlock();
+        }
+    }
+    // 设置 key 对应的 value，并返回旧的 value
+    public static final Object put(String key, Object value) {
+        w.lock();
+        try {
+            return map.put(key, value);
+        } finally {
+            w.unlock();
+        }
+    }
+    // 清空所有的内容
+    public static final void clear() {
+        w.lock();
+        try {
+            map.clear();
+        } finally {
+            w.unlock();
+        }
+    }
+}
+```
 
 ## 07、偏向锁/轻量级锁/重量级锁
 
 [详细介绍戳synchronized笔记](./synchronized.md#锁升级过程)
  
-
-## 08、AQS笔记
+## 08、锁降级
+锁降级指的是写锁降级成为读锁。如果当前线程拥有写锁，然后将其释放，最后再获取读锁，这种分段完成的过程不能称之为锁降级。锁降级是指把持住（当前拥有的）
+写锁，再获取到读锁，随后释放（先前拥有的）写锁的过程。
+## 09、AQS笔记
  [详细介绍戳AQS笔记](./aqs.md)
 

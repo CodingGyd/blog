@@ -11,11 +11,11 @@ tag:
 
 # HashMap
 ## 01、简介  
-HashMap是java集合框架中非常重要的一种类型，也是开发业务系统时常用的数据结构。    
-HashMap是一个散列表，数据是以键值对(Key-Value)的形式存储。  
-HashMap 实现了 Map 接口，根据键的 HashCode 值存储数据，具有很快的访问速度，最多允许一条记录的键为 null，不支持线程同步。  
-HashMap 是无序的，不会记录插入的顺序。  
-HashMap 继承于AbstractMap，实现了 Map、Cloneable、java.io.Serializable 接口。  
+HashMap是java集合框架中非常重要的一种类型，也是开发业务系统时最受欢迎的数据类型之一；   
+HashMap是一个散列表，数据是以键值对(Key-Value)的形式存储；  
+HashMap 实现了 Map 接口，根据键的 HashCode 值存储数据，具有很快的访问速度，最多允许一条记录的键为 null，不支持线程同步；  
+HashMap 是无序的，不会记录插入的顺序；  
+HashMap 继承于AbstractMap，实现了 Map、Cloneable、java.io.Serializable 接口：
  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## 02、数据结构  

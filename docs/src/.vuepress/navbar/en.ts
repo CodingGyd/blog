@@ -13,6 +13,8 @@ export const enNavbar = navbar([
       { text: "实用网站", link: "websites" },
       { text: "代码片段",link: "code" },
       { text: "偷懒神器",link: "effect-raising" },
+      { text: "网络梯子",link: "vpn" },
+
     ],
   },
   {

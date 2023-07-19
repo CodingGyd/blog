@@ -368,7 +368,7 @@ public class LockSupportDemo1 {
 
 - 方式2-Condition中的await和signal   
 
-await和signal方法必须在同步块或者同步方法中使用，必须先执行await，再执行signal 
+Condition 接口也提供了类似 Object 的监视器方法await和signal，await和signal方法必须在同步块或者同步方法中使用，必须先执行await，再执行signal ，与 Lock 配合可以实现等待/通知模式
 ```java
 package com.gyd;
 
@@ -381,6 +381,8 @@ public class LockSupportDemo2 {
 
     public static void main(String[] args) throws InterruptedException {
         Lock lock = new ReentrantLock();
+        //Condition 对象是由 Lock 对象（调用 Lock 对象的newCondition()方法）创建出来的，换句话说，Condition 是依赖 Lock 对象的。
+        
         Condition condition = lock.newCondition();
         new Thread(() -> {
             lock.lock();
@@ -411,6 +413,7 @@ public class LockSupportDemo2 {
 
 ```
 
+ 
 - 方式3-LockSupport   
 前面的等待和唤醒方式都有两个限制条件：  
 
@@ -418,6 +421,8 @@ public class LockSupportDemo2 {
     b. 必须先等待后唤醒，线程才能够被正确唤醒。  
 
 而LockSupport就突破了这两个限制条件，使用时不需要额外关注锁的持有和释放动作，且可以突破wait/notify 、await/signal的原有调用顺序。  
+
+LockSupport 定义了一组的公共静态方法，这些方法提供了最基本的线程阻塞和唤醒功能L，LockSupport 也成为构建同步组件的基础工具。 
 
 
 使用示例：
@@ -734,7 +739,7 @@ public class ThreadDemo {
 
 
 ## 04、总结
-
+多线程技术在企业应用中是非常重要的，任何
 
 ## 05、参考资料  
 《Java并发编程的艺术》
