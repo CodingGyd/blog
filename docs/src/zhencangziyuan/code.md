@@ -3,11 +3,11 @@ date: 2022-01-09
 category:
   - 葵花宝典
 tag:
-  - 实用代码片段
+  - 实用代码轮子
 ---
 
-# 代码片段 
-> 更多实用代码片段 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
+# 代码轮子
+> 更多实用代码轮子 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
 > excel导入导出组件 <a href="https://github.com/CodingGyd/excel-utils" text="戳这里！" target="_blank"></a>
 
 ## 01、参数校验工具
@@ -127,6 +127,207 @@ Exception in thread "main" java.lang.RuntimeException: 校验不通过：**name�
 	at com.codinggyd.utils.ValidatorUtils.validate(ValidatorUtils.java:38)
 	at com.codinggyd.User.main(User.java:27)
 ```
+
+### 枚举范围校验
+在业务系统开发中，离散的枚举值校验是非常有必要的。而Jakarta的javax.validation包提供了方便的自定义校验的入口，就是javax.validation.ConstraintValidator,我们可以通过自定义校验枚举类型方式实现离散值校验。
+
+下面是一套校验工具，可以直接运用于项目中
+
+#### 1) 定义一个校验注解，类似于@NotNull @Size等等那样
+```java
+package com.codinggyd.validator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.*;
+
+@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = {EnumStringValidator.class})
+@Documented
+public @interface EnumStringValid {
+
+    String message() default "";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+
+    Class<?>[] target() default {};
+
+    /**
+     * 允许的枚举
+     * @return
+     */
+    Class<? extends Enum<?>> enumClass();
+}
+```
+
+#### 2) 自定义枚举校验处理类
+> 该类必须实现javax.validation.ConstraintValidator接口  
+```java
+package com.codinggyd.validator;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+
+
+/**
+ * @description value值是String类型的枚举校验器
+ */
+public class EnumStringValidator implements ConstraintValidator<EnumStringValid,String> {
+
+    private Class<? extends Enum> enumClass;
+
+    @Override
+    public void initialize(EnumStringValid enumStringValid) {
+        enumClass = enumStringValid.enumClass();
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null || "".equals(value)) {
+            return true;
+        }
+
+        EnumValidate[] enums = (EnumValidate[]) enumClass.getEnumConstants();
+        if(enums ==null || enums.length == 0){
+            return false;
+        }
+
+        return enums[0].existValidate(value);
+    }
+}
+```
+
+#### 3) 业务代码使用
+业务场景: 假设我需要校验性别类型参数是否在可选范围之内。
+
+- a. 先定义一个枚举接口，所有需要被校验的业务枚举类都需要实现该接口的校验方法  
+
+接口如下：
+```java
+package com.codinggyd.validator;
+
+/**
+ * @description 枚举值校验
+ */
+public interface EnumValidate<T> {
+
+    /**
+     * 校验枚举值是否存在
+     */
+    boolean existValidate(T value);
+
+}
+```
+
+- b. 写一个业务枚举类，实现上面的枚举接口： 
+```java
+package com.codinggyd.validator;
+
+/**
+ * 性别类型
+ */
+public enum SexType implements EnumValidate<String> {
+    MAN("1001","男"),
+    WOMAN("1002","女"),
+    UN_KNOW("1003","未知")
+    ;
+
+    SexType(String code, String name){
+        this.code = code;
+        this.name = name;
+    }
+    private String code;
+    private String name;
+
+    public String getCode() {
+            return code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+    @Override
+    public boolean existValidate(String value) {
+        if (value == null || "".equals(value)) {
+            return false;
+        }
+
+        for (SexType testEnum : SexType.values()) {
+            if (testEnum.getCode().equalsIgnoreCase(value.trim())) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+```
+
+- c 实体类中定义性别属性，并加上自定义性别校验器  
+```java
+package com.codinggyd;
+
+import com.codinggyd.utils.ValidatorUtils;
+import com.codinggyd.validator.EnumStringValid;
+import com.codinggyd.validator.SexType;
+
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
+public class User {
+
+    @EnumStringValid(message = "性别类型输入错误", enumClass = SexType.class)
+    private String sex;
+    @NotNull(message = "name不能为空！")
+    private String name;
+    @Digits(integer = 1,fraction = 10,message = "年龄不能大于10")
+    private Integer age;
+
+
+    public void setName(String name) {this.name = name;}
+
+    public String getName() {return name;}
+
+    public void setAge(Integer age) {this.age = age;}
+
+    public Integer getAge() {return age;}
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+}
+
+```
+
+- d 检查校验是否生效  
+```java
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.setAge(9);
+        user.setName("xx");
+        user.setSex("1");
+        ValidatorUtils.validate(user);
+    }
+```
+
+输出结果如下：  
+```java
+Exception in thread "main" java.lang.RuntimeException: 校验不通过：**性别类型输入错误**
+	at com.codinggyd.utils.ValidatorUtils.validate(ValidatorUtils.java:37)
+	at com.codinggyd.User.main(User.java:41)
+```
+
+
 
 ## 02、数值精确运算工具
 ```java

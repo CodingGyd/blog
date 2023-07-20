@@ -35,13 +35,13 @@ export const enSidebar = sidebar({
   ],
   "/about/": [
     {
-      text: '关于',
+      text: '一、关于',
       link: '/about/',
       children: [   
-        { text: "站点介绍", link: "zd" },
-        {text: "建站记录", link: "blog-create"},
-        { text: "站长介绍", link: "intro" },
-        { text: "版权声明", link: "copyright" },
+        { text: "1. 站点介绍", link: "zd" },
+        {text: "2. 建站记录", link: "blog-create"},
+        { text: "3. 站长介绍", link: "intro" },
+        { text: "4. 版权声明", link: "copyright" },
       ],
     }
   ],
@@ -49,7 +49,7 @@ export const enSidebar = sidebar({
   "/": [
     {
       text: "一、前言",
-      link: "home.md",
+      link: "note-book.md",
     },
     {
       text: '二、JAVA核心',

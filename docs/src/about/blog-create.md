@@ -6,7 +6,14 @@ category:
 ---
 
 # 建站记录
-## 主体框架选型
+## 2.1、迭代里程碑
+
+> 20190105：自研博客服务端和客户端上线  
+> 20230101: 网页改版，使用vuepress模板重构  
+> 20230718：增加新的首页  
+> 20230719: 引入组件【不蒜子】展示网页访问pv和uv  
+
+## 2.2、主体框架选型
 <table>
   <tr>
     <th>方案</th>
@@ -33,11 +40,11 @@ category:
 
 vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutorial/" text="戳这里！" target="_blank"></a>  
 
-## 评论插件接入
+## 2.3、评论插件接入
  详情参考：<a href="https://plugin-comment2.vuejs.press/zh/guide/giscus.html" text="戳这里！" target="_blank"></a>  
 
 
-### 如何配置
+### 01、如何配置
 - 在github上新建一个公开的仓库，并开启评论功能
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
@@ -50,16 +57,16 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutor
 
 完成以上配置工作后，默认评论插件就在每个md文档底部全局开启啦！ 
  
-### 遇到的问题
+### 02、遇到的问题
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-error-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 解决方法：
 引入插件后依赖的组件版本和已有的版本有冲突，直接一键更新所有vuepress依赖的组件版本
 执行命令： pnpm dlx vp-update
 
-## 访问量统计
+## 2.4、访问量统计
 
-### 如何配置
+### 03、如何配置
 通过接入[百度统计](https://tongji.baidu.com/main/setting/10000555566/home/site/index) 平台来实现<br/>
 - 先在平台上新增一个网站配置
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -70,36 +77,36 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutor
 - 加入博客项目的config.ts文件中
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 验证
+### 04、验证
 - 启用浏览器的开发者工具，然后访问网站任意一个页面，看开发者工具上有产生如下网络请求则请求成功
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 在百度统计后台也可以看到相关pvuv数据(有延迟，建议半小时以后去看)
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 博客文章实时显示浏览量功能
+### 05、博客文章实时显示浏览量功能
 todo
 
-## 图片存储方案
+## 2.5、图片存储方案
 本博客文章中用到了大量的图片资源，之前是直接将图片文件放在博客项目工程中，随着文章数量越来越多，大量的图片资源导致项目整体大小过于庞大(目前制品包已经54M了...)，因此我考虑将图片存储到第三方云端。
 
 目前主流的云服务商都提供了文件存储云服务，比如阿里云对象存储OSS和百度云对象存储OSS， 由于我的域名是在百度供应商处注册的，对象存储OSS需要自定义域名的方式，因此我选择了百度供应商的oss服务来存放博客的图片资源。
  
 此处记录一下接入百度云对象存储oss并实现自定义域名访问图片的主要步骤过程。
 
-### 1) 登录百度智能云控制台，找到对象存储OSS管理入口
+### 01、 登录百度智能云控制台，找到对象存储OSS管理入口
 <img src="http://cdn.gydblog.com/images/blog-create/oss-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-### 2) 进入对象存储BOS控制台的bucket列表菜单，创建一个bucket
+### 02、 进入对象存储BOS控制台的bucket列表菜单，创建一个bucket
 > 我创建的bucket命名是"gydblog"  
 > 这里的配置按需选择  
 <img src="http://cdn.gydblog.com/images/blog-create/oss-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/blog-create/oss-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 3) 上传一张测试图片
+### 03、 上传一张测试图片
 <img src="http://cdn.gydblog.com/images/blog-create/oss-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/blog-create/oss-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 4) 预览图片
+### 04、 预览图片
 回到文件列表，找到刚上传的图片记录，点击[复制链接]，在浏览器即可打开预览
 > 生成的文件url是https://gydblog.fsh.bcebos.com/images/blog-create/easycode-1.png
 <img src="http://cdn.gydblog.com/images/blog-create/oss-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -108,7 +115,7 @@ todo
 <img src="http://cdn.gydblog.com/images/blog-create/oss-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
-### 5) 自定义预览url中的域名
+### 05、 自定义预览url中的域名
 默认生成的域名是百度oss官方提供的官方域名，上面默认的官方域名是"gydblog.fsh.bcebos.com"，可以在tab【发布管理】中看到：
 <img src="http://cdn.gydblog.com/images/blog-create/oss-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 

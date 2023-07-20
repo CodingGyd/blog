@@ -182,13 +182,13 @@ spring.datasource.default.password=000000
 
 #任务注册中心配置(自定义注册中心地址、自定义任务模块命名空间)
 elasticjob.reg-center.serverLists=127.0.0.1:2181
-elasticjob.reg-center.namespace=ai-investment-adviser-job
+elasticjob.reg-center.namespace=my-job
 
 #单个任务配置(aiPortfolioInfoSyncJob是任务的唯一标识名，不同任务不能重复，配置格式是elasticjob.jobs.任务名.配置项=配置值)
-elasticjob.jobs.aiPortfolioInfoSyncJob.elasticJobClass=com.sinolink.ai.iadviser.job.v2.AiPortfolioInfoSyncElasticJob
+elasticjob.jobs.aiPortfolioInfoSyncJob.elasticJobClass=com.gyd.InfoSyncElasticJob
 elasticjob.jobs.aiPortfolioInfoSyncJob.cron=0/10 * * * * ?
 elasticjob.jobs.aiPortfolioInfoSyncJob.shardingTotalCount=1
-elasticjob.jobs.aiPortfolioInfoSyncjob.description=定时更新量化组合详情任务
+elasticjob.jobs.aiPortfolioInfoSyncjob.description=定时更新详情任务
 elasticjob.jobs.aiPortfolioInfoSyncJob.overwrite=true
 ```
 
@@ -220,16 +220,16 @@ spring.datasource.default.password=000000
 
 ## 3.部署
 
-### 2.1 启动zookeeper
+### 3.1 启动zookeeper
 
 ![启动zookeeper](http://cdn.gydblog.com/images/cszl-combined/elasticjob-2.png)
 
-### 2.2 启动业务模块的job服务
+### 3.2 启动业务模块的job服务
 
 ![业务job服务启动成功日志](http://cdn.gydblog.com/images/cszl-combined/elasticjob-3.png)
 
 
-### 2.3 启动elasticjob运维管理平台
+### 3.3 启动elasticjob运维管理平台
 ![elasticjob运维管理平台启动成功日志](http://cdn.gydblog.com/images/cszl-combined/elasticjob-4.png)
 
 
@@ -274,7 +274,7 @@ spring.datasource.default.password=000000
 
 ## 5. 接入时遇到的问题
 
-### zookeeper版本冲突
+### 5.1 zookeeper版本冲突
 
 **问题**  
 elasticjob要求jdk1.8和zookeeper3.6.0以上，而我们的业务项目目前生产使用的zookeeper是3.4.x
@@ -300,7 +300,7 @@ elasticjob要求jdk1.8和zookeeper3.6.0以上，而我们的业务项目目前�
 
 
 
-### zookeeper多版本并存报异常
+### 5.2 zookeeper多版本并存报异常
 
 项目中3.4.x和3.7.0版本zookeeper并存时，项目启动初期会刷如下错误，但是不影响最终启动，dubbo接口最终能正常访问
 
@@ -313,14 +313,13 @@ elasticjob要求jdk1.8和zookeeper3.6.0以上，而我们的业务项目目前�
    
 
 
-
-### zookeeper源码下载后打包报错
+### 5.3 zookeeper源码下载后打包报错
 
 参考https://blog.csdn.net/u012957549/article/details/104701435/
 
 
 
-### elasticjob运维平台源码打包失败、启动失败
+### 5.4 elasticjob运维平台源码打包失败、启动失败
 
 **运维管理平台源码打包**
 
@@ -346,7 +345,7 @@ cd shardingsphere-elasticjob-ui-3.0.0-release
 
 
 
-### 任务配置修改后重启服务不生效
+### 5.5 任务配置修改后重启服务不生效
 
 修改某个任务配置并重启服务后，查看运维管理控制台未更新，因为管理控制台读取的是zookeeper中的数据，默认不会因为应用服务中配置调整而强制修改zookeeper中的znode节点数据，需要在应用服务中给某个任务配置增加overwrite=true配置
 
@@ -356,7 +355,7 @@ cd shardingsphere-elasticjob-ui-3.0.0-release
 
 
 
-### 任务描述信息中文编码问题
+### 5.6 任务描述信息中文编码问题
 
 ![](http://cdn.gydblog.com/images/cszl-combined/elasticjob-20.png)
 
@@ -372,7 +371,7 @@ cd shardingsphere-elasticjob-ui-3.0.0-release
 
 
 
-### 多数据源配置问题
+### 5.7 多数据源配置问题
 
 项目中配置了多个DataSource，而elasticjob-lite-spring-boot-starter里的ElasticJobTracingConfiguration采用的是spring的自动注入方式注入DataSource，导致会报XXXXX required a single bean, but 2 were found，解决方式是在指定的dataSource上增加 添加@Primary注解，就可以做到唯一区分。
 

@@ -1,7 +1,8 @@
 import { hopeTheme, readingTime } from "vuepress-theme-hope";
 import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
- 
+import { searchConsolePlugin } from 'vuepress-plugin-china-search-console'
+
 export default hopeTheme({
   hostname: "http://www.gydblog.com/",
   //网站左上角logo
@@ -35,6 +36,7 @@ export default hopeTheme({
   fullscreen: true,
   locales: {
     "/": {
+      
       // 导航
       navbar: enNavbar,
       // sidebar
@@ -152,6 +154,17 @@ export default hopeTheme({
       vuePlayground: true,
     },
 
+    //Vuepress2 插件 - 针对Vuepress2的国内搜索引擎的SEO增强：
+    //包含 百度统计，页面自动推送百度收录，页面自动推送360搜索收录, 页面自动推送头条搜索收录。
+    searchConsolePlugin:{
+      // options ...
+      //百度统计id
+      baiduId:"a27504a4817b85eaa9887b38169a5a29",
+      // 是否开启百度自动推送 | 即页面自动推送收录建议
+      autoPushBaiduSwitch:true,
+      //头条搜索自动收录id，填写后开启自动收录 | 即页面自动推送收录建议
+      toutiaoAutoPushId:"241bda4806c7168c0635685d87c9fc71ceb8fafc002480bbea6299ee4d8396ba30632485602430134f60bc55ca391050b680e2741bf7233a8f1da9902314a3fa"
+    }
   },
 
 });
