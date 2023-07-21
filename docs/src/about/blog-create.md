@@ -6,14 +6,29 @@ category:
 ---
 
 # 建站记录
-## 2.1、迭代里程碑
 
-> 20190105：自研博客服务端和客户端上线  
-> 20230101: 网页改版，使用vuepress模板重构  
-> 20230718：增加新的首页  
-> 20230719: 引入组件【不蒜子】展示网页访问pv和uv  
+## 20220101 beta 0.0.1
 
-## 2.2、主体框架选型
+### 重点关注
+纯自研的前后端服务  
+
+## 20230523 beta 0.0.2  
+
+### 重点关注
+
+重新技术选型，废弃原先所有自研功能，采用vuepress脚手架模板生成  
+
+<img src="http://cdn.gydblog.com/images/blog-create/blog-create-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+## 20230718 beta 0.0.3  
+
+### 重点关注
+
+增加新的首页  
+
+<img src="http://cdn.gydblog.com/images/blog-create/blog-create-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ 
+## 2.1、主体框架选型
 <table>
   <tr>
     <th>方案</th>
@@ -40,7 +55,7 @@ category:
 
 vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutorial/" text="戳这里！" target="_blank"></a>  
 
-## 2.3、评论插件接入
+## 2.2、评论插件接入
  详情参考：<a href="https://plugin-comment2.vuejs.press/zh/guide/giscus.html" text="戳这里！" target="_blank"></a>  
 
 
@@ -64,7 +79,7 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutor
 引入插件后依赖的组件版本和已有的版本有冲突，直接一键更新所有vuepress依赖的组件版本
 执行命令： pnpm dlx vp-update
 
-## 2.4、访问量统计
+## 2.3、访问量统计
 
 ### 03、如何配置
 通过接入[百度统计](https://tongji.baidu.com/main/setting/10000555566/home/site/index) 平台来实现<br/>
@@ -87,7 +102,7 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutor
 ### 05、博客文章实时显示浏览量功能
 todo
 
-## 2.5、图片存储方案
+## 2.4、图片存储方案
 本博客文章中用到了大量的图片资源，之前是直接将图片文件放在博客项目工程中，随着文章数量越来越多，大量的图片资源导致项目整体大小过于庞大(目前制品包已经54M了...)，因此我考虑将图片存储到第三方云端。
 
 目前主流的云服务商都提供了文件存储云服务，比如阿里云对象存储OSS和百度云对象存储OSS， 由于我的域名是在百度供应商处注册的，对象存储OSS需要自定义域名的方式，因此我选择了百度供应商的oss服务来存放博客的图片资源。
