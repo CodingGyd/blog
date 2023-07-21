@@ -1,7 +1,6 @@
 ---
 date: 2023-02-05
 
-isOriginal: true
 title: 小郭的技术笔记大杂烩
 description: Java程序员笔记，从入门到跑路
 
