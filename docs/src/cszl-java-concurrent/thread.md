@@ -736,12 +736,9 @@ public class ThreadDemo {
 
 ### CompletableFuture
 [CompletableFuture入门](../cszl-java-concurrent/completableFuture.md)
+ 
 
-
-## 04、总结
-多线程技术在企业应用中是非常重要的，任何
-
-## 05、参考资料  
+## 04、参考资料  
 《Java并发编程的艺术》
 
  
