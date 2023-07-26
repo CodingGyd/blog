@@ -238,7 +238,7 @@ export const enSidebar = sidebar({
           // "unit-testing",
           // "functional-testing",
           // "automated-testing",
-          // "performance-testing",
+          "performance-testing",
 
           ],
         },
