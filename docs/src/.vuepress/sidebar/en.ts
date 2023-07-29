@@ -15,35 +15,24 @@ export const enSidebar = sidebar({
       children: "structure",
     }
   ],
-  "/mianshi/": [
+"/it-life/": [
     {
-      text: '面试题库',
-      link: '/mianshi/',
-      children: "structure",
-    }
-  ],
-"/fuye/": [
-    {
-      text: '副业探索',
-      link: '/fuye/',
+      text: 'IT人生',
+      link: '/it-life/',
       children: [   
-        { text: "体力篇",  link: "tili" },
-        { text: "脑力篇", link: "naoli" },
+        { text: "程序员的中年危机",  link: "fuye" },
+        { text: "通用写作技能",  link: "markdown" },
+
       ],
       
     }
   ],
   "/about/": [
-    {
-      text: '一、关于',
-      link: '/about/',
-      children: [   
-        { text: "1. 站点介绍", link: "zd" },
-        {text: "2. 建站记录", link: "blog-create"},
-        { text: "3. 站长介绍", link: "intro" },
-        { text: "4. 版权声明", link: "copyright" },
-      ],
-    }
+    { text: "一、 网站内容介绍", link: "zd" },
+    {text: "二、 发版大事记", link: "blog-version"},
+    {text: "三、网站技术方案", link: "blog-tech-list"},
+    { text: "四、博主的自我介绍", link: "intro" },
+    { text: "五、版权的声明", link: "copyright" },
   ],
 
   "/": [
@@ -289,7 +278,6 @@ export const enSidebar = sidebar({
         "layered-architecture",
         "domain",
         "poi",
-        "markdown",
         "git",
         "linux",
         "cros",

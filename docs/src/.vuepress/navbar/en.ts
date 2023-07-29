@@ -22,21 +22,24 @@ export const enNavbar = navbar([
     ],
   },
   {
-    text: "面试题库",
-    icon: "question",
-    link: "/mianshi/"
+    text: "IT人生",
+    icon: "ability",
+    prefix: "/it-life/",
+    children: [
+      { text: "程序员的中年危机", link: "fuye" },
+      { text: "通用写作技能", link: "markdown" }
+    ],
   },
-  { text: "副业探索", icon: "ability", link: "/fuye/" },
   {
     text: "关于本站",
     icon: "info",
     prefix: "/about/",
     children: [
-      { text: "站点介绍", link: "zd" },
-      { text: "建站记录", link: "blog-create" },
-      { text: "站长介绍",  link: "intro" },
+      { text: "网站内容介绍", link: "zd" },
+      { text: "发版大事记", link: "blog-version" },
+      { text: "网站技术方案", link: "blog-tech-list" },
+      { text: "博主的自我介绍",  link: "intro" },
       { text: "版权声明", link: "copyright" },
-
     ],
   },
 

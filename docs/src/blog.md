@@ -19,11 +19,6 @@ projects:
     desc: 各种编程学习资源
     link: /zhencangziyuan/learn.md
 
-  - icon: question
-    name: 面试题库
-    desc: 分享常见的JAVA面试题
-    link: /mianshi/
-
   - icon: tool
     name: 工具软件
     desc: 好用的工具软件
