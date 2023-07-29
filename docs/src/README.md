@@ -9,6 +9,7 @@ actions:
   - text: 小郭的笔记→
     link: /note-book.md
     type: primary
+    
   - text: 关于本站
     link: /about/
     type: default

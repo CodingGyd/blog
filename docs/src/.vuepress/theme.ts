@@ -92,13 +92,26 @@ export default hopeTheme({
     activeHeaderLinks: true,
     //文章评论插件
     comment: {
-      provider: "Giscus",
-        // 插件选项
-        comment: true, //启用评论功能
-        repo: "CodingGyd/blog-giscus", //远程仓库
-        repoId: "R_kgDOJqDkjg", //对应自己的仓库Id
-        category: "Announcements",
-        categoryId: "DIC_kwDOJqDkjs4CW4Jo" //对应自己的分类Id
+
+        //git库的评论插件(废弃)
+        // provider: "Giscus",
+        // // 插件选项
+        // comment: true, //启用评论功能
+        // repo: "CodingGyd/blog-giscus", //远程仓库
+        // repoId: "R_kgDOJqDkjg", //对应自己的仓库Id
+        // category: "Announcements",
+        // categoryId: "DIC_kwDOJqDkjs4CW4Jo" //对应自己的分类Id
+        //评论系统waline
+        provider:"Waline",
+        //启用评论功能
+        comment: true, 
+        serverURL:"https://waline.gydblog.com/",
+        //评论字数限制
+        wordLimit:1000000,
+        //文章反应
+        reaction:true,
+        //页面访问量统计并展示
+        pageview:true,
   
     },
 

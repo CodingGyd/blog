@@ -12,7 +12,7 @@ projects:
   - icon: note
     name: 小郭笔记
     desc: 小郭的日常技术笔记大杂烩
-    link: home.md
+    link: note-book.md
 
   - icon: book
     name: 学习资源
