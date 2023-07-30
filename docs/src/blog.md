@@ -8,7 +8,7 @@ heroImage: /images/logo.png
 heroText: 代码小郭的技术博客
 heroFullScreen: false
 tagline:  我们一起来搬砖
-projects:
+<!-- projects:
   - icon: note
     name: 小郭笔记
     desc: 小郭的日常技术笔记大杂烩
@@ -27,7 +27,7 @@ projects:
   - icon: sitemap
     name: 实用网站
     desc: 实用网站集合
-    link: /zhencangziyuan/websites.md
+    link: /zhencangziyuan/websites.md -->
 footer:   <a href="http://beian.miit.gov.cn/" target="_blank">备案号:湘ICP备17020097号-1</a>
 
 ---

@@ -31,6 +31,7 @@ export const enSidebar = sidebar({
     { text: "一、 网站内容介绍", link: "zd" },
     {text: "二、 发版大事记", link: "blog-version"},
     {text: "三、网站技术方案", link: "blog-tech-list"},
+    {text: "W Waline接入总结", link: "waline"},
     { text: "四、博主的自我介绍", link: "intro" },
     { text: "五、版权的声明", link: "copyright" },
   ],

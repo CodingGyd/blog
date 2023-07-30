@@ -67,19 +67,9 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutor
    
 经过查找对比，发现了比较适合我的waline评论系统，不仅支持游客评论，还支持单篇文章浏览量的统计和展示，非常符合我当前的需求，因此决定将giscus替换为waline。
 
-接入步骤参考：<a href="https://waline.js.org/guide/get-started/" text="戳这里！" target="_blank"></a>  
+官方接入步骤参考：<a href="https://waline.js.org/guide/get-started/" text="戳这里！" target="_blank"></a>  
 
-  
-<font color=Tomato>遇到的主要问题：</font>
-问题：直接使用Vercel搭建的waline评论系统，由于vercel.app域名在国内遭到污染无法访问。
-
-解决方案：用已有的博客域名去免费申请一个子域名来代替vercel.app那个被污染的域名。
-
-本网站是单独申请的子域名：waline.gydblog.com ， 需要在域名供应商处新增CNAME类型的域名映射，将子域名映射到Vercel的dns服务器  
-
-```
-vercel在新增domain时，默认生成的dns服务器是cname.vercel-dns.com， 实际我们在CNAME配置映射时应该填写cname-china.vercel-dns.com!!!!
-```
+也可以看这里：[Waline接入总结记录](./waline.md)
 
  
 ## 1.3、访问量统计
