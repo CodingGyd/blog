@@ -6,18 +6,18 @@ category:
 tag:
   - Waline评论系统
 ---
-
+# 只需几个步骤，给网站增加评论和文章浏览量功能!
 只需几个步骤，我就成功的在自己的网站中启用 Waline 提供评论与文章浏览量服务。
 
 ## LeanCloud 设置 (数据库)
 
 1. [登录](https://console.leancloud.app/login) 或 [注册](https://console.leancloud.app/register) `LeanCloud 国际版` 并进入 [控制台](https://console.leancloud.app/apps)
 
-1. 点击左上角 [创建应用](https://console.leancloud.app/apps) 并起一个自己喜欢的名字 (注意这里一定选择免费的开发版，如果你特别有钱当我没说...):
+2. 点击左上角 [创建应用](https://console.leancloud.app/apps) 并起一个自己喜欢的名字 (注意这里一定选择免费的开发版，如果你特别有钱当我没说...):
 
    ![创建应用](http://cdn.gydblog.com/images/blog-create/waline-1.png)
    
-1. 进入应用，选择左下角的 `设置` > `应用 Key`。你可以看到你的 `APP ID`,`APP Key` 和 `Master Key`。请记录它们，以便后续使用。
+3. 进入应用，选择左下角的 `设置` > `应用 Key`。你可以看到你的 `APP ID`,`APP Key` 和 `Master Key`。请记录它们，以便后续使用。
 
    ![ID 和 Key](http://cdn.gydblog.com/images/blog-create/waline-2.png)
 
@@ -46,11 +46,11 @@ tag:
 
    :::
 
-1. 输入一个你喜欢的 Vercel 项目名称并点击 `Create` 继续:
+2. 输入一个你喜欢的 Vercel 项目名称并点击 `Create` 继续:
 
    ![创建项目](http://cdn.gydblog.com/images/blog-create/waline-4.png)
 
-1. 此时 Vercel 会基于 Waline 模板帮助你新建并初始化仓库，仓库名为你之前输入的项目名(我这里示例是waline-test)。
+3. 此时 Vercel 会基于 Waline 模板帮助你新建并初始化仓库，仓库名为你之前输入的项目名(我这里示例是waline-test)。
 
    ![deploy](http://cdn.gydblog.com/images/blog-create/waline-5.png)
 
@@ -58,7 +58,7 @@ tag:
 
    ![deploy](http://cdn.gydblog.com/images/blog-create/waline-6.png)
 
-1. 点击顶部的 `Settings` - `Environment Variables` 进入环境变量配置页，并配置三个环境变量 `LEAN_ID`, `LEAN_KEY` 和 `LEAN_MASTER_KEY` 。它们的值分别对应上一步在 LeanCloud 中获得的 `APP ID`, `APP KEY`, `Master Key`。
+4. 点击顶部的 `Settings` - `Environment Variables` 进入环境变量配置页，并配置三个环境变量 `LEAN_ID`, `LEAN_KEY` 和 `LEAN_MASTER_KEY` 。它们的值分别对应上一步在 LeanCloud 中获得的 `APP ID`, `APP KEY`, `Master Key`。
 
    ![设置环境变量](http://cdn.gydblog.com/images/blog-create/waline-7.png)
 
@@ -107,7 +107,7 @@ tag:
    | CNAME | test | cname-china.vercel-dns.com |
  
 
-1. 等待生效，你可以通过自己的域名来访问了:tada:
+4. 等待生效，你可以通过自己的域名来访问了:tada:
 
 > 我这里自定义域名是"test.gydblog.com"  
 

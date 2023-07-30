@@ -21,7 +21,9 @@ export const enSidebar = sidebar({
       link: '/it-life/',
       children: [   
         { text: "程序员的中年危机",  link: "fuye" },
+        { text: "写作常用模板", link: "markdown-template" },
         { text: "通用写作技能",  link: "markdown" },
+
 
       ],
       
