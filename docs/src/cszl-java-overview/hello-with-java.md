@@ -4,8 +4,6 @@ date: 2018-01-05
 
 category:
   - Java核心
-tag:
-  - Java入门
 ---
 
 # 新手无法逃避的HelloWorld

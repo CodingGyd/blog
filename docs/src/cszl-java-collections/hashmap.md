@@ -5,7 +5,6 @@ date: 2023-06-15
 category:
   - Java核心
 tag:
-  - 集合框架
   - HashMap
 ---
 

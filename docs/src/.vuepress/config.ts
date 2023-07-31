@@ -2,10 +2,7 @@ import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
 import { commentPlugin } from "vuepress-plugin-comment2";
-import { searchConsolePlugin } from 'vuepress-plugin-china-search-console'
 
-
- 
 export default defineUserConfig({
   base: "/",
   head: [
@@ -61,23 +58,6 @@ export default defineUserConfig({
       `
       
     ],
-    [
-      //集成不蒜子
-      "script",
-      {
-        async: true,
-        src: "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
-      }
-    ],
-    // [
-    //   //集成Google AdSense
-    //   "script",
-    //   {
-    //     "data-ad-client": "ca-pub-1601618516206303",
-    //     async: true,
-    //     src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-    //   }
-    // ],
 
     //网页头像
     ["link", { rel: "icon", href: "/assets/icon/avata.svg" }],
@@ -88,17 +68,18 @@ export default defineUserConfig({
     "/": {
       lang: "zh-CN",
       title: "代码小郭",
-      description: "代码小郭的技术博客"
+      description: "代码小郭的技术博客",
+      
     },
   },
  
   plugins: [
-
+    //搜索插件
     searchProPlugin({
       // 索引全部内容
       indexContent: true,
     }),
- 
+   
   ],
 
   theme,

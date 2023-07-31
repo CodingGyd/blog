@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-06-26
 category:
-  - 持续集成(CI)
+  - 持续集成
 tag:
   - Jenkins
 ---

@@ -2,9 +2,10 @@
 # icon: lock
 date: 2022-02-05
 category:
-  - 通用技能
-tag:
-  - Markdown
+  - 我的苦逼IT人生路
+  - 写作通用技能
+tags:
+  - markdown语法
 ---
 
 # 通用的现代写作技能，你学会了吗？

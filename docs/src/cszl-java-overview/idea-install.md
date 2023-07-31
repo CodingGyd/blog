@@ -4,10 +4,6 @@ date: 2023-06-25
 
 category:
   - Java核心
-tag:
-  - JAVA开发环境
-  - 编译器
-  - IDEA
 ---
 
 # IDEA安装

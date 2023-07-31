@@ -5,7 +5,6 @@ date: 2023-07-03
 category:
   - Java核心
 tag:
-  - 并发编程
   - threadlocal
 ---
 # ThreadLocal的用法

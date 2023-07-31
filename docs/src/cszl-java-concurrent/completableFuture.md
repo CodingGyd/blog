@@ -5,10 +5,9 @@ date: 2023-06-25
 category:
   - Java核心
 tag:
-  - 并发编程
   - CompletableFuture
 ---
-# CompletableFuture
+# 异步编程利器CompletableFuture
 ## 01、简介  
 
 FutureTask的get()方法在Future计算完成之前会一直处于阻塞状态下，isDone()方法容易耗费CPU资源，对于真正的异步处理我们是希望能通过传入回调函数，在Future结束时自动调用该回调函数，这样，我们就不用等待结果。阻塞的方式和异步编程的设计理念相违背，而轮询的方式也会耗费CPU资源。因此JDK8中出现了一种新的工具类：CompletableFuture。

@@ -21,9 +21,10 @@ export const enSidebar = sidebar({
       link: '/it-life/',
       children: [   
         { text: "程序员的中年危机",  link: "fuye" },
-        { text: "写作常用模板", link: "markdown-template" },
-        { text: "通用写作技能",  link: "markdown" },
-
+        { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
+        { text: "通用的现代写作技能，你学会了吗？",  link: "markdown" },
+        { text: "生命不熄,学习不止！",  link: "learn" },
+        { text: "待办任务",  link: "todo-list" },
 
       ],
       
@@ -219,12 +220,11 @@ export const enSidebar = sidebar({
           collapsible: true,
           children: [
           // "code-quality",
-          
           ],
         },
         {
           prefix: "cszl-enterprise-development-test/",
-          text: "3.9 测试",
+          text: "3.9 软件测试",
           collapsible: true,
           children: [
           // "unit-testing",
@@ -284,11 +284,9 @@ export const enSidebar = sidebar({
         "git",
         "linux",
         "cros",
-        "books",
         "elasticjob",
         "jenkins",
         // "nginx",
-        "todo-list",
         "industry-lossary"
 
       ],

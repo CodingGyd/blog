@@ -4,9 +4,6 @@ date: 2023-04-02
 
 category:
   - Java核心
-tag:
-  - Java开发环境
-  - JDK
 ---
 
 # JDK安装(傻瓜式教程)

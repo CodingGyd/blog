@@ -1,7 +1,11 @@
 ---
 date: 2022-11-21
 category:
+  - 我的苦逼IT人生路
+tags:
   - 副业探索
+star: true
+sticky: true
 ---
 # 程序员为啥会有中年危机的说法？
 

@@ -2,9 +2,11 @@
 # icon: lock
 date: 2023-06-18
 category:
+  - 操作系统
+tags:
   - linux
 ---
-# Linux操作
+# Linux常用命令&脚本&操作
 
 ## 常用shell脚本
 ### jar包启动/停止/重启  

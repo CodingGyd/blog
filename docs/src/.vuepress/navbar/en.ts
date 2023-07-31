@@ -12,7 +12,6 @@ export const enNavbar = navbar([
     icon: "repo",
     prefix: "/zhencangziyuan/",
     children: [
-      { text: "学习资源", link: "learn" },
       { text: "工具软件", link: "tools" },
       { text: "实用网站", link: "websites" },
       { text: "代码轮子",link: "code" },
@@ -27,8 +26,10 @@ export const enNavbar = navbar([
     prefix: "/it-life/",
     children: [
       { text: "程序员的中年危机", link: "fuye" },
-      { text: "写作常用模板", link: "markdown-template" },
-      { text: "通用写作技能", link: "markdown" },
+      { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
+      { text: "通用的现代写作技能，你学会了吗？", link: "markdown" },
+      { text: "生命不熄,学习不止！", link: "learn" },
+      { text: "待办任务清单", link: "todo-list" },
 
     ],
   },

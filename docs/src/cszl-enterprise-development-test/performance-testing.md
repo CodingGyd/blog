@@ -3,10 +3,9 @@
 date: 2023-07-05
 
 category:
-  - 代码质量
+  - 软件测试
 tag:
   - 性能测试
-  - JMeter
 ---
 
 # 性能测试工具-JMeter入门

@@ -3,11 +3,9 @@
 date: 2023-05-24
 category:
   - SOP
-tag:
-  - NoClassDefFoundError
 ---
 
-# 异常SOP
+# JAVA开发常见问题
 
 ## java.lang.NoClassDefFoundError:javassist/bytecode/ClassFile
 错误信息：<br/>

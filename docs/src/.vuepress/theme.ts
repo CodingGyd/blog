@@ -1,8 +1,6 @@
 import { hopeTheme, readingTime } from "vuepress-theme-hope";
 import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
-import { searchConsolePlugin } from 'vuepress-plugin-china-search-console'
-
 export default hopeTheme({
   hostname: "http://www.gydblog.com/",
   //网站左上角logo
@@ -34,9 +32,16 @@ export default hopeTheme({
   darkmode: "switch",
   //展示全屏按钮
   fullscreen: true,
+  //文章是否展示贡献者名称
+  contributors:false,
+  //文章是否展示最后编辑时间
+  lastUpdated:true,
+  //文章是否展示[编辑此页]的链接
+  editLink:false,
+
   locales: {
     "/": {
-      
+
       // 导航
       navbar: enNavbar,
       // sidebar
@@ -44,7 +49,10 @@ export default hopeTheme({
        // 页脚支持
       footer: '<a href="http://beian.miit.gov.cn/" target="_blank">备案号:湘ICP备17020097号-1</a>',
       displayFooter: true,
+
+      //博主个人信息
       blog: {
+        
         // 博主头像
         avatar: "/assets/icon/avata.svg",
         // 圆角  
@@ -68,12 +76,16 @@ export default hopeTheme({
     },
   },
 
+  copyright:"基于 MIT 协议，© 2019-至今 代码小郭",
+
+  //页面路径是否隐藏(若不隐藏，可以在每个文章目录的README.md下指定页面路径名称)
+  breadcrumb:true,
   //文章加密
   encrypt: {
     config: {
       "/fuye/": ["qwe1234567"],
       "/mianshi/": ["qwe1234567"],
-      "/cszl-combined/todo-list.html": ["qwe123"],
+      "/it-life/todo-list.html": ["qwe123"],
 
     },
   },
@@ -87,7 +99,10 @@ export default hopeTheme({
     errorHint: "哈哈，别调戏人家啦，就不让你看",
   },
   plugins: {
-    blog: true,
+    blog: {
+      //自动生成摘要设置
+      excerptLength: 0,
+    },
     //该插件会监听页面滚动事件。当页面滚动至某个 标题锚点 后，如果存在对应的 标题链接 ，那么该插件会将路由 Hash 更改为该 标题锚点 。
     activeHeaderLinks: true,
     //文章评论插件
@@ -143,9 +158,9 @@ export default hopeTheme({
       playground: {
         presets: ["ts", "vue"],
       },
-      presentation: {
-        plugins: ["highlight", "math", "search", "notes", "zoom"],
-      },
+      // presentation: {
+      //   plugins: ["highlight", "math", "search", "notes", "zoom"],
+      // },
       stylize: [
         {
           matcher: "Recommended",
@@ -166,18 +181,17 @@ export default hopeTheme({
       vPre: true,
       vuePlayground: true,
     },
-
-    //Vuepress2 插件 - 针对Vuepress2的国内搜索引擎的SEO增强：
-    //包含 百度统计，页面自动推送百度收录，页面自动推送360搜索收录, 页面自动推送头条搜索收录。
-    searchConsolePlugin:{
-      // options ...
-      //百度统计id
-      baiduId:"a27504a4817b85eaa9887b38169a5a29",
-      // 是否开启百度自动推送 | 即页面自动推送收录建议
-      autoPushBaiduSwitch:true,
-      //头条搜索自动收录id，填写后开启自动收录 | 即页面自动推送收录建议
-      toutiaoAutoPushId:"241bda4806c7168c0635685d87c9fc71ceb8fafc002480bbea6299ee4d8396ba30632485602430134f60bc55ca391050b680e2741bf7233a8f1da9902314a3fa"
-    }
+    //版权限制
+    copyright:{
+        //禁用复制和粘贴
+        disableCopy:true,
+        //版权声明
+        global:true,
+        author:"代码小郭",
+        // license:"协议",
+        triggerWords:10,
+    },
+    
   },
 
 });

@@ -137,6 +137,7 @@ public class XXXValidator {
 ### util层
 
 util层主要用于定义各种工具类，如日期操作、数值操作、字符串操作等。
+示例：
 ```java
 /**
  * 用于高精确处理常用的数学运算
@@ -161,6 +162,16 @@ public class ArithmeticUtils {
 }
 ```
 
+### constant层
+constant层主要用于定义项目中用到的所有常量，如配置项名称、字段名称等。
+示例：
+```java
+public class Configs {
+    //接口请求超时实际
+    public static final int TIME_OUT = 100;
+}
+```
+
 ## 进阶多模块分层-多个module
  <img src="http://cdn.gydblog.com/images/cszl-combined/layered-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 主要分成以下几层来划分module：
@@ -172,6 +183,7 @@ public class ArithmeticUtils {
 接口层：xxx-api
 工具层：xxx-util 
 公共层：xxx-common 
+配置层：xxx-config
 领域层：xxx-domain 
 网关层：xxx-gateway 
 启动层：xxx-boot
@@ -192,6 +204,19 @@ controller层需要注意HTTP相关特性，敏感信息例如登陆用户ID不�
 ### 服务层(service)
 
 服务层负责业务逻辑的具体实现，通常是我们在工作中花费时间编码最多的地方。 服务层通常是实现api层接口定义，为controller层提供服务。
+我一般习惯按模块划分不同业务的service：
+```
+src
+|-- module                         所有业务模块
+|-- |-- role                          业务模块
+|-- |-- |--XXX1Service.java                 service
+|-- |-- |--XXX2Service.java                 service
+|-- |-- employee                      员工模块
+|-- |-- login                         登录模块
+|-- |-- email                         邮件模块
+|-- |-- ....                          其他
+```
+当然，你也可以写在一个包下面，没有硬性标准，看团队和个人习惯了。
 
 
 ### 数据层(dao)
@@ -207,8 +232,29 @@ controller层需要注意HTTP相关特性，敏感信息例如登陆用户ID不�
 工具层承载工具代码，例如日期操作工具、数值操作工具、字符串操作工具、加解密工具等。不依赖本项目其它模块，只依赖一些通用工具包。
 
 ### 公共层(common)
+公共层主要定义一些公共代码，可以被其他层引用,例如各种常量定义。
+```
+src 源码目录
+|-- common 各个项目的通用类库
+|-- |--- anno          通用注解，比如权限，登录等等
+|-- |--- constant      通用常量，比如 ResponseCodeConst
+|-- |--- domain        全局的 javabean，比如 BaseEntity,PageParamDTO 等
+|-- |--- exception     全局异常，如 BusinessException
+|-- |--- json          json 类库，如 LongJsonDeserializer，LongJsonSerializer
+|-- |--- swagger       swagger 文档
+|-- |--- validator     适合各个项目的通用 validator，如 CheckEnum，CheckBigDecimal 等
+```
 
-公共层主要定义一些公共代码，可以被其他层引用。
+### 配置层(config)  
+config 目录用于存放各个项目通用的项目，由各个项目按需引入并使之生效(注解方式或者xml注入方式均可)，但是又可以依照项目进行特定的修改。
+```
+src                               源码目录
+|-- config                            项目的所有配置信息
+|-- |--- MvcConfig                    mvc的相关配置，如interceptor,filter等
+|-- |--- DataSourceConfig             数据库连接池的配置
+|-- |--- MybatisConfig                mybatis的配置
+|-- |--- ....                         其他
+```
 
 ### 领域层(domain)
 
@@ -216,8 +262,61 @@ controller层需要注意HTTP相关特性，敏感信息例如登陆用户ID不�
 
 数据对象：xxxEntity  和具体的表对应。  
 业务传输对象： xxxDto  和具体的业务操作实体对应 ，一般用于服务与服务之间接口交互。  
-视图对象：xxxVo 由dto聚合而来，一般和前端页面对应，用于controller层返回给前端展示数据。  
+视图对象：xxxVo 由dto聚合而来，一般和前端页面对应，用于controller层返回给前端展示数据,但很多时候开发人员会直接将dto返回给前端，省去vo和dto转换的代码，这也影响不大，看团队习惯吧。  
 
+
+领域层的各种对象命名规范
+1） javabean 的整体要求：
+- 不得有任何的业务逻辑或者计算
+- 基本数据类型必须使用包装类型（Integer, Double、Boolean 等）
+- 不允许有任何的默认值
+- 每个属性必须添加注释，并且必须使用多行注释。
+- 必须使用 lombok 简化 getter/setter 方法
+- 建议对象使用 lombok 的 @Builder ，@NoArgsConstructor，同时使用这两个注解，简化对象构造方法以及set方法。
+
+正例：
+```java
+@Builder
+@NoArgsConstructor
+@Data
+public class DemoDTO {
+
+    private String name;
+    
+    private Integer age;
+}
+
+// 使用示例：
+
+DemoDTO demo = DemoDTO.builder()
+                .name("yeqiu")
+                .age(66)
+                .build();
+```
+
+
+2）数据对象；XxxxEntity，要求：  
+- 以 Entity 为结尾（阿里是为 DO 为结尾）
+- Xxxx 与数据库表名保持一致
+- 类中字段要与数据库字段保持一致，不能缺失或者多余
+- 类中的每个字段添加注释，并与数据库注释保持一致
+- 不允许有组合
+- 项目内的日期类型必须统一，建议使用 java.util.Date，java.sql.Timestamp，java.time.LocalDateTime 其中只一。
+
+
+3）传输对象；XxxxDTO，要求：
+- 不可以继承自 Entity
+- DTO 可以继承、组合其他 DTO，VO，BO 等对象
+- DTO 只能用于前端、RPC 的请求参数
+
+4）视图对象；XxxxVO，要求：
+- 不可继承自 Entity
+- VO 可以继承、组合其他 DTO，VO，BO 等对象
+- VO 只能用于返回前端、rpc 的业务数据封装对象  
+
+5）业务对象 BO，要求：
+- 不可以继承自 Entity
+- BO 对象只能用于 service，manager，dao 层，不得用于 controller 层
 
 ### 网关层(gateway)
 

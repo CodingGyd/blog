@@ -4,9 +4,11 @@ category:
   - 葵花宝典
 tag:
   - 编程规约
+star: 9
+sticky: 10
 ---
  
-# 编程规约
+# 合格程序员必备的编程规约
 ## 前言  
 >规范不是为了约束和禁锢大家的创造力，而是为了帮助大家能够在正确的道路上，尽可能的避免踩坑和跑偏。  
 >规范可以让我们无论单枪匹马还是与众人同行的时候都能得心应手。  
@@ -126,8 +128,6 @@ public static LocalDate parseYMD(String dateStr){}
 反例：
 ```java
 /**
- * 解析转换时间字符串为 LocalDate 时间类
- * 调用前必须校验字符串格式 否则可能造成解析失败的错误异常
  *
  * @param dateStr 必须是 yyyy-MM-dd 格式的字符串
  * @return LocalDate
@@ -142,123 +142,41 @@ public static LocalDate parseYMD(String dateStr){}
 
 ## 二、项目规范
 ### 1、代码目录结构
-统一的目录结构是所有项目的基础。[项目分层](../cszl-combined/layered-architecture)
-```
-src                               源码目录
-|-- common                            各个项目的通用类库
-|-- config                            项目的配置信息
-|-- constant                          全局公共常量
-|-- handler                           全局处理器
-|-- interceptor                       全局连接器
-|-- listener                          全局监听器
-|-- module                            各个业务
-|-- |--- employee                         员工模块
-|-- |--- role                             角色模块
-|-- |--- login                            登录模块
-|-- third                             三方服务，比如redis, oss，微信sdk等等
-|-- util                              全局工具类
-|-- Application.java                  启动类
-```
+统一的目录结构是所有项目的基础，没有固定的目录结构，适合项目团队的才是最好的。  
 
-### 2、common 目录规范  
-common 目录用于存放各个项目通用的项目，但是又可以依照项目进行特定的修改。
-```
-src 源码目录
-|-- common 各个项目的通用类库
-|-- |--- anno          通用注解，比如权限，登录等等
-|-- |--- constant      通用常量，比如 ResponseCodeConst
-|-- |--- domain        全局的 javabean，比如 BaseEntity,PageParamDTO 等
-|-- |--- exception     全局异常，如 BusinessException
-|-- |--- json          json 类库，如 LongJsonDeserializer，LongJsonSerializer
-|-- |--- swagger       swagger 文档
-|-- |--- validator     适合各个项目的通用 validator，如 CheckEnum，CheckBigDecimal 等
-```
+[目录分层参考](../cszl-combined/layered-architecture.md)
 
-### 3、config 目录规范  
-config 目录用于存放各个项目通用的项目，但是又可以依照项目进行特定的修改。
-```
-src                               源码目录
-|-- config                            项目的所有配置信息
-|-- |--- MvcConfig                    mvc的相关配置，如interceptor,filter等
-|-- |--- DataSourceConfig             数据库连接池的配置
-|-- |--- MybatisConfig                mybatis的配置
-|-- |--- ....                         其他
-```
+### 2、Http接口对接规范
+> 科普：API（Application Programming Interface，应用程序编程接口）
+> http接口:基于HTTP协议的开发接口.这个并不能排除没有使用其他的协议。
+::: tip
 
-### 4、module 目录规范
-module 目录里写项目的各个业务，每个业务一个独立的顶级文件夹，在文件里进行 mvc 的相关划分。  
+1）确认接口文档的准确性
+在进行API对接之前，首先要确保接口文档的确性。接口文档应该清晰地描述API的功能、参数、返回值和错误码等方进行沟通和确认  
 
-其中，domain 包里存放 entity, dto, vo，bo 等 javabean 对象
-```
-src
-|-- module                         所有业务模块
-|-- |-- role                          角色模块
-|-- |-- |--RoleController.java              controller
-|-- |-- |--RoleConst.java                   role相关的常量
-|-- |-- |--RoleService.java                 service
-|-- |-- |--RoleDao.java                     dao
-|-- |-- |--domain                           domain
-|-- |-- |-- |-- RoleEntity.java                  表对应实体
-|-- |-- |-- |-- RoleDTO.java                     dto对象
-|-- |-- |-- |-- RoleVO.java                      返回对象
-|-- |-- employee                      员工模块
-|-- |-- login                         登录模块
-|-- |-- email                         邮件模块
-|-- |-- ....                          其他
-```
+2）参数的正确性和安全性   
+在进行API对接时，需要对参数的正确性安全性进行验证。对于必填参数，需要确保其不为空;对于可选参数需要进行合理的默认值处理。同时，需要对参数进行合法性检查避免恶意输入和攻击异常进行处理。
 
-### 5、domain 包中的 javabean 命名规范
-1） javabean 的整体要求：
-- 不得有任何的业务逻辑或者计算
-- 基本数据类型必须使用包装类型（Integer, Double、Boolean 等）
-- 不允许有任何的默认值
-- 每个属性必须添加注释，并且必须使用多行注释。
-- 必须使用 lombok 简化 getter/setter 方法
-- 建议对象使用 lombok 的 @Builder ，@NoArgsConstructor，同时使用这两个注解，简化对象构造方法以及set方法。
+3）错误处理和异常处理  
+在进行API对接时，应该对可能出现的错误和异常进行处理。对于返回的错误码，可以通过对应的错误码表进行解读和业务处理。同时，需要合理地处理异常情况，比如网络异常、服务器错误、超时异常等，以提高系统的稳定性和可靠性.
 
-正例：
-```java
-@Builder
-@NoArgsConstructor
-@Data
-public class DemoDTO {
+4）数据传输的安全性和加密性   
+在进行API对接时，需要确保数据传输的安全性和加密性。可以使用HTTPS协议来保证数据传输的加密性，同时可以使用其他加密算法来保证数据存储的安全性。如果涉及到用户的敏感信息，应该尽量避免明文传输和存储。
+ 
+5）版本控制和兼容性处理  
+在进行API对接时，应该考虑到接口的版本控制和兼容性处理。当接口发生变化时，应该及时进行版本升级，并及时通知对接方进行相应的调整。同时，为了保持接口的兼容性，可以通过使用接口升级策略和向后兼容的方式来处理。
+:::
 
-    private String name;
-    
-    private Integer age;
-}
+### 3、Rpc接口对接规范
+> 科普：RPC（Remote Procedure Call），远程过程调用）  
+> 局域网内部跨应用通信框架。常见的有dubbo、thrift、HSF、Feign。
 
-// 使用示例：
-
-DemoDTO demo = DemoDTO.builder()
-                .name("yeqiu")
-                .age(66)
-                .build();
-```
-
-
-2）数据对象；XxxxEntity，要求：  
-- 以 Entity 为结尾（阿里是为 DO 为结尾）
-- Xxxx 与数据库表名保持一致
-- 类中字段要与数据库字段保持一致，不能缺失或者多余
-- 类中的每个字段添加注释，并与数据库注释保持一致
-- 不允许有组合
-- 项目内的日期类型必须统一，建议使用 java.util.Date，java.sql.Timestamp，java.time.LocalDateTime 其中只一。
-
-
-3）传输对象；XxxxDTO，要求：
-- 不可以继承自 Entity
-- DTO 可以继承、组合其他 DTO，VO，BO 等对象
-- DTO 只能用于前端、RPC 的请求参数
-
-4）视图对象；XxxxVO，要求：
-- 不可继承自 Entity
-- VO 可以继承、组合其他 DTO，VO，BO 等对象
-- VO 只能用于返回前端、rpc 的业务数据封装对象  
-
-5）业务对象 BO，要求：
-- 不可以继承自 Entity
-- BO 对象只能用于 service，manager，dao 层，不得用于 controller 层
+重要的事情说三遍：
+:::warning
+一定要做好超时处理和异常处理的兜底！！！
+一定要做好超时处理和异常处理的兜底！！！
+一定要做好超时处理和异常处理的兜底！！！
+:::
 
 ## 三、MVC 规范  
 ### 1、整体分层
@@ -507,6 +425,7 @@ manager 层的作用(引自《阿里 java 手册》)：
 - 对 Service 层通用能力的下沉，如缓存方案、中间件通用处理；
 - 与 DAO 层交互，对多个 DAO 的组合复用。
 
+个人认为，该层也不是必须的，如果你觉得业务逻辑都写在service就可以，那就是可以，哈哈。
 ### 5、 dao 层规范
 优先使用 mybatis-plus 框架。如果需要多个数据源操作的，可以选择使用 SmartDb 框架。
 
@@ -648,5 +567,7 @@ CREATE TABLE `t_change_data` (
 - 不要提交与项目无关的内容文件：idea配置、target包等。
 
 
-## 原文链接
-转载自https://www.cnblogs.com/lovemelucky/p/15235062.html  
+## 参考资料
+原文链接：https://www.cnblogs.com/lovemelucky/p/15235062.html  
+原作者：爱我的幸运
+整理：代码小郭

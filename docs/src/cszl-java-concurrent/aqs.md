@@ -5,7 +5,6 @@ date: 2023-06-26
 category:
   - Java核心
 tag:
-  - 并发编程
   - AQS基础知识
 ---
 
