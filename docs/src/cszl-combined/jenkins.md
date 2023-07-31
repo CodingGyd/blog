@@ -1,6 +1,7 @@
 ---
 # icon: lock
 date: 2023-06-26
+article: false
 category:
   - 持续集成
 tag:

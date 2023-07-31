@@ -1,11 +1,7 @@
 ---
 # icon: lock
 date: 2018-01-05
-
-category:
-  - 代码质量
-tag:
-  - 代码质量
+article: false
 ---
 
 # 代码质量检查

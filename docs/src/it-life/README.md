@@ -1,8 +1,10 @@
 ---
 title: 我的苦逼IT人生路
 shortTitle: 我的苦逼IT人生路
+article: false
 category:
   - 我的苦逼IT人生路
+
 head:
   - - meta
     - name: keywords

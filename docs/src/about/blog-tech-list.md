@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-01-05
 category:
-  - 网站技术选型
+  - 建站过程记录
 star: 9
 sticky: 8
 ---

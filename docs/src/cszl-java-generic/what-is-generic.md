@@ -1,11 +1,7 @@
 ---
 # icon: lock
 date: 2018-01-05
-
-category:
-  - Java核心
-tag:
-  - 泛型
+article: false
 ---
 
 # 泛型与反射

@@ -1,6 +1,7 @@
 ---
 title: 我的葵花宝典
 shortTitle: 我的葵花宝典
+article: false
 category:
   - 我的葵花宝典
 head:

@@ -3,7 +3,7 @@
 date: 2023-06-18
 category:
   - 操作系统
-tags:
+tag:
   - linux
 ---
 # Linux常用命令&脚本&操作

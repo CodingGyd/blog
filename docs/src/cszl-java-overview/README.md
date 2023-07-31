@@ -3,6 +3,7 @@ title: Java核心-Java入门必知必会
 shortTitle: Java核心-Java入门必知必会
 category:
   - Java核心
+article: false 
 head:
   - - meta
     - name: keywords

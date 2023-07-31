@@ -1,10 +1,7 @@
 ---
 # icon: lock
 date: 2023-06-26
-category:
-  - 反向代理
-tag:
-  - nginx
+article: false
 ---
 
 # nginx的简单使用

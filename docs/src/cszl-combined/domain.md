@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-01-03
 category:
-  - 建站
+  - 建站过程记录
 tag:
   - 域名
 ---

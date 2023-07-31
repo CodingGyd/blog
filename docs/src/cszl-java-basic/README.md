@@ -3,6 +3,7 @@ title: Java核心-基础语法
 shortTitle: Java核心-基础语法
 category:
   - Java核心
+article: false 
 head:
   - - meta
     - name: keywords

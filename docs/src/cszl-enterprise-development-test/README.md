@@ -1,6 +1,7 @@
 ---
 title: 软件测试
 shortTitle: 软件测试
+article: false
 category:
   - 软件测试
 

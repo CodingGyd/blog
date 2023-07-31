@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-07-30
 category:
-  - 网站技术方案
+  - 建站过程记录
 tag:
   - Waline评论系统
 ---

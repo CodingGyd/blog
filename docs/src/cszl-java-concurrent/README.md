@@ -3,7 +3,7 @@ title: JAVA核心-并发编程学习笔记
 shortTitle: JAVA核心-并发编程学习笔记
 category:
   - Java核心
-
+article: false 
 head:
   - - meta
     - name: keywords

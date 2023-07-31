@@ -52,7 +52,8 @@ export default hopeTheme({
 
       //博主个人信息
       blog: {
-        
+        //文章列表分页配置
+        articlePerPage:10000,
         // 博主头像
         avatar: "/assets/icon/avata.svg",
         // 圆角  

@@ -3,6 +3,7 @@ title: 个人SOP手册-常见的问题解决方案
 shortTitle: 个人SOP手册-常见的问题解决方案
 category:
   - 个人SOP手册
+article: false 
 head:
   - - meta
     - name: keywords

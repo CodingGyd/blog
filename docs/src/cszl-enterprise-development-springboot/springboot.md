@@ -1,11 +1,7 @@
 ---
 # icon: lock
 date: 2018-01-05
-
-category:
-  - SpringBoot
-tag:
-  - SpringBoot
+article: false
 ---
 
 # SpringBoot

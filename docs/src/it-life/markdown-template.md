@@ -4,8 +4,8 @@ date: 2022-02-05
 category:
   - 我的苦逼IT人生路
   - 写作通用技能
-tags:
-  - markdown写作模板
+tag:
+  - markdown
 ---
 
 # 好用的写作模板，不用头疼怎么排版啦！

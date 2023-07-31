@@ -5,6 +5,7 @@ head:
   - - meta
     - name: keywords
       content: 综合,分布式任务框架,Git,Linuex,Jenkins,Swagger,跨域解决方案
+article: false 
 ---
 
 
