@@ -8,8 +8,120 @@ tag:
   - 阻塞队列
 ---
 
-# 阻塞队列
+# Java中的阻塞队列
+## 01、什么是阻塞队列？
+::: tip 阻塞队列科普
+阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作支持阻塞的插入和移除方法。  
 
+支持阻塞的插入方法：意思是当队列满时，队列会阻塞插入元素的线程，直到队列不满。  
+
+支持阻塞的移除方法：意思是在队列为空时，获取元素的线程会等待队列变为非空。  
+:::
+
+## 02、底层原理分析
+
+首先说明，JAVA中的阻塞队列基本使用通知模式实现。
+
+所谓通知模式，就是当生产者往满的队列里添加元素时会阻塞住生产者，当消费者消费了一个队列中的元素后，会通知生产者当前队列可用。
+
+我们以ArrayBlockingQueue的元素入队和出队为例来说明下通知模式的运用。 
+
+ArrayBlockingQueue类的元素入队方法逻辑：
+> 往队列中添加元素时调用put方法
+```
+public void put(E e) throws InterruptedException {
+    checkNotNull(e);
+    final ReentrantLock lock = this.lock;
+    lock.lockInterruptibly();
+    try {
+        while (count == items.length)
+            notFull.await();
+        enqueue(e);
+    } finally {
+        lock.unlock();
+    }
+}
+```
+从源码可以看出put方法的大概流程是：先获取锁(用ReentrantLock)，然后判断当前队列元素总数是否已经到达最大值，如果是则while死循环执行notFull.await进行线程阻塞等待，
+直到被唤醒(说明队列有空位)，唤醒后将元素加入队列中，最后释放锁，退出。
+
+那么阻塞的核心就是上面的notFull.await动作，这是condition机制里的知识，我们先不谈，再来看看队列的元素出队方法逻辑：
+> 从队列中拿元素时调用take方法
+```
+public E take() throws InterruptedException {
+    final ReentrantLock lock = this.lock;
+    lock.lockInterruptibly();
+    try {
+        while (count == 0)
+            notEmpty.await();
+        return dequeue();
+    } finally {
+        lock.unlock();
+    }
+}
+```
+从源码可以看出take方法的大概流程是：先获取锁(用ReentrantLock)，然后判断当前队列中的元素个数是否为0，若是，则while死循环执行notEmpty.await进行线程阻塞等待，直到被唤醒(说明队列中有元素了)，
+唤醒后从队列中获取元素，并释放锁,退出。
+
+
+上面分析了队列元素的入队put和出队take的大概流程，都涉及到了调用await开始阻塞等待，那何时会停止阻塞继续往下执行呢？
+
+这就涉及到通知机制的闭环了，肯定得有一个地方进行通知，告诉await方法你可以继续往下执行了，不要再等啦。
+
+我们回到put方法源码里，有一个enqueue方法的调用，这是元素入队的真正逻辑，先来看看它的源码：
+```java
+private void enqueue(E x) {
+    // assert lock.getHoldCount() == 1;
+    // assert items[putIndex] == null;
+    final Object[] items = this.items;
+    items[putIndex] = x;
+    if (++putIndex == items.length)
+        putIndex = 0;
+    count++;
+    notEmpty.signal();
+}
+```
+上面源码的大概流程是：先拷贝当前队列中的元素数组引用，然后把元素加入到数组的尾部，并将元素总数count+1，最后执行notEmpty.signal通知执行了await的取元素的线程停止阻塞，想通知的信息就是：队列中我放入元素了，你可以取走啦！。
+
+看到这里我们一般可以猜到notEmpty.signal是和notEmpty.await相呼应的，一个等待，一个通知。
+
+那么put方法中不是有notFull.await调用么，肯定有另外一个地方执行了notFull.signal进行通知了， 这个通知就发生在take方法执行成功之后，目的是告诉put线程：我队列空出位置了，你赶紧入队！
+```java
+private E dequeue() {
+   // assert lock.getHoldCount() == 1;
+   // assert items[takeIndex] != null;
+   final Object[] items = this.items;
+   @SuppressWarnings("unchecked")
+   E x = (E) items[takeIndex];
+   items[takeIndex] = null;
+   if (++takeIndex == items.length)
+       takeIndex = 0;
+   count--;
+   if (itrs != null)
+       itrs.elementDequeued();
+   notFull.signal();
+   return x;
+} 
+```
+
+总结一下上面的流程核心逻辑：
+- 入队：A线程操作元素入队时，如果队列满了，则A线程阻塞等待，直到B线程从队列中取走一个元素，此时留出空位置了，通知A线程停止阻塞执行元素入队操作。
+- 出队：B线程操作元素出队时，如果队列是空的，则B线程阻塞等待，直到A线程操作元素入队，此时队列不为空，通知A线程停止阻塞执行元素出队操作。
+
+上面的等待唤醒机制依赖下面的两个Conditionobject: notEmpty和notFull  
+```
+public class ArrayBlockingQueue<E> extends AbstractQueue<E>
+    implements BlockingQueue<E>, java.io.Serializable {
+final ReentrantLock lock;
+
+private final Condition notEmpty;
+
+private final Condition notFull;
+```
+Condition底层是使用LockSupport.park（this）LockSupport.unpark（）来实现线程等待和唤醒机制的
+  
+
+## 03、阻塞队列的实现
 Java 里目前为止提供了7个阻塞队列的实现：  
 
 ```java
@@ -35,7 +147,7 @@ LinkedTransferQueue linkedTransferQueue = new LinkedTransferQueue();
 LinkedBlockingDeque linkedBlockingDeque = new LinkedBlockingDeque();
 ```
 
-## 01、ArrayBlockingQueue
+### a、ArrayBlockingQueue
 ArrayBlockingQueue 底层是一个用数组实现的有界阻塞队列，按照FIFO(先进先出)的顺序对队列元素进行管理。  
 
 通过默认的构造方法构造的实例在使用时不保证线程公平的访问队列，但是可以自定义公平策略， jdk1.8中的构造方法源码如下：
@@ -63,7 +175,7 @@ public ArrayBlockingQueue(int capacity, boolean fair) {
 }
 ```
 
-## 02、LinkedBlockingQueue
+### b、LinkedBlockingQueue
 LinkedBlockingQueue 底层是一个用链表实现的有界阻塞队列，此队列的默认和最大长度都是 Integer.MAX_VALUE，按照先进先出的原则对元素进行管理。  
 jdk1.8中提供了三种构造方式，源码如下：
 ```java
@@ -112,7 +224,7 @@ jdk1.8中提供了三种构造方式，源码如下：
 ```
 
 
-## 03、PriorityBlockingQueue
+### c、PriorityBlockingQueue
 PriorityBlockingQueue 是一个无界阻塞队列，支持按指定优先级排序， 默认情况下队列中的元素采取自然顺序升序排列。  
 我们也可以自定义类实现 compareTo()方法来指定元素排序规则，或者初始化PriorityBlockingQueue 时，指定一个构造参数 Comparator 来对元素进行排序。
 
@@ -197,7 +309,7 @@ jdk1.8中提供了四种构造方式初始化一个无界阻塞队列，源码�
     }
 ```
 
-## 04、DelayQueue
+### d、DelayQueue
 
 DelayQueue 是一个可以支持指定延时获取元素的无界阻塞队列，队列使用 PriorityQueue 来实现。  
 
@@ -223,7 +335,7 @@ jdk1.8提供了两种构造DelayQueue的方式，源码如下：
     }
 ```
 
-## 05、SynchronousQueue
+### e、SynchronousQueue
 
 SynchronousQueue 是一种特殊的阻塞队列，不存储任何元素，它规定了生产者线程和消费者线程之间的依赖关系。对该队列的每一个 put 操作必须等待一个take 操作，也就是说当一个线程向 SynchronousQueue 中放入元素时，另一个线程可以从 SynchronousQueue 中获取该元素，但是它们之间必须要等待，直到生产者线程将元素放入 SynchronousQueue 中。相反，当一个线程从 SynchronousQueue 中获取元素时，另一个线程可以向 SynchronousQueue 中放入元素，但是它们之间也必须要等待，直到消费者线程从 SynchronousQueue 中获取元素。这种阻塞队列通常用于在没有其他线程的情况下进行通信，或者用于在单线程环境中进行同步。
 
@@ -247,7 +359,7 @@ jdk1.8提供了两种构造SynchronousQueue的方式，源码如下：
     }
 ```
 
-## 06、LinkedTransferQueue
+### f、LinkedTransferQueue
 
 LinkedTransferQueue底层是链表结构组成的无界阻塞 TransferQueue 队列，初始为空。相对于其他阻塞队列比如SynchronousQueue，LinkedTransferQueue 多了 tryTransfer 和 transfer 方法，用于在队列之间进行元素传输。    
 
@@ -274,7 +386,7 @@ jdk1.8提供了两种构造LinkedTransferQueue的方式，源码如下：
     }
 ```
 
-## 07、LinkedBlockingDeque
+### g、LinkedBlockingDeque
 
 LinkedBlockingDeque底层是一个由链表结构组成的双向阻塞队列。支持从队列的两端插入和移出元素。  
 
