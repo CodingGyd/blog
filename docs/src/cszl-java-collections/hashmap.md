@@ -63,7 +63,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 ```
 
  数组里面都是Key-Value的实例，在JDK1.8之前每个数组元素叫Entry，JDK1.8以后叫Node。
-  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-2.png"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
+  <img src="http://cdn.gydblog.com/images/java/collections/hashmap-2.jpg"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
 
 ## 03、put流程
 从HashMap的put方法分析得出以下流程

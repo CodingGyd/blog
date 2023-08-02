@@ -1,8 +1,6 @@
 ---
 date: 2023-07-21
 category:
-  - 葵花宝典
-tag:
   - 编程规约
 star: 9
 sticky: 10

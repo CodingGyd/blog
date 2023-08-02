@@ -2,9 +2,9 @@
 # icon: lock
 date: 2023-06-20
 category:
-  - 分布式任务框架
+  - 开源框架
 tag:
-  - elasticjob
+  - 分布式任务调度
 ---
 
 

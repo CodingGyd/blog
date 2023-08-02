@@ -97,7 +97,9 @@ export const enSidebar = sidebar({
           "threadlocal",
           "thread-pool",
           "aqs",
-          "queue"
+          "queue",
+          "atomic",
+          "util-class"
           ],
         },
         {
@@ -280,10 +282,8 @@ export const enSidebar = sidebar({
       children: [   
         "layered-architecture",
         "domain",
-        "poi",
         "git",
         "linux",
-        "cros",
         "elasticjob",
         "jenkins",
         // "nginx",
@@ -300,6 +300,8 @@ export const enSidebar = sidebar({
         "exception-sop",
         "compute-sop",
         "axure",
+        "cros"
+
       ],
    
     }

@@ -1,8 +1,6 @@
 ---
 date: 2023-07-16
 category:
-  - 葵花宝典
-tag:
   - 工具软件
 star: 9
 sticky: 5

@@ -2,10 +2,12 @@
 # icon: lock
 date: 2023-07-05
 category:
-  - SpringBoot
+  - 编程规约
 ---
 
-# Springboot的项目分层
+# 项目分层结构
+> 这里以SpringBoot项目为例子
+ 
 每个人、每个开发团队的规范习惯都不太一样，没有固定标准，合适的才是最好的。这里记录下我习惯的一种springboot项目分层方式
 
 ## 初学时简单分层-单个module
