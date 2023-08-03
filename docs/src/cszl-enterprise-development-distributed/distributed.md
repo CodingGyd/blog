@@ -5,9 +5,6 @@ article: false
 ---
 
 # 分布式理论
-## CAP
-TODO
-## BASE
-TODO
 
-todo
+[分布式系统理论](https://blog.csdn.net/community_717/article/details/131559004 "分布式系统理论")  
+

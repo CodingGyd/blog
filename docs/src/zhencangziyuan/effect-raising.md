@@ -2,8 +2,7 @@
 date: 2023-07-16
 category:
   - 工具软件
-star: 9
-sticky: 5
+star: true
 ---
 
 # 研发过程-提效工具(摸鱼神器)

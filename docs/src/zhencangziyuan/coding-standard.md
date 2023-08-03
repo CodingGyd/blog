@@ -2,8 +2,7 @@
 date: 2023-07-21
 category:
   - 编程规约
-star: 9
-sticky: 10
+star: true
 ---
  
 # 合格程序员必备的编程规约

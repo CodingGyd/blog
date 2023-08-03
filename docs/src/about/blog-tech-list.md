@@ -3,8 +3,7 @@
 date: 2023-01-05
 category:
   - 网站建设
-star: 9
-sticky: 8
+star: true
 ---
 
 # 网站开发技术选型

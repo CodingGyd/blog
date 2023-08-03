@@ -56,19 +56,30 @@ IntelliJ IDEA 提供了开发者适应远程工作所需的工具。 开发者�
 [IDEA2023.1永久破解教程（亲测有效）](../zhencangziyuan/tools.md#idea20231永久破解教程亲测有效)
 
 ## 05、好用的idea插件推荐
-- POJO to json
+> 下方的插件获取方式：idea的plugins里搜索安装即可
+:::tip translate
+翻译插件，右键直接翻译选中的内容，文档https://yiiguxing.gitee.io/translation-plugin/#/docs
+:::
+
+:::tip POJO to json
 dto转json
-- Maven Helper
-pom依赖分析
-- better-mybatis-generator
-数据库实体代码生成
-- Database navigate
-数据库插件，可以查看数据库
-- Thief-Book 
-真摸鱼插件，看txt小说用！！ 缺点是只能看txt。。  非插件方式的桌面安装方式支持pdf:https://thief.im/
-thief.com 摸鱼官网
-- EasyCode
-支持一键生成mvc模式的增删改查代码，能大大提高开发效率(摸鱼时间更多^_^)！
+:::
+
+:::tip maven依赖查看
+Maven Helper，pom依赖分析
+:::
+
+:::tip Database navigate
+Database navigate，数据库插件，可以连接和查看数据库信息
+:::
+
+:::tip Thief-Book
+真摸鱼插件，看txt小说用！！ 缺点是只能看txt。。非插件方式的桌面安装方式支持pdf， thief.com 摸鱼官网https://thief.im/
+:::
+
+:::tip 代码一键生成插件(强烈推荐！！！)
+EasyCode，支持一键生成mvc模式的增删改查代码，能大大提高开发效率(摸鱼时间更多^_^)！
+:::
 
 ## 06、IDEA配置groovy环境
 我在用idea的database功能根据表生成pojo时报如下错误，查了下是缺少配置groovy环境。

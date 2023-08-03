@@ -2,8 +2,7 @@
 date: 2022-01-09
 category:
   - 代码轮子
-star: 9
-sticky: 6
+star: true
 ---
 
 # 代码轮子-减少重复开发工作

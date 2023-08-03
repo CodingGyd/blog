@@ -209,7 +209,7 @@ export const enSidebar = sidebar({
           text: "3.7 分布式",
           collapsible: true,
           children: [
-          // "distributed",
+          "distributed",
           // "rongduan",
           // "xianliu",
           // "jiangji",
@@ -229,7 +229,7 @@ export const enSidebar = sidebar({
           text: "3.9 软件测试",
           collapsible: true,
           children: [
-          // "unit-testing",
+          "unit-testing",
           // "functional-testing",
           // "automated-testing",
           "performance-testing",
