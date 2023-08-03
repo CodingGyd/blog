@@ -47,7 +47,7 @@ date: 2018-01-05
 DemoMapper.java: 
 ```java
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wondersgroup.cos.riskinvestigation.entity.IdRuleEntity;
+import com.gyd.entity.IdRuleEntity;
 
 public interface DemoMapper extends BaseMapper<IdRuleEntity> {
 }
