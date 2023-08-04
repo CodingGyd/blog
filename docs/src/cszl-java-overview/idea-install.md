@@ -10,7 +10,10 @@ category:
 ## 01、IDEA简介
 IDEA全称是IntelliJ IDEA，由JetBrains公司开发，是业界公认最好的JAVA编程工具之一。IDEA是具有高级代码导航和可靠代码重构的首批Java IDE中的一员，经过长期迭代已发展成为具备高效软件开发所需的所有关键工具和实用功能以及一套基于IntelliJ平台的其他IDE的综合型IDE。IDEA在智能代码助手、代码自动提示、J2EE支持、Ant、Junit、CVS整合、代码审查等方面的功能都是非常优秀的。<br/>
 
-IntelliJ IDEA在官网是这样介绍自己的：IntelliJ IDEA是Java和Kotliin开发的领先IDE。它具有一套有助于提高效率的功能，包括智能编码辅助、可靠重构、即时代码导航、内置开发者工具、Web和企业开发支持等。<br/>
+IntelliJ IDEA在官网是这样介绍自己的：
+:::info 自我介绍
+IntelliJ IDEA是Java和Kotliin开发的领先IDE。它具有一套有助于提高效率的功能，包括智能编码辅助、可靠重构、即时代码导航、内置开发者工具、Web和企业开发支持等。<br/>
+:::
 
 IDEA支持功能特性主要围绕以下几个方面：
 - 开发者人体工程学<br/>
@@ -38,7 +41,9 @@ IntelliJ IDEA 提供了开发者适应远程工作所需的工具。 开发者�
 我刚入门时用的Eclipse，工作三年后跳槽进入互联网公司才开始接触IDEA。刚开始是很不习惯使用的，但是坚持用了一段时间后才感觉真香呀，果断放弃Eclipse拥抱IDEA。总体来说IDEA比Eclipse在使用上更方便，功能更稳定。建议刚入门的同学直接上手IDEA，因为现在主流互联网大厂都是使用IDEA的。
 
 ## 02、安装步骤
-首先我们要从[官网](https://www.jetbrains.com/zh-cn/idea/download/#section=windows)获取安装包。 安装包有两种类型：社区版(Community)和旗舰版(Ultimate)。社区版是免费的产品。旗舰版是收费的，可免费试用30天，功能比社区版更丰富。<br/>
+首先我们要从[官网](https://www.jetbrains.com/zh-cn/idea/download/#section=windows)获取安装包。   
+
+安装包有两种类型：社区版(Community)和旗舰版(Ultimate)。社区版是免费的产品。旗舰版是收费的，可免费试用30天，功能比社区版更丰富。<br/>
 
 这里仅展示 windows 环境下的社区版本安装，其他系统也是大同小异。<br/>
 <img src="http://cdn.gydblog.com/images/java/java-idea-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -53,6 +58,11 @@ IntelliJ IDEA 提供了开发者适应远程工作所需的工具。 开发者�
 
 
 ## 04、IDEA破解
+对于广大猿友人来说，都喜欢使用一个没有功能限制的产品。  
+
+IDEA分了社区版和旗舰版，社区版免费但功能被阉割了，旗舰版功能齐全但是需要收费。 猿友们一般都不会愿意去交这个钱。  
+
+那么怎么破解呢？ 可以看看下面的教程：
 [IDEA2023.1永久破解教程（亲测有效）](../zhencangziyuan/tools.md#idea20231永久破解教程亲测有效)
 
 ## 05、好用的idea插件推荐

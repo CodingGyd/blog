@@ -12,8 +12,11 @@ tag:
 volatitle经常被用到并发编程的场景中。它的作用有两个，即：
 
 - 保证可见性；
-- 保证有序性。
+- 保证有序性。  
+
 但是，要注意volatile关键字并不能保证原子性。
+
+<img src="http://cdn.gydblog.com/images/sucai/sc-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## 02、如何保证可见性
 由于每个线程都有自己的工作空间，导致多线程的场景下会出现缓存不一致性的问题。即，当两个线程共用一个共享变量时，如果其中一个线程修改了这个共享变量的值。但是由于另外一个线程在自己的工作内存中已经保留了一份该共享变量的副本，因此它无法感知该变量的值已经被修改。volatile可以解决这个问题。
@@ -66,27 +69,6 @@ main thread is end.
 那么接下来我们将成员变量flag使用volatile关键字修饰后，再运行看打印日志：
 
 ```java
-public class VolatileDemo2 {
-    private volatile static boolean flag = false;
-
-    public static class PhoneThread extends Thread {
-        @Override
-        public void run() {
-            System.out.println("PhoneThread is running...");
-            while (!flag) ; // 如果flag为false，则死循环
-            System.out.println("PhoneThread is end");
-        }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        new PhoneThread().start();
-        Thread.sleep(1000);
-        flag = true;
-        System.out.println("flag = " + flag);
-        Thread.sleep(5000);
-        System.out.println("main thread is end.");
-    }
-}
 
 ```
 
@@ -164,11 +146,14 @@ x01a3de24: lock addl $0×0,(%esp)
 
 由于cpu的处理速度和内存处理速度不一致，在计算机架构设计中，大佬们专门在cpu和内存之间增加了一层内部缓存(L1，L2或其它)。cpu读写操作都是先和缓存层进行交互，最终通过一些机制刷回系统内存中。
 
+<img src="http://cdn.gydblog.com/images/sucai/sc-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
 
 jmm内存模型就是这种方式：
 <img src="http://cdn.gydblog.com/images/java/concurrent/jmm.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-JMM可以简单的理解为线程访问共享变量的方式。可见JMM是Java并发编程的底层基础，想要深入了解并发编程，就需要先理解JMM。JMM规定所有变量都存储在主内存中，每条线程还有自己的工作内存。线程的工作内存中保存了被线程使用的变量的主内存副本，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的数据。不同线程之间也无法直接访问对方的工作内存中的变量，线程间变量值的传递需要通过主内存来完成。 也就是说Java线程之间的通信采用的是共享内存。
- 
+JMM可以简单的理解为线程访问共享变量的方式。可见JMM是Java并发编程的底层基础，想要深入了解并发编程，就需要先理解JMM。  
+
+JMM规定所有变量都存储在主内存中，每条线程还有自己的工作内存。线程的工作内存中保存了被线程使用的变量的主内存副本，线程对变量的所有操作都必须在工作内存中进行，而不能直接读写主内存中的数据。不同线程之间也无法直接访问对方的工作内存中的变量，线程间变量值的传递需要通过主内存来完成。 也就是说Java线程之间的通信采用的是共享内存。
 
 然而这种缓存架构在多处理器并发场景下会引发缓存一致性的问题：每个处理器对同一个变量都有一份自己的副本在自己的缓存中，当某个处理器对变量进行了修改，其它处理器从自己缓存中拿到的还是该变量的旧值。
 

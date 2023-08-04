@@ -115,7 +115,7 @@ export const enSidebar = sidebar({
           text: "2.6 异常处理",
           collapsible: true,
           children: [
-          // "exception",
+          "exception",
           ],
         },
         {

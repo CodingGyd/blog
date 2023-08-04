@@ -7,24 +7,36 @@ category:
 
 # Java 的完整故事，从 1991 年到 2022 年
 ## 01、前言
-今天，Java已经发展为世界上最流行和最受欢迎的编程语言之一，每年有超过数以万计的人在学习Java或从事Java开发相关的工作。毋庸置疑，Java技术已经深入各行各业。<br/> 附上TIOBE 2023年4月排行榜：
-<img src="http://cdn.gydblog.com/images/java/java-paiming.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+今天，Java已经发展为世界上最流行和最受欢迎的编程语言之一，每年有超过数以万计的人在学习Java或从事Java开发相关的工作。毋庸置疑，Java技术已经深入各行各业。<br/> 
 
-你可能知道也可能不知道，Java已经有一个很长的历史了(将近30年)。Java的雏形诞生于1990年代初，最初是叫Oak（领导办公室外的一棵橡树），当时的目标是将其用于数字有线电视行业的程序架构，各种消费性电子产品例如机顶盒、智能电视等数字设备。<br/>
+附上TIOBE 2023年4月排行榜：
+<img src="http://cdn.gydblog.com/images/java/java-paiming.jpg"  style="zoom: 20%;margin:0 auto;display:block"/><br/>
 
-人不能忘本，否则做人会很失败。我觉得学一门技术也一样，需要从根学起，基础要打好。我断定如今大多数学习Java的初学者，甚至从事Java开发工作多年的专业技术人员通常都缺乏Java是如何随着时间的推移而演变的知识，因此我想从Java的根开始说起，让大家了解一下Java的完整故事。
+你可能知道也可能不知道，Java已经有一个很长的历史了(将近30年)。  
+
+Java的雏形诞生于1990年代初，最初是叫Oak（领导办公室外的一棵橡树），当时的目标是将其用于数字有线电视行业的程序架构，各种消费性电子产品例如机顶盒、智能电视等数字设备。<br/>
+
+人不能忘本，否则做人会很失败。我觉得学一门技术也一样，需要从根学起，基础要打好。我断定如今大多数学习Java的初学者，甚至从事Java开发工作多年的专业技术人员通常都缺乏Java是如何随着时间的推移而演变的知识，因此我想从Java的起源开始说起，让大家了解一下Java的完整故事。
 ## 02、JDK版本迭代史
 ### 1991年(Java的诞生)
+:::info Oak项目
+:::
 Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项目，当时是由Sun公司的一个小工程师团队在设计和开发。该团队称自己为绿队(Green Term)，团队成员有James Gosling、Mike Sheridan、 Patrick Naughton等人。James Gosling(詹姆斯高斯林)是项目负责人。Oak中文名是"橡树"，橡树是力量和耐用性的象征。时间证明，这个名字是非常适合的，甚至是预言性的，尽管在1995年被迫改名为Java(当时Oak已经被注册为另一个商标的一部分导致无法继续使用)。先附上一张JAVA爸爸(詹姆斯高斯林)的帅照：<br/><br/>
 <img src="http://cdn.gydblog.com/images/java/java-baba.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 1995年
-<font color="red">1995年</font>当时在美国的硅谷有一个大会，号称是全球最顶尖的软件和硬件厂商都会在这个大会展示自家的产品，那么Sun公司的负责人James Gosling也带着他的Oak项目去展示了。参会时一个偶然的机会让他发现他的项目名字早已被人注册商标了，没办法了只能重新给Oak取一个新的名字(早在国外的时候人们对于版权看的非常重要)。James Gosling和他的团队经过讨论后最终决定重命名为Java(爪哇，是印度尼西亚生产第一杯咖啡的一个岛屿名称。因为当时美国非常多的人喜欢喝咖啡)。同年Sun公司正式公开发布Java语言(只是面世，还没有进行开发工具包JDK的发布，大家还无法使用)，并且第一次提出了"Write Once，Run Anywhere"(WORA,一次编写，到处运行)的口号。《时代》杂志将Java评为了1995年十大最佳产品之一。<br/><br/>
+:::info JAVA正式发布
+:::
+<font color="red">1995年</font>当时在美国的硅谷有一个大会，号称是全球最顶尖的软件和硬件厂商都会在这个大会展示自家的产品，那么Sun公司的负责人James Gosling也带着他的Oak项目去展示了。参会时一个偶然的机会让他发现他的项目名字早已被人注册商标了，没办法了只能重新给Oak取一个新的名字(早在国外的时候人们对于版权看的非常重要)。James Gosling和他的团队经过讨论后最终决定重命名为Java(爪哇，是印度尼西亚生产第一杯咖啡的一个岛屿名称，当时美国非常多的人喜欢喝咖啡)。同年Sun公司正式公开发布Java语言(只是面世，还没有进行开发工具包JDK的发布，大家还无法使用)，并且第一次提出了"Write Once，Run Anywhere"(WORA,一次编写，到处运行)的口号。《时代》杂志将Java评为了1995年十大最佳产品之一。<br/><br/>
 
 ### 1996年(JDK1.0)
+:::info JAVA开发工具包JDK1.0
+:::
 <font color="red">1996年1月23日</font>，Sun公司发布了Java1.0的第一个公开开发工具包，也就是JDK1.0，Java语言有了第一个正式版本的运行环境。JDK1.0提供了一个纯解释执行的Java虚拟机实现(Sun Classic VM)。JDK1.0版本的代表技术点有：Java虚拟机、Applet、AWT等。同年5月底，首届JavaOne大会在旧金山顺利举行，从此JavaOne成为了全世界数百万Java语言开发者一年一度的技术盛会。9月，已有大约8万网页应用采用了Java技术实现<br/><br/>
 
 ### 1997年(JDK1.1)
+:::info JAVA开发工具包JDK1.1
+:::
 <font color="red">1997年2月19日</font>，Sun公司发布了JDK1.1，Java里许多最基础的技术点(如JDBC等)都是在JDK1.1版本中提出的，JDK1.1版本的技术代表有：JAR文件格式、JDBC、JavaBeans、RMI等。Java语言的语法也有了一定的增强，如内部类(Inner Class)和反射(Reflection都是在这个版本出现的)。
 
 - 内部类的概念
@@ -37,6 +49,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 来自Taligent公司的国际化和Unicode支持
 
 ### 1998年(JDK1.2)
+:::info JAVA开发工具包JDK1.2-里程碑版本
+:::
 <font color="red">1998年12月4日</font>，JDK迎来了一个里程碑式的版本：工程代号为Playground的JDK1.2，Sun在这个版本中把Java技术体系拆分为三个方向，分别是面向桌面开发的J2SE、面向企业开发的J2EE、面向移动端开发的J2ME。在这个版本中出现了非常多的代表性技术，如EJB、Java Plug-in、Java IDL、Swing等，并且这个版本中Java虚拟机第一次内置了JIT(Just In Time)即时编译器(JDK1.2中曾并存过三个虚拟机：Classic VM、HotSpot VM和Exact VM, 其中Exact VM只在Solaris平台出现过；其余两款虚拟机都是内置了JIT即时编译器的，而之前版本所带的Classic VM只能以外挂的形式实用即时编译器)。在语言和API层面上，Java添加了一系列Collections集合类等。
 
 - Java plug-in(Java applet)
@@ -50,6 +64,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 <font color="red">1999年</font>，HotSpot虚拟机诞生。<br/><br/>
 
  ### 2000年(JDK1.3)
+:::info JAVA开发工具包JDK1.3
+:::
 <font color="red">2000年5月8日</font>，JDK1.3版本发布。从此Sun公司维持着稳定的研发节奏： 大约每隔两年发布一个JDK的主版本，以动物命名，期间发布的各个修正版本则以昆虫作为工程代号。
 
 - 包括了HotSpot JVM（HotSpot JVM于1999年4月首次发布，用于J2SE 1.2 JVM）
@@ -60,6 +76,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - Synthetic proxy classes
 
  ### 2002年(JDK1.4)
+:::info JAVA开发工具包JDK1.4
+:::
 <font color="red">2002年2月13日</font>，JDK1.4发布，该版本是标志着Java真正走向成熟的一个版本。带来了非常多技术新特性，如正则表达式、异常链、NIO、日志类、XML解析器、XSLT转换器等。
 
 - assert关键字
@@ -74,6 +92,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 包括了Java Web Start（Java Web Start 于2001年3月首次发布，适用于J2SE 1.3）
 
  ### 2004年(JDK5)
+:::info JAVA开发工具包JDK命名规则变更&JDK5发布
+:::
 <font color="red">2004年9月30日</font>，JDK5发布， Sun公司从这个版本开始将产品版本号格式修改成了"JDK x"，该版本在Java语法易用性上做了非常大的改进。如：自动装箱拆箱、泛型、动态注解、枚举、可变长参数、循环遍历(foreach)等语法特性。这个版本改进了Java的内存模型(Java Memory Model，JMM)，提供了重要的JUC包(java.util.concurrent并发编程包)。
 
 - 引入了泛型：避免了手动类型转换，使用类型擦除实现，在编译时删除泛型信息并使用Object替换，在实际使用时强转会原始类型
@@ -90,6 +110,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 版本命名变更，1.5.0 表示开发者内部版本，JDK 5表示产品版本
 
  ### 2006年(JDK6)
+:::info JAVA开发工具包JDK6发布
+:::
 <font color="red">2006年12月11日</font>，JDK6发布，在这个版本中，Sun公司终结了J2EE、J2SE、J2ME的产品线命名方式，启用JavaEE、JavaSE、JavaME的新命名格式来代替。JDK6应该是Java史上使用寿命最长的一个版本，主要原因是中间经历了代码复杂性增加、世界经济危机、Oracle对Sun进行收购。同年的JavaOne大会上，Sun公司宣布计划要把Java源代码开源，随后陆续的将JDK的各个部分在GPLv2(GNU General Public Lcensev2)协议下公开了源码，并建立了OpenJDK组织对这些源代码进行独立管理。
 
 - 脚本语言支持：用于与脚本语言紧密集成的通用API，以及内置的 Mozilla JavaScript Rhino 集成。
@@ -103,6 +125,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - JVM 改进包括：同步和编译器性能优化、新算法和对现有垃圾收集算法的升级以及应用程序启动性能
 
  ### 2009年(JDK7)
+:::info JAVA开发工具包JDK7发布
+:::
 <font color="red">2009年2月19日</font>，JDK7的第一个里程碑版本发布。按JDK7最初的功能规划，一共会设置十个里程碑。从JDK7最原始的功能清单来看，它本应是一个包含许多重要改进的JDK版本，但现实不如人愿，由于Sun公司在商业上遇到了问题，没有精力去推动JDK7的研发工资，因此以下功能没能全在JDK7中完成实现：
 - Lambda项目:支持Lambda表达式，支持函数式编程。(JDK 8)
 - Jigsaw项目:虚拟机层面的模块化支持。(JDK 9)
@@ -139,6 +163,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - Java deployment rule sets
 
  ### 2014年(JDK8)
+:::info JAVA开发工具包JDK8发布
+:::
 <font color="red">2014年3月18日</font>，JDK8发布，提供了Lambda表达式支持、内置Nashorn JavaScript引擎支持、新的时间日期API、彻底移除HotSpot永久代。
 - Lambda表达式
 - stream操作
@@ -153,6 +179,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 删除永久代
 
  ### 2017年(JDK9)
+:::info JAVA开发工具包JDK9发布
+:::
 <font color="red">2017年9月21日</font>，JDK9发布，带来了Jigsaw虚拟机模块化支持技术。从此每六个JDK大版本划出一个三年支持的LTS版本(Long Term Support)，普通版本只有六个月生命周期。JDK8和JDK11是LTS版本。下一个就是要在2021年发布的JDK17了。
 
 - Jigsaw项目下JDK的模块化（Java 平台模块系统）
@@ -175,6 +203,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 提前编译：GraalVM 提供的提前编译。
 
  ### 2018年(JDK10、JDK11)
+:::info JAVA开发工具包JDK10\JDK11
+:::
 <font color="red">2018年3月20日</font>，JDK10发布，该版本主要是内部重构。同年，Oracle公司宣告JavaEE成为历史名词。同年，JavaOne大会成为最后一届。
 - 局部变量类型推断 var 关键字
 - GC接口：通过引入干净的垃圾收集器 (GC) 接口来改进不同垃圾收集器的源代码隔离
@@ -209,6 +239,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 接下来的JDK12、JDK13、JDK14、JDK15、JDK16、JDK18、JDK19都是过渡产品，不太受开发者待见。<br/><br/>
 
  ### 2019年(JDK12、JDK13)
+:::info JAVA开发工具包JDK12\JDK13
+:::
 <font color="red">2019年</font>，JDK12发布，引入了Shenandoah垃圾收集器，作为首个非Oracle公司开发的垃圾收集器，由于目标与Oracle在JDK11引入的ZGC几乎一致，存在竞争关系。OracleJDK 12把相关代码通过条件编译强行踢出，使其无法在OracleJDK中使用。
 
 - 提供了实验性的Shenandoah垃圾收集器
@@ -228,6 +260,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 引入了文本块语法，预览阶段
 
  ### 2020年(JDK14、JDK15)
+:::info JAVA开发工具包JDK14\JDK15
+:::
 <font color="red">2020年3月</font>，JDK14发布，主要包含16个功能改进和漏洞修复。
 - 增强了instanceof功能，简化了使用。预览阶段
 - 增加了一个java的应用打包工具，可以打包成各平台的应用格式。孵化阶段
@@ -247,7 +281,6 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 引入 API 以允许 Java 程序安全有效地访问 Java 堆之外的外部内存。孵化阶段
 
 
-
 <font color="red">2020年9月</font>，JDK15发布，主要是安全更新和bug修复。
 - 使用爱德华兹曲线数字签名算法 (EdDSA) 实现加密签名
 - 引入了两个关键字sealed和permits。实现了密封类继承语法。处于预览阶段。在过去的java语法中，类可以被自由的继承。在新的语法中，可以用sealed密封一个类，然后使用permits限制可以继承这个类的子类
@@ -265,6 +298,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - JDK15废弃了RMI Activation，后续将被移除
 
  ### 2021年(JDK16、JDK17)
+:::info JAVA开发工具包JDK16\JDK17
+:::
 <font color="red">2021年3月</font>，JDK16发布，主要包含17个更新。
 - 提供了一套新的向量计算API，并且向量计算运行时可以尽量编译到硬件支持的最佳指令上
 - 允许在 JDK C++ 源代码中使用 C++14 语言特性，并给出关于哪些特性可以在 HotSpot 代码中使用的具体指导
@@ -300,6 +335,8 @@ Java诞生于<font color="red">1991年5月</font>，来源于名为"Oak"的项�
 - 特定于上下文的反序列化过滤器
 
  ### 2022年(JDK18、JDK19)
+ :::info JAVA开发工具包JDK18\JDK19
+ :::
 <font color="red">2022年3月22日</font>，JDK18发布。<br/>
 - 将UTF-8指定为标准Java API的默认字符集
 - 简单Web服务器
