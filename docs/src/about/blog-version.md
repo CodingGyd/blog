@@ -9,6 +9,13 @@ star: 9
 
 # 发版大事记
 
+## 20230731 beta 0.0.6
+
+### 重点关注
+> 首页内容丰富
+<img src="http://cdn.gydblog.com/images/blog-create/blog-create-15.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ 
+
 ## 20230731 beta 0.0.5 
 
 ### 重点关注

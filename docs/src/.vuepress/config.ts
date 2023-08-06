@@ -1,7 +1,7 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
 import { searchProPlugin } from "vuepress-plugin-search-pro";
-import { commentPlugin } from "vuepress-plugin-comment2";
+  
 
 export default defineUserConfig({
   base: "/",
@@ -74,12 +74,13 @@ export default defineUserConfig({
   },
  
   plugins: [
+   
     //搜索插件
     searchProPlugin({
       // 索引全部内容
       indexContent: true,
     }),
-   
+    
   ],
 
   theme,

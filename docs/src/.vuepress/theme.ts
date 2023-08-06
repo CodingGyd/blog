@@ -37,7 +37,7 @@ export default hopeTheme({
   //文章是否展示最后编辑时间
   lastUpdated:true,
   //文章是否展示[编辑此页]的链接
-  editLink:false,
+  editLink:true,
 
   locales: {
     "/": {
@@ -102,7 +102,7 @@ export default hopeTheme({
   plugins: {
     blog: {
       //自动生成摘要设置
-      excerptLength: 0,
+      excerptLength: 100,
     },
     //该插件会监听页面滚动事件。当页面滚动至某个 标题锚点 后，如果存在对应的 标题链接 ，那么该插件会将路由 Hash 更改为该 标题锚点 。
     activeHeaderLinks: true,
@@ -130,58 +130,6 @@ export default hopeTheme({
         pageview:true,
   
     },
-
-    mdEnhance: {
-      //自动对齐
-      align: true,
-      attrs: true,
-      chart: true,
-      //代码块分组支持
-      codetabs: true,
-      demo: true,
-      echarts: true,
-      figure: true,
-      // 支持流程图
-      flowchart: true,
-      gfm: true,
-       // 启用图片懒加载
-      imgLazyload: true,
-      // 启用图片标记
-      imgMark:true,
-      imgSize: true,
-      include: true,
-      katex: true,
-      mark: true,
-      // 支持任务列表
-      tasklist: true,
-      // 流程图
-      mermaid: true,
-      playground: {
-        presets: ["ts", "vue"],
-      },
-      // presentation: {
-      //   plugins: ["highlight", "math", "search", "notes", "zoom"],
-      // },
-      stylize: [
-        {
-          matcher: "Recommended",
-          replacer: ({ tag }) => {
-            if (tag === "em")
-              return {
-                tag: "Badge",
-                attrs: { type: "tip" },
-                content: "Recommended",
-              };
-          },
-        },
-      ],
-      sub: true,
-      sup: true,
-      // 添加选项卡支持
-      tabs: true,
-      vPre: true,
-      vuePlayground: true,
-    },
     //版权限制
     copyright:{
         //禁用复制和粘贴
@@ -192,6 +140,82 @@ export default hopeTheme({
         // license:"协议",
         triggerWords:10,
     },
+    //vuepress组件库
+    components:{
+      // 你想使用的组件
+      components: [
+        "ArtPlayer",
+        "AudioPlayer",
+        "Badge",
+        "BiliBili",
+        "CodePen",
+        "PDF",
+        "Replit",
+        "Share",
+        "SiteInfo",
+        "StackBlitz",
+        // "VidStack",
+        "VideoPlayer",
+        "XiGua",
+        "YouTube",
+      ],
+    },
+    mdEnhance:{
+      // 启用自定义容器
+      container: true,
+      // 开启卡片支持
+      card: true,
+      mark: true,
+       //自动对齐
+       align: true,
+       attrs: true,
+       chart: true,
+       //代码块分组支持
+       codetabs: true,
+       demo: true,
+       echarts: true,
+       figure: true,
+       // 支持流程图
+       flowchart: true,
+       gfm: true,
+        // 启用图片懒加载
+       imgLazyload: true,
+       // 启用图片标记
+       imgMark:true,
+       imgSize: true,
+       include: true,
+       katex: true,
+       // 支持任务列表
+       tasklist: true,
+       // 流程图
+       mermaid: true,
+       playground: {
+         presets: ["ts", "vue"],
+       },
+       // presentation: {
+       //   plugins: ["highlight", "math", "search", "notes", "zoom"],
+       // },
+       stylize: [
+         {
+           matcher: "Recommended",
+           replacer: ({ tag }) => {
+             if (tag === "em")
+               return {
+                 tag: "Badge",
+                 attrs: { type: "tip" },
+                 content: "Recommended",
+               };
+           },
+         },
+       ],
+       sub: true,
+       sup: true,
+       // 添加选项卡支持
+       tabs: true,
+       vPre: true,
+       vuePlayground: true,
+    },
+
     
   },
 
