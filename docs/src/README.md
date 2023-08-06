@@ -88,7 +88,7 @@ footer:
 
 ---
 
-## 1. 常用开发语言&工具&学习资源(吃饭的家伙)
+## 1. 常用开发语言&工具&学习资源(吃饭的家伙🤦‍)
 
 <SiteInfo
   v-for="item in $frontmatter.docs1"
@@ -96,7 +96,7 @@ footer:
   v-bind="item"
 />
 
-## 2. 技术&生活吹水区(摸鱼放松专区)
+## 2. 技术&生活吹水区(摸鱼放松专区😄)
 <SiteInfo
   v-for="item in $frontmatter.docs2"
   :key="item.link"
@@ -104,7 +104,7 @@ footer:
 />
  
 
-## 3. 建站技术相关文档(本站用到的技术栈)
+## 3. 建站技术相关文档(本站用到的技术栈🧐)
 <SiteInfo
   v-for="item in $frontmatter.docs3"
   :key="item.link"
@@ -113,7 +113,7 @@ footer:
  
 
 
-## 参与贡献
+## 4. 参与贡献
 
 1. 如果你对本博客有任何建议或发现内容有误的，欢迎提交 issues 进行指正。
 2. 对于文中我没有涉及到知识点，欢迎提交 PR。

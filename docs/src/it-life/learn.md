@@ -17,6 +17,10 @@ tag:
 <a href="https://www.gulixueyuan.com/my/course/531" target="_blank">视频链接</a>
 :::
 
+::: info Java网络编程教程
+[黑马Java进阶教程，最详细最全面的Java网络编程教程，含聊天室案例实战]( https://www.bilibili.com/video/BV1QR4y1q7Ly/?share_source=copy_web&vd_source=e1c695d0987b5f8987ea8303a473b7ca)
+:::
+
 
 ## 工作思考  
 :::tip 问题
