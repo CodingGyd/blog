@@ -123,7 +123,7 @@ export const enSidebar = sidebar({
           text: "2.7 网络编程",
           collapsible: true,
           children: [
-          // "net",
+          "net",
           ],
         },
         {

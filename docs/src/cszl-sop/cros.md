@@ -25,6 +25,22 @@ tag:
 - 服务端进行接口请求设置，前端直接调用  
   说明：后台设置前端某个站点进行访问  
 
+  如果是springboot程序可以按如下方式设置：
+  ```java
+   @Configuration
+	public class CosWebConfig implements WebMvcConfigurer{
+
+		@Override
+		public void addCorsMappings(CorsRegistry registry) {
+			registry.addMapping("/**")
+					.allowedOrigins("*")
+					.allowCredentials(true)
+					.allowedMethods("GET", "POST", "DELETE", "PUT")
+					.maxAge(3600);
+		}
+	}
+
+  ```
 2. JSONP （动态创建script标签）  
 
 - JSONP跨域-前端适配，后端配合  

@@ -56,33 +56,58 @@ docs1:
 
 
 docs2:
-    - name: Thief
-      desc: 一款AI智能创新摸鱼神器
-      logo: http://cdn.gydblog.com/images/index/logo-thief.png
-      url: https://thief.im/
-      preview: http://cdn.gydblog.com/images/index/bg-site-thief.png
-      
     - name: 掘金社区
       desc: 一个帮助开发者成长的社区
       logo: http://cdn.gydblog.com/images/index/logo-juejin.svg
       url: https://juejin.cn/
       preview: http://cdn.gydblog.com/images/index/bg-site-juejin.png
       
- 
+    - name: 知乎
+      desc: 中文互联网高质量的问答社区和创作者聚集的原创内容平台
+      logo: http://cdn.gydblog.com/images/index/logo-zhihu.png
+      url: https://www.zhihu.com/people/guoyading
+      preview: http://cdn.gydblog.com/images/index/bg-site-zhihu.png
+
+    - name: CSDN
+      desc: 技术人交流和成长的家园
+      logo: http://cdn.gydblog.com/images/index/logo-csdn.png
+      url:  https://blog.csdn.net/u011208987
+      preview: http://cdn.gydblog.com/images/index/bg-site-csdn.png
+
+    - name: Thief
+      desc: 一款AI智能创新摸鱼神器
+      logo: http://cdn.gydblog.com/images/index/logo-thief.png
+      url: https://thief.im/
+      preview: http://cdn.gydblog.com/images/index/bg-site-thief.png
+       
 docs3:
   - name: VuePress Theme Hope
-    desc: 一个具有强大功能的 vuepress 主题✨
+    desc: 一个具有强大功能的 vuepress 主题✨ 本站页面框架靠它！
     logo: http://cdn.gydblog.com/images/index/logo-vuepress.svg
     url: https://theme-hope.vuejs.press/zh/
     repo: https://github.com/vuepress-theme-hope/vuepress-theme-hope
     preview: http://cdn.gydblog.com/images/index/bg-site-vuepress.png    
 
   - name: Waline
-    desc: 一款简洁、安全的评论系统
+    desc: 一款简洁、安全的评论系统 本站评论功能靠它！
     logo: http://cdn.gydblog.com/images/index/logo-waline.png
     url: https://waline.js.org/
     repo: https://github.com/walinejs/waline
     preview: http://cdn.gydblog.com/images/index/bg-site-waline.png    
+
+  - name: 百度智能云
+    desc: 本站的域名管理、图片存储功能靠它！
+    logo: http://cdn.gydblog.com/images/index/logo-bdcloud.png
+    url: https://cloud.baidu.com/
+    preview: http://cdn.gydblog.com/images/index/bg-site-bdcloud.png  
+
+  - name: 阿里云
+    desc: 本站的服务器部署支持靠它！
+    logo: http://cdn.gydblog.com/images/index/logo-aly.png
+    url: https://cn.aliyun.com/
+    preview: http://cdn.gydblog.com/images/index/bg-site-aly.png  
+
+    
 footer:   
         <a href="http://beian.miit.gov.cn/" target="_blank">备案号:湘ICP备17020097号-1</a>
 
@@ -96,7 +121,7 @@ footer:
   v-bind="item"
 />
 
-## 2. 技术&生活吹水区(摸鱼放松专区😄)
+## 2. 技术讨论&生活吹水区(摸鱼放松专区😄)
 <SiteInfo
   v-for="item in $frontmatter.docs2"
   :key="item.link"
@@ -104,7 +129,7 @@ footer:
 />
  
 
-## 3. 建站技术相关文档(本站用到的技术栈🧐)
+## 3. 建站技术(本站用到的技术栈🧐)
 <SiteInfo
   v-for="item in $frontmatter.docs3"
   :key="item.link"
