@@ -8,7 +8,7 @@ tagline: 你只管努力，剩下的交给天意😒<br/><br/>从今天开始→
 
 actions:
   - text: 小郭的笔记→
-    link: /note-book.md
+    link: /blog.md
     type: primary
     
   - text: 关于本站
