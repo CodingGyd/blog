@@ -20,6 +20,7 @@ export const enSidebar = sidebar({
       text: 'IT人生',
       link: '/it-life/',
       children: [   
+        { text: "优秀码农都应该具备的开发好习惯", link: "better-coder" },
         { text: "程序员的中年危机",  link: "fuye" },
         { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
         { text: "通用的现代写作技能，你学会了吗？",  link: "markdown" },
@@ -107,7 +108,7 @@ export const enSidebar = sidebar({
           text: "2.5 IO编程",
           collapsible: true,
           children: [
-          // "io",
+          "io",
           ],
         },
         {
@@ -127,16 +128,8 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-object/",
-          text: "2.8 面向对象编程",
-          collapsible: true,
-          children: [
-          // "object",
-          ],
-        },
-        {
           prefix: "cszl-java-jvm/",
-          text: "2.9 JVM",
+          text: "2.8 JVM",
           collapsible: true,
           children: [
           // "jvm",

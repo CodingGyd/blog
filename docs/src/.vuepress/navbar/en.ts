@@ -17,6 +17,7 @@ export const enNavbar = navbar([
       { text: "代码轮子",link: "code" },
       { text: "摸鱼神器",link: "effect-raising" },
       { text: "编程规约",link: "coding-standard" },
+      { text: "JAVA面试",link: "interview-java-basic" },
 
     ],
   },
@@ -25,6 +26,7 @@ export const enNavbar = navbar([
     icon: "ability",
     prefix: "/it-life/",
     children: [
+      { text: "优秀码农都应该具备的开发好习惯", link: "better-coder" },
       { text: "程序员的中年危机", link: "fuye" },
       { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
       { text: "通用的现代写作技能，你学会了吗？", link: "markdown" },
