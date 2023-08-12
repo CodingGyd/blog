@@ -1,12 +1,8 @@
 import { navbar } from "vuepress-theme-hope";
 
 export const enNavbar = navbar([
-  { 
-    text: "博客主页",
-    // icon: "gaishu",
-    link: "/blog.md" 
-  },
   { text: "小郭笔记", icon: "note", link: "/note-book.md" },
+  { text: "常用链接", icon: "link",link: "/common-links.md" },
   {
     text: "葵花宝典",
     icon: "repo",

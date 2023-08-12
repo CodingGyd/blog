@@ -1,6 +1,7 @@
 ---
 title: JAVA中的IO编程框架入门
-shortTitle: Java注解
+shortTitle: IO编程学习笔记
+date: 2023-08-09
 category:
   - Java核心
 description: 本文总结了JAVA的IO编程框架中的各种概念，以及各种API的使用，提供了完整的demo。

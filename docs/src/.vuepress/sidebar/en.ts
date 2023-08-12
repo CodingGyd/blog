@@ -132,7 +132,9 @@ export const enSidebar = sidebar({
           text: "2.8 JVM",
           collapsible: true,
           children: [
-          // "jvm",
+          "jvm",
+          "jvm-gc",
+          "jvm-params"
           ],
         },
       ],
