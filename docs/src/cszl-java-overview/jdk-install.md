@@ -3,7 +3,7 @@
 date: 2023-04-02
 
 category:
-  - Java核心
+  - JAVA基础
 ---
 
 # JDK安装(傻瓜式教程)

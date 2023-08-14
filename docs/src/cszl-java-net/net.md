@@ -3,7 +3,7 @@
 date: 2023-08-07
 
 category:
-  - Java核心
+  - JAVA基础
 ---
 
 # 网络编程入门 

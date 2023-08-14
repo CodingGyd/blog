@@ -1,8 +1,8 @@
 ---
-title: Java核心-集合框架部分
-shortTitle: Java核心-集合框架部分
+title: JAVA基础-集合框架部分
+shortTitle: JAVA基础-集合框架部分
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta

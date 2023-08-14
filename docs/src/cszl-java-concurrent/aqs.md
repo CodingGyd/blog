@@ -3,7 +3,7 @@
 date: 2023-08-02
 
 category:
-  - Java核心
+  - JAVA基础
 tag:
   - AQS基础知识
 ---

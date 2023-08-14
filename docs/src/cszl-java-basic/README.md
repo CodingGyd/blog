@@ -1,8 +1,8 @@
 ---
-title: Java核心-基础语法
-shortTitle: Java核心-基础语法
+title: JAVA基础-基础语法
+shortTitle: JAVA基础-基础语法
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta

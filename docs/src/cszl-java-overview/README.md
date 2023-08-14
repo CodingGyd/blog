@@ -1,8 +1,8 @@
 ---
-title: Java核心-Java入门必知必会
-shortTitle: Java核心-Java入门必知必会
+title: JAVA基础-Java入门必知必会
+shortTitle: JAVA基础-Java入门必知必会
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta

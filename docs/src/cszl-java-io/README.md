@@ -1,8 +1,8 @@
 ---
-title: JAVA核心-IO框架
-shortTitle: JAVA核心-IO框架
+title: JAVA基础-IO框架
+shortTitle: JAVA基础-IO框架
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta

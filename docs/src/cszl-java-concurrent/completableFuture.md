@@ -3,7 +3,7 @@
 date: 2023-06-25
 
 category:
-  - Java核心
+  - JAVA基础
 tag:
   - CompletableFuture
 ---

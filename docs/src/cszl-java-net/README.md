@@ -1,8 +1,8 @@
 ---
-title: JAVA核心-网络编程
-shortTitle: JAVA核心-网络编程
+title: JAVA基础-网络编程
+shortTitle: JAVA基础-网络编程
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta

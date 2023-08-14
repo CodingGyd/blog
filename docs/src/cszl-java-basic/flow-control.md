@@ -3,7 +3,7 @@
 date: 2018-01-05
 
 category:
-  - Java核心
+  - JAVA基础
 ---
 
 # 流程控制语句

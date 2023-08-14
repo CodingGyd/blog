@@ -1,8 +1,8 @@
 ---
-title: JAVA核心-并发编程学习笔记
-shortTitle: JAVA核心-并发编程学习笔记
+title: JAVA基础-并发编程学习笔记
+shortTitle: JAVA基础-并发编程学习笔记
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta

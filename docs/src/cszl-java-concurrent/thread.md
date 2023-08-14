@@ -3,7 +3,7 @@
 date: 2023-07-09
 
 category:
-  - Java核心
+  - JAVA基础
 tag:
   - 多线程
 ---

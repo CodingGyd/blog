@@ -46,7 +46,7 @@ export const enSidebar = sidebar({
       link: "note-book.md",
     },
     {
-      text: '二、JAVA核心',
+      text: '二、JAVA基础',
       collapsible: true,
       children: [   
         {
@@ -149,8 +149,9 @@ export const enSidebar = sidebar({
           text: "3.1 Spring",
           collapsible: true,
           children: [
-          // "spring",
-          
+          "what-is-spring",
+          "spring-ioc",
+
           ],
         },
         {

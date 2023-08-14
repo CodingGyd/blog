@@ -3,7 +3,7 @@
 date: 2023-06-26
 
 category:
-  - Java核心
+  - JAVA基础
 tag:
   - 阻塞队列
 ---

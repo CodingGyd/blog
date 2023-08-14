@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-04-01
 category:
-  - Java核心
+  - JAVA基础
 ---
 
 # Java 的完整故事，从 1991 年到 2022 年

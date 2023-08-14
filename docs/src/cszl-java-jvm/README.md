@@ -1,8 +1,8 @@
 ---
-title: JAVA核心-JVM
-shortTitle: JAVA核心-JVM
+title: JAVA基础-JVM
+shortTitle: JAVA基础-JVM
 category:
-  - Java核心
+  - JAVA基础
 article: false 
 head:
   - - meta
