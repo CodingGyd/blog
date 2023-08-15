@@ -1,6 +1,6 @@
 ---
-title: Spring系列笔记-IOC容器
-shortTitle: IOC容器
+title: Spring系列笔记-IOC容器和Bean定义的基本常识
+shortTitle: IOC容器和Bean定义的基本常识
 date: 2023-08-14
 category:
   - JAVA企业级开发
@@ -369,21 +369,165 @@ DefaultListableBeanFactory 通过 registerSingleton(..) 和 registerBeanDefiniti
    默认情况，一个bean在同一个IOC容器中只会有一个实例，单例模式。
    ![singleton作用域](http://cdn.gydblog.com/images/spring/spring-ioc-4.png)
 
+   
+  作为一项规则，我们应该对无状态的 bean 使用 singleton scope。
 - 2）prototype
   将单个Bean定义的Scope扩大到任何数量的对象实例(每次都重新创建),原型模式。
   ![prototype作用域](http://cdn.gydblog.com/images/spring/spring-ioc-5.png)
 
+  作为一项规则，我们应该对所有有状态的 bean 使用 prototype scope。
 - 3）request
   每个HTTP请求都有自己的Bean实例，该实例是在单个Bean定义的基础上创建的。只在Web感知的Spring ApplicationContext 的上下文中有效。
 
 - 4）session
-  每个客户端session都有自己的Bean实例。只在Web感知的Spring ApplicationContext 的上下文中有效。
+  每个客户端session都有自己的Bean实例。只在Web感知的Spring ApplicationContext(如XmlWebApplicationContext) 的上下文中有效。
 
 - 5）application
   每个ServletContext都有自己的Bean实例。只在Web感知的Spring ApplicationContext 的上下文中有效。
 
 - 6）websocket
   每个websocket链接都有自己的Bean实例。仅在具有Web感知的 Spring ApplicationContext 的上下文中有效。
+
+Spring是扩展性极强的，也支持自定义作用域，若有兴趣的可以查阅Spring官方文档
+
+#### 初始 Web 配置
+为了支持Bean在 request、 session、application 和 Websocket 级别的scope（Web scope 的Bean），在定义Bean之前，需要一些小的初始配置。（对于标准作用域（singleton 和 prototype）来说，这种初始设置是不需要的）。
+如果是在Spring Web MVC中访问 scope 内的Bean，实际上是在一个由Spring DispatcherServlet 处理的请求（request）中，就不需要进行特别的设置。 DispatcherServlet 已经暴露了所有相关的状态。  
+
+如果是使用Servlet Web容器，在Spring的 DispatcherServlet 之外处理请求（例如，在使用JSF时），需要注册 org.springframework.web.context.request.RequestContextListener:
+```xml
+<web-app>
+    ...
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+    ...
+</web-app>
+```
+
+如果上面的Listener设置有问题，可以换成使用Spring的 RequestContextFilter：
+
+```xml
+  <web-app>
+      ...
+      <filter>
+          <filter-name>requestContextFilter</filter-name>
+          <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+      </filter>
+      <filter-mapping>
+          <filter-name>requestContextFilter</filter-name>
+          <url-pattern>/*</url-pattern>
+      </filter-mapping>
+      ...
+  </web-app>
+ ```
+
+DispatcherServlet、RequestContextListener 和 RequestContextFilter 都做了完全相同的事情，即把HTTP请求对象绑定到为该请求服务的 Thread。这使得 request scope 和 session scope 的Bean可以在调用链的更远处使用。
+
+### Bean的懒加载
+默认情况下，Spring的IOC容器 的实现会初始化好所有的 单例 Bean的实例，但也支持让开发者通过将Bean定义标记为懒加载来阻止单例Bean的预实例化。懒加载的 bean 告诉IoC容器在第一次被请求时创建一个bean实例，而不是在启动时。 
+
+如何配置懒加载：
+- <bean/> 元素上的 lazy-init 属性控制单个bean的延迟加载
+```xml
+<bean id="lazy" class="com.something.ExpensiveToCreateBean" lazy-init="true"/>
+<bean name="not.lazy" class="com.something.AnotherBean"/>
+```
+
+- 使用 <beans/> 元素上的 default-lazy-init 属性来控制容器级的懒加载
+```xml
+<beans default-lazy-init="true">
+    <!-- no beans will be pre-instantiated... -->
+</beans>
+```
+
+
+### Bean的回调函数
+Spring框架提供了许多扩展点接口，让开发者可以干预Bean的创建和销毁的整个过程。
+#### 生命周期回调
+从Spring 2.5开始，提供了三个选项来控制Bean的生命周期行为。
+```
+1.InitializingBean 和 DisposableBean callback 接口。
+
+2.自定义 init() and destroy() 方法。
+
+3.@PostConstruct 和 @PreDestroy 注解。
+```
+
+这三个选项的使用方式类似，下面使用InitializingBean 和DisposableBean进行说明。
+1） 初始化回调InitializingBean 
+InitializingBean 接口指定了一个方法：
+```java
+void afterPropertiesSet() throws Exception;
+```
+org.springframework.beans.factory.InitializingBean 接口让Bean在容器对Bean设置了所有必要的属性后执行初始化工作。
+
+最佳实践：建议不要直接使用 InitializingBean 接口，因为它将代码与Spring耦合。建议使用注解@PostConstruct。
+
+
+2）销毁回调DisposableBean 
+DisposableBean 接口指定了一个方法：
+```
+void destroy() throws Exception;
+```
+实现 org.springframework.beans.factory.DisposableBean 接口可以让Bean在包含它的容器被销毁时获得一个回调。
+
+
+最佳实践：建议不要直接使用 DisposableBean 接口，因为它将代码与Spring耦合。建议使用注解@PreDestroy 
+
+#### 启动和关闭的回调
+当 ApplicationContext 本身收到启动和停止信号时（例如，在运行时的停止/重启场景），均会进行启动和关闭的回调。
+
+任何Spring管理的对象都可以实现 Lifecycle 接口，Lifecycle 接口定义了一些启动和关闭的基本方法：
+```java
+public interface Lifecycle {
+
+    void start();
+
+    void stop();
+
+    boolean isRunning();
+}
+```
+
+面试的时候会问：如何优雅地关闭Spring IoC容器？
+答案：如果是在非web应用环境中使用Spring的IoC容器，可以向JVM注册一个shutdown hook。这样做就可以确保JVM关闭前会回调我们实现的Bean销毁函数destroy，从而释放所有资源。
+```java
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public final class Boot {
+
+    public static void main(final String[] args) throws Exception {
+        //注意需要获取容器的实现ConfigurableApplicationContext，才能注册shutdown hook!
+        ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+
+        // add a shutdown hook for the above context...
+        ctx.registerShutdownHook();
+
+        // app runs here...
+
+        // main method exits, hook is called prior to the app shutting down...
+    }
+}
+
+
+```
+
+#### 各种Aware接口
+有时候我们需要获取容器本身的一些信息，可以通过各种Aware接口来注入，比如获取IOC容器的引用可以实现ApplicationContextAware。
+```java
+public interface ApplicationContextAware {
+    void setApplicationContext(ApplicationContext applicationContext) throws BeansException;
+}
+```
+Spring提供了许多的Aware接口，让我们方便的获取基础设施相关的信息，但不建议这样做，因为会让业务代码和Spring框架过多的耦合。
+
+  ![Aware接口](http://cdn.gydblog.com/images/spring/spring-ioc-9.png)
+
+如果我们想在Spring容器完成实例化、配置和初始化、销毁Bean时实现一些自定义逻辑，可以来实现上面这些扩展点接口。
 
 ## 依赖注入(DI)
 依赖注入（DI）是一个过程，对象仅通过构造参数、工厂方法的参数或在对象实例被构造或从工厂方法返回后在其上设置的属性来定义它们的依赖（即与它们一起工作的其它对象）。然后，容器在创建 bean 时注入这些依赖。这个过程从根本上说是Bean本身通过使用类的直接构造或服务定位模式来控制其依赖的实例化或位置的逆过程（因此被称为控制反转）  
@@ -408,7 +552,7 @@ public class TestBean {
 }
 ```
 
-```java
+```xml
 <beans>
     <bean id="beanOne" class="com.gyd.TestBean">
         <constructor-arg ref="beanTwo"/>
@@ -421,6 +565,7 @@ public class TestBean {
 </beans>
 
 ```
+
 2）基于Setter的依赖注入  
 基于 Setter 的 DI 是通过容器在调用无参数的构造函数或无参数的 static 工厂方法来实例化你的 bean 之后调用 Setter 方法来实现的。
 ```java

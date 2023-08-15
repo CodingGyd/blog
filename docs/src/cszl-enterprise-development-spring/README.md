@@ -14,4 +14,10 @@ head:
 * [什么是Spring](./what-is-spring.md)
 * [Spring的IOC容器和Bean](./spring-ioc.md)
 
+
+todo：
+spring的spi机制
+spring的异常全局处理
+spring的配置导入机制
+spring的类型转换机制
  

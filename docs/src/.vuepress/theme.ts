@@ -102,7 +102,7 @@ export default hopeTheme({
   plugins: {
     blog: {
       //自动生成摘要设置
-      excerptLength: 100,
+      excerptLength: 300,
     },
     //该插件会监听页面滚动事件。当页面滚动至某个 标题锚点 后，如果存在对应的 标题链接 ，那么该插件会将路由 Hash 更改为该 标题锚点 。
     activeHeaderLinks: true,
