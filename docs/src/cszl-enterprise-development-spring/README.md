@@ -13,11 +13,11 @@ head:
 
 * [什么是Spring](./what-is-spring.md)
 * [Spring的IOC容器和Bean](./spring-ioc.md)
-* [Spring的常用扩展点](./spring-extension-point.md)
+* [Spring的内置常用扩展点](./spring-extension-point.md)
+* [SPI机制简介](./spi.md)
 
 
 todo：
-spring的spi机制
 spring的异常全局处理
 spring的配置导入机制
 spring的类型转换机制

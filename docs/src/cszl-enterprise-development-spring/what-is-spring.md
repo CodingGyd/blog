@@ -14,7 +14,7 @@ head:
 
 # Spring
 
-> 笔记来源于对 [Spring文档](Spring文档 "https://springdoc.cn/spring/index.html")  的学习总结
+> 笔记来源于对 [Spring文档](https://springdoc.cn/spring/index.html "Spring文档")  的系统性学习总结
  
 ## 前言
 目前Spring框架已经迭代到了6.X版本，下面是Spring版本对JDK的依赖关系：

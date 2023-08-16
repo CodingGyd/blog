@@ -1,6 +1,6 @@
 ---
-title: Spring系列笔记-Spring的SPI机制
-shortTitle: Spring的SPI机制
+title: Spring系列笔记-SPI机制
+shortTitle: SPI机制
 date: 2023-08-15
 category:
   - JAVA企业级开发
@@ -9,11 +9,11 @@ tag:
 head:
   - - meta
     - name: keywords
-      content: JAVA企业级开发,Spring笔记,Spring5,Spring总结,Spring核心知识
+      content: JAVA企业级开发,SPI原理,Spring笔记,Spring5,Spring总结,Spring核心知识
 ---
 <!-- @include: ../common-top.md -->
 
-# Spring的SPI机制
+# SPI机制
 
 ## SPI概念
 SPI 全称 Service Provider Interface，是一套用来被第三方实现或者扩展的接口，经常用来替换框架本身组件或者进行框架功能扩展。
@@ -25,7 +25,7 @@ SPI的本质其实就是基于接口+策略模式+配置问卷来实现动态加
 SPI分为多个角色：Service、Service Provider、ServiceLoader和资源文件。
 
 ## JAVA的SPI设计
-JAVA内置了一套最基础的SPI，我们看看是如何实现的。
+JAVA内置了一套最基础的SPI，我们先来看看是如何使用的。
 
 首先定义一个SPI顶层接口：
 ```java
@@ -104,15 +104,16 @@ B执行
 
 通过上面的执行结果可以看到，我们针对MySpi的所有实现类的指定方法都得到了执行，这都是java.util.ServiceLoader的功劳。
 
-ServiceLoader是一个简单的服务提供者加载工具。是JDK6引进的一个特性，下面是JDK1.8的部分源码：
+ServiceLoader是一个简单的服务提供者加载工具。下面是JDK1.8中对应的部分源码：
 ```java
 public static <S> ServiceLoader<S> load(Class<S> service) {
   ClassLoader cl = Thread.currentThread().getContextClassLoader();
   return ServiceLoader.load(service, cl);
 }
 ```
-load方法是通过获取currentThread当前线程的 ClassLoader线程上下文类加载器 实例来加载的。
-Java应用运行的初始线程的上下文类加载器默认是系统类加载器。这里其实 破坏了双亲委派模型，因为Java应用收到类加载的请求时，按照双亲委派模型会向上请求父类加载器完成，这里并没有这么做（有些面试官会问到破坏双亲委派模型相关问题，简单了解）。
+可以看出load方法是通过获取currentThread当前线程的 ClassLoader线程上下文类加载器 实例来加载的。
+
+Java应用运行的初始线程的上下文类加载器默认是系统类加载器。这里其实 破坏了双亲委派模型，因为Java应用收到类加载的请求时，按照双亲委派模型会向上请求父类加载器完成，这里并没有这么做（如果面试官让你举例破坏双亲委派模型相关问题，可以用本案例）。
 
 iterator.hasNext()主要是通过 hasNextService()来实现的，我们来看一下主要代码。
 ```java

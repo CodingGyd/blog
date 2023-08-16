@@ -14,7 +14,7 @@ head:
 
 # IOC容器和Bean定义的基本常识
 ## 前言 
-> 笔记来源于对 [Spring文档](Spring文档 "https://springdoc.cn/spring/index.html")  的系统性学习总结
+> 笔记来源于对 [Spring文档](https://springdoc.cn/spring/index.html "Spring文档")  的系统性学习总结
 
 先从上帝视角看一下Spring对IOC容器的定位: 
 
@@ -455,8 +455,11 @@ Spring框架提供了许多扩展点接口，让开发者可以干预Bean的创�
 
 3.@PostConstruct 和 @PreDestroy 注解。
 ```
+:::warning 注意
+与 @Resource 一样，@PostConstruct 和 @PreDestroy 注解类型在JDK 6到8中是标准Java库的一部分。然而，整个 javax.annotation 包在JDK 9中从核心Java模块中分离出来，最终在JDK 11中被删除。从Jakarta EE 9开始，该包现在住在 jakarta.annotation 中。如果需要，现在需要通过Maven中心获得 jakarta.annotation-api 工件，只需像其他库一样添加到应用程序的classpath中即可。
+:::
 
-这三个选项的使用方式类似，下面使用InitializingBean 和DisposableBean进行说明。
+上面这三个选项的使用方式类似，下面使用InitializingBean 和DisposableBean进行说明。
 1） 初始化回调InitializingBean 
 InitializingBean 接口指定了一个方法：
 ```java
