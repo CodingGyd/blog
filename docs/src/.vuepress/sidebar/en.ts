@@ -152,6 +152,7 @@ export const enSidebar = sidebar({
           "what-is-spring",
           "spring-ioc",
           "spring-extension-point",
+          "spring-spi",
 
           ],
         },

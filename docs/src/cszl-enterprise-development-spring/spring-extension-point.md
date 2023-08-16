@@ -1,6 +1,6 @@
 ---
-title: Spring系列笔记-Spring的常用扩展点
-shortTitle: Spring的常用扩展点
+title: Spring系列笔记-Spring的内置常用扩展点
+shortTitle: Spring的内置常用扩展点
 date: 2023-08-15
 category:
   - JAVA企业级开发
@@ -12,7 +12,7 @@ head:
       content: JAVA企业级开发,Spring笔记,Spring5,Spring总结,Spring核心知识
 ---
 
-# Spring的常用扩展点
+# Spring的内置常用扩展点
 <!-- @include: ../common-top.md -->
 
 
@@ -539,7 +539,7 @@ public interface ApplicationContextInitializer<C extends ConfigurableApplication
         }
         this.webEnvironment = deduceWebEnvironment();
         setInitializers((Collection) getSpringFactoriesInstances(
-                ApplicationContextInitializer.class));//   <===================
+                ApplicationContextInitializer.class)); 
         setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
         this.mainApplicationClass = deduceMainApplicationClass();
     }

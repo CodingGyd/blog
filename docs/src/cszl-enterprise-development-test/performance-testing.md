@@ -204,13 +204,28 @@ public class DemoController {
 ### 压测参数配置-http请求入参配置
 <img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-###压测结果数据查看
+### 压测结果数据查看
 - 选中线程组tab，执行压测
 <img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 查看结果聚合报告
 > 可以看到各种性能指标数据
 <img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+
+对聚合报告的指标解释如下：
+1）Label：请求的名称，就是脚本中Sampler的名称。
+2）#Samples（样本）：总共发给服务器的请求数量，如果模拟10个用户，每个用户迭代10次，那么总的请求数为：10*10 =100次。
+3）Average（平均值）：默认情况下是单个Request的平均响应时间，当使用了Transaction Controller（事务控制器） 时，也可以用Transaction的时间，来显示平均响应时间 ，单位是毫秒。
+4）Median（中位数）：50%用户的响应时间小于该值。
+5）90% Line（90% 百分位）：90%用户的响应时间小于该值。
+6）95% Line（95% 百分位）：95%用户的响应时间小于该值。
+7）99% Line（99% 百分位）：99%用户的响应时间小于该值。
+8）Min（最小值）：最小的响应时间。
+9）Maximum（最大值）：最大的响应时间。
+10）Error%（异常%）：错误率=错误请求的数量/请求的总数。
+11）Throughput（吞吐量）：默认情况下表示每秒完成的请求数（Request per Second）。
+12）Received KB/sec （接收数据）：每秒从服务器端接收到的数据量。
+13）Sent KB/sec（发送）：每秒发送到服务器端的数据量。
 
 查看数据库最终数据符合预期
 

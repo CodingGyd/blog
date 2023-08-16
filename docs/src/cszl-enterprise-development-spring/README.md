@@ -13,6 +13,7 @@ head:
 
 * [什么是Spring](./what-is-spring.md)
 * [Spring的IOC容器和Bean](./spring-ioc.md)
+* [Spring的常用扩展点](./spring-extension-point.md)
 
 
 todo：
