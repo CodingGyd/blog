@@ -6,7 +6,7 @@ star: true
 ---
  
 # 合格程序员必备的编程规约
-## 前言  
+## 一、前言  
 ::: tip 至理名言
 对本职工作认真负责，是一种职业基本素养，对于一线正在撸代码的各位程序员，写好代码是大家的天职。
 :::
@@ -25,7 +25,7 @@ star: true
 
 :::
 
-## 一、编程规范  
+## 二、编程规范  
 ### 1、好代码的原则  
 我们参考 Kent Beck 的简单设计四原则来指导我们的如何写出优秀的代码，如何有效地判断我们的代码是优秀的。  
 - 通过所有测试（Passes its tests）：强调的是外部需求，这是代码实现最重要的  
@@ -148,7 +148,7 @@ public static LocalDate parseYMD(String dateStr){}
 - 参数、返回值，空有格式没内容。这是非常重要一点，任何人调用任何方法之前都需要知道方法对参数的要求，以及返回值是什么。
 
 
-## 二、项目规范
+## 三、项目规范
 ### 1、代码目录结构
 统一的目录结构是所有项目的基础，没有固定的目录结构，适合项目团队的才是最好的。  
 
@@ -186,7 +186,7 @@ public static LocalDate parseYMD(String dateStr){}
 一定要做好超时处理和异常处理的兜底！！！
 :::
 
-## 三、MVC 规范  
+## 四、MVC 规范  
 ### 1、整体分层
 - controller 层
 - service 层
@@ -516,7 +516,7 @@ List<PerformanceDTO> getInternalData(@Param("month") String month, @Param("itemI
 deletedFlag，deleted_flag，onlineFlag，online_flag
 ```
 
-## 四、数据库规范
+## 五、数据库规范
 ### 1、建表规范
 表必备三字段：id, create_time, update_time
 
@@ -556,7 +556,7 @@ CREATE TABLE `t_change_data` (
 
 具体索引规范请参照《阿里巴巴 Java 开发手册》索引规约  
 
-## 五、其他 
+## 六、其他 
 ### 1、代码提交规范
 
 - 提交前应该冷静、仔细检查一下，确保没有忘记加入版本控制或不应该提交的文件。
@@ -575,7 +575,7 @@ CREATE TABLE `t_change_data` (
 - 不要提交与项目无关的内容文件：idea配置、target包等。
 
 
-## 参考资料
+## 七、参考资料
 原文链接：https://www.cnblogs.com/lovemelucky/p/15235062.html  
 原作者：爱我的幸运
 整理：代码小郭

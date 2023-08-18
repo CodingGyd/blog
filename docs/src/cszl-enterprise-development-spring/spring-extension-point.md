@@ -13,8 +13,11 @@ head:
 ---
 
 # Spring的内置常用扩展点
-<!-- @include: ../common-top.md -->
+:::tip 写在前面
+大家好，我是代码小郭，又来和大家分享知识啦！
 
+小郭写文章的目的就是为了促进自己技术的成长，同时分享给大家一起学习交流，如果您对 Java领域感兴趣，可以关注我，我们一起学习。
+:::
 
 ## 开心一刻  
   
@@ -32,18 +35,18 @@ head:
 
 今天小郭摸鱼学习了Spring的扩展点的相关概念和应用场景，给大家汇报一下我的学习笔记，大家往下看👇👇👇
 
-## 前言
+## 一、前言
 众所周知，Spring是一个非常优秀的开源框架，目前在JAVA企业应用领域基本上可以说是绝对的霸主，无人不知。这得益于它本身巧妙的设计理念：对修改封闭，对扩展开放，这也是设计模式中的开闭原则。  
 
 正因为这个设计理念让Spring能够快速支持整合其它的中间件技术，Spring基于此能力从一开始的框架演变成了如今的Spring生态。 
 
 下面小郭将今天学习到的Spring常用扩展点技术整理成了笔记，分享给大家。我们在日常工作中如果能灵活的运用这些扩展点，将会事半功倍哦！
 
-## 扩展点概览
+## 二、扩展点概览
 ![Spring的常见扩展点](http://cdn.gydblog.com/images/spring/spring-extension-point-1.png)
 
-## Bean相关扩展点
-### 生命周期回调
+## 三、Bean相关扩展点
+### 1、生命周期回调
 1）初始化回调InitializingBean/@PostConstruct
 InitializingBean接口为bean提供了属性初始化后的处理方法，它提供了一个afterPropertiesSet方法，凡是继承该接口的类，在bean的属性初始化后都会执行该方法。  
 
@@ -233,7 +236,7 @@ context.registerShutdownHook();
 ```
 
 
-### 获取容器基础设施信息
+### 2、获取容器基础设施信息
 有时候我们需要获取容器本身的一些信息或者容器内其它bean的一些信息，那么可以通过本节的方式来处理。 
 
 1）ApplicationContextAware
@@ -323,9 +326,9 @@ spring还提供了许多其它的Aware接口供回调使用，下图总结了最
 
 > 在大多数情况下，我们应该避免使用任何Aware接口，除非我们需要它们，实现这些接口会将代码耦合到Spring框架。
 
-## 容器相关扩展点
+## 四、容器相关扩展点
 
-### BeanPostProcessor
+### 1、BeanPostProcessor
 
 BeanPostProcessor也称为Bean后置处理器，它是Spring中定义的接口，在Spring容器的创建过程中（具体为Bean初始化前后）会回调BeanPostProcessor中定义的两个方法。Spring支持我们配置多个 BeanPostProcessor 实例，可以通过设置 order 属性控制这些 BeanPostProcessor 实例的运行顺序。
 
@@ -398,7 +401,7 @@ public class MyBean{
 
 BeanPostProcessor的典型应用场景就是AOP了， 我们只需要写一个BeanPostProcessor的实现类，在postProcessBeforeInitialization或者postProcessAfterInitialization方法中，对特定对象进行判断，判断是否需要织入切面逻辑，如果需要，那就根据当前对象生成一个代理对象，然后返回这个代理对象放入容器中。
  
-### BeanFactoryPostProcessor
+### 2、BeanFactoryPostProcessor
 这个扩展点的执行发生在bean实例化之前，BeanDefinition读取完之后。所以我们在这里可以获取到BeanDefinition，以改变他默认的实例化方式。该扩展点提供的接口定义如下：
 ```java
 @FunctionalInterface
@@ -415,7 +418,7 @@ BeanFactoryPostProcessor及其子类的使用场景有很多，例如修改bean�
 再比如在RPC框架dubbo中的 ReferenceAnnotationBeanPostProcessor 就是实现上面接口，扫描Spring容器中所有的Bean，查找带有@Reference注解的服务引用，并为其创建代理对象。这个代理对象会拦截服务消费者对服务提供者的调用，并通过Dubbo框架实现远程调用。这样，服务消费者就可以像调用本地服务一样调用远程服务，而不需要关心远程调用的细节。
 
 
-### FactoryBean 
+### 3、FactoryBean 
 面试中会遇到这样的问题：请说说FactoryBean和BeanFactory的区别？
 
 遇到此类你是否会懵圈？
@@ -449,7 +452,7 @@ FactoryBean是一个bean，可以作为其他bean的工厂。FactoryBean像其�
 
 著名的Mybatis框架就是是通过FactoryBean对象创建Mapper对象的代理对象，完成Mapper接口的注入。有兴趣的伙伴可以去了解下具体细节。
 
-### ApplicationListener
+### 4、ApplicationListener
   Spring的事件机制是观察者设计模式的实现，通过ApplicationEvent类和ApplicationListener接口，可以实现ApplicationContext事件处理。
 
   ApplicationListener是Spring事件机制的一部分，与抽象类ApplicationEvent类配合来完成ApplicationContext的事件机制。 
@@ -515,7 +518,7 @@ public class Main {
 
 可以看到我们收到了两个事件，这两个事件分别是org.springframework.context.event.ContextRefreshedEvent和org.springframework.context.event.ContextClosedEvent，其中第一个是容器已经刷新完成事件，第二个是容器关闭事件。
 
-### ApplicationContextInitializer
+### 5、ApplicationContextInitializer
 
 ApplicationContextInitializer是Spring框架原有的概念, 这个类的主要目的就是在ConfigurableApplicationContext类型（或者子类型）的ApplicationContext做refresh之前，允许我们对ConfigurableApplicationContext的实例做进一步的设置或者处理。  
 ```java
@@ -546,7 +549,7 @@ public interface ApplicationContextInitializer<C extends ConfigurableApplication
 ```
 
 
-### SmartInitializingSingleton
+### 6、SmartInitializingSingleton
 实现SmartInitializingSingleton的接口后，当所有单例 bean 都初始化完成以后，Spring的IOC容器会回调该接口的 afterSingletonsInstantiated()方法。
 ```java
 public interface SmartInitializingSingleton {
@@ -580,4 +583,7 @@ public class MyTest implements SmartInitializingSingleton {
 }
 ```
 
-<!-- @include: ../common-bottom.md -->
+:::tip 啰嗦一句
+小郭今天的学习成果跟大家分享完毕，大家有觉得不好的地方欢迎在下方评论区开喷👇👇👇 
+也可以给我点点关注鼓励一下呀👍👍👍
+:::

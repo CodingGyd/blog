@@ -6,7 +6,7 @@ star: true
 ---
 
 # 研发过程-提效工具(摸鱼神器)
-## 01、学会摸鱼
+## 一、学会摸鱼
 :::tip 声明
 摸鱼的目的不是真的为了偷懒，而是为了挤出时间和精力休息调整后提升自己(不止技术)，这是优秀的开发必备技能。
 :::
@@ -19,8 +19,8 @@ star: true
 
 下面会持续记录一些解放个人生产力的神器，也是我目前在用的一些好用工具，推荐给大家。
  
-## 02、数据库设计工具
-### 经验分享
+## 二、数据库设计工具
+### 1、经验分享
 一个需求流转到开发人员手上后，我们需要先做底层的分析设计，而数据库设计是重要的底层设计之一。数据库方案设计的好不好，会直接影响到之后的应用代码编写过程以及上线之后的维护。这个就跟建造房屋一个道理，万丈高楼平地起，一砖一瓦皆根基，基建质量直接影响到之后房屋的质量。
 
 回顾我的工作经历，我发现数据库设计最终要产出的其实就是两大要素：实体、关系。 
@@ -41,26 +41,26 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 
 下面举个简单的例子说明我是如何使用PowerDesigner完成E-R图设计和SQL语句的生成。
 
-### 需求提出
+### 2、需求提出
 假设业务方需要在后台管理系统中增加一个班级和学生信息维护模块，支持班级信息和学生信息的增删改查即可。
 
 接下来用5个问题来分析拆解该需求，最终产出数据库设计方案(此处不考虑数据库设计的一些规范原则如三大范式，目的仅说明er图工具如何使用)。  
 
-### 1) 有哪些业务实体？ 
+**1) 有哪些业务实体** 
 
 涉及班级、学生这两个实体  
 
-### 2) 每个实体的属性有哪些？
+**2) 每个实体的属性有哪些？**
 
 班级：班级号、班级名称、创建时间、更新时间、操作人；  
 
 学生：学生号、姓名、性别、身份证、联系方式、住址、备注、录入时间、更新时间、操作人。
 
-### 3) 实体与实体之间是什么关联关系?
+**3) 实体与实体之间是什么关联关系?**
 
 班级和学生是1:N的关联关系，一个班级里有多个学生，一个学生只能属于某一个班级。
  
-### 4) 属性应该定义成什么类型？
+**4) 属性应该定义成什么类型**
 
 ##班级##  
 班级号：字符串  
@@ -81,20 +81,20 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 更新时间：日期(精确到秒)   
 操作人：字符串  
 
-### 5) 属性字段长度应设计成多少？
+**5) 属性字段长度应设计成多少？**
 
 此处日期类型默认限制了长度，字符串类型统一设置成255(注意实际业务需要按具体场景设计每个字段长度，否则会造成表空间资源的浪费)  
 
  
-### ER图绘制
-#### 新建ER文件
+### 3、ER图绘制
+**1）新建ER文件**
 
 打开我们的PowerDesigner，左上角选择File-New Model，输入er图名称，点击[ok]创建空文件。
 
 <img src="http://cdn.gydblog.com/images/zhencangziyuan/er-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/zhencangziyuan/er-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-#### 定义实体和关系
+**2）定义实体和关系**
 
 - 班级实体定义
 
@@ -148,7 +148,7 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 注意：学生和班级通过班级号来进行关联，学生和班级是1:N的关系
 
 
-#### 导出建表语句
+**3）导出建表语句**
 实体和关系的ER图绘制完成后，接下来就是导出建表SQL语句了。
 
 在软件左上角选择DataBase-Generate Database，弹出如下界面进行导出配置：
@@ -162,8 +162,8 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 <img src="http://cdn.gydblog.com/images/zhencangziyuan/er-15.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
-### 工具问题记录
-- 导出的sql语句中字段注释缺失  
+### 4、工具问题记录
+- **导出的sql语句中字段注释缺失**  
 我明明在er图绘制定义字段的时候，给了注释，导出的sql里却没有注释信息？ 
 
 原因是因为PowerDesigner默认配置的导出不带注释，需要手动修改下导出的sql配置信息，针对mysql5.0修改方式如下：
@@ -184,8 +184,8 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 
 
 
-## 03、代码生成工具
-### 千篇一律的CRUD工作
+## 三、代码生成工具
+### 1、千篇一律的CRUD工作
 
 CRUD工程师们的日常开发工作流程通常是下面的形式：
 
@@ -205,7 +205,7 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 
 接下来就和大家分享一下EasyCode的简单使用。
 
-### EasyCode工具介绍  
+### 2、EasyCode工具介绍  
 
 - 基于IntelliJ IDEA开发的代码生成插件，支持自定义任意模板（Java，html，js，xml）。
 
@@ -215,7 +215,7 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 
 官方文档：https://gitee.com/makejava/EasyCode/wikis/pages
 
-### IDEA集成EasyCode工具说明
+### 3、IDEA集成EasyCode工具说明
 
 - IDEA中安装EasyCode插件
 
@@ -269,7 +269,7 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 - Column Config全局配置  
 暂未用到，没有深入了解过
 
-### EasyCode工具的使用  
+### 4、EasyCode工具的使用  
 #### 1）数据表结构
 假设一个业务需求分析下来需要设计下面的Demo表，表结构如下：
 <img src="http://cdn.gydblog.com/images/zhencangziyuan/easycode-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -288,10 +288,10 @@ CRUD工程师们的日常开发工作流程通常是下面的形式：
 
 经过上面步骤生成了基本的MVC三层代码，我只需要根据具体业务逻辑做一些定制化的修改即可，至少给我节省了30%的开发时间了！！！
 
-### 个人代码生成模板分享  
+### 5、个人代码生成模板分享  
 EasyCode的Template Setting里面 生成的代码配置脚本，根据本人的开发习惯，整理出一套集成swagger的代码生成模板，仅供参考：
 
-#### 1) entity.java.vm  
+**1) entity.java.vm**  
 ```java
 ##引入宏定义
 $!{define.vm}
@@ -327,7 +327,7 @@ public class $!{tableInfo.name}Entity implements Serializable {
 ```
 
 
-#### 2) mapper.java.vm  
+**2) mapper.java.vm**  
 ```java
 ##定义初始变量
 #set($tableName = $tool.append($tableInfo.name, "Mapper"))
@@ -427,7 +427,7 @@ public interface $!{tableName} {
 ```
 
 
-#### 3) service.java.vm  
+**3) service.java.vm**  
 ```java
 ##定义初始变量
 #set($tableName = $tool.append($tableInfo.name, "Service"))
@@ -496,7 +496,7 @@ public interface $!{tableName} {
 ```
 
 
-#### 4) serviceImpl.java.vm  
+**4) serviceImpl.java.vm**  
 ```java
 ##定义初始变量
 #set($tableName = $tool.append($tableInfo.name, "ServiceImpl"))
@@ -567,7 +567,7 @@ public class $!{tableName} implements $!{tableInfo.name}Service {
 }
 ```
 
-#### 5) controller.java.vm  
+**5) controller.java.vm**  
 ```java
 ##定义初始变量
 #set($tableName = $tool.append($tableInfo.name, "Controller"))
@@ -670,7 +670,7 @@ public class $!{tableName} {
 
 ```
 
-#### 6) dto.java.vm  
+**6) dto.java.vm**  
 ```java
 ##引入宏定义
 $!{define.vm}
@@ -706,7 +706,7 @@ public class $!{tableInfo.name}Dto implements Serializable {
 
 ```
 
-#### 7) mapper.xml.vm  
+**7) mapper.xml.vm**  
 ```java
 ##引入mybatis支持
 $!{mybatisSupport.vm}

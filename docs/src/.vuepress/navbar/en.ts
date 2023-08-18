@@ -12,11 +12,19 @@ export const enNavbar = navbar([
       { text: "实用网站", link: "websites" },
       { text: "代码轮子",link: "code" },
       { text: "摸鱼神器",link: "effect-raising" },
-      { text: "编程规约",link: "coding-standard" },
-      { text: "JAVA面试",link: "interview-java-basic" },
-
+      { text: "编程规约",link: "coding-standard" }
     ],
   },
+  {
+    text: "面试手册",
+    icon: "repo",
+    prefix: "/interview/",
+    children: [
+      { text: "JAVA面试", link: "interview-java" },
+      { text: "77道Spring面试题以及参考答案(转载)", link: "interview-spring" }
+    ],
+  },
+  
   {
     text: "IT人生",
     icon: "ability",

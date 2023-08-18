@@ -13,4 +13,4 @@ head:
 * [合格程序员必备的编程规约](./coding-standard.md)
 * [研发过程-提效工具(摸鱼神器)](./effect-raising.md)
 * [工具软件](./tools.md)
-* [实用网址](./websites.md)
+* [常用网站](./websites.md)

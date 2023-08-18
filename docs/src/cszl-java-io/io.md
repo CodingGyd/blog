@@ -126,7 +126,7 @@ File文件类
 java.io.File 
 ```
 
-### FileInputStream
+### 1、FileInputStream
 文件字节输入流，万能的，任何类型的文件都可以采用这个流来读  
 
 构造方法:  
@@ -178,7 +178,7 @@ java.io.File
 </table>
 
 
-### FileOutputStream
+### 2、FileOutputStream
 构造方法
 <table>
     <tr>
@@ -227,7 +227,7 @@ java.io.File
 </table>
 
 
-### FileReader
+### 3、FileReader
 构造方法：
 <table>
     <tr><th>构造方法名</th><th>备注</th></tr>
@@ -259,7 +259,7 @@ java.io.File
     </tr>
 </table>
 
-### FileWriter
+### 4、FileWriter
 FileWriter文件字符输出流。写。只能输出普通文本。
 <table>
     <thead><tr><th>构造方法名</th><th>备注</th></tr></thead>
@@ -274,7 +274,7 @@ FileWriter文件字符输出流。写。只能输出普通文本。
     </tr><tr><td>FileWriter(File file, boolean append)</td><td>append为true表示在文件末尾追加；为false表示清空文件内容，重新写入</td></tr>
 </table>
 
-### BufferedReader、InputStreamReader
+### 5、BufferedReader、InputStreamReader
 BufferedReader是带有缓冲区的字符输入流。使用这个流的时候不需要自定义char数组，或者说不需要自定义byte数组。自带缓冲。  
 
 InputStreamReader是字节输入流转字符输入流
@@ -285,7 +285,7 @@ InputStreamReader是字节输入流转字符输入流
 常用方法：
 <table><thead><tr><th>方法名</th><th>作用</th></tr></thead><tbody><tr><td>int read()</td><td>读取一个字符，返回值为该字符ASCII码；读到文件末尾返回-1</td></tr><tr><td>int read(char[] c)</td><td>读c数组长度的字节到c数组中，返回值为读到的字符个数；读到文件末尾返回-1</td></tr><tr><td>String readLine()</td><td>读取文件一行</td></tr><tr><td>long skip(long n)</td><td>跳过n个字符</td></tr><tr><td>void close()</td><td>关闭文件输入流</td></tr></tbody></table>
 
-### BufferedWriter、 OutputStreamWriter
+### 6、BufferedWriter、 OutputStreamWriter
 BufferedWriter：带有缓冲的字符输出流。
 OutputStreamWriter：字节输出流转字符输出流    
 
@@ -296,7 +296,7 @@ OutputStreamWriter：字节输出流转字符输出流
 <table><thead><tr><th>方法名</th><th>作用</th></tr></thead><tbody><tr><td>void write(int c)</td><td>将指定字符写入文件中</td></tr><tr><td>void write(char[] c, int off, int len)</td><td>将c素组off位置开始，len长度的字符写入文件中</td></tr><tr><td>void write(String str, int off, int len)</td><td>从字符串off位置开始截取len长度的字符串写入文件</td></tr><tr><td>void flush()</td><td>刷新此输出流并强制写出所有缓冲的输出字符</td></tr><tr><td>void close()</td><td>关闭文件输出流</td></tr></tbody></table>
 
 
-### DataInputStream  
+### 7、DataInputStream  
 DataInputStream:数据字节输入流。
 
 DataOutputStream写的文件，只能使用DataInputStream去读。并且读的时候你需要提前知道写入的顺序。
@@ -308,7 +308,7 @@ DataOutputStream写的文件，只能使用DataInputStream去读。并且读的�
 常用方法：
 <table><thead><tr><th>方法名</th><th>作用</th></tr></thead><tbody><tr><td>boolean readBoolean()</td><td>从文件中读取boolean字节数据</td></tr><tr><td>byte readByte()</td><td>从文件中读取byte字节数据</td></tr><tr><td>char readChar()</td><td>从文件中读取char字节数据</td></tr><tr><td>double readDouble()</td><td>从文件中读取double字节数据</td></tr><tr><td>float readFloat()</td><td>从文件中读取float字节数据</td></tr><tr><td>int readInt()</td><td>从文件中读取int字节数据</td></tr><tr><td>long readLong()</td><td>从文件中读取long字节数据</td></tr><tr><td>short readShort()</td><td>从文件中读取short字节数据</td></tr></tbody></table>
 
-### DataOutputStream
+### 8、DataOutputStream
 java.io.DataOutputStream：数据字节输出流。
 
 这个流可以将 数据连同数据的类型 一并写入文件。
@@ -321,7 +321,7 @@ java.io.DataOutputStream：数据字节输出流。
 常用方法： 
 <table><thead><tr><th>方法名</th><th>作用</th></tr></thead><tbody><tr><td>void writeBoolean(boolean v)</td><td>将boolean字节写入文件</td></tr><tr><td>void writeByte(int v)</td><td>将byte字节写入文件</td></tr><tr><td>void writeBytes(String s)</td><td>将bytes字节（字符串）写入文件</td></tr><tr><td>void writeChar(int v)</td><td>将char字节写入文件</td></tr><tr><td>void writeChars(String s)</td><td>将chars字节（字符串）写入文件</td></tr><tr><td>void writeDouble(double v)</td><td>将double字节写入文件</td></tr><tr><td>void writeFloat(float v)</td><td>将float字节写入文件</td></tr><tr><td>void writeInt(int v)</td><td>将int字节写入文件</td></tr><tr><td>void writeLong(long v)</td><td>将long字节写入文件</td></tr><tr><td>void writeShort(int v)</td><td>将short字节写入文件</td></tr><tr><td>void flush()</td><td>刷新此输出流并强制写出所有缓冲的输出字符</td></tr></tbody></table>
 
-### PrintStream
+### 9、PrintStream
 java.io.PrintStream：标准的字节输出流。默认输出到控制台。
 
 构造方法：
@@ -330,13 +330,13 @@ java.io.PrintStream：标准的字节输出流。默认输出到控制台。
 常用方法：
 <table><thead><tr><th>方法</th><th>作用</th></tr></thead><tbody><tr><td>println(参数类型不定 x)</td><td>输出x带换行</td></tr><tr><td>print(参数类型不定 x)</td><td>输出x不带换行</td></tr><tr><td>void flush()</td><td>刷新此输出流并强制写出所有缓冲的输出字符</td></tr><tr><td>void close()</td><td>关闭流</td></tr></tbody></table>
 
-### ObjectOutputStream
+### 10、ObjectOutputStream
 ObjectInputStream：反序列化对象
 
-### ObjectInputStream
+### 11、ObjectInputStream
 ObjectInputStream：反序列化对象
 
-### File  
+### 12、File  
 File对象代表文件 和 目录路径名 的抽象表示形式。
 ```
 C:\Drivers 这是一个File对象
@@ -350,7 +350,7 @@ File只是一个 路径名 的抽象表示形式。
 常用方法：
 <table><thead><tr><th>方法名</th><th>作用</th></tr></thead><tbody><tr><td>boolean delete()</td><td>删除文件/文件夹</td></tr><tr><td>boolean exists()</td><td>判断文件/文件夹是否存在</td></tr><tr><td>--------</td><td>--------</td></tr><tr><td>File getAbsoluteFile()</td><td>获取文件/文件夹的绝对路径（返回值：File）</td></tr><tr><td>String getName()</td><td>获得文件/文件夹名字</td></tr><tr><td>String getParent()</td><td>获取文件/文件夹的父文件/文件夹</td></tr><tr><td>File getParentFile()</td><td>获取文件/文件夹的父文件/文件夹（返回值：File）</td></tr><tr><td>String getPath()</td><td>获取文件/文件夹的路径</td></tr><tr><td></td><td></td></tr><tr><td>boolean isDirectory()</td><td>判断该文件/文件夹是不是文件夹</td></tr><tr><td>isFile()</td><td>判断该文件/文件夹是不是文件</td></tr><tr><td>isHidden()</td><td>判断该文件/文件夹是否隐藏</td></tr><tr><td>--------</td><td>--------</td></tr><tr><td>long lastModified()</td><td>获取文件/文件夹最后一次修改时间</td></tr><tr><td>long length()</td><td>获取文件大小；获取文件夹里面的文件个数</td></tr><tr><td>String[] list()</td><td>获取文件夹的文件名字以String[]返回</td></tr><tr><td>File[] listFiles()</td><td>获取文件夹的文件名字以File[]返回</td></tr><tr><td>boolean mkdir()</td><td>创建文件/文件夹</td></tr><tr><td>boolean mkdirs()</td><td>创建多重文件夹</td></tr></tbody></table>
 
-### 测试代码
+### 13、测试代码
 准备文件test.txt，放在D盘根目录下，文件初始内容如下：
 <img src="http://cdn.gydblog.com/images/java/io/io-2.png"  style="zoom: 60%;margin:0 auto;display:block"/><br/>
 
@@ -1277,6 +1277,7 @@ public class ObjectInputStreamTest02 {
 
 ```
 
-## 参考资料
-https://blog.csdn.net/qq_44715943/article/details/116501936?spm=1001.2014.3001.5506  
+## 四、参考资料
+[Java IO流（超详细！）](https://blog.csdn.net/qq_44715943/article/details/116501936 "Java IO流（超详细！）")  
+
 站在前人的肩膀上学习知识！

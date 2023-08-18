@@ -22,7 +22,7 @@ tag:
 - 控制并发线程数的 Semaphore
 - 线程间交换数据的 Exchanger
 
-## 等待多线程完成的 CountDownLatch
+## 1、CountDownLatch
 
 CountDownLatch 允许一个或多个线程等待其他线程完成操作。  
 
@@ -57,8 +57,8 @@ public class CountDownLatchTest {
 countDownLatch只能被使用一次。
 :::
 
-## 同步屏障 CyclicBarrier
-CyclicBarrier 的意思是可循环使用（Cyclic）的屏障（Barrier）。  
+## 2、CyclicBarrier
+CyclicBarrier 的意思是可循环使用（Cyclic）的同步屏障（Barrier）。  
 
 它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续运行。
 
@@ -100,8 +100,8 @@ CyclicBarrier 可以用于并行计算数据，最后汇总计算结果的场景
 
 程序异常是不可避免的，例如，如果计算发生错误，如果使用的CyclicBarrier，我们可以重置计数器，并让业务线程重新执行一次。
 
-## 控制并发线程数的 Semaphore
-Semaphore（信号量）类似于限流控制器。比如我们去车管所办理业务，车管所某个时段就只能承载接待100人的流量，需要大家提前预约，预约人数满100人后该时段不再接待新的预约。
+## 3、Semaphore
+Semaphore（信号量）类似于限流控制器，控制并发线程数的 。比如我们去车管所办理业务，车管所某个时段就只能承载接待100人的流量，需要大家提前预约，预约人数满100人后该时段不再接待新的预约。
 
 在代码程序里，Semaphore是用来控制同时(并发)访问特定资源的线程数量，保证合理的使用公共资源。
 
@@ -133,7 +133,7 @@ public class SemaphoreTest {
 
 Semaphore 还提供了很多其他方法，可以自行查看API。
 
-## 线程间交换数据的 Exchanger
+## 4、Exchanger
 Exchanger是JDK1.5以后提供的用于两个线程之间在某个时间点进行通信(数据交换)的工具。 
 
 也就是说，一个线程到达某个时间点时，将产生的数据传递给另外一个线程，同时等待另外一个线程将它的数据传回。

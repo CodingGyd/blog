@@ -4,18 +4,18 @@ date: 2023-08-10
 ---
 
 # JVM入门，看这一篇就够了！
-## 什么是JVM？
+## 一、什么是JVM？
 JVM(Java Virtual Machine,Java虚拟机），是一种用于计算设备的规范，它是一个虚构出来的计算机，是通过在实际的计算机平台(操作系统)上仿真模拟各种计算机功能来实现的。引入Java语言虚拟机后，Java语言在不同平台上运行时不需要重新编译。  
 
 Java语言使用Java虚拟机屏蔽了与具体平台相关的信息，使得Java语言编译程序只需生成在Java虚拟机上运行的目标代码（字节码class文件），就可以在多种平台上不加修改地运行。Java虚拟机在执行字节码时，把字节码解释成具体平台上的机器指令执行。这就是Java能够“一次编译，到处运行”的原因。  
 
 ![JVM的平台定位](http://cdn.gydblog.com/images/java/jvm/jvm-1.jpg)
 
-## JVM的基础概念
-### JVM内存布局总览
+## 二、JVM的基础概念
+### 1、JVM内存布局总览
 ![JVM内存布局总览](http://cdn.gydblog.com/images/java/jvm/jvm-2.jpg)
 
-### 堆(Heap)
+### 2、堆(Heap)
 ![堆内存结构](http://cdn.gydblog.com/images/java/jvm/jvm-4.jpg)
 
 堆是JVM中内存分配最大的一块区域，被分为为新生代、老年代、元空间(1.8以前叫方法区或者永久代)：  
@@ -60,19 +60,19 @@ full gc采用的是标记-清除算法，会产生内存碎片。在执行full g
 
 一个JVM实例只存在一个堆内存空间，堆的大小可以固定，也可以扩大和缩小，JVM支持通过下面的配置项，动态调整堆中不同内存区域内存分配比例：
 
-- 1.JVM运行时堆的大小　　-Xms堆的最小值　　-Xmx堆空间的最大值
-- 2.新生代堆空间大小调整　　-XX:NewSize新生代的最小值　　-XX:MaxNewSize新生代的最大值　　
+- JVM运行时堆的大小：　　-Xms堆的最小值　　-Xmx堆空间的最大值
+- 新生代堆空间大小调整：　　-XX:NewSize新生代的最小值　　-XX:MaxNewSize新生代的最大值　　
 -XX:NewRatio设置新生代与老年代在堆空间的大小　　-XX:SurvivorRatio新生代中Eden所占区域的大小
 
-- 3.永久代大小调整　　-XX:MaxPermSize
-- 4.其他　  -XX:MaxTenuringThreshold,设置将新生代对象转到老年代时需要经过多少次垃圾回收，但是仍然没有被回收
+- 永久代大小调整：　　-XX:MaxPermSize
+- 其他：　  -XX:MaxTenuringThreshold,设置将新生代对象转到老年代时需要经过多少次垃圾回收，但是仍然没有被回收
 
 堆的内存不需要是连续空间，其内存是没有限制的，但是会受限于机器内存配置，如果超过机器最大内存限制，会抛出异常：
 ```
 java.lang.OutOfMemoryError: Java heap space
 ```
 
-### 虚拟机栈(VM Stack)  
+### 3、虚拟机栈(VM Stack)  
 Java虚拟机栈描述的是Java方法执行的内存模型：每个方法执行的同时会创建一个栈帧，该方法从调用开始至执行结束的过程，都对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。  
 Java虚拟机栈也是线程私有的，它的生命周期与线程相同（随线程而生，随线程而灭）。  
 > 栈是一种先进后出的数据结构，所以Java虚拟机栈他只会先处理位于栈顶的栈帧，而位于栈底的栈帧(也就是最先入栈的栈帧)只会等待其上面的栈帧处理完毕了才会被处理。
@@ -92,7 +92,7 @@ Java虚拟机栈内部划分了几个部分：
 （当前大部分JVM都可以动态扩展，只不过JVM规范也允许固定长度的虚拟机栈）
 ```
 
-### 本地方法栈(Native Method Stack)
+### 4、本地方法栈(Native Method Stack)
 本地方法栈和java虚拟机栈所发挥的作用是非常相似的，其区别就是
 ```
 1）java虚拟机栈为虚拟机执行Java方法（也就是字节码）服务
@@ -101,7 +101,7 @@ Java虚拟机栈内部划分了几个部分：
 与虚拟机栈一样，本地方法栈也会在栈深度溢出或者栈扩展失败时分别抛出StackOverflowError和OutOfMemoryError异常。
 
 
-### 程序计数器(Program Counter Register)
+### 5、程序计数器(Program Counter Register)
 程序计数器是JVM中一块很小的内存空间，几乎可以忽略不计，是运行速度最快的存储区域，也是唯一一个在java虚拟机规范中没有被规定任何OutOfMemoryError(OOM)情况的区域。
 
 在JVM规范中，每个线程都有它的程序计数器，是线程私有的，生命周期与线程的生命周期保持一致。
@@ -112,15 +112,15 @@ Java虚拟机栈内部划分了几个部分：
 字节码解释器工作时是通过改变这个程序计数器的值来读取下一条需要执行的字节码指令。
  
 
-### 执行引擎(Execution Engine)
+### 6、执行引擎(Execution Engine)
 执行引擎（Execution Engine) 是 Java 虚拟机核心的组成部分之一，它的任务就是将字节码指令解释/编译为对应平台上的本地机器指令才可以。简单来说，JVM 中的执行引擎充当了将高级语言翻译为机器语言的译者。
 
 Java 字节码的执行是由 JVM 执行引擎来完成，流程图如下所示：
 ![字节码的执行](http://cdn.gydblog.com/images/java/jvm/jvm-6.png)
 
-### 本地库接口(Native Interface)
+### 7、本地库接口(Native Interface)
 
-### 本地方法库(Native Libary)
+### 8、本地方法库(Native Libary)
 首先说明什么是本地方法：简单地讲，一个Native Method就 是一个Java调用非Java代码的接口。 在定义一个native method时，并不提供实现体(有些像定义一个Javainterface)，因为其实现体是由非java语言在外面实现的。
 ```java
 public class MyNatives {
@@ -135,7 +135,7 @@ public class MyNatives {
 
 本地方法库就是本地方法的集合。
 
-### 类加载器
+### 9、类加载器
 开发人员核心工作是创造源代码。在java中源代码文件的格式是xxx.java，编写好的源代码文件经过编译器(如IDEA、eclipse)调用javac编译后会生成对应的xxx.class文件，类加载器会负责将xxx.class文件加载到内存中，只要xxx.class文件结构符合格式要求即可，类加载器不负责运行，运行是由执行引擎Execution Engine来实现的。  
 
 一句话概括：我们所讲的类加载器classLoader,就是负责把JAVA源代码编译后的.class文件 ，加载到JVM虚拟机内存中，并生成 java.lang.Class类的一个实例。  
@@ -174,7 +174,7 @@ null
 
 涉及的类加载器分别介绍如下：  
 
-- 1）启动类加载器(引导类加载器，Bootstrap ClassLoader)
+1）启动类加载器(引导类加载器，Bootstrap ClassLoader)
 :::info 启动类加载器
 启动类加载器使用C/C++语言实现的，嵌套在JVM内部。  
 它用来加载Java的核心库（JAVAHOME/jre/1ib/rt.jar、resources.jar或sun.boot.class.path路径下的内容），用于提供JVM自身需要的类。 
@@ -183,7 +183,7 @@ null
 出于安全考虑，Bootstrap启动类加载器只加载包名为java、javax、sun等开头的类  
 :::
 
-- 2）扩展类加载器（Extension ClassLoader）  
+2）扩展类加载器（Extension ClassLoader）  
 :::info 扩展类加载器
 Java语言编写，JDK1.8由sun.misc.Launcher$ExtClassLoader实现，JDK1.9之后改成PlatFromClassLoader，由jdk.internal.loader.PlatformClassLoader实现。
 派生于ClassLoader类.
@@ -191,7 +191,7 @@ Java语言编写，JDK1.8由sun.misc.Launcher$ExtClassLoader实现，JDK1.9之�
 从java.ext.dirs系统属性所指定的目录中加载类库，或从JDK的安装目录的jre/lib/ext子目录（扩展目录）下加载类库。如果用户创建的JAR放在此目录下，也会自动由扩展类加载器加载.
 :::
 
-- 3）应用程序类加载器（系统类加载器，Application ClassLoader)
+3）应用程序类加载器（系统类加载器，Application ClassLoader)
 :::info 应用程序类加载器
 java语言编写，由sun.misc.LaunchersAppClassLoader实现.
 派生于ClassLoader类.
@@ -201,7 +201,7 @@ java语言编写，由sun.misc.LaunchersAppClassLoader实现.
 通过classLoader#getSystemclassLoader（）方法可以获取到该类加载器.
 :::
 
-- 4）用户自定义类加载器（User ClassLoader）
+4）用户自定义类加载器（User ClassLoader）
 :::info 用户自定义类加载器
 在Java的日常应用程序开发中，类的加载几乎是由上述3种类加载器相互配合执行的，在必要时，我们还可以自定义类加载器，来定制类的加载方式。 
 为什么要自定义类加载器？  
@@ -211,7 +211,7 @@ c.扩展加载源
 d.防止源码泄漏 
 :::
 
-## 双亲委派模型
+## 三、双亲委派模型
 如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成。
 每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到最顶层的启动类加载器中。只有当上一层类加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到这个类）时，下一层类加载器才会尝试自己去加载。 
 
@@ -238,9 +238,9 @@ JVM不仅要看类的全名是否相同，还要看加载此类的类加载器�
 如果这个加载过程由 Java 应用自己的类加载器来完成的话，很可能就存在多个版本的 java.lang.Object类，而且这些类之间是不兼容的。
 
 这里总结一下双亲委派模型的设计动机：
-1、代理模式是为了保证 Java 核心库的类型安全：通过代理模式，对于 Java 核心库的类的加载工作由引导类加载器来统一完成，保证了 Java 应用所使用的都是同一个版本的 Java 核心库的类，是互相兼容的。
+**1、代理模式是为了保证 Java 核心库的类型安全：** 通过代理模式，对于 Java 核心库的类的加载工作由引导类加载器来统一完成，保证了 Java 应用所使用的都是同一个版本的 Java 核心库的类，是互相兼容的。
 
-2、相同名称的类可以并存在 Java 虚拟机中：不同的类加载器为相同名称的类创建了额外的名称空间。相同名称的类可以并存在 Java 虚拟机中，只需要用不同的类加载器来加载它们即可。不同类加载器加载的类之间是不兼容的，这就相当于在 Java 虚拟机内部创建了一个个相互隔离的 Java 类空间。
+**2、相同名称的类可以并存在 Java 虚拟机中：** 不同的类加载器为相同名称的类创建了额外的名称空间。相同名称的类可以并存在 Java 虚拟机中，只需要用不同的类加载器来加载它们即可。不同类加载器加载的类之间是不兼容的，这就相当于在 Java 虚拟机内部创建了一个个相互隔离的 Java 类空间。
 
 双亲委派模型这种技术思想在许多框架中都被用到，比如以 Apache Tomcat 来说，容器不希望它下面的webapps之间能互相访问到，每个 Web 应用都有一个对应的类加载器实例。
 

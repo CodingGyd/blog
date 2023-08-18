@@ -11,11 +11,16 @@ head:
     - name: keywords
       content: JAVA企业级开发,SPI原理,Spring笔记,Spring5,Spring总结,Spring核心知识
 ---
-<!-- @include: ../common-top.md -->
+
+:::tip 写在前面
+大家好，我是代码小郭，又来和大家分享知识啦！
+
+小郭写文章的目的就是为了促进自己技术的成长，同时分享给大家一起学习交流，如果您对 Java领域感兴趣，可以关注我，我们一起学习。
+:::
 
 # SPI机制
 
-## SPI概念
+## 一、简介
 SPI 全称 Service Provider Interface，是一套用来被第三方实现或者扩展的接口，经常用来替换框架本身组件或者进行框架功能扩展。
 
 SPI的作用就是寻找扩展的服务实现，可以实现 解耦 （接口和实现分离），提高框架的 可拓展性（第三方可以自己实现，达到插拔式的效果）。
@@ -24,7 +29,7 @@ SPI的本质其实就是基于接口+策略模式+配置问卷来实现动态加
 
 SPI分为多个角色：Service、Service Provider、ServiceLoader和资源文件。
 
-## JAVA的SPI设计
+## 二、JAVA的SPI设计
 JAVA内置了一套最基础的SPI，我们先来看看是如何使用的。
 
 首先定义一个SPI顶层接口：
@@ -161,7 +166,7 @@ public final class ServiceLoader<S>
 
 JAVA SPI机制的一个劣势，是无法确认具体加载哪一个实现，也无法加载某个指定的实现，只能加载配置文件中的全部实现，而且仅靠ClassPath的顺序加载是一个非常不严谨的方式。
 
-## Spring的SPI设计
+## 三、Spring的SPI设计
 Spring SPI其实就是基于Java SPI的设计进行了再次封装。我们只需要在 META-INF/spring.factories 中配置接口实现类名，即可通过服务发现机制，在运行时加载接口的实现类。
 
 ![Spring的SPI加载流程](http://cdn.gydblog.com/images/spring/spring-spi-1.png)
@@ -214,12 +219,12 @@ org.springframework.boot.autoconfigure.integration.IntegrationPropertiesEnvironm
 
 Spring的SPI 虽然属于spring-framework(core)，但是目前主要用在spring boot中……
 
-## SPI思想的应用举例
+## 四、SPI思想的应用举例
 在各种流行框架如Dubbo、JDBC、Druid、SpringBoot 中都使用到了SPI机制。虽然他们之间的实现方式不同，但原理都差不多。
 
 下面以SpringBoot和Dubbo为例做简单说明。
 
-### SpringBoot自动配置
+### 1、SpringBoot自动配置
 
 SpringBoot中大量运用了Spring的SPI设计，保证了良好的扩展性。
 
@@ -240,7 +245,7 @@ SpringBoot启动时，会自动扫描依赖包中的META-INF，通过配置文�
 
 如上图所示，SpringBoot启动时会将DruidDataSourceAutoConfigure作为一个配置类进行加载。
 
-### Dubbo
+### 2、Dubbo的SPI设计
 Dubbo 中的扩展能力是从 JDK 标准的 SPI 扩展点发现机制加强而来。  
 
 ![dubbo的SPI流程](http://cdn.gydblog.com/images/dubbo/dubbo-spi-1.png)
@@ -297,12 +302,16 @@ Process finished with exit code 0
 
 Dubbo相对于JAVA的spi的最大的亮点是：JDK 标准的 SPI 会一次性实例化扩展点所有实现，如果有扩展实现初始化很耗时，但如果没用上也加载，会很浪费资源。而Dubbo支持只加载指定扩展实现
 
-<!-- @include: ../common-bottom.md -->
 
-
-## 参考资料 
+## 五、参考资料 
 [一文搞懂Spring的SPI机制（详解与运用实战）](https://juejin.cn/post/7197070078361387069 "一文搞懂Spring的SPI机制（详解与运用实战）")    
 
 [Dubbo SPI 概述](https://cn.dubbo.apache.org/zh-cn/overview/mannual/java-sdk/reference-manual/spi/overview/ "Dubbo SPI 概述")  
+
+
+:::tip 啰嗦一句
+小郭今天的学习成果跟大家分享完毕，大家有觉得不好的地方欢迎在下方评论区开喷👇👇👇 
+也可以给我点点关注鼓励一下呀👍👍👍
+:::
 
 

@@ -12,7 +12,24 @@ export const enSidebar = sidebar({
     {
       text: '葵花宝典',
       link: '/zhencangziyuan/',
-      children: "structure",
+      collapsible: true,
+      children: [
+        { text: "代码轮子-减少重复开发工作", link: "code" },
+        { text: "合格程序员必备的编程规约", link: "coding-standard" },
+        { text: "研发过程-提效工具(摸鱼神器)", link: "effect-raising" },
+        { text: "工具软件", link: "tools" },
+        { text: "常用网站", link: "websites" },        
+      ],
+    }
+  ],
+  "/interview/": [
+    {
+      text: '面试手册',
+      link: '/interview/',
+      children: [
+        { text: "JAVA面试", link: "interview-java" },
+        { text: "77道Spring面试题以及参考答案(转载)", link: "interview-spring" }
+      ],
     }
   ],
 "/it-life/": [
@@ -285,8 +302,8 @@ export const enSidebar = sidebar({
         "elasticjob",
         "jenkins",
         // "nginx",
-        "industry-lossary"
-
+        "industry-lossary",
+        "poi"
       ],
    
     },

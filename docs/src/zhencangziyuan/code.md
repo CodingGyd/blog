@@ -9,7 +9,7 @@ star: true
 > 更多实用代码轮子 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
 > excel导入导出组件 <a href="https://github.com/CodingGyd/excel-utils" text="戳这里！" target="_blank"></a>
 
-## 01、参数校验工具
+## 一、参数校验
 
 需要在pom引入相关依赖  
 ```java
@@ -127,12 +127,12 @@ Exception in thread "main" java.lang.RuntimeException: 校验不通过：**name�
 	at com.codinggyd.User.main(User.java:27)
 ```
 
-### 枚举范围校验
+## 二、枚举校验
 在业务系统开发中，离散的枚举值校验是非常有必要的。而Jakarta的javax.validation包提供了方便的自定义校验的入口，就是javax.validation.ConstraintValidator,我们可以通过自定义校验枚举类型方式实现离散值校验。
 
 下面是一套校验工具，可以直接运用于项目中
 
-#### 1) 定义一个校验注解，类似于@NotNull @Size等等那样
+**1) 定义一个校验注解，类似于@NotNull @Size等等那样**
 ```java
 package com.codinggyd.validator;
 
@@ -162,7 +162,8 @@ public @interface EnumStringValid {
 }
 ```
 
-#### 2) 自定义枚举校验处理类
+**2) 自定义枚举校验处理类**
+
 > 该类必须实现javax.validation.ConstraintValidator接口  
 ```java
 package com.codinggyd.validator;
@@ -199,7 +200,7 @@ public class EnumStringValidator implements ConstraintValidator<EnumStringValid,
 }
 ```
 
-#### 3) 业务代码使用
+**3) 业务代码使用**
 业务场景: 假设我需要校验性别类型参数是否在可选范围之内。
 
 - a. 先定义一个枚举接口，所有需要被校验的业务枚举类都需要实现该接口的校验方法  
@@ -328,7 +329,7 @@ Exception in thread "main" java.lang.RuntimeException: 校验不通过：**性�
 
 
 
-## 02、数值精确运算工具
+## 三、数值精确运算
 ```java
 package com.codinggyd.utils;
 import java.math.BigDecimal;
@@ -623,7 +624,7 @@ public class ArithmeticUtils {
 ```
 
 
-## 03、bean和map转换工具
+## 四、bean和map转换
 需要在pom引入相关依赖：
 ```java
 	<dependency>

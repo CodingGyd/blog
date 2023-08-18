@@ -2,9 +2,9 @@
 # icon: lock
 date: 2023-02-10
 category:
-  - JAVA面试
+  - 面试手册
 tag:
-  - 面试题
+  - JAVA面试
 ---
 
 # JAVA面试

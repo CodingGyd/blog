@@ -13,7 +13,7 @@ head:
 ---
 
 # IOC容器和Bean定义的基本常识
-## 前言 
+## 一、前言 
 > 笔记来源于对 [Spring文档](https://springdoc.cn/spring/index.html "Spring文档")  的系统性学习总结
 
 先从上帝视角看一下Spring对IOC容器的定位: 
@@ -64,7 +64,7 @@ head:
 
 了解完了顶层设计，接下来跟着小郭一起来学习一下IOC的具体原理和各种基本概念吧。
 
-## IOC概念
+## 二、IOC简介
 > IOC是控制反转的意思，也被称为依赖注入（DI）。
 
 IOC指的是一个对象创建和依赖的过程，对象仅通过构造参数、工厂方法的参数或在对象实例被构造或从工厂方法返回后在其上设置的属性来定义其依赖关系（即它们与之合作的其他对象）。然后容器在创建 bean 时注入这些依赖关系。这个过程从根本上说是Bean本身通过使用直接构建类或诸如服务定位模式的机制来控制其依赖关系的实例化或位置的逆过程，因此被称为控制反转。
@@ -151,7 +151,7 @@ public interface ApplicationContext extends EnvironmentCapable, ListableBeanFact
 ```
 相对BeanFactory而言，ApplicationContext提供了更多符合企业级应用需求的功能如国际化Message resource处理、事件发布、特定上下文WebApplicationContext用于web应用等。  
 
-## IOC容器的第一个程序
+## 三、XML方式构建IOC
 
 我们先创建两个bean，使用xml配置进行元数据描述，最后用spring提供的容器将其加载运行。
 
@@ -269,8 +269,76 @@ System.out.print(student.getStuName());
 
 到此为止，我们使用spring容器完成了对自定义bean的简单管理，整个过程不需要我们自己主动使用new操作符创建bean以及对依赖进行关联，一切都交由Spring IOC容器来管理。
 
+## 四、非XML方式构建IOC
+前面我们用xml形式描述了bean的初始化相关信息和依赖关系，然后Spring加载xml进行IOC容器的初始化。 其实Spring也支持注解+编程的方式来配置一个容器，下面我来记录下是如何使用的。
 
-## Bean的概念
+Spring的注解方式配置涉及两个核心注解： @Configuration 和 @Bean。
+
+@Bean 注解用来表示一个方法实例化、配置和初始化了一个新的对象，由Spring IoC容器管理。对于那些熟悉Spring的 <beans/> XML配置的人来说，@Bean 注解的作用与 <bean/> 元素的作用相同。我们可以在任何Spring @Component 中使用 @Bean 注解的方法。
+
+@Configuration 用来注解一个类，表明它的主要目的是作为Bean定义的来源。此外， @Configuration 类允许通过调用同一个类中的其他 @Bean 方法来定义bean间的依赖关系。 
+
+Spring提供了AnnotationConfigApplicationContext，与实例化 ClassPathXmlApplicationContext 时使用Spring XML文件作为输入一样，
+我们可以在实例化 AnnotationConfigApplicationContext 时使用 @Configuration 类作为输入。这使得Spring容器的使用完全不需要XML，
+
+前面的例子我们改造一下：
+
+```java
+@Configuration
+public class AppConfig {
+    @Bean
+    public StudentInfo studentInfo() {
+        return new StudentInfo();
+    }
+
+    @Bean
+    public ClassesInfo classesInfo() {
+        return new ClassesInfo();
+    }
+}
+```
+
+```java
+public class TestConfiguration {
+  public static void main(String[] args) {
+    //方式1  结合@Configuration注解类构造容器
+//        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        //方式2  直接注入指定bean类 完成容器构造
+//        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(StudentInfo.class,ClassesInfo.class);
+        //方式3 通过使用 register(Class<?>…​) 以编程方式构建容器。
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+        applicationContext.register(StudentInfo.class,ClassesInfo.class);
+        applicationContext.refresh();
+
+        //方式4 用 scan(String…) 启用组件扫描。
+//        @Configuration
+//        @ComponentScan(basePackages = "com.acme")
+//        public class AppConfig  {
+//            // ...
+//        }
+
+        StudentInfo studentInfo = applicationContext.getBean(StudentInfo.class);
+        ClassesInfo classesInfo = applicationContext.getBean(ClassesInfo.class);
+        System.out.println(studentInfo);
+        System.out.println(classesInfo);
+    }
+  }
+}
+```
+
+程序执行输出:
+```
+com.gyd.springdemo.ioc.StudentInfo@5223e5ee
+com.gyd.springdemo.ioc.ClassesInfo@bef2d72
+```
+
+上面的代码中注释提到的四种方式的效果和使用xml配置是一样的。AnnotationConfigApplicationContext还有多种用法，比如配合@Component、@ComponentScan等注解使用均可以实现一个简单容器实例。有兴趣可以查阅官方文档。
+
+Spring提供@Configuration 这种方式的目的并不是要100%完全取代Spring XML。有些情况使用Spring XML的方式仍然是配置容器的理想方式。
+
+我们需要根据开发场景进行配置方式的选择：要么通过使用例如 ClassPathXmlApplicationContext 以 "以XML为中心" 的方式实例化容器，要么通过使用 AnnotationConfigApplicationContext 和 @ImportResource 注解来根据需要导入XML，以 "以Java为中心" 的方式实例化它。
+
+## 五、什么是Bean？
 从前面使用容器的简单例子中可以看到，我们使用IOC容器能方便的获取Bean的实例信息，由此衍生出IOC和Bean的关系：
 ```
 一个Spring IoC容器管理着一个或多个Bean。这些Bean是用开发者提前描述好的bean配置文件提供给容器进行创建的。
@@ -278,7 +346,7 @@ System.out.print(student.getStuName());
 
 那么，Spring IOC容器是如何保存Bean的信息呢？ 这里有一个重要的定义：BeanDefinition。
 
-### BeanDefinition定义
+### 1、BeanDefinition定义
 BeanDefinition 对象结构中有以下几个要素：
 - 一个全路径类名：通常，被定义的Bean的实际实现类。
 
@@ -297,7 +365,7 @@ DefaultListableBeanFactory 通过 registerSingleton(..) 和 registerBeanDefiniti
 
 更多Bean的详细描述，请查阅Spring官方[Bean概览](https://docs.spring.io/spring-framework/reference/core/beans/definition.html"Bean概览")  
  
-### 实例化Bean的三种方式
+### 2、实例化Bean的三种方式
 - 1）用构造函数进行实例化
   需要有默认构造函数:
   ```
@@ -355,16 +423,32 @@ DefaultListableBeanFactory 通过 registerSingleton(..) 和 registerBeanDefiniti
     factory-method="createAccountServiceInstance"/>
   ```
  
-### Bean的作用域Scope
+### 3、Bean的作用域Scope
 
 ![Bean的六种作用域](http://cdn.gydblog.com/images/spring/spring-ioc-3.png)
 
-配置示例：
+Spring提供了xml和注解两种方式设置bean的作用域。
+
+配置方式1：
 ```
 <bean id="accountService" class="com.something.DefaultAccountService" scope="prototype"/>
 ```
 
-六种作用域的解释：
+配置方式2：
+```
+@Configuration
+public class MyConfiguration {
+
+    @Bean
+    @Scope("prototype")
+    public Encryptor encryptor() {
+        // ...
+    }
+}
+
+```
+ 
+**六种作用域的解释：**
 - 1）singleton
    默认情况，一个bean在同一个IOC容器中只会有一个实例，单例模式。
    ![singleton作用域](http://cdn.gydblog.com/images/spring/spring-ioc-4.png)
@@ -388,9 +472,9 @@ DefaultListableBeanFactory 通过 registerSingleton(..) 和 registerBeanDefiniti
 - 6）websocket
   每个websocket链接都有自己的Bean实例。仅在具有Web感知的 Spring ApplicationContext 的上下文中有效。
 
-Spring是扩展性极强的，也支持自定义作用域，若有兴趣的可以查阅Spring官方文档
+Spring是扩展性极强的，也支持自定义作用域，若有兴趣的可以查阅Spring官方文档。
 
-#### 初始 Web 配置
+**如何开启这些作用域：request、 session、application 和 Websocket**
 为了支持Bean在 request、 session、application 和 Websocket 级别的scope（Web scope 的Bean），在定义Bean之前，需要一些小的初始配置。（对于标准作用域（singleton 和 prototype）来说，这种初始设置是不需要的）。
 如果是在Spring Web MVC中访问 scope 内的Bean，实际上是在一个由Spring DispatcherServlet 处理的请求（request）中，就不需要进行特别的设置。 DispatcherServlet 已经暴露了所有相关的状态。  
 
@@ -426,7 +510,7 @@ Spring是扩展性极强的，也支持自定义作用域，若有兴趣的可�
 
 DispatcherServlet、RequestContextListener 和 RequestContextFilter 都做了完全相同的事情，即把HTTP请求对象绑定到为该请求服务的 Thread。这使得 request scope 和 session scope 的Bean可以在调用链的更远处使用。
 
-### Bean的懒加载
+### 4、Bean的懒加载
 默认情况下，Spring的IOC容器 的实现会初始化好所有的 单例 Bean的实例，但也支持让开发者通过将Bean定义标记为懒加载来阻止单例Bean的预实例化。懒加载的 bean 告诉IoC容器在第一次被请求时创建一个bean实例，而不是在启动时。 
 
 如何配置懒加载：
@@ -444,9 +528,10 @@ DispatcherServlet、RequestContextListener 和 RequestContextFilter 都做了完
 ```
 
 
-### Bean的回调函数
+### 5、Bean的回调函数
 Spring框架提供了许多扩展点接口，让开发者可以干预Bean的创建和销毁的整个过程。
-#### 生命周期回调
+
+**生命周期回调**
 从Spring 2.5开始，提供了三个选项来控制Bean的生命周期行为。
 ```
 1.InitializingBean 和 DisposableBean callback 接口。
@@ -480,7 +565,7 @@ void destroy() throws Exception;
 
 最佳实践：建议不要直接使用 DisposableBean 接口，因为它将代码与Spring耦合。建议使用注解@PreDestroy 
 
-#### 启动和关闭的回调
+**启动和关闭的回调**
 当 ApplicationContext 本身收到启动和停止信号时（例如，在运行时的停止/重启场景），均会进行启动和关闭的回调。
 
 任何Spring管理的对象都可以实现 Lifecycle 接口，Lifecycle 接口定义了一些启动和关闭的基本方法：
@@ -519,7 +604,7 @@ public final class Boot {
 
 ```
 
-#### 各种Aware接口
+**各种Aware接口**
 有时候我们需要获取容器本身的一些信息，可以通过各种Aware接口来注入，比如获取IOC容器的引用可以实现ApplicationContextAware。
 ```java
 public interface ApplicationContextAware {
@@ -532,8 +617,13 @@ Spring提供了许多的Aware接口，让我们方便的获取基础设施相关
 
 如果我们想在Spring容器完成实例化、配置和初始化、销毁Bean时实现一些自定义逻辑，可以来实现上面这些扩展点接口。
 
-## 依赖注入(DI)
+## 六、依赖注入(DI)
 依赖注入（DI）是一个过程，对象仅通过构造参数、工厂方法的参数或在对象实例被构造或从工厂方法返回后在其上设置的属性来定义它们的依赖（即与它们一起工作的其它对象）。然后，容器在创建 bean 时注入这些依赖。这个过程从根本上说是Bean本身通过使用类的直接构造或服务定位模式来控制其依赖的实例化或位置的逆过程（因此被称为控制反转）  
+
+:::tip 敲黑板
+IoC 是设计思想，DI 是具体的实现方式；
+IoC 是理论，DI 是实践；
+:::
 
 采用DI的好处： 
 - 代码会更干净
@@ -587,7 +677,7 @@ Spring支持混合使用基于 构造函数的DI和基于Setter的DI。
 但是Spring推荐对强制依赖使用构造函数，对可选依赖使用setter方法或配置方法。
 :::
 
-### 循环依赖问题
+### 1、循环依赖问题
 创建 bean 有可能导致创建 bean 图（graph，也就是循环依赖）  
 
 ![循环依赖](http://cdn.gydblog.com/images/spring/spring-ioc-8.png)
@@ -610,7 +700,7 @@ Spring 通过三级缓存机制解决 **循环依赖** 问题。
 
 接下来我们学习一下什么是三级缓存。
 
-### 三级缓存原理
+### 2、三级缓存原理
 一张图概括Spring IOC容器获取单例Bean实例的流程：
 
 ![图片来源于网络](http://cdn.gydblog.com/images/spring/spring-ioc-7.png)
@@ -689,7 +779,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 > 这里加入singletonFactories第三级缓存的前提是执行了构造方法，所以构造方法注入方式的循环依赖没法解决，Spring框架会直接抛出循环依赖错误。
  
-## 总结
+## 七、总结
 本文粗略总结了IOC容器、Bean的相关概念，并且重点总结了Spring框架解决Bean的循环依赖问题思路，最后对常见面试题三级缓存进行了原理说明。  
 
 本文并没有记录太多细节，因为小郭认为在学习技术的过程中只要了解核心流程和原理性质的知识即可，其余知识点可以在需要用的时候通过查阅官方手册现学现用。
