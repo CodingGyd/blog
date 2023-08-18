@@ -66,17 +66,15 @@ head:
 
 ## 二、IOC简介
 > IOC是控制反转的意思，也被称为依赖注入（DI）。
+> 控制反转，是指把对象创建和对象之间的调用过程交给 Spring 进行管理。
 
 IOC指的是一个对象创建和依赖的过程，对象仅通过构造参数、工厂方法的参数或在对象实例被构造或从工厂方法返回后在其上设置的属性来定义其依赖关系（即它们与之合作的其他对象）。然后容器在创建 bean 时注入这些依赖关系。这个过程从根本上说是Bean本身通过使用直接构建类或诸如服务定位模式的机制来控制其依赖关系的实例化或位置的逆过程，因此被称为控制反转。
-
-那么Bean是什么呢？ 
-:::info bean
-Bean是一个由Spring IoC容器实例化、组装和管理的对象。否则，Bean只是你的应用程序中众多对象中的一个。Bean以及它们之间的依赖关系都反映在容器使用的配置元数据中。
-:::
 
 org.springframework.beans 和 org.springframework.context 包是Spring Framework的IOC容器的基础。
 
 其中，BeanFactory是顶层设计接口，提供了配置框架和基本功能：
+> BeanFactory是IOC 容器基本实现，是 Spring 内部的使用接口，不提供开发人员进行使用， **加载配置文件时候不会创建对象，在获取对象（使用）才去创建对象**
+
 ```java
 package org.springframework.beans.factory;
 
@@ -122,6 +120,8 @@ public interface BeanFactory {
 ```
 
 ApplicationContext 是 BeanFactory 的一个子接口，是一个完整的超集：
+> ApplicationContext是BeanFactory 接口的子接口，提供更多更强大的功能，一般由开发人员进行使用，**加载配置文件时候就会对对象进行创建。**
+
 ```java
 package org.springframework.context;
 
@@ -339,6 +339,10 @@ Spring提供@Configuration 这种方式的目的并不是要100%完全取代Spri
 我们需要根据开发场景进行配置方式的选择：要么通过使用例如 ClassPathXmlApplicationContext 以 "以XML为中心" 的方式实例化容器，要么通过使用 AnnotationConfigApplicationContext 和 @ImportResource 注解来根据需要导入XML，以 "以Java为中心" 的方式实例化它。
 
 ## 五、什么是Bean？
+
+Bean是一个由开发人员进行定义，由Spring IoC容器完成实例化、组装和管理的对象。Bean以及它们之间的依赖关系都反映在容器使用的配置元数据中。
+
+
 从前面使用容器的简单例子中可以看到，我们使用IOC容器能方便的获取Bean的实例信息，由此衍生出IOC和Bean的关系：
 ```
 一个Spring IoC容器管理着一个或多个Bean。这些Bean是用开发者提前描述好的bean配置文件提供给容器进行创建的。

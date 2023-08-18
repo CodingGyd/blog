@@ -8,7 +8,7 @@ tag:
   - threadlocal
 ---
 # ThreadLocal的用法
-## 01、原理
+## 一、原理
 ThreadLocal(线程本地变量)，是一个以 ThreadLocal 对象为键、任意对象为值的存储结构，底层是map键值对方式。  
 
 查看Thread类源码可以看到每个线程实例都会有自己的一个成员变量threadLocalMap：   
@@ -69,7 +69,7 @@ ThreadLocalMap这个结构被附带在每个线程上，也就是说一个线程
 
 在后端开发中，ThreadLocal有大量的应用场景，尤其是在并发访问的场景下用来保障并发数据安全，比如Spring采用Threadlocal的方式，来保证单个线程中的数据库操作使用的是同一个数据库连接。还有比如用于web场景保存用户信息。  
 
-## 02、使用示例
+## 二、使用示例
 ThreadLocal是一个泛型类，泛型表示ThreadLocal可以存储的类型，它的使用非常简单。  
 
 举个例子，统计主线程和子线程各自的执行耗时，代码如下：  
@@ -118,7 +118,7 @@ class TimeRecorder {
 上面演示了main线程和子线程分别统计各自执行耗时的逻辑。
 
 
-## 03、内存泄漏问题  
+## 三、内存泄漏问题  
 通过查看ThreadLocal源码得知，其中的map元素结构entry继承了一个弱引用WeakReference：
 ```java
         static class Entry extends WeakReference<ThreadLocal<?>> {

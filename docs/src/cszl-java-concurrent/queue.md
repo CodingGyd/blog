@@ -9,7 +9,7 @@ tag:
 ---
 
 # Java中的阻塞队列
-## 01、什么是阻塞队列？
+## 一、什么是阻塞队列？
 ::: tip 阻塞队列科普
 阻塞队列（BlockingQueue）是一个支持两个附加操作的队列。这两个附加的操作支持阻塞的插入和移除方法。  
 
@@ -18,7 +18,7 @@ tag:
 支持阻塞的移除方法：意思是在队列为空时，获取元素的线程会等待队列变为非空。  
 :::
 
-## 02、底层原理分析
+## 二、底层原理分析
 
 首先说明，JAVA中的阻塞队列基本使用通知模式实现。
 
@@ -121,7 +121,7 @@ private final Condition notFull;
 Condition底层是使用LockSupport.park（this）LockSupport.unpark（）来实现线程等待和唤醒机制的
   
 
-## 03、阻塞队列的实现
+## 三、阻塞队列的实现
 Java 里目前为止提供了7个阻塞队列的实现：  
 
 ```java
@@ -147,7 +147,7 @@ LinkedTransferQueue linkedTransferQueue = new LinkedTransferQueue();
 LinkedBlockingDeque linkedBlockingDeque = new LinkedBlockingDeque();
 ```
 
-### a、ArrayBlockingQueue
+### 1、ArrayBlockingQueue
 ArrayBlockingQueue 底层是一个用数组实现的有界阻塞队列，按照FIFO(先进先出)的顺序对队列元素进行管理。  
 
 通过默认的构造方法构造的实例在使用时不保证线程公平的访问队列，但是可以自定义公平策略， jdk1.8中的构造方法源码如下：
@@ -175,7 +175,7 @@ public ArrayBlockingQueue(int capacity, boolean fair) {
 }
 ```
 
-### b、LinkedBlockingQueue
+### 2、LinkedBlockingQueue
 LinkedBlockingQueue 底层是一个用链表实现的有界阻塞队列，此队列的默认和最大长度都是 Integer.MAX_VALUE，按照先进先出的原则对元素进行管理。  
 jdk1.8中提供了三种构造方式，源码如下：
 ```java
@@ -224,7 +224,7 @@ jdk1.8中提供了三种构造方式，源码如下：
 ```
 
 
-### c、PriorityBlockingQueue
+### 3、PriorityBlockingQueue
 PriorityBlockingQueue 是一个无界阻塞队列，支持按指定优先级排序， 默认情况下队列中的元素采取自然顺序升序排列。  
 我们也可以自定义类实现 compareTo()方法来指定元素排序规则，或者初始化PriorityBlockingQueue 时，指定一个构造参数 Comparator 来对元素进行排序。
 
@@ -309,7 +309,7 @@ jdk1.8中提供了四种构造方式初始化一个无界阻塞队列，源码�
     }
 ```
 
-### d、DelayQueue
+### 4、DelayQueue
 
 DelayQueue 是一个可以支持指定延时获取元素的无界阻塞队列，队列使用 PriorityQueue 来实现。  
 
@@ -335,7 +335,7 @@ jdk1.8提供了两种构造DelayQueue的方式，源码如下：
     }
 ```
 
-### e、SynchronousQueue
+### 5、SynchronousQueue
 
 SynchronousQueue 是一种特殊的阻塞队列，不存储任何元素，它规定了生产者线程和消费者线程之间的依赖关系。对该队列的每一个 put 操作必须等待一个take 操作，也就是说当一个线程向 SynchronousQueue 中放入元素时，另一个线程可以从 SynchronousQueue 中获取该元素，但是它们之间必须要等待，直到生产者线程将元素放入 SynchronousQueue 中。相反，当一个线程从 SynchronousQueue 中获取元素时，另一个线程可以向 SynchronousQueue 中放入元素，但是它们之间也必须要等待，直到消费者线程从 SynchronousQueue 中获取元素。这种阻塞队列通常用于在没有其他线程的情况下进行通信，或者用于在单线程环境中进行同步。
 
@@ -359,7 +359,7 @@ jdk1.8提供了两种构造SynchronousQueue的方式，源码如下：
     }
 ```
 
-### f、LinkedTransferQueue
+### 6、LinkedTransferQueue
 
 LinkedTransferQueue底层是链表结构组成的无界阻塞 TransferQueue 队列，初始为空。相对于其他阻塞队列比如SynchronousQueue，LinkedTransferQueue 多了 tryTransfer 和 transfer 方法，用于在队列之间进行元素传输。    
 
@@ -386,7 +386,7 @@ jdk1.8提供了两种构造LinkedTransferQueue的方式，源码如下：
     }
 ```
 
-### g、LinkedBlockingDeque
+### 7、LinkedBlockingDeque
 
 LinkedBlockingDeque底层是一个由链表结构组成的双向阻塞队列。支持从队列的两端插入和移出元素。  
 

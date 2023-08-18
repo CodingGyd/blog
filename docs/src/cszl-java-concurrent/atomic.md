@@ -9,12 +9,12 @@ tag:
 ---
 # 原子操作原来这么简单
 
-## 1、什么是原子操作?
+## 一、什么是原子操作?
 原子(atomic)含义是不能被进一步分割的最小粒子，而原子操作表示不可被中断的一个或一组操作。在多处理器上实现原子操作是很复杂的，一般是通过总线锁和缓存锁这两个机制来保证原子性。
 
 我们可以通过synchronized来实现一个原子操作，但jdk1.5以后提供了专门的原子操作类，让我们可以安全的更新变量的值。 
 
-## 2、JDK中的原子操作类
+## 二、JDK中的原子操作类
 在Java中是通过锁和循环CAS的方式来实现原子操作的。   
 
 JDK1.5的java.util.cconcurrent.atomic包里提供了很多原子操作类，比如AtomicBoolean、AtomicInteger、AtomicLong等，这些原子操作类基本都是使用 Unsafe 实现的包装类。
@@ -23,7 +23,7 @@ JDK中提供的原子操作类如下：
 <img src="http://cdn.gydblog.com/images/java/concurrent/atomic-1.jpg"  style="zoom: 70%;margin:0 auto;display:block"/><br/>
 
 这些原子操作类中提供了许多有用的工具方法，比如以原子的方式自增1和自减1
-### 01、原子更新基本数据类型
+### 1、原子更新基本数据类型
 JDK实现了原子更新整型、长整型、布尔型基本数据，Atomic 包提供了以下 3三个类来支持:  
 
 >- AtomicBoolean：原子更新布尔类型
@@ -49,7 +49,7 @@ AtomicLong里常用的方法有以下几个：
   保证最终会设置成 newValue，但当使用 lazySet 设置值后，值不一定马上变为newValue，可能导致其他线程在之后的一小段时间内还是可以读到旧的值。
 :::
 
-### 02、原子更新数组类型
+### 2、原子更新数组类型
 我们可以通过原子操作的方式更新数组里的某个元素，JDK提供了以下 三个类：
 
 >- AtomicIntegerArray：原子更新整型数组里的元素。
@@ -71,7 +71,7 @@ AtomicIntegerArray 类主要是提供原子的方式更新数组里的整型，�
  CAS操作，如果当前值等于预期值except，则以原子方式将数组索引位置 i 的元素设置成 update 值。
 :::
 
-### 03、原子更新引用
+### 3、原子更新引用
 原子更新基本类型只能修改一个变量，而我们很多业务场景需要同时修改几个变量值，比如原子修改对象中的多个属性，这时候就需要用到这个原子更新引用类型的类。
 
 JDK提供了以下 三个类：
@@ -98,7 +98,7 @@ AtomicReference的常用方法如下：
 - 
 :::
 
-### 04、原子更新属性(字段) 
+### 4、原子更新属性(字段) 
 很多时候我们需要原子地更新某个类里的某个字段时，就需要使用到JDK提供的原子更新属性(字段)类。
 
 JDK 包提供了以下 三 个类进行原子字段更新：
@@ -112,11 +112,11 @@ JDK 包提供了以下 三 个类进行原子字段更新：
 
 注意：更新类的字段（属性）必须使用 public volatile 修饰符。
 
-## 3、示例代码 
+## 三、示例代码 
 :::warning
 针对每种原子操作类型，仅选取其中的一个类进行代码使用演示，其它的类使用方式基本一致
 :::
-### 01、AtomicLong
+### 1、AtomicLong
 ```java
 public class AtomicLongTest {
     static AtomicLong al = new AtomicLong(1);
@@ -130,7 +130,7 @@ public class AtomicLongTest {
 }
 ```
 
-### 02、AtomicLongArray
+### 2、AtomicLongArray
 ```java
 public class AtomicLongArrayTest {
     static AtomicLongArray al = new AtomicLongArray(1);
@@ -146,7 +146,7 @@ public class AtomicLongArrayTest {
 }
 ```
 
-### 03、AtomicReference
+### 3、AtomicReference
 ```java
 public class AtomicReferenceTest {
 
@@ -169,7 +169,7 @@ public class AtomicReferenceTest {
 
 ```
 
-### 04、AtomicLongFieldUpdater
+### 4、AtomicLongFieldUpdater
 ```java
 public class AtomicLongFieldUpdaterTest {
 
@@ -192,7 +192,7 @@ public class AtomicLongFieldUpdaterTest {
 ```
 
 
-## 4、CAS操作
+## 四、CAS操作
 CAS（Compare and Swap）比较并交换，顾名思义：比较两个值，如果他们两者相等就把他们交换，CAS 也被认为是一种乐观锁。
 
 JDK的java.util.concurrent.atomic 并发包下的所有原子类都是基于 CAS 来实现的。

@@ -12,7 +12,7 @@ tag:
 
 <font color="red">AQS，你学废了吗？ 没学废请耐心往下看>>></font>
 
-## 01、简介  
+## 一、简介  
 AbstractQueuedSynchronizer(简称AQS)是JAVA中一套实现锁机制的底层框架，Java中著名的JUC包的核心就是AQS框架。
 
 AQS框架内部维护一个FIFO类型的Node队列来控制多线程的竞争排队顺序，使用一个int类型的state变量来定义当前共享资源占用的状态，定义了若干同步状态获取和释放的方法来供开发者使用，开发者只需要继承AbstractQueuedSynchronizer类，然后实现其中的指定模板方法，就可以快速实现一套线程同步控制组件。
@@ -21,7 +21,7 @@ AQS框架还定义了condition结构来提供线程的wait/signal(等待和唤�
 
 经典的AQS实现有ReentrantLock、ReentrantReadWriteLock 、CountDownLatch等，这些实现面向的是锁的使用者，而AQS本身是面向锁的实现者(开发者)。
 
-## 02、原理
+## 二、原理
 不要深入源码细节，从顶层看看AQS的设计，会发现其实并不复杂。  
 
 AQS框架内部维护一个volatile int类型的state变量和一个CLH(三个人名的缩写)双向队列的头尾指针head和tail，队列中的每个节点都封装了某个等待线程的各种信息(引用、当前状态等),每个节点均可通过getState()、setState()和compareAndSetState()对state变量进行修改和访问。·
@@ -84,7 +84,7 @@ final boolean acquireQueued(final Node node, int arg) {
 ```
 :::
 
-## 03、模板方法一览表
+## 三、模板方法一览表
 AQS框架定义了实现独占/共享锁的标准方法，实现者一般只需要重写模板方法实现具体逻辑即可，五个重要的模板方法如下：
 <table>
     <tr>
@@ -165,7 +165,7 @@ public class AqsDemo1 extends AbstractQueuedSynchronizer {
 示例代码通过继承AQS框架实现了一个简单的多线程资源竞争操作，线程1获取lock后，线程2的acquire陷入阻塞，直到线程1释放。
 其中的tryAcquire/acquire/tryRelease/release的arg参数可按实现逻辑自定义传入值，
 
-## 04、CLH队列结构
+## 四、CLH队列结构
 AQS底层是通过一个先进先出(FIFO)的CLH同步队列来对所有等待线程进行管理，当某个请求线程申请锁失败时，同步器则将该线程信息封装为一个Node节点并通过尾插法放入队列中，同时会阻塞当前请求线程。当锁被释放时，同步队列中的首节点对应的线程会被唤醒，同时会自旋尝试获取锁。  
 
 同步队列中的节点（Node）用来保存获取同步状态失败的等待线程的引用、等待状态以及前驱和后继节点，同步器本身会保存同步队列的头指针和尾指针。 
@@ -202,8 +202,8 @@ AQS设置首节点无需CAS操作保证线程安全，是通过获取同步状�
 AQS设置尾节点需要通过CAS操作来保证线程安全， 当一个线程成功地获取了锁，其他的线程将无法获取到锁，会被构造成为Node节点并加入到同步队列中。由于此时可能有多个线程都没有抢到锁，都需要加入队列中，这种情况需要保证线程安全，因此同步器提供了一个基于 CAS 的设置尾节点的方法：compareAndSetTail(Node expect,Node update)，它需要传递当前线程“认为”的尾节点和当前节点，只有设置成功后，当前节点才正式与之前的尾节点建立关联。
 
 
-## 05、独占锁实现原理
-### 独占锁的获取
+## 五、独占锁实现原理
+**1）独占锁的获取**
 
 我们先看看AbstractQueuedSynchronizer类的acquire方法源码：
 ```java
@@ -229,7 +229,7 @@ public final void acquire(int arg) {
 总结一下独占锁的获取流程：
 <img src="http://cdn.gydblog.com/images/java/concurrent/aqs-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 独占锁的释放  
+**2）独占锁的释放**  
 我们先看看AbstractQueuedSynchronizer类的release方法源码：
 ```java
 public final boolean release(int arg) {
@@ -308,10 +308,10 @@ private final boolean parkAndCheckInterrupt() {
 - 在释放锁的方法release内的子方法unparkSuccessor里调用LockSupport.unpark(node.thread)对CLH队列中的某个node对应的线程进行了唤醒，
 
 
-## 06、共享锁实现原理  
+## 六、共享锁实现原理  
 > 共享锁与独占锁整体流程类似，最主要的区别在于同一时刻能否有多个线程同时获取到锁。
 
-### 共享锁的获取 
+**1）共享锁的获取** 
 
 acquireShared方法中先是调用模板方法tryAcquireShared尝试自旋方式获取锁，tryAcquireShared()方法返回值为 int 类型，当返回值大于等于 0 时，表示能够获取到同步状态。
 
@@ -357,7 +357,7 @@ private void doAcquireShared(int arg) {
 tryAcquireShared获取失败后将当前线程信息封装为Node以共享方式Node.SHARED插入到队尾阻塞，直到队头节点将其唤醒。
 在doAcquireShared与独占锁不同的是，由于共享锁是可以被多个线程获取的，因此在首个阻塞节点被唤醒后，会通过setHeadAndPropagate传递唤醒后续的阻塞节点。
 
-### 共享锁的释放
+**2）共享锁的释放**
 releaseShared 源码：
 ```java
 public final boolean releaseShared(int arg) {
@@ -371,7 +371,7 @@ public final boolean releaseShared(int arg) {
 
 该方法在tryReleaseShared释放锁成功后，将会调用doReleaseShared方法使用LockSupport.unpark方式唤醒在同步队列中后续处于等待状态的Node节点。 
 
-## 07、AQS经典实现
+## 七、AQS经典实现
 
 AQS其实是一种思想原则，JAVA官方的应用方式是在自定义同步组件中实现一个AQS同步器的子类，该子类是作为自定义同步组件的静态内部类。
 
@@ -481,7 +481,7 @@ AQS框架的设计是基于模板方法模式的，正因为如此，上面的�
 
 静态内部类Sync作为一个衔接，衔接线程访问以及同步状态控制等底层核心技术与不同并发应用组件(如ReentrantLock、CountDownLatch、ReadWriteLock等)一起完成获取锁和释放锁的业务动作。 
 
-## 08、参考资料
+## 八、参考资料
 [Java并发之AQS详解](https://juejin.cn/post/7006895386103119908 "Java并发之AQS详解")  
 
 

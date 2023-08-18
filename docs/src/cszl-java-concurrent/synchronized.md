@@ -10,7 +10,7 @@ tag:
 ---
 # synchronized关键字
 
-## 01、简介 
+## 一、简介 
 在多线程并发编程中 synchronized 是历史很悠久的概念，它可以用于修饰实例方法、静态方法、代码块。当一个线程试图访问同步代码时必须首先获得锁，正常退出或者抛出异常时必须释放锁。 由于会导致争用不到锁的线程进入阻塞状态，涉及到用户态和内核态的操作系统级别的切换动作，因此很多人都会称呼synchronized为重量级锁。
 
 但是，随着 Java SE 1.5以后 对 synchronized 进行了各种优化之后，有些情况下它就并不那么重了。Java SE 1.6 中为了减少获得锁和释放锁带来的性能消耗而引入了无锁状态、偏向锁、轻量级锁、重量级锁、自旋等一系列锁升级概念。
@@ -23,7 +23,7 @@ tag:
 
 下面是synchronized的三种应用场景：
 
-## 02、修饰实例方法  
+## 二、修饰实例方法  
 
 一个对象里如果有多个synchronized方法，某一个时刻内，只要有一个线程去调用其中的任何一个synchronized方法了，其它的线程都只能等待，也就是说，某一个时刻内，只能有一个线程去访问这些synchronized方法。synchronized锁的是当前对象this，被锁定后，其它的线程都不能进入到当前对象的其它的synchronized方法
 ```java
@@ -44,7 +44,7 @@ public class LockDemo4 {
 ```
 作用于实例方法时，当前实例加锁，进入同步代码前要抢到当前实例的锁才可以继续执行，否则阻塞。
 
-### 字节码分析
+### 1、字节码分析
 使用javap -v命令对上述代码的字节码文件LockDemo4.class进行反汇编，结果如下：
 ```java
 Classfile /D:/code/demo/target/classes/com/gyd/LockDemo4.class
@@ -157,7 +157,7 @@ SourceFile: "LockDemo4.java"
 在上面的汇编代码中，m1方法所在的第64行的ACC_SYNCHRONIZED是一个访问标志，有该标记的方法是一个实例同步方法。调用指令会检查方法的flag有没有设置ACC_SYNCHRONIZED访问标志。如果设置了，执行线程会先去抢占实例对象的monitor锁，然后再执行方法，最后在方法执行完后释放monitor锁(无论方法是正常完成还是异常完成)。 而普通非同步方法如m2的方法头flag上就没有这个ACC_SYNCHRONIZED访问标志。
 
 
-## 03、修饰静态方法  
+## 三、修饰静态方法  
 
 对于静态同步方法，锁的是当前类的class对象，所有该类的实例都受影响。也就是说一旦一个静态同步方法获取锁之后，其他的静态同步方法都必须等待该方法释放锁后才能获取锁。
 
@@ -175,7 +175,7 @@ public class LockDemo5 {
 ```
 作用于静态方法，当前类加锁，进入同步代码前要抢到当前类class对象的锁才可以继续执行，否则阻塞。
 
-### 字节码分析  
+### 1、字节码分析  
 
 和普通同步方法一样，使用javap -v 命令对LockDemo5.clas进行反汇编，结果如下：
 
@@ -267,7 +267,7 @@ SourceFile: "LockDemo5.java"
 ```
 从上面的汇编结果可以看出，静态同步方法m1所在的flag除了ACC_SYNCHRONIZED访问标志，还多了一个ACC_STATIC标记。 这就是用来区分普通同步方法的标志。其它和普通同步方法相同。
 
-## 04、修饰同步代码块
+## 四、修饰同步代码块
 锁的是 synchonized 括号里配置的对象。
 使用示例：
 ```java
@@ -288,7 +288,7 @@ public class LockDemo2 {
 ```
 作用于代码块，是对括号里配置的对象加锁。
 
-### 字节码分析
+### 1、字节码分析
 
 找到target目录下的字节码文件LockDemo2.class，使用javap命令对LockDemo2.class文件进行字节码反汇编，输入命令"javap -c .\LockDemo2.class"
 <img src="http://cdn.gydblog.com/images/java/concurrent/synchronized-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -411,7 +411,7 @@ public class com.gyd.LockDemo3 {
 从上述两种反汇编结果可以总结一个结论：使用同步块时，底层汇编代码一般情况会生成1个monitorenter指令和2个monitorexit指令。极端情况下是一个monitorenter和1个monitorexit指令。   
 
 
-## 05、Java对象头
+## 五、Java对象头
 synchronized 用的锁是存在 Java 对象头里的。如果对象是数组类型，则虚拟机用 3个字宽（Word）存储对象头，如果对象是非数组类型，则用 2 字宽存储对象头。在 32位虚拟机中，1字宽等于 4 字节，即 32bit，如表所示：
 
 |长度|内容|说明|
@@ -435,7 +435,7 @@ synchronized锁升级过程和对象头的Mark Word区域有着密切关系，�
 可能变化为存储以下几种数据：
 <img src="http://cdn.gydblog.com/images/java/concurrent/synchronized-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 06、锁升级过程  
+## 六、锁升级过程  
 
 > 用户态和内核态的切换会消耗大量的系统资源，因为用户态和内核态都有各自专用的内存空间、寄存器等，用户态切换至内核态需要传递许多变量、参数给内核，
 内核也需要保护好用户态在切换时的一些寄存器值、变量等，以便内核态调用结束后切换回用户态继续工作。
@@ -493,7 +493,7 @@ synchronized用到的锁是存在Java对象头里的MarkWord中，锁升级主�
       <version>0.9</version>
     </dependency>
 ```
-### 升级过程-无锁状态  
+### 1、升级过程-无锁状态  
 编写代码：
 ```java
 
@@ -544,7 +544,7 @@ Process finished with exit code 0
 
 上面两个程序的结果如何分析呢？ 我们从第二行的末尾往回看，每个8位字节从左往右看， 可以得出无锁状态最后3位是001，这就是无锁状态 锁标记位的值(详情查阅前面提到过的Mark Word存储区域介绍)
 
-### 升级过程-偏向锁状态
+### 2、升级过程-偏向锁状态
 > 偏向锁是指当线程A第一次竞争到锁时，通过操作修改MarkWord中的偏向线程ID。如果不存在其它新的线程来竞争，那么持有偏向锁的线程将永远不需要进行同步了，省去了加锁和解锁的过程。  
 > 偏向锁的出现是为了解决只有在一个线程执行同步时提高程序性能。
 
@@ -620,6 +620,6 @@ Process finished with exit code 0
 - 竞争失败
 
 
-## 07、参考资料  
+## 七、参考资料  
 《Java并发编程的艺术》  
 《JUC并发编程与源码分析》
