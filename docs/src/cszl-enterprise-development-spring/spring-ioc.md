@@ -1,6 +1,6 @@
 ---
-title: Spring系列笔记-IOC容器和Bean定义的基本常识
-shortTitle: IOC容器和Bean定义的基本常识
+title: Spring系列笔记-IOC容器总结
+shortTitle: IOC容器总结
 date: 2023-08-14
 category:
   - JAVA企业级开发
@@ -12,7 +12,7 @@ head:
       content: JAVA企业级开发,Spring笔记,Spring5,Spring总结,Spring核心知识
 ---
 
-# IOC容器和Bean定义的基本常识
+# IOC容器总结
 ## 一、前言 
 > 笔记来源于对 [Spring文档](https://springdoc.cn/spring/index.html "Spring文档")  的系统性学习总结
 
@@ -338,7 +338,7 @@ Spring提供@Configuration 这种方式的目的并不是要100%完全取代Spri
 
 我们需要根据开发场景进行配置方式的选择：要么通过使用例如 ClassPathXmlApplicationContext 以 "以XML为中心" 的方式实例化容器，要么通过使用 AnnotationConfigApplicationContext 和 @ImportResource 注解来根据需要导入XML，以 "以Java为中心" 的方式实例化它。
 
-## 五、什么是Bean？
+## 五、IOC中的Bean是什么？
 
 Bean是一个由开发人员进行定义，由Spring IoC容器完成实例化、组装和管理的对象。Bean以及它们之间的依赖关系都反映在容器使用的配置元数据中。
 
