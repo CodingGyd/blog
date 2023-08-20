@@ -31,7 +31,11 @@ Spring是一个轻量级的JAVA EE 开发框架，用于简化企业级应用程
 
 ## 三、Spring框架概述
 
-Spring有两个核心模块IOC和AOP：
+Spring 总共大约有 20 个模块， 由 1300 多个不同的文件构成。 而这些组件被分别整合在核心容器（Core Container） 、 AOP（Aspect Oriented Programming）和设备支持（Instrmentation） 、数据访问与集成（Data Access/Integeration） 、 Web、 消息（Messaging） 、 Test等 6 个模块中。 以下是 Spring 5 的模块结构图：
+
+![Spring模块划分](http://cdn.gydblog.com/images/spring/spring-jiagou.png)
+
+其中最核心的模块是IOC和AOP：
 
 - IoC
   控制反转Inversion of Control，IoC()，将对象的创建过程从业务代码中剥离出去，交由Spring来完成。

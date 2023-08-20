@@ -36,6 +36,8 @@ Spring AOP只支持通过方法执行这个资源切入点作为连接点，换�
 
 一个类中的所有方法其实都是连接点，但我们一般不全需要，会筛选出某些连接点作为切入点。
 
+我们通常使用明确的类和方法名称，或者利用正则表达式定义所匹配的类和方法名称来指定切点。
+
 ### 3、Advice（增强）
 Advice（增强），有些资料也称之为“通知”。其实定义为“增强”更为准确，指的就是拦截Joinpoint连接点后要附加做的事情，即对切入点增强的内容，告诉程序“干什么”。
 
@@ -81,7 +83,10 @@ Aspect（切面）是其实就是增强、切点、目标的结合，说明了�
 - **运行期：** 切面在应用运行的某个时刻被织入，一般情况下，在织入切面时，AOP容器会为目标对象动态创建一个代理对象，Spring AOP就是以这种方式织入切面的。
 
 ### 7、Proxy（代理）
-AOP编程的实现方式。在Spring中，AOP代理采用了JDK动态代理和CGLIB代理的混合模式。
+AOP编程的实现方式。Spring AOP就是构建在代理之上的，在Spring中，AOP代理采用了JDK动态代理和CGLIB代理的混合模式。
+
+![代理](http://cdn.gydblog.com/images/spring/aop-4.png)
+
 
 **1）JDK动态代理**
 
@@ -453,10 +458,116 @@ public class AopMain {
 ========== 【Aspectj返回值以后的后置通知】 ==========
 ```
 
-上面使用xml方式进行配置，看起来还是比较麻烦的，其实还有一种更简化的注解方式也实现同样的功能，下面进行介绍。
+上面使用xml方式进行配置，看起来还是比较繁琐的，其实还有一种更简化的注解方式也可以实现同样的功能，下面进行介绍。
 
 ### 3、使用Aspectj(基于注解)
-todo
+**1）定义目标对象类**
+```java
+//用注解的方式注册目标对象实例到Spring的IOC容器中
+@Component
+public class MyAnnotationBean {
+
+    public String hello(){
+        System.out.println("我的业务逻辑1111。。。Hello");
+        return "Hello";
+    }
+}
+```
+
+**2）定义切面**
+```java
+//声明当前类为Aspect切面，并交给Spring IOC容器管理
+@Component
+@Aspect
+public class MyLogAnnotationAspectj {
+    private final static String EXPRESSION =
+            "execution(* com.gyd.springdemo.aop.MyAnnotationBean.hello())";
+
+    //前置通知
+    @Before(EXPRESSION)
+    public void beforeAdvice(JoinPoint joinPoint){
+        System.out.println("========== 【Aspectj前置通知】 ==========");
+    }
+
+
+    //后置通知：方法正常执行后，有返回值，执行该后置通知：如果该方法执行出现异常，则不执行该后置通知
+    @AfterReturning(value = EXPRESSION,returning = "returnVal")
+    public void afterReturningAdvice(JoinPoint joinPoint,Object returnVal){
+        System.out.println("========== 【Aspectj后置通知】 ==========");
+    }
+
+    //后置通知
+    @After(EXPRESSION)
+    public void afterAdvice(JoinPoint joinPoint){
+        System.out.println("========== 【Aspectj后置通知】 ==========");
+    }
+
+    //环绕通知
+    @Around(EXPRESSION)
+    public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("##########【环绕通知中的前置通知】##########");
+        Object returnVale = joinPoint.proceed();
+        System.out.println("##########【环绕通知中的后置通知】##########");
+        return returnVale;
+    }
+
+    // 异常通知：方法出现异常时，执行该通知
+    @AfterThrowing(value = EXPRESSION,throwing = "ex")
+    public void throwAdvice(JoinPoint joinPoint, Exception ex){
+        System.out.println("********** 【Aspectj异常通知】执行开始 **********");
+        System.out.println("出现异常：" + ex.getMessage());
+        System.out.println("********** 【Aspectj异常通知】执行结束 **********");
+    }
+
+}
+```
+
+**3）配置Spring ioc容器的自动扫描和Aspectj的自动代理** 
+配置文件名是"beans.xml"
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- services -->
+    <!-- 自动扫描器 -->
+    <context:component-scan base-package="com.gyd.springdemo.aop"/>
+
+    <!--配置Aspectj的自动代理-->
+    <aop:aspectj-autoproxy/>
+</beans>
+```
+
+**4）启动容器，验证AOP逻辑**
+```java
+public class AopMain {
+  public static void main(String[] args) {
+      ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+      MyAnnotationBean myAnnotationBean = context.getBean("myAnnotationBean", MyAnnotationBean.class);
+      myAnnotationBean.hello();
+  }
+}
+```
+
+程序执行输出日志如下：
+```
+##########【环绕通知中的前置通知】##########
+========== 【Aspectj前置通知】 ==========
+我的业务逻辑1111。。。Hello
+========== 【Aspectj后置通知】 ==========
+========== 【Aspectj后置通知】 ==========
+##########【环绕通知中的后置通知】##########
+```
+
+这就是AspectJ基于注解实现的AOP编程了， 是不是更简单？
 
 ## 四、应用场景
 

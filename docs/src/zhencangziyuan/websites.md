@@ -51,6 +51,27 @@ category:
 ## 四、小众搜索引擎
  [ecosia|小众搜索引擎1]( https://www.ecosia.org/)<br/>
 
+
+
 ## 五、摸鱼解压
+> 程序员专属摸鱼工具
 [一款AI智能创新摸鱼神器](https://thief.im/)<br/>
+
+> 只用输入一个关键词就能生成一大篇文章，还可以复制，虽然有点狗屁不通
+[狗屁不通文章生成器](https://suulnnka.github.io/BullshitGenerator/)<br/>
+
+> 流体模拟，操作很简单，只用鼠标在空白区域拖动就能产生各种色彩艳丽的流体图案，右侧还有参数可以设置，截图保存下来做桌面背景极其炫酷。
+[流体模拟](https://paveldogreat.github.io/WebGL-Fluid-Simulation/)<br/>
+
+> 对称涂鸦，用鼠标随意点击、拖动就能画出一副美丽的对称图案，简直是手残党的福音，画出来做电脑壁纸炫酷翻了！
+[对称涂鸦](http://weavesilk.com/)<br/>
+
+>  彩虹屁生成器，讨好女朋友、拍朋友马屁非常实用！
+[彩虹屁生成器](https://chp.shadiao.pro/)<br/>
+
+> 全球高清网络摄像头（打不开就是需要梯子哦）
+[全球高清网络摄像头](https://www.skylinewebcams.com/)<br/>
+
+
+
     

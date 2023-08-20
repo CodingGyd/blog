@@ -47,7 +47,7 @@ export const enNavbar = navbar([
       { text: "网站内容介绍", link: "zd" },
       { text: "发版大事记", link: "blog-version" },
       { text: "网站技术方案", link: "blog-tech-list" },
-      { text: "博主的自我介绍",  link: "intro" },
+      { text: "关于作者",  link: "intro" },
       { text: "版权声明", link: "copyright" },
     ],
   },
