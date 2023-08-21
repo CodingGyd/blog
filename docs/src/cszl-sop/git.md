@@ -41,8 +41,8 @@ git config user.email "xxx@xxx.com"
 
 ## 初始化空仓库
 ```
-git clone http://git.wingdata.dev.com/wcos/major-events.git
-cd major-events
+git clone http://xxx.com/wtest.git
+cd test
 git switch -c main
 touch README.md
 git add README.md
@@ -57,7 +57,7 @@ git push origin main
 ```
 cd existing_folder
 git init --initial-branch=main
-git remote add origin http://git.wingdata.dev.com/wcos/major-events.git
+git remote add origin http://xxx.com/test.git
 git add .
 git commit -m "Initial commit"
 ```

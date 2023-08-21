@@ -84,7 +84,7 @@ Spring框架非常强调有意义的、最新的和准确的javadoc。它是为�
 ## 四、第一个Spring程序
 > Spring Boot提供了一种快速的方式来创建一个生产就绪的基于Spring的应用程序。它以Spring框架为基础，提供了约定俗成的配置。
 
-这里通过使用 [start.spring.io](start.spring.io "https://start.springboot.io/ml")   一键生成一个基于 Spring Boot 的应用程序开始使用Spring框架。
+这里通过使用 [start.spring.io](https://start.spring.io/ "start.spring.io")   一键生成一个基于 Spring Boot 的应用程序开始使用Spring框架。
 
 
 ![spring程序在线生成](http://cdn.gydblog.com/images/spring/spring-1.png)

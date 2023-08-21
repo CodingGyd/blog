@@ -95,6 +95,12 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutor
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 接入waline评论系统
+
+:::tip 敲黑板
+waline接入细节查阅
+[Waline接入总结](./waline.md)
+:::
+
 百度统计支持对PVUV的统计，且开放了api用于网页查询和展示在页面上，但是api调用比较麻烦。      
 
 正好本站使用的建站框架模板vuepress-theme-hope给我们提供了开箱即用的配置，只需要一个配置项即可在页面上实时展示浏览量了。 

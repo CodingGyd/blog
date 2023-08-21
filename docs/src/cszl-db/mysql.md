@@ -1,9 +1,7 @@
 ---
 # icon: lock
-date: 2018-01-05
+date: 2023-08-21
 article: false
 ---
 
-# Mysql
-
-todo
+# MySQL

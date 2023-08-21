@@ -208,7 +208,7 @@ public interface TransactionDefinition {
 }
 ```  
 
-2）TransactionStatus
+3）TransactionStatus
 在事务管理器PlatformTransactionManager的方法定义中，入参出参都出现了TransactionStatus这个东东，这又是干啥的呢？
 
 TransactionStatus接口描述了事务的状态，描述了某一时间点上事务的状态信息。该接口定义如下：
@@ -263,11 +263,267 @@ Spring的声明式事务管理可以通过两种方式来实现：
 - 基于Annotation的方式（推荐）
 
 
+<font color="red">下面代码示例如何进行XML配置。</font>
+> 基于springboot生成的脚手架 ，springboot推荐注解方式配置，此处为了演示才使用xml配置
+- **a. 引入依赖**
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-jdbc</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
 
-下面代码示例如何进行XML配置。
-todo
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-test</artifactId>
+  <scope>test</scope>
+</dependency>
+<!--MYSQL驱动-->
+<dependency>
+  <groupId>com.mysql</groupId>
+  <artifactId>mysql-connector-j</artifactId>
+</dependency>
+<!--AOP支持-->
+<dependency>
+  <groupId>org.aspectj</groupId>
+  <artifactId>aspectjrt</artifactId>
+  <version>1.9.5</version>
+</dependency>
+<dependency>
+  <groupId>org.aspectj</groupId>
+  <artifactId>aspectjweaver</artifactId>
+  <version>1.9.5</version>
+</dependency>
+```
+- **b. 定义实体类(对应表结构)**
+```java
+package com.gyd.springtxdemo;
 
- 
+public class User {
+
+    private String name;
+    private int age;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+}
+```
+
+- **c. 定义Dao接口和实现**
+
+```java
+public interface UserDao {
+
+  List<User> findAll(Integer id);
+
+  void update(User user);
+
+}
+```
+
+```java
+public class UserDaoImpl  extends JdbcDaoSupport implements UserDao{
+
+  @Override
+  public List<User> findAll(Integer id) {
+      System.out.println("UserDaoImpl findAll");
+      RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
+      //将id绑定到SQL语句中，并通过RowMapper返回list
+      return getJdbcTemplate().query("select id,name,age from user where id = ?", rowMapper,id);
+  }
+
+  @Override
+  public void update(User user) {
+      System.out.println("UserDaoImpl update");
+      getJdbcTemplate().update("update user set name= ?,age = ? where id = ?",user.getName(),user.getAge(),user.getId());
+  }
+}
+```
+  
+- **d. xml配置(核心！)**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       https://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--从classpath的根路径去加载db.properties文件-->
+    <!--<context:property-placeholder location="classpath:db.properties" system-properties-mode="NEVER"/>-->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--配置一个druid的连接池-->
+    <!--数据源-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!--配置dao-->
+    <bean id = "userDao" class="com.gyd.springtxdemo.UserDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--配置service-->
+    <bean id="userService" class="com.gyd.springtxdemo.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <!--配置controller-->
+    <bean id = "userController" class="com.gyd.springtxdemo.UserController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <!-- ====================================================================== -->
+
+    <!-- 1: 配置JDBC事务管理器 WHAT:做什么增强(这里做事务增强)-->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 2: 配置事务管理器增强 WHEN-->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="trans"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 3: 配置切面 WHERE-->
+    <aop:config>
+        <aop:pointcut id="txPointcut" expression="execution(* com.gyd.springtxdemo.*Service.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+    </aop:config>
+
+    <!-- ====================================================================== -->
+</beans>
+```
+
+db.properties: 
+```
+server.port=8080
+jdbc.driverClassName=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://127.0.0.1:6666/gyd?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+jdbc.username=root
+jdbc.password=1234
+
+```
+
+- **e.程序测试类**
+```java
+public class SpringTxDemoApplication {
+
+	public static void main(String[] args) {
+		//加载配置文件
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		//获取userDao实例
+		UserDao userDao = (UserDao)applicationContext.getBean("userDao");
+
+		User user = new User();
+		user.setAge(18);
+		user.setName("test");
+		user.setId(1);
+		userDao.insert(user);
+		System.out.println("插入数据成功！"+user);
+
+		List<User> userList = userDao.findAll(1);
+		System.out.println("查询数据成功！"+userList);
+	}
+}
+```
+
+
+启动程序，验证事务逻辑正常。
+```
+UserDaoImpl insert
+插入数据成功！User{id=2, name='test', age=19}
+UserDaoImpl findAll
+查询数据成功！[User{id=2, name='test', age=19}]
+Disconnected from the target VM, address: '127.0.0.1:56447', transport: 'socket'
+
+Process finished with exit code 0
+```
+
+查看mysql中正常保存了数据：
+![Spring事务管理器的实现类](http://cdn.gydblog.com/images/spring/tx-5.png)
+
+
+上面看起来配置很繁琐，没关系，Spring的声明式事务管理还可以通过Annotation（注解）的方式来实现。这种方式的使用非常简单，开发者只需做两件事情：
+
+<font color="red">下面代码示例如何进行注解配置。</font>
+- **a.在Spring容器中注册事务注解驱动，其代码如下：**
+为了和之前的配置区分，新建一个配置文件：applicationContext-annotation.xml。
+```
+<tx:annotation-driven transaction-manager="transactionManager" />
+```
+
+- **b.在需要使用事务的Spring Bean类或者Bean类的方法上添加注解@Transactional:**
+> 指定事务的传播行为和隔离级别
+```
+public class UserDaoImpl  extends JdbcDaoSupport implements UserDao{
+  @Override
+  public List<User> findAll(Integer id) {
+      System.out.println("UserDaoImpl findAll");
+      RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
+      //将id绑定到SQL语句中，并通过RowMapper返回list
+      return getJdbcTemplate().query("select id,name,age from user where id = ?", rowMapper,id);
+  }
+
+  @Override
+  @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,readOnly = false)
+  public void update(User user) {
+      System.out.println("UserDaoImpl update");
+      getJdbcTemplate().update("update user set name= ?,age = ? where id = ?",user.getName(),user.getAge(),user.getId());
+  }
+}
+```
+
+启动程序，验证事务逻辑。
+- **c.程序测试类**
+```java
+public class SpringTxDemoApplication {
+
+	public static void main(String[] args) {
+    //加载配置文件
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-annotation.xml");
+		//获取userDao实例
+		UserDao userDao = (UserDao)applicationContext.getBean("userDao");
+
+		User user = new User();
+		user.setAge(18);
+		user.setName("test");
+		user.setId(1);
+		userDao.insert(user);
+		System.out.println("插入数据成功！"+user);
+
+		List<User> userList = userDao.findAll(1);
+		System.out.println("查询数据成功！"+userList);
+	}
+}
+```
+
+不出意外，结果和xml配置方式一样。
 
 **2）编程式事务**
 编程式事务指通过硬编码的方式使用spring中提供的事务相关的类来控制事务
@@ -275,13 +531,6 @@ todo
 最原始的方式是通过主动创建PlatfornTransactionManager的实例，并进行相关配置，然后编程主动执行开启事务，提交事务，回滚事务等导致。
 
 //伪代码代码示例(说明主要流程)
-
-- 引入依赖
-
-```xml
-
-```
-
 //编码操作事务
 ```java
 public void test1() throws Exception {
@@ -303,9 +552,9 @@ public void test1() throws Exception {
   TransactionStatus transactionStatus = platformTransactionManager.getTransaction(transactionDefinition);
   //4.执行业务操作，下面就执行2个插入操作
   try {
-      System.out.println("before:" + jdbcTemplate.queryForList("SELECT * from xxx_table"));
-      jdbcTemplate.update("insert into xxx_table (name) values (?)", "test1-1");
-      jdbcTemplate.update("insert into xxx_table (name) values (?)", "test1-2");
+      System.out.println("before:" + jdbcTemplate.queryForList("SELECT * from User"));
+      jdbcTemplate.update("insert into User (name) values (?)", "test1-1");
+      jdbcTemplate.update("insert into User (name) values (?)", "test1-2");
       //5.提交事务：platformTransactionManager.commit
       platformTransactionManager.commit(transactionStatus);
   } catch (Exception e) {
@@ -318,7 +567,7 @@ public void test1() throws Exception {
 
 - 开启全局事务：在启动类上添加注解 @EnableTransactionManagement 
 
-### 3、事务失效问题
+### 3、事务失效场景
 - @Transactional 声明在非 public 的方法上
 
 - 自调用：同一个类中，有方法A，B，无 @Transactional 的方法A内部调用有 @Transactional 的方法B 的情况。原因是AOP无法为自身生成代理对象进行调用。解决办法，将需要添加@Transactional 方法另起一个类作为被调用类，调用类注入这个另起的被调用类。
@@ -326,9 +575,9 @@ public void test1() throws Exception {
 - @Transactional 没有声明对回滚的异常类以及子类 
 
 ## 五、总结
+本文总结了什么是事务、为什么要有事务、以及事务的基本概念。 最后用主要代码演示了Spring框架中如何实现事务管理。
 
 ## 六、参考资料
 https://blog.csdn.net/weixin_45627039/article/details/130345855
 https://juejin.cn/post/6844903608224333838
-
 https://zhuanlan.zhihu.com/p/56070261

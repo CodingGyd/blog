@@ -261,25 +261,15 @@ export const enSidebar = sidebar({
           // "svn",
           // "maven",
           // "nginx",
-          // "jenkins",
           // "ide",
           // "xshell",
           ],
-        },
-        {
-          prefix: "cszl-enterprise-development-solution/",
-          text: "3.11 好用的解决方案",
-          collapsible: true,
-          children: [
-          // "log",
-          // "mybatis",
-          ],
-        },
+        }
       ],
    
     },
     {
-      text: '四、数据库',
+      text: '三、数据库',
       collapsible: true,
       prefix: "cszl-db/",
       children: [   
@@ -292,31 +282,32 @@ export const enSidebar = sidebar({
    
     },
     {
-      text: '五、综合',
+      text: '四、综合',
       collapsible: true,
       prefix: "cszl-combined/",
       children: [   
         "layered-architecture",
         "domain",
-        "git",
-        "linux",
         "elasticjob",
-        "jenkins",
         // "nginx",
         "industry-lossary",
-        "poi"
+        "poi",
+        "docker"
       ],
    
     },
     {
-      text: '六、SOP库(持续更新)',
+      text: '五、SOP库(持续更新)',
       collapsible: true,
       prefix: "cszl-sop/",
       children: [   
         "exception-sop",
         "compute-sop",
         "axure",
-        "cros"
+        "cros",
+        "mysql",
+        "linux",
+        "git"
 
       ],
    
