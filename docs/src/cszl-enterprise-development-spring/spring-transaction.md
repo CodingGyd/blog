@@ -330,7 +330,8 @@ public class User {
 ```
 
 - **c. 定义Dao接口和实现**
-
+> getJdbcTemplate()获取的是JdbcTemplate对象。
+> JdbcTemplate 是 Spring JDBC 核心包（core）中的核心类，它可以通过配置文件、注解、Java 配置类等形式获取数据库的相关信息，实现了对 JDBC 开发过程中的驱动加载、连接的开启和关闭、SQL 语句的创建与执行、异常处理、事务处理、数据类型转换等操作的封装。我们只要对其传入SQL 语句和必要的参数即可轻松进行 JDBC 编程。
 ```java
 public interface UserDao {
 
@@ -468,6 +469,69 @@ Process finished with exit code 0
 查看mysql中正常保存了数据：
 ![Spring事务管理器的实现类](http://cdn.gydblog.com/images/spring/tx-5.png)
 
+接下来再来验证下出错场景，看数据是否回滚。
+
+我们在插入数据的方法里造一个数据异常：
+```java
+@Override
+@Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,readOnly = false)
+public void insert(User user) {
+    System.out.println("UserDaoImpl insert");
+    getJdbcTemplate().update("insert into user(id,name,age) values(?,?,?)",user.getId(),user.getName(),user.getAge());
+    int i=10/0;
+}
+```
+
+修改程序测试类：
+```java
+public class SpringTxDemoApplication {
+
+	public static void main(String[] args) {
+		//加载配置文件
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext-annotation.xml");
+		//获取userDao实例
+		UserDao userDao = (UserDao)applicationContext.getBean("userDao");
+
+		User user = new User();
+		user.setAge(20);
+		user.setName("test");
+		user.setId(3);
+		userDao.insert(user);
+		System.out.println("插入数据成功！"+user);
+
+		List<User> userList = userDao.findAll(3);
+		System.out.println("查询数据成功！"+userList);
+
+	}
+
+}
+
+
+```
+运行程序测试类SpringTxDemoApplication，控制台输出了错误：
+```
+UserDaoImpl insert
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+	at com.gyd.springtxdemo.UserDaoImpl.insert(UserDaoImpl.java:42)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:196)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:391)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:244)
+	at jdk.proxy2/jdk.proxy2.$Proxy10.insert(Unknown Source)
+	at com.gyd.springtxdemo.SpringTxDemoApplication.main(SpringTxDemoApplication.java:22)
+
+```
+
+然后我们登录数据库查看是否有id=19的数据记录
+![](http://cdn.gydblog.com/images/spring/tx-6.png)
+
+从上面的结果来看，程序出现错误时，虽然insert语句执行完成了，但是在同一个方法内发生了异常，事务管理进行了数据回滚操作，数据库中并没有保留id等于3的记录。
 
 上面看起来配置很繁琐，没关系，Spring的声明式事务管理还可以通过Annotation（注解）的方式来实现。这种方式的使用非常简单，开发者只需做两件事情：
 

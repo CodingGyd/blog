@@ -336,7 +336,9 @@ Docker 仪表板的主要作用为:快速访问容器日志，启动容器的 sh
 
 容器名是mysql，自定义。
 
-> 命令：docker run --name mysql -d -p 6666:3306 -e MYSQL_ROOT_PASSWORD=1234 mysql
+> 第一次执行，需要先创建容器并启动(容器名是mysql)：docker run --name mysql -d -p 6666:3306 -e MYSQL_ROOT_PASSWORD=1234 mysql
+> 后续 直接执行 docker start 容器名即可： docker start mysql
+
 
 ![](http://cdn.gydblog.com/images/docker/docker-22.png)
 

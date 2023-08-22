@@ -171,7 +171,9 @@ export const enSidebar = sidebar({
           "spring-extension-point",
           "spi",
           "spring-aop",
-          "spring-transaction"
+          "spring-transaction",
+          "spring-listener",
+
           ],
         },
         {
