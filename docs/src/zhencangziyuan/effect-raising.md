@@ -182,6 +182,33 @@ PowerDesigner就支持我们做好ER图设计之后一键导出各种数据库�
 
 其实只有最后的@OBJTLABL改为COMMENT就行了。
 
+- **导出的sql语句中字段注释乱码**  
+```
+create table xxx
+(
+   id                   bigint not null,
+   code                 varchar(100) comment ' ¼     ',
+   event_name           varchar(100) comment ' ¼     ',
+   occur_time           varchar(50) comment ' · ʱ  ',
+   address              varchar(100) comment ' ·   ַ',
+   latitude             varchar(50) comment ' ·   λ    ',
+   longitude            varchar(50) comment ' ·   λγ  ',
+   level                varchar(10) comment ' ¼  ȼ ',
+   description          varchar(50) comment ' ¼     ',
+   reporter             varchar(100) comment ' ϱ   ',
+   info_source          varchar(50) comment '  Ϣ  Դ',
+   "label"              varchar(200) comment ' ¼   ǩ',
+   event_type           varchar(20) comment ' ¼     ',
+   data_version         int comment ' ¼  汾  ',
+   insert_time          timestamp comment '    ʱ  ',
+   update_time          timestamp comment '    ʱ  ',
+   last_updater         varchar(100) comment '        ',
+   primary key (id)
+);
+```
+
+解决办法：在DataBase Generation对话框中的format选项卡中修改编码即可，我将Encoding设置为UTF-8 重新导出正常了。
+<img src="http://cdn.gydblog.com/images/zhencangziyuan/er-17.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 ## 三、代码生成工具

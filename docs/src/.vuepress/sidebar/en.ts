@@ -181,8 +181,9 @@ export const enSidebar = sidebar({
           text: "3.2 SpringBoot",
           collapsible: true,
           children: [
-          // "springboot",
-          
+          "springboot",
+          "springboot-version-list",
+
           ],
         },
         {

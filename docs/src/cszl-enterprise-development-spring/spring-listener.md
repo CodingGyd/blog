@@ -18,17 +18,49 @@ head:
 小郭写文章的目的就是为了促进自己技术的成长，同时分享给大家一起学习交流，如果您对 Java领域感兴趣，可以关注我，我们一起学习。
 :::
 
-# Spring的事件监听 
-## 一、简介
+# 前言
 事件监听机制可以理解为是一种观察者模式，有数据发布者（事件源，也称为被监听对象）、数据接受者（监听器 listener）、事件对象event。
- 
-Spring定义了许多事件对象，事件对象都是继承java.util.EventObject对象，下面是部分事件对象：
+
+Spring 事件处理基于 观察者模式扩展。Spring 框架设计者在应用上下文中发布了各种事件，也允许我们发送和处理自定义的事件，小郭在本文将对 Spring 的事件机制应用及其原理进行学习总结。
+
+## 一、什么是观察者模式？
+
+Spring的事件机制借鉴了观察者模式的一种思想，下面在开始spring事件的正式介绍前啰嗦几句，先总结下观察者模式的基本概念。
+
+![观察者模式](http://cdn.gydblog.com/images/spring/listener-1.png)
+
+观察者模式是一种行为型设计模式，它定义了一种一对多的依赖关系，当一个对象的状态发生改变时，其所有依赖者都会收到通知并自动更新。
+当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知依赖它的对象。观察者模式属于行为型模式。
+
+
+**观察者模式包含以下几个核心角色：**
+
+- 主题（Subject）：也称为被观察者或可观察者，它是具有状态的对象，并维护着一个观察者列表。主题提供了添加、删除和通知观察者的方法。
+- 观察者（Observer）：观察者是接收主题通知的对象。观察者需要实现一个更新方法，当收到主题的通知时，调用该方法进行更新操作。
+- 具体主题（Concrete Subject）：具体主题是主题的具体实现类。它维护着观察者列表，并在状态发生改变时通知观察者。
+- 具体观察者（Concrete Observer）：具体观察者是观察者的具体实现类。它实现了更新方法，定义了在收到主题通知时需要执行的具体操作。
+- 观察者模式通过将主题和观察者解耦，实现了对象之间的松耦合。当主题的状态发生改变时，所有依赖于它的观察者都会收到通知并进行相应的更新。
+
+编程实现观察者模式的类继承关系模板：
+![观察者模式](http://cdn.gydblog.com/images/spring/listener-2.png)
+
+
+Java 自身对观察者模式具有两种实现: 
+- <font color="red">基于 Observable/Observer 对观察者模式的实现：</font>Observable 作为被观察者，可以注册观察者 Observer，当 Observable 的状态发生变化时通知所有的 Observer
+
+- <font color="red">基于 EventObject/EventListener 对观察者模式的实现：</font>EventObject 作为事件对象(被观察者状态)，EventListener 作为事件监听器(观察者)，当产生新的事件，事件监听器能够及时进行感知。
+
+## 二、Spring事件监听简介
+Spring 的事件处理正是基于JAVA的EventObject/EventListener进行了扩展实现: 
+> Spring的事件对象ApplicationEvent继承自JAVA的EventObject。
+> Spring的事件监听器ApplicationListener继承自JAVA的EventListener。
+
+Spring定义了许多事件对象，下面是部分事件对象：
 
 ![Spring的事件对象](http://cdn.gydblog.com/images/spring/listener-3.png)
 
 
-Spring的事件监听器定义为ApplicationListener，继承java.util.EventListener(Spring还定义了一个注解，也叫EventListener，在spring-context包中，两者是不同的概念哦！)。
-
+Spring的事件监听器定义：
 ```java
 public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
     void onApplicationEvent(E var1);
@@ -40,7 +72,7 @@ Spring实现了很多事件监听器的类型，都是继承自ApplicationListen
 ![Spring的事件监听器实现](http://cdn.gydblog.com/images/spring/listener-4.png)
 
 
-## 二、如何使用
+## 三、如何使用
 
 Spring中提供了两种方式实现事件监听。
 
@@ -178,7 +210,7 @@ public class EventMain2 {
 11:10:02.706 [main] DEBUG org.springframework.context.annotation.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@e73f9ac, started on Tue Aug 22 11:10:02 CST 2023
 ```
 
-## 三、底层原理
+## 四、底层原理
 ### 1、事件是如何发布的？
 在上面基于注解驱动和基于接口驱动的例子中，都是通过context.publishEvent(new MyEvent(context));来发布事件的，我们进入这个方法的源码看看：
 
@@ -345,7 +377,8 @@ protected void initApplicationEventMulticaster() {
           this.logger.trace("Using ApplicationEventMulticaster [" + this.applicationEventMulticaster + "]");
       }
   } else {
-    // 如果容器中没有，那么创建一个SimpleApplicationEventMulticaster，并且注册到IOC容器中
+      // 如果用户没有配置自定义事件广播器，
+      //则会默认使用SimpleApplicationEventMulticaster作为事件广播器，并且注册到IOC容器中
       this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);
       beanFactory.registerSingleton("applicationEventMulticaster", this.applicationEventMulticaster);
       if (this.logger.isTraceEnabled()) {
@@ -355,7 +388,7 @@ protected void initApplicationEventMulticaster() {
 
 }
 ```
-上面的大致意思是：先判断容器中有没有提前配置实例化好的事件广播器ApplicationEventMulticaster，如果没有，默认创建一个子类型SimpleApplicationEventMulticaster并注册到容器中， 这个就是前面介绍事件发布代码逻辑里使用的对象了。
+上面的大致意思是：先判断容器中有没有用户提前配置好的事件广播器ApplicationEventMulticaster，如果没有，默认创建一个子类型SimpleApplicationEventMulticaster并注册到容器中， 这个就是前面介绍事件发布代码逻辑里使用的对象了。
 
 事件广播器初始化好了之后，就是注册所有的监听对象ApplicationListener了，看registerListeners方法的源码：
 ```
@@ -394,21 +427,23 @@ protected void registerListeners() {
 ```
 
 
+**总结事件机制：**
+  事件机制分为四个环节：事件定义、事件监听、事件发布、事件响应。
+  
+  四个环节分别对应三个抽象：ApplicationEvent、ApplicationListener、ApplicationEventPublisher。
+  Spring的事件定义基于ApplicationEvent(我们可以基于此封装各种业务场景事件对象)，事件监听基于ApplicationListener(我们基于此定义各种业务场景的监听器，并实现监听后处理逻辑)，在容器启动时会去加载好所有的监听器实现。在发布事件时会遍历所有的监听器实现并回调其中的监听后处理逻辑。
+  
+  其中发布事件的核心方法是AbstractApplicationContext的publishEvent，其核心逻辑是：获取spring容器中管理的监听器，然后for循环容器中的listener，对应事件的listener实现类的onApplicationEvent方法会被调用，实现对事件的响应。
 
-两句话总结事件机制：
-  1）事件的注册：在容器启动时会找到所有的事件监听器，注册到容器中。
-  2）事件的发布：
-  AbstractApplicationContext中对publishEvent方法进行了实现，发布事件的核心方法的原理是：获取spring容器中管理的监听器，然后for循环容器中的listener，对应事件的listener实现类的onApplication方法会被调用，实现对事件的响应。
- 
 
-## 四、Spring事件的注意事项
+## 五、Spring事件的注意事项
 
 - 如果发布事件的方法处于事务中，那么事务会在监听器方法执行完毕之后才提交。事件发布之后就由监听器去处理，而不要影响原有的事务，也就是说希望事务及时提交。我们就可以 @TransactionalEventListener来定义一个监听器。
 - 对于同一个事件，有多个监听器的时候，如果出现了异常，后续的监听器就失效了，因为他是把同一个事件的监听器add在一个集合里面循环执行，如果出现异常，需要注意捕获异常处理异常。
 - 对于同一个事件，有多个监听器的时候，注意可以通过@Order注解指定顺序，Order的value值越小，执行的优先级就越高。  
 - 监听器默认是同步执行的，如果我们想实现异步执行，可以搭配@Async注解使用，但是前提条件是你真的懂@Async注解，使用不当会出现问题的。
  
-## 五、Spring事件的应用场景
+## 六、Spring事件的应用场景
 
 > 一切与主业务无关的操作都可以通过这种方式进行解耦 
 
@@ -417,29 +452,9 @@ protected void registerListeners() {
 - 性能监控，例如说一些接口的时长，性能方便的埋点等。可以通过事件机制进行解耦。
  
 
-## 六、什么是观察者模式？
-
-Spring的事件机制借鉴了观察者模式的一种思想，下面啰嗦几句，总结下观察者模式的基本概念。
-
-![观察者模式](http://cdn.gydblog.com/images/spring/listener-1.png)
-
-观察者模式是一种行为型设计模式，它定义了一种一对多的依赖关系，当一个对象的状态发生改变时，其所有依赖者都会收到通知并自动更新。
-当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知依赖它的对象。观察者模式属于行为型模式。
-
-
-**观察者模式包含以下几个核心角色：**
-
-- 主题（Subject）：也称为被观察者或可观察者，它是具有状态的对象，并维护着一个观察者列表。主题提供了添加、删除和通知观察者的方法。
-- 观察者（Observer）：观察者是接收主题通知的对象。观察者需要实现一个更新方法，当收到主题的通知时，调用该方法进行更新操作。
-- 具体主题（Concrete Subject）：具体主题是主题的具体实现类。它维护着观察者列表，并在状态发生改变时通知观察者。
-- 具体观察者（Concrete Observer）：具体观察者是观察者的具体实现类。它实现了更新方法，定义了在收到主题通知时需要执行的具体操作。
-- 观察者模式通过将主题和观察者解耦，实现了对象之间的松耦合。当主题的状态发生改变时，所有依赖于它的观察者都会收到通知并进行相应的更新。
-
-编程实现观察者模式的类继承关系模板：
-![观察者模式](http://cdn.gydblog.com/images/spring/listener-2.png)
-
-
 ## 七、参考资料
 https://juejin.cn/post/6923923418513571848
 
 https://juejin.cn/post/7214699255507959869
+
+https://blog.csdn.net/zzuhkp/article/details/108914282

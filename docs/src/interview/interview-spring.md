@@ -248,6 +248,7 @@ BeanFactory和ApplicationContext的关系
 
 为了更直观的展示 “低级容器” 和 “高级容器” 的关系，这里通过常用的 ClassPathXmlApplicationContext 类来展示整个容器的层级 UML 关系。
 
+![容器层级关系](http://cdn.gydblog.com/images/spring/interview-spring-1.png)
 
 
 有点复杂？ 先不要慌，我来解释一下。
@@ -278,6 +279,8 @@ ClassPathXmlApplicationContext：此容器也从一个XML文件中加载beans的
 
 WebXmlApplicationContext：此容器加载一个XML文件，此文件定义了一个WEB应用的所有bean。
 
+AnnotationConfigApplicationContext：此容器根据注解扫描所有关联的bean。
+
 ### **9. 什么是Spring的依赖注入？**
 控制反转IoC是一个很大的概念，可以用不同的方式来实现。其主要实现方式有两种：依赖注入和依赖查找
 
@@ -303,11 +306,8 @@ Setter方法注入：Setter方法注入是容器通过调用无参构造器或�
 
 ### **13. 构造器依赖注入和 Setter方法注入的区别**
 
-构造函数注入	setter 注入
-没有部分注入	有部分注入
-不会覆盖 setter 属性	会覆盖 setter 属性
-任意修改都会创建一个新实例	任意修改不会创建一个新实例
-适用于设置很多属性	适用于设置少量属性
+<table><thead><tr><th>构造函数注入</th><th>setter&nbsp;注入</th></tr></thead><tbody><tr><td>没有部分注入</td><td>有部分注入</td></tr><tr><td>不会覆盖 setter 属性</td><td>会覆盖 setter 属性</td></tr><tr><td>任意修改都会创建一个新实例</td><td>任意修改不会创建一个新实例</td></tr><tr><td>适用于设置很多属性</td><td>适用于设置少量属性</td></tr></tbody></table>
+
 两种依赖方式都可以使用，构造器注入和Setter方法注入。最好的解决方案是用构造器参数实现强制依赖，setter方法实现可选依赖。
 
 ## **三、Spring Beans**
@@ -365,6 +365,8 @@ ThreadLocal会为每一个线程提供一个独立的变量副本，从而隔离
 
 ### **10. 解释Spring框架中bean的生命周期**
 在传统的Java应用中，bean的生命周期很简单。使用Java关键字new进行bean实例化，然后该bean就可以使用了。一旦该bean不再被使用，则由Java自动进行垃圾回收。相比之下，Spring容器中的bean的生命周期就显得相对复杂多了。正确理解Spring bean的生命周期非常重要，因为你或许要利用Spring提供的扩展点来自定义bean的创建过程。下图展示了bean装载到Spring应用上下文中的一个典型的生命周期过程。
+
+![bean生命周期](http://cdn.gydblog.com/images/spring/interview-spring-2.png)
 
 
 
@@ -712,6 +714,7 @@ AOP 的工作重心在于如何将增强编织目标对象的连接点上, 这�
 如何在 advice 中编写切面代码.
 可以简单地认为, 使用 @Aspect 注解的类就是切面。
 
+![切面](http://cdn.gydblog.com/images/spring/interview-spring-3.png)
 
 
 ### **11. 解释基于XML Schema方式的切面实现**

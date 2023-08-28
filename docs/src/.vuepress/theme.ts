@@ -87,6 +87,9 @@ export default hopeTheme({
       "/fuye/": ["qwe1234567"],
       "/mianshi/": ["qwe1234567"],
       "/it-life/todo-list.html": ["qwe123"],
+      "/it-life/fuye.html": ["qwe123"],
+      "/it-life/learn.html": ["qwe123"],
+
 
     },
   },
