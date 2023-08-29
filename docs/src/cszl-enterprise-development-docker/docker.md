@@ -1,11 +1,17 @@
 ---
-# icon: lock
+title: 容器化docker技术
+shortTitle: 容器化docker技术
 date: 2023-08-21
 category:
-  - 持续集成
+  - 容器化
 tag:
-  - Jenkins
+  - docker
+head:
+  - - meta
+    - name: keywords
+      content: 容器化,docker,docker desktop
 ---
+
 # Docker入门
 ## 一、Docker简介、安装和基础配置
 ### 1、Docker简介
@@ -358,7 +364,7 @@ Docker 仪表板的主要作用为:快速访问容器日志，启动容器的 sh
 ## 五、Docker Desktop问题
 1）Docker Engine stopped...
 
-天做了个数据库服务的demo,mysql是装在docker里面的。昨天用的好好的，用完也是先停的容器后关闭的docker，操作毫无问题。
+昨天做了个数据库服务的demo,mysql是装在docker里面的。昨天用的好好的，用完也是先停的容器后关闭的docker，操作毫无问题。
 今天早上就启动不了了！！！显示Docker Engine stopped...
 
 https://www.cnblogs.com/zhaohongbing/p/16473057.html

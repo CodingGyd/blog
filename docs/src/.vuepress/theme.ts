@@ -136,7 +136,7 @@ export default hopeTheme({
     //版权限制
     copyright:{
         //禁用复制和粘贴
-        disableCopy:true,
+        // disableCopy:true,
         //版权声明
         global:true,
         author:"代码小郭",

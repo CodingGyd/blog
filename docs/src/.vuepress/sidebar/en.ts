@@ -196,8 +196,17 @@ export const enSidebar = sidebar({
           ],
         },
         {
+          prefix: "cszl-enterprise-development-task/",
+          text: "3.4 任务调度",
+          collapsible: true,
+          children: [
+          "elasticjob",
+          
+          ],
+        },
+        {
           prefix: "cszl-enterprise-development-rpc/",
-          text: "3.4 RPC框架",
+          text: "3.5 RPC框架",
           collapsible: true,
           children: [
           // "dubbo",
@@ -206,7 +215,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "cszl-enterprise-development-register/",
-          text: "3.5 注册中心",
+          text: "3.6 注册中心",
           collapsible: true,
           children: [
           // "zookeeper",
@@ -215,7 +224,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "cszl-enterprise-development-config/",
-          text: "3.6 配置中心",
+          text: "3.7 配置中心",
           collapsible: true,
           children: [
           // "apollo",
@@ -225,7 +234,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "cszl-enterprise-development-distributed/",
-          text: "3.7 分布式",
+          text: "3.8 分布式",
           collapsible: true,
           children: [
           "distributed",
@@ -236,8 +245,17 @@ export const enSidebar = sidebar({
           ],
         },
         {
+          prefix: "cszl-enterprise-development-docker/",
+          text: "3.9 容器化",
+          collapsible: true,
+          children: [
+          "docker",
+        
+          ],
+        },
+        {
           prefix: "cszl-enterprise-development-code-quality/",
-          text: "3.8 代码质量控制",
+          text: "3.10 代码质量",
           collapsible: true,
           children: [
           // "code-quality",
@@ -245,7 +263,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "cszl-enterprise-development-test/",
-          text: "3.9 软件测试",
+          text: "3.11 软件测试",
           collapsible: true,
           children: [
           "unit-testing",
@@ -257,7 +275,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "cszl-enterprise-development-tools/",
-          text: "3.10 开发/构建工具",
+          text: "3.12 开发/构建工具",
           collapsible: true,
           children: [
           // "git",
@@ -278,7 +296,7 @@ export const enSidebar = sidebar({
       children: [   
         // "redis",
         // "mongodb",
-        // "mysql",
+        "mysql",
         // "oracle",
         // "sqlserver",
       ],
@@ -291,11 +309,9 @@ export const enSidebar = sidebar({
       children: [   
         "layered-architecture",
         "domain",
-        "elasticjob",
         // "nginx",
         "industry-lossary",
         "poi",
-        "docker"
       ],
    
     },

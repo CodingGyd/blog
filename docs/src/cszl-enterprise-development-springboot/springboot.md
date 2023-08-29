@@ -14,7 +14,6 @@ head:
 
 # SpringBoot知识点全面总结
 
-> > 如果对您有帮助，动动小手指，点个关注啦！
 
 ## 一、什么是SpringBoot？
 
