@@ -52,8 +52,13 @@ docs1:
     logo: http://cdn.gydblog.com/images/index/logo-bzk.svg
     url: https://www.logomaker.com.cn/
     preview: http://cdn.gydblog.com/images/index/bg-site-bzk.png
-    
 
+  - name: 在线抠图
+    desc: 免费去水印，无需登录！
+    logo: http://cdn.gydblog.com/images/index/logo-qsy.svg
+    url: https://www.apeaksoft.com/zh-CN/watermark-remover/editor/
+    preview: http://cdn.gydblog.com/images/index/bg-site-qsy.png
+    
 
 docs2:
     - name: 掘金社区

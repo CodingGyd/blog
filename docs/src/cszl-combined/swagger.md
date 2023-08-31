@@ -13,5 +13,21 @@ tag:
 # 配置
 
 
- xxx
+# 遇到的问题
+网上查的答案：
+https://blog.csdn.net/LeeKitch/article/details/126967804
+
+而实际我是在nacos增加如下配置解决的：
+```
+spring:
+  mvc:
+    custom:
+      autoMapping: true
+      autoRequestBody: true
+      autoResultWrapper: true
+      logHttpBody: true
+      excludeInterceptUrl: /**/swagger**
+      interceptors:
+        - .SecurityInterceptor    
+```
  

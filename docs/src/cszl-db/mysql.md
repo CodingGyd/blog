@@ -15,17 +15,135 @@ head:
 
 # MySQL知识点大全
 
+> 官方文档https://www.mysql.com/cn/products/community/
+
 > 本篇默认读者已有SQL基础知识储备
 
 ## 一、概述
-MySQL 是最流行的关系型数据库管理系统，在 WEB 应用方面 MySQL 可以说是最流行的技术。接下来小郭将把MySql的常见知识点进行总结。
-## 二、基础知识-环境搭建
+MySQL 是最流行的关系型数据库管理系统，在 WEB 应用方面 MySQL 可以说是最流行的技术。选择 MySQL 数据库已是既成事实，绝大多数使用 Linux 操作系统的互联网网站都在使用 MySQL 作为其后端的数据库存储方式，从大型的 BAT 门户到电商平台、分类门户等无一例外。
+
+
+原因可能有以下几点：
+
+- MySQL 性能卓越，服务稳定，很少出现异常宕机的情况。
+
+- MySQL 开放源代码且无版权制约，自主性强，使用成本低。
+
+- MySQL 历史悠久，社区及用户非常活跃，遇到问题，可以寻求帮助。
+
+- MySQL 软件体积小，安装使用简单，并且易于维护，安装及维护成本低。
+
+- MySQL 品牌口碑效应好，使得企业无须考虑即可直接用之。
+
+- LAMP、LNMP、LNMT（tomcat）等流行 Web 架构都含有 MySQL。
+
+- MySQL 支持多种操作系统，提供了多种 API，支持多种开发语言，特别是对流行的 Java、Python、PHP 等语言都有很好的支持。
+ 
+
+接下来小郭将把MySql的常见知识点进行总结。
+
+## 二、架构设计
+
+### 1、整体逻辑架构
+
+![逻辑架构](http://cdn.gydblog.com/images/database/mysql/mysql-jiagou-2.png)
+
+**1）客户端**
+
+本层所提供的服务并不是MySQL所独有的技术。它们都是服务于C/S程序或者是这些程序所需要的，例如连接处理，身份验证，安全性等等。
+
+**2）核心服务层**
+
+本层是MySQL的核心部分，也叫做 SQL Layer。
+在 MySQL据库系统处理底层数据之前的所有工作都是在这一层完成的，包括权限判断， sql解析，行计划优化， query cache 的处理以及所有内置的函数(如日期,时间,数学运算,加密)等等。各个存储引擎提供的功能都集中在这一层，如存储过程，触发器，视图等。
+
+**3）存储引擎** 
+
+本层也叫做StorEngine Layer ，是底层数据存取操作实现的核心，由多种存储引擎共同组成。
+
+它们负责存储和获取所有存储在MySQL中的数据。就像Linux众多的文件系统 一样，每个存储引擎都有自己的优点和缺陷。核心服务层通过存储引擎API来与它们交互的。这些API隐藏了各个存储引擎不同的地方。对于服务层尽可能的透明。API包含了很多底层的操作，如开始一个事物，或者取出有特定主键的行。存储引擎不能解析SQL，互相之间也不能通信。仅仅是简单的响应核心服务层的请求。
+
+### 2、架构组件划分
+
+![架构组件划分](http://cdn.gydblog.com/images/database/mysql/mysql-jiagou-1.png)
+
+![架构组件划分中文版](http://cdn.gydblog.com/images/database/mysql/mysql-jiagou-3.png)
+
+**1）客户端连接器(Connectors)**
+
+连接器为不同的客户端程序提供与MySQL服务器的连接。 使得我们能够连接和执行来自另一种语言或环境的MySQL语句，包括ODBC，Java（JDBC），Perl，Python，PHP，Ruby和本机C MySQL实例。
+
+连接器实例：
+- Connector/C++ ： 提供C++程序驱动支持，C++程序可以连接到MySQL
+- Connector/J：提供JAVA程序驱动程序支持，可使用标准Java数据库连接（JDBC）API从Java应用程序连接到MySQL。
+- Connector/NET： 提供.NET程序驱动程序支持，可以支持任何.NET语言编写的应用程序连接MySQL数据库。
+- Connector/ODBC：为使用开放数据库连接（ODBC）API连接到MySQL提供驱动程序支持。 支持从Windows，Unix和macOS平台进行ODBC连接。
+- Connector/Python：提供Python程序驱动程序支持，可使用兼容 Python DB API版本2.0的API从Python应用程序连接到MySQL。不需要其他Python模块或MySQL客户端库。
+
+**2）系统管理和控制工具**
+
+系统管理和控制工具，比如MySQL安装包bin目录下提供的服务管理和工具（mysqld、mysql_safe、mysql.server等）。
+
+**3）连接池**
+
+连接池是一种创建和管理可供任何需要它们的线程使用的连接池的技术。 连接池可以大大提高Java应用程序的性能，同时减少总体资源使用量。
+
+负责监听对 MySQL Server 的各种请求，接收连接请求，转发所有连接请求到线程管理模块。每一个连接上 MySQL Server 的客户端请求都会被分配（或创建）一个连接线程为其单独服务。而连接线程的主要工作就是负责 MySQL Server 与客户端的通信，接受客户端的命令请求，传递 Server 端的结果信息等。线程管理模块则负责管理维护这些连接线程。包括线程的创建，线程的 cache 等。
+ 
+**4）SQL 接口**
+
+SQL Interface（SQL接口组件），接受用户的SQL命令，并且返回用户需要查询的结果。比如select from就是调用SQL Interface
+
+**5）解析器**  
+
+SQL命令传递到解析器的时候会被解析器验证和解析。解析器是由Lex和YACC实现的，是一个很长的脚本。
+
+在 MySQL中我们习惯将所有 Client 端发送给 Server 端的命令都称为 query ，在 MySQL Server 里面，连接线程接收到客户端的一个 Query 后，会直接将该 query 传递给专门负责将各种 Query 进行分类然后转发给各个对应的处理模块。
+
+主要功能：
+- 将SQL语句进行语义和语法的分析，分解成数据结构，然后按照不同的操作类型进行分类，然后做出针对性的转发到后续步骤，以后SQL语句的传递和处理就是基于这个结构的。
+- 如果在分解构成中遇到错误，那么就说明这个sql语句是不合理的
+
+**6）查询优化器** 
+
+SQL语句在查询之前会使用查询优化器对查询进行优化。就是优化客户端请求的 query（sql语句） ，根据客户端请求的 query 语句，和数据库中的一些统计信息，在一系列算法的基础上进行分析，得出一个最优的策略，告诉后面的程序如何取得这个 query 语句的结果
+ 
+**7）缓存**
+
+主要功能是将客户端提交 给MySQL 的 Select 类 query 请求的返回结果集 cache 到内存中，与该 query 的一个 hash 值 做一个对应。该 Query 所取数据的基表发生任何数据的变化之后， MySQL 会自动使该 query 的Cache 失效。在读写比例非常高的应用系统中， Query Cache 对性能的提高是非常显著的。当然它对内存的消耗也是非常大的。
+
+如果查询缓存有命中的查询结果，查询语句就可以直接去查询缓存中取数据。这个缓存机制是由一系列小缓存组成的。比如表缓存，记录缓存，key缓存，权限缓存等
+
+**8）可插拔存储引擎**
+
+存储引擎接口模块可以说是 MySQL 数据库中最有特色的一点了。目前各种数据库产品中，基本上只有 MySQL 可以实现其底层数据存储引擎的插件式管理。这个模块实际上只是 一个抽象类，但正是因为它成功地将各种数据处理高度抽象化，才成就了今天 MySQL 可插拔存储引擎的特色。
+
+从图可以看出，MySQL区别于其他数据库的最重要的特点就是其插件式的表存储引擎。MySQL插件式的存储引擎架构提供了一系列标准的管理和服务支持，这些标准与存储引擎本身无关，可能是每个数据库系统本身都必需的，如SQL分析器和优化器等，而存储引擎是底层物理结构的实现，每个存储引擎开发者都可以按照自己的意愿来进行开发。
+  
+> 注意：存储引擎是基于表的，而不是数据库。
+
+
+在MySQL中，存储引擎是以插件的形式运行的。支持的引擎有十几种之多，但我们实战常用到的，大概只有InnoDB、MyISAM 、Memory、Archive 了，下面是这几种引擎的区别：
+
+![存储引擎区别](http://cdn.gydblog.com/images/database/mysql/mysql-jiagou-4.png)
+
+
+## 三、基础知识-版本定义
+MySQL 数据库的官方网站为http://www.mysql.com，其发布的 MySQL 版本采用双授权政策，和大多数开源产品的路线一样，MySQL 数据库也有社区版和企业版之分，且这两个版本又各自分了四个版本依次发布，这四个版本分别为：Alpha 版、Beta 版、RC 版和 GA 版本。
+
+生产环境应该选择GA版本!
+
+![版本路线分类](http://cdn.gydblog.com/images/database/mysql/mysql-version.jpg)
+
+
+## 四、基础知识-环境搭建
 
 > 本文基于window64位操作系统+mysql5.7.43版本来进行陈述。
 
 ### 1、安装包获取
 MySQL 安装包获取地址为：[官方下载链接](https://dev.mysql.com/downloads/mysql/ "官方下载链接")    
 
+国内下载地址为：[国内下载链接](http://mirrors.sohu.com/mysql/ "国内下载链接")    
 挑选对应的 MySQL Community Server 版本(社区版本，免费)及对应的操作系统。
 
 ![下载参数选择](http://cdn.gydblog.com/images/database/mysql/mysql-1.png)
@@ -151,12 +269,14 @@ flush privileges; //修改成功后刷新权限
 
 接下来就可以进行正常的库表操作了。
 
-### docker一键安装
+### 5、docker一键安装
+
+> 前面的安装步骤特别繁琐，也可以采用如今的容器化技术docker ，简单几个命令就可以安装完毕。
 
 [docker一键安装mysql](../cszl-enterprise-development-docker/docker.html#四、示例-部署安装mysql程序)
 
 
-## 三、基础知识-常用命令
+## 五、基础知识-常用命令
 
 > 命令不区分大小写
 
@@ -652,9 +772,14 @@ password *****
 mysqlimport有很多可选项，有兴趣的可以自行查资料啦！
 
 
+### 21、刷新缓存
+FLUSH QUERY CACHE : 清理查询缓存内存碎片  
+RESET QUERY CACHE : 从查询缓存中移出所有查询  
+FLUSH TABLES : 关闭所有打开的表，同时该操作将会清空查询缓存中的内容。  
+
 mysql还有很多命令，小郭会慢慢的补充进来。
 
-## 四、基础知识-数据类型
+## 六、基础知识-数据类型
 
 MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。
 
@@ -843,7 +968,7 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 </table>
 
 
-## 五、基础知识-内置函数
+## 七、基础知识-内置函数
 ### 1、数字函数
 <table class="reference">
 	<tbody>
@@ -1517,10 +1642,153 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 	</tbody>
 </table>
 
-## 进阶知识-索引优化
+## 八、实用SQL模板
 
-## 进阶知识-xxx
+### 1、统计
 
+> 记录mysql常用的统计写法，来源于网络，原文链接：https://blog.csdn.net/fwj_ntu/article/details/86680053
+
+1）按天统计
+format参数的取值为’%y%m%d’，可以按天输出统计结果。
+```
+SELECT DATE_FORMAT(insertTime,'%y年%m月%d日') as d,count(1)
+FROM table
+GROUP BY DATE_FORMAT(insertTime,'%y%m%d')
+ORDER BY d asc;
+```
+
+2）按自然周统计
+format()函数的format参数取值为’%y%u’时，可实现按年、年中的周来统计结果。如果在where条件中限制是某一年的周期，可以直接将format参数的值配置为’%u’，否则一定要用’%y%u’，不然会把不同年的第n周合并到一起而出现错乱。
+
+```
+SELECT DATE_FORMAT(insertTime,'%y年%u周') as w,min(insertTime) as st,count(1)
+FROM table
+GROUP BY DATE_FORMAT(insertTime,'%y%u')
+ORDER BY w asc;
+```
+
+3）按月统计
+format()函数的format参数值为’%y%m’时，可实现按月份输出聚合结果。
+```
+SELECT DATE_FORMAT(insertTime,'%y年%m月') as m,count(1) 
+FROM table
+GROUP BY DATE_FORMAT(insertTime,'%y%m')
+ORDER BY m asc
+```
+
+4）按季度统计
+date_format()函数没有直接按照季节输出结果的功能，但这对于数据分析师并不是什么难事，自己利用月度聚合结果去加工以下即可：
+```
+SELECT FLOOR((DATE_FORMAT(insertTime,'%m')-1)/3)+1 as q,min(insertTime) as st,count(*)
+FROM table
+WHERE DATE_FORMAT(insertTime,'%Y') = 2023
+GROUP BY FLOOR((DATE_FORMAT(insertTime,'%m')-1)/3)+1
+ORDER BY q asc; 
+```
+
+5）按年份统计
+date_format()函数的format参数值为’%Y’或’%y’时可实现按年份输出统计结果。
+```
+SELECT DATE_FORMAT(insertTime,'%Y') as y,count(1)
+FROM table
+GROUP BY DATE_FORMAT(insertTime,'%Y')
+ORDER BY y asc; 
+```
+
+## 九、进阶知识-SQL执行过程
+
+下面是Select的执行流程图：
+
+![Select语句执行流程](http://cdn.gydblog.com/images/database/mysql/mysql-jiagou-5.png)
+
+整个查询执行过程，总的来说分为 6 个步骤 :
+
+### 1、建立连接
+客户端向 MySQL 服务器发送一条查询请求，与连接池交互：连接池认证相关处理。
+
+建立与 MySQL 的连接，这就是由连接器Connectors来完成的。连接器Connectors负责跟客户端建立连接、获取权限、维持和管理连接。
+
+连接命令为： mysql -h localhost -P 3306 -u user -p password
+ 
+验证通过后，连接器会到权限表里面查出登录用户拥有的权限，之后这个连接里面的权限判断逻辑，都将依赖于此时读到的权限，一个用户成功建立连接后，即使管理员对这个用户的权限做了修改，也不会影响已经存在连接的权限，修改完后，只有再新建的连接才会使用新的权限设置。
+
+连接完成后，如果没有后续的动作，这个连接就处于空闲状态，可以在mysql服务端控制台执行 show processlist 命令中看到已建立的客户端连接。
+
+![MYSQL服务端连接信息](http://cdn.gydblog.com/images/database/mysql/mysql-select-1.png)
+
+客户端系统的连接，可以通过在客户端控制台执行’netstat -natp|grep 端口‘来查看， 端口就是在MYSQL服务端查到的连接信息里的端口：
+
+![客户端连接信息](http://cdn.gydblog.com/images/database/mysql/mysql-select-2.png)
+
+客户端如果太长时间没动静，连接器就会自动将它断开；这个时间是由参数 wait_timeout 控制的，默认值是8小时。如果在连接被断开之后，客户端再次发送请求的话，就会收到一个错误提醒：Lost connection to MySQL server during query。
+
+
+
+### 2、查询缓存
+
+服务器首先检查查询缓存，如果命中缓存，则立刻返回存储在缓存中的结果，否则进入下一阶段
+
+在解析一个查询语句前，如果查询缓存是打开的，那么 MySQL 会检查这个查询语句是否命中查询缓存中的数据。如果当前查询恰好命中查询缓存，在检查一次用户权限后直接返回缓存中的结果。这种情况下，查询不会被解析，也不会生成执行计划，更不会执行。MySQL将缓存存放在一个引用表 (不要理解成table，可以认为是类似于 HashMap 的数据结构)，通过一个哈希值索引，这个哈希值通过查询本身、当前要查询的数据库、客户端协议版本号等一些可能影响结果的信息计算得来。所以两个查询在任何字符上的不同 (例如 : 空格、注释)，都会导致缓存不会命中
+
+如果查询中包含任何用户自定义函数、存储函数、用户变量、临时表、MySQL库中的系统表，其查询结果都不会被缓存。比如函数 NOW() 或者 CURRENT_DATE() 会因为不同的查询时间，返回不同的查询结果，再比如包含 CURRENT_USER 或者 CONNECION_ID() 的查询语句会因为不同的用户而返回不同的结果，将这样的查询结果缓存起来没有任何的意义
+
+MySQL 查询缓存系统会跟踪查询中涉及的每个表，如果这些表 (数据或结构) 发生变化，那么和这张表相关的所有缓存数据都将失效。正因为如此，在任何的写操作时，MySQL必须将对应表的所有缓存都设置为失效。如果查询缓存非常大或者碎片很多，这个操作就可能带来很大的系统消耗，甚至导致系统僵死一会儿，而且查询缓存对系统的额外消耗也不仅仅在写操作，读操作也不例外 :
+
+- 任何的查询语句在开始之前都必须经过检查，即使这条 SQL语句 永远不会命中缓存
+- 如果查询结果可以被缓存，那么执行完成后，会将结果存入缓存，也会带来额外的系统消耗
+- 两个SQL语句，只要相差哪怕是一个字符（例如 大小写不一样：多一个空格等），那么两个SQL将使用不同的cache。
+
+
+基于此，并不是什么情况下查询缓存都会提高系统性能，缓存和失效都会带来额外消耗，特别是写密集型应用，只有当缓存带来的资源节约大于其本身消耗的资源时，才会给系统带来性能提升。可以尝试打开查询缓存，并在数据库设计上做一些优化 :
+- 用多个小表代替一个大表，注意不要过度设计
+- 批量插入代替循环单条插入
+- 合理控制缓存空间大小，一般来说其大小设置为几十兆比较合适
+- 可以通过 SQL_CACHE 和 SQL_NO_CACHE 来控制某个查询语句是否需要进行缓存
+
+```
+//先查询缓存
+mysql> SELECT SQL_CACHE COUNT(*) FROM a;
+
+//跳过缓存直接查询实时表
+mysql> SELECT SQL_NO_CACHE COUNT(*) FROM a;
+```
+
+查看开启缓存的情况，可以知道query_cache_size的设置是否合理
+
+![缓存配置](http://cdn.gydblog.com/images/database/mysql/mysql-select-3.png)
+
+- query_cache_limit：超出此大小的查询将不被缓存
+- query_cache_min_res_unit：缓存块的最小大小，query_cache_min_res_unit的配置是一柄双刃剑，默认是 4KB ，设置值大对大数据查询有好处，但是如果你查询的都是小数据查询，就容易造成内存碎片和浪费。
+- query_cache_size：查询缓存大小（注：QC存储的单位最小是1024byte，所以如果你设定的一个不是1024的倍数的值。这个值会被四舍五入到最接近当前值的等于1024的倍数的值。）
+- query_cache_type：缓存类型，决定缓存什么样子的查询，注意这个值不能随便设置必须设置为数字，可选值以及说明如下：
+         0：OFF 相当于禁用了
+         1：ON 将缓存所有结果，除非你的select语句使用了SQL_NO_CACHE禁用了查询缓存
+         2：DENAND  则只缓存select语句中通过SQL_CACHE指定需要缓存的查询。
+- query_cache_wlock_invalidate：当有其他客户端正在对MyISAM表进行写操作时，如果查询在query cache中，是否返回cache结果还是等写
+
+### 3、SQL解析
+服务器进行SQL解析(词法语法)、预处理。
+
+### 4、SQL优化
+再由优化器生成对应的执行计划。
+
+### 5、SQL执行
+MySQL 根据执行计划，调用存储引擎的 API来执行查询。
+
+### 6、结果返回
+将结果返回给客户端，同时缓存查询结果。
+
+
+
+## 十、进阶知识-索引优化
+
+### 1、索引分类
+
+### 2、索引优化
+
+### 3、索引失效场景
+
+ 
 ## 技术同学必会的MySQL设计规约，都是惨痛的教训
 
 > 原文链接：https://mp.weixin.qq.com/s/XC8e5iuQtfsrEOERffEZ-Q
@@ -1529,5 +1797,12 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 
 
 ## 参考资料
-
+https://juejin.cn/post/6950607182433878047
 https://www.runoob.com/mysql/
+https://www.infoq.cn/article/3Dve2K5wtS3kEMZtXyEh
+
+https://cloud.tencent.com/developer/article/1353360
+
+
+
+https://cloud.tencent.com/developer/article/1981543

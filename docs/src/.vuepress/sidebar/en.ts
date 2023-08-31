@@ -324,7 +324,6 @@ export const enSidebar = sidebar({
         "compute-sop",
         "axure",
         "cros",
-        "mysql",
         "linux",
         "git"
 
