@@ -176,7 +176,7 @@ elasticjob.tracing.type=RDB
 #mysql数据源配置(项目中存在多数据源情况时会报错，可通过在指定数据源DataSource上增加@Primary注解来解决
 ，参考https://blog.csdn.net/szy350/article/details/83443384)
 spring.datasource.default.driverClassName=com.mysql.jdbc.Driver
-spring.datasource.default.url=jdbc:mysql://192.168.22.163:3306/elastic_job?useUnicode=true&characterEncoding=GBK&autoReconnect=true&failOverReadOnly=false&tinyInt1isBit=false&socketTimeOut=30000
+spring.datasource.default.url=jdbc:mysql://192.xxx.xx.xx:3306/elastic_job?useUnicode=true&characterEncoding=GBK&autoReconnect=true&failOverReadOnly=false&tinyInt1isBit=false&socketTimeOut=30000
 spring.datasource.default.username=root
 spring.datasource.default.password=000000
 

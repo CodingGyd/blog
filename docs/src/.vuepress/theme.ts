@@ -141,7 +141,7 @@ export default hopeTheme({
         global:true,
         author:"代码小郭",
         // license:"协议",
-        triggerWords:10,
+        triggerLength:10,
     },
     //vuepress组件库
     components:{

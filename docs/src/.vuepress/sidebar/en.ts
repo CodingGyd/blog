@@ -297,6 +297,8 @@ export const enSidebar = sidebar({
         // "redis",
         // "mongodb",
         "mysql",
+        "mysql-gf",
+
         // "oracle",
         // "sqlserver",
       ],

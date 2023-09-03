@@ -15,3 +15,4 @@ head:
 
 
 * [MySql知识点大全](./mysql.md) 
+* [MySql设计规约](./mysql-gf.md) 
