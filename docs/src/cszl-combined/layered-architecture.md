@@ -10,6 +10,8 @@ category:
  
 每个人、每个开发团队的规范习惯都不太一样，没有固定标准，合适的才是最好的。这里记录下我习惯的一种springboot项目分层方式
 
+源码已上传到github：https://github.com/CodingGyd/spring-demo/  会不定时迭代
+
 ## 一、初学时简单分层-单个module
 初学时一般都是一些简单项目，单个module即可满足需求，该module内划分如下：
 

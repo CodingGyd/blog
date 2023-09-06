@@ -16,3 +16,5 @@ head:
 
 * [MySql知识点大全](./mysql.md) 
 * [MySql设计规约](./mysql-gf.md) 
+* [索引的数据结构](./mysql-index.md) 
+

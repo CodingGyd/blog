@@ -23,7 +23,7 @@ head:
 
 ## 二、安全规范
 
-1.【强制】禁止在数据库中存储明文密码，需把密码加密后存储  
+1.【强制】禁止在数据库中存储明文密码，需把密码加密后存储    
 
 说明：对于加密操作建议由公司的中间件团队基于如mybatis的扩展，提供统一的加密算法及密钥管理，避免每个业务线单独开发一套，同时也与具体的业务进行了解耦  
 
@@ -46,16 +46,16 @@ head:
 
 1.【推荐】尽量不在数据库做运算，复杂运算需移到业务应用里完成  
 
-2.【推荐】拒绝大sql语句、拒绝大事务、拒绝大批量，可转化到业务端完成  
+2.【推荐】拒绝大sql语句、拒绝大事务、拒绝大批量，可转化到业务端完成    
 说明：大批量操作可能会造成严重的主从延迟，binlog日志为row格式会产生大量的日志  
 
-3.【推荐】避免使用存储过程、触发器、函数等，容易造成业务逻辑与DB耦合  
+3.【推荐】避免使用存储过程、触发器、函数等，容易造成业务逻辑与DB耦合    
 说明：数据库擅长存储与索引、要解放数据库CPU，将计算转移到服务层、也具备更好的扩展性  
 
-4.【强制】数据表、数据字段必须加入中文注释  
+4.【强制】数据表、数据字段必须加入中文注释    
 说明：后续维护的同学看到后才清楚表是干什么用的  
 
-5.【强制】不在数据库中存储图片、文件等大数据  
+5.【强制】不在数据库中存储图片、文件等大数据    
 说明：大文件和图片需要储在文件系统  
 
 6.【推荐】对于程序连接数据库账号，遵循权限最小原则  
@@ -97,10 +97,10 @@ head:
 
 ## 五、库设计规范
 
-1.【推荐】数据库使用InnoDB存储引擎
+1.【推荐】数据库使用InnoDB存储引擎  
 说明：支持事务、行级锁、并发性能更好、CPU及内存缓存页优化使得资源利用率更高
 
-2.【推荐】数据库和表的字符集统一使用UTF8
+2.【推荐】数据库和表的字符集统一使用UTF8  
 说明：utf8号称万国码，其无需转码、无乱码风险且节省空间。若是有字段需要存储emoji表情之类的，则将表或字段设置成utf8mb4，utf8mb4向下兼容utf8。
 
 3.【推荐】不同业务，使用不同的数据库，避免互相影响
@@ -108,7 +108,7 @@ head:
 4.【强制】所有线上业务库均必须搭建MHA高可用架构，避免单点问题
 
 
-## 六、表设计规范
+## 六、表设计规范  
 1.【推荐】建表规范示例
 ```
 CREATE TABLE `student_info` (    
@@ -125,14 +125,14 @@ CREATE TABLE `student_info` (
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生信息表';
 ```
 
-2.【强制】禁止使用外键，如果有外键完整性约束，需要应用程序控制
+2.【强制】禁止使用外键，如果有外键完整性约束，需要应用程序控制  
 
-3.【强制】每个Innodb 表必须有一个主键
+3.【强制】每个Innodb 表必须有一个主键  
 说明：Innodb 是一种索引组织表，其数据存储的逻辑顺序和索引的顺序是相同的。每张表可以有多个索引，但表的存储顺序只能有一种，Innodb 是按照主键索引的顺序来组织表的，因此不要使用更新频繁的列如UUID、MD5、HASH和字符串列作为主键，这些列无法保证数据的顺序增长，主键建议使用自增ID 值。
 
 4.【推荐】单表列数目最好小于50
 
-5.【强制】禁止使用分区表
+5.【强制】禁止使用分区表  
 说明：分区表在物理上表现为多个文件，在逻辑上表现为一个表，谨慎选择分区键，跨分区查询效率可能更低，建议采用物理分表的方式管理大数据
 
 6.【推荐】拆分大字段和访问频率低的字段，分离冷热数据
@@ -145,7 +145,7 @@ CREATE TABLE `student_info` (
 
 10.【推荐】日志类型的表可以考虑按创建时间水平切割，定期归档历史数据
 
-11.【强制】禁止使用order by rand()
+11.【强制】禁止使用order by rand()  
 说明：order by rand()会为表增加一个伪列，然后用rand()函数为每一行数据计算出rand()值，基于该行排序，这通常都会生成磁盘上的临时表，因此效率非常低。
 
 12.【参考】可以结合使用hash、range、lookup table进行散表
@@ -157,7 +157,7 @@ CREATE TABLE `student_info` (
 
 ## 七、字段设计规范
 
-1.【强制】必须把字段定义为NOT NULL并且提供默认值
+1.【强制】必须把字段定义为NOT NULL并且提供默认值  
 说明：NULL字段很难查询优化，NULL字段的索引需要额外空间，NULL字段的复合索引无效
 
 2.【强制】禁止使用ENUM，可使用TINYINT代替
@@ -173,7 +173,7 @@ CREATE TABLE `student_info` (
 7.【推荐】使用UNSIGNED存储非负整数
 说明：同样的字节数，存储的数值范围更大
 
-8.【推荐】建议使用INT UNSIGNED存储IPV4
+8.【推荐】建议使用INT UNSIGNED存储IPV4   
 说明：用UNSINGED INT存储IP地址占用4字节，CHAR(15)则占用15字节。另外，计算机处理整数类型比字符串类型快。使用INT UNSIGNED而不是CHAR(15)来存储IPV4地址，通过MySQL函数inet_ntoa和inet_aton来进行转化。IPv6地址目前没有转化函数，需要使用DECIMAL或两个BIGINT来存储。例如:
 SELECT INET_ATON('192.168.172.3'); 3232279555 SELECT INET_NTOA(3232279555); 192.168.172.3
 
@@ -185,19 +185,19 @@ SELECT INET_ATON('192.168.172.3'); 3232279555 SELECT INET_NTOA(3232279555); 192.
 
 12.【推荐】资金字段考虑统一*100处理成整型，避免使用decimal浮点类型存储
 
-13.【推荐】使用VARBINARY存储大小写敏感的变长字符串或二进制内容
+13.【推荐】使用VARBINARY存储大小写敏感的变长字符串或二进制内容  
 说明：VARBINARY默认区分大小写，没有字符集概念，速度快
 
-14.【参考】INT类型固定占用4字节存储
+14.【参考】INT类型固定占用4字节存储    
 说明：INT(4)仅代表显示字符宽度为4位，不代表存储长度。数值类型括号后面的数字只是表示宽度而跟存储范围没有关系，比如INT(3)默认显示3位，空格补齐，超出时正常显示，Python、Java客户端等不具备这个功能
 
-15.【参考】区分使用DATETIME和TIMESTAMP
+15.【参考】区分使用DATETIME和TIMESTAMP  
 说明：存储年使用YEAR类型、存储日期使用DATE类型、存储时间(精确到秒)建议使用TIMESTAMP类型。
-DATETIME和TIMESTAMP都是精确到秒，优先选择TIMESTAMP，因为TIMESTAMP只有4个字节，而DATETIME8个字节，同时TIMESTAMP具有自动赋值以及⾃自动更新的特性。
+DATETIME和TIMESTAMP都是精确到秒，优先选择TIMESTAMP，因为TIMESTAMP只有4个字节，而DATETIME8个字节，同时TIMESTAMP具有自动赋值以及⾃自动更新的特性。  
 补充：如何使用TIMESTAMP的自动赋值属性?
 自动初始化，而且自动更新：column1 TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATECURRENT_TIMESTAMP 只是自动初始化：column1 TIMESTAMP DEFAULT CURRENT_TIMESTAMP 自动更新，初始化的值为0：column1 TIMESTAMP DEFAULT 0 ON UPDATE CURRENT_TIMESTAMP 初始化的值为0：column1 TIMESTAMP DEFAULT 0
 
-16.【推荐】将大字段、访问频率低的字段拆分到单独的表中存储，分离冷热数据
+16.【推荐】将大字段、访问频率低的字段拆分到单独的表中存储，分离冷热数据  
 说明：有利于有效利用缓存，防⽌读入无用的冷数据，较少磁盘IO，同时保证热数据常驻内存提⾼高缓存命中率
 
 17.【参考】VARCHAR(N)，N表示的是字符数不是字节数，比如VARCHAR(255)，可以最大可存储255个汉字，需要根据实际的宽度来选择N
@@ -257,17 +257,18 @@ DATETIME和TIMESTAMP都是精确到秒，优先选择TIMESTAMP，因为TIMESTAMP
 
 19.【强制】新建的唯一索引不能和主键重复
 
-20.【推荐】尽量不使用外键、外键用来保护参照完整性，可在业务端实现
+20.【推荐】尽量不使用外键、外键用来保护参照完整性，可在业务端实现  
 说明：避免对父表和子表的操作会相互影响，降低可用性
 
 21.【强制】字符串不应做主键
 
-22.【强制】表必须有无符号int型自增主键，对应表中id字段
-说明：必须得有主键的原因：采用RBR模式复制，无主键的表删除，会导致备库夯住 ；使用自增的原因：
+22.【强制】表必须有无符号int型自增主键，对应表中id字段  
+说明：必须得有主键的原因：采用RBR模式复制，无主键的表删除，会导致备库夯住 ；  
+使用自增的原因：  
 数据写入可以提高插入性能，避免page分裂，减少表碎片
 
-23.【推荐】对长度过长的VARCHAR字段建立索引时，添加crc32或者MD5 Hash字段，对Hash字段建立索引
-说明：下面的表增加一列url_crc32，然后对url_crc32建立索引，减少索引字段的长度，提高效率
+23.【推荐】对长度过长的VARCHAR字段建立索引时，添加crc32或者MD5 Hash字段，对Hash字段建立索引  
+说明：下面的表增加一列url_crc32，然后对url_crc32建立索引，减少索引字段的长度，提高效率  
 CREATE TABLE url(   ...   url VARCHAR(255) NOT NULL DEFAULT 0,   url_crc32 INT UNSIGNED NOT NULL DEFAULT 0,   ...   index idx_url(url_crc32) ）
 
 24.【推荐】WHERE条件中的非等值条件（IN、BETWEEN、<、<=、>、>=）会导致后面的条件使用不了索引
@@ -290,12 +291,12 @@ CREATE TABLE url(   ...   url VARCHAR(255) NOT NULL DEFAULT 0,   url_crc32 INT U
 
 
 ## 九、SQL使用规范
-1.【强制】禁止使用SELECT *，只获取必要的字段，需要显示说明列属性
+1.【强制】禁止使用SELECT *，只获取必要的字段，需要显示说明列属性  
 说明：按需获取可以减少网络带宽消耗，能有效利用覆盖索引，表结构变更对程序基本无影响。
 
 2.【强制】禁止使用INSERT INTO t_xxx VALUES(xxx)，必须显示指定插入的列属性
 
-3.【强制】WHERE条件中必须使用合适的类型，避免MySQL进行隐式类型转化
+3.【强制】WHERE条件中必须使用合适的类型，避免MySQL进行隐式类型转化  
 说明：因为MySQL进行隐式类型转化之后，可能会将索引字段类型转化成=号右边值的类型，导致使用不到索引，原因和避免在索引字段中使用函数是类似的，例子 select uid from t_user where phone=15855550101（phone为 varchat 类型，此时查询中使用数字查询，会导致索引失效）
 
 4.【强制】禁止在WHERE条件的属性上使用函数或者表达式
@@ -304,7 +305,7 @@ CREATE TABLE url(   ...   url VARCHAR(255) NOT NULL DEFAULT 0,   url_crc32 INT U
 
 6.【强制】应用程序必须捕获SQL异常，并有相应处理
 
-7.【推荐】sql语句尽可能简单、大的sql想办法拆成小的sql语句
+7.【推荐】sql语句尽可能简单、大的sql想办法拆成小的sql语句  
 说明：简单的SQL容易使用到MySQL的querycache、减少锁表时间特别是MyISAM、可以使用多核cpu
 
 8.【推荐】事务要简单，整个事务的时间长度不要太长
@@ -315,11 +316,11 @@ CREATE TABLE url(   ...   url VARCHAR(255) NOT NULL DEFAULT 0,   url_crc32 INT U
 
 11.【参考】SQL语句中IN包含的值不应过多，里面数字的个数建议控制在1000个以内
 
-12.【推荐】limit分页注意效率。Limit越大，效率越低。可以改写limit
-说明：改写例子：  
-1）改写方法一  
-延迟回表写法 select xx,xx from t t1, (select id from t where ....  limit 10000,10) t2 where t1.id = t2.id
-2）改写方法二  
+12.【推荐】limit分页注意效率。Limit越大，效率越低。可以改写limit  
+说明：改写例子：    
+1）改写方法一    
+延迟回表写法 select xx,xx from t t1, (select id from t where ....  limit 10000,10) t2 where t1.id = t2.id  
+2）改写方法二    
 select id from t limit 10000, 10; 应该改为 => select id from t where id > 10000 limit 10;
 
 13.【推荐】尽量使用union all替代union
@@ -340,7 +341,7 @@ select id from t limit 10000, 10; 应该改为 => select id from t where id > 10
 
 21.【强制】禁止单条SQL语句同时更新多个表
 
-22.【推荐】统计表中记录数时使用COUNT(*)，而不是COUNT(primary_key)和COUNT(1)
+22.【推荐】统计表中记录数时使用COUNT(*)，而不是COUNT(primary_key)和COUNT(1)  
 说明：count( * ) 会统计值为 NULL 的行，而 count( 列名 ) 不会统计此列为 NULL 值的行
 
 23.【推荐】INSERT语句使用batch提交（INSERT INTO tableVALUES(),(),()……），values的个数不应过多

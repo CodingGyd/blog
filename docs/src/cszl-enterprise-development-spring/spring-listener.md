@@ -302,7 +302,71 @@ public void multicastEvent(final ApplicationEvent event, @Nullable ResolvableTyp
 }
 ```
 
-从上面源码可以看出，如果设置了Executor则异步发送（在我们想要异步执行的事件监听器上添加@Async注解），否则同步；
+从上面源码可以看出，如果设置了Executor则异步发送（在我们想要异步执行的事件监听器上添加@Async注解，同时在下面的EventAsyncConfig自定义线程池配置），否则同步；
+```
+如下方式会使@Async失效
+一、异步方法使用static修饰
+二、异步类没有使用@Component注解（或其他注解）导致spring无法扫描到异步类
+三、异步方法不能与异步方法在同一个类中
+四、类中需要使用@Autowired或@Resource等注解自动注入，不能自己手动new对象
+五、如果使用SpringBoot框架必须在启动类中增加@EnableAsync注解或者使用@Configuration进行线程池自动化配置
+六、在Async 方法上标注@Transactional是没用的。 在Async 方法调用的方法上标注@Transactional 有效。
+```
+
+如下是springboot程序定义异步事件线程池的配置代码(也可以直接用默认线程池，在启动类增加@EnableAsync注解即可)：
+```
+package com.gyd;
+
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.lang.reflect.Method;
+import java.util.concurrent.Executor;
+
+/** 
+ * @description: 事件异步线程池配置
+ * @param:        
+ * @return: 
+ */
+@Configuration
+@EnableAsync
+public class EventAsyncConfig implements AsyncConfigurer {
+
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        //核心线程池数量
+//        executor.setCorePoolSize(Runtime.getRuntime().availableProcessors());
+        executor.setCorePoolSize(1);
+        //最大线程数量
+        executor.setMaxPoolSize(Runtime.getRuntime().availableProcessors()*5);
+        //线程池的队列容量
+        executor.setQueueCapacity(Runtime.getRuntime().availableProcessors()*2);
+        //线程名称的前缀
+        executor.setThreadNamePrefix("event-excutor-");
+        // setRejectedExecutionHandler：当pool已经达到max size的时候，如何处理新任务
+        // CallerRunsPolicy：不在新线程中执行任务，而是由调用者所在的线程来执行
+        //executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.initialize();
+        return executor;
+    }
+//    /*异步任务中异常处理*/
+//    @Override
+//    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+//        return (Throwable ex, Method method, Object... params)->{
+//            //todo 异步方法异常处理
+//            System.out.println("class#method: " + method.getDeclaringClass().getName() + "#" + method.getName());
+//            System.out.println("type        : " + ex.getClass().getName());
+//            System.out.println("exception   : " + ex.getMessage());
+//        };
+//    }
+
+}
+```
+
 而且可以看出通过 “resolveDefaultEventType(event)” 对发布的事件类型进行了校验，这就是为什么我们可以直接使用泛型来指定我们想接收的事件对象。
 继续深入底层，查看invokeListener()方法的源码：
 
