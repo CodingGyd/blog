@@ -1,6 +1,6 @@
 ---
-title: MYSQL知识点大全-设计规约
-shortTitle: MYSQL知识点大全-设计规约
+title: MYSQL设计规约
+shortTitle:  MYSQL设计规约
 date: 2023-08-30
 category:
   - JAVA企业级开发

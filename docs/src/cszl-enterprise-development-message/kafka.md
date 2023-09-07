@@ -6,6 +6,7 @@ category:
   - JAVA企业级开发
 tag:
   - MySQL
+article: false
 head:
   - - meta
     - name: keywords
