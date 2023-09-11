@@ -296,7 +296,9 @@ export const enSidebar = sidebar({
       children: [   
         "mysql",
         "mysql-gf",
-        "mysql-index"
+        "mysql-index",
+        "mysql-tiaoyou"
+
       ],
    
     },

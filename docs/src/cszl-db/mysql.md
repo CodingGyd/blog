@@ -1734,9 +1734,75 @@ ORDER BY y asc;
 
 alter table table_name auto_increment=1
 
+### 3、生成随机数
+
+```Mysql
+-- 生成 3 位的随机整数
+SELECT CEILING(RAND() * 900 + 100);
+ 
+-- 生成 4 位的随机整数
+SELECT CEILING(RAND() * 9000 + 1000);
+ 
+-- 生成 5 位的随机整数
+SELECT CEILING(RAND() * 90000 + 10000);
+ 
+-- 生成 6 位的随机整数
+SELECT CEILING(RAND() * 900000 + 100000);
+ 
+-- 随机生成 11位 手机号(批量执行会存在重复手机号，视情况使用)
+SELECT TRIM(CONCAT('1', ELT(floor(rand() * 6 + 1), '3', '4', '5', '7', '8', '9'), TRIM(CAST(CEILING(RAND() * 900000000 + 100000000) AS CHAR(9))))) AS phone;
+```
+
+### 4、循环插入测试数据
+
+1）先新增一张测试表
+
+```mysql
+CREATE TABLE `user_info` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT NOT NULL ,
+    `name` VARCHAR(20) DEFAULT NULL,
+    `company_id` INT(11) DEFAULT NULL,
+    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+```
+
+2）构造生成测试数据的存储过程(插入1000000条测试数据)
+mysql
+```mysql
+delimiter $$  # 定义结束符
+drop procedure if exists addTestData; # 存储过程名叫：addTestData
+create procedure addTestData()
+begin
+declare user_id int;
+set user_id = 1;
+while user_id <= 10000 #插入N条数据
+do
+insert into user_info(user_id,name,company_id)
+values(user_id,concat('用户_',CEILING(RAND() * 90000 + 10000)),1001);  # 为了区分用户，我们在名称后加上后缀
+set user_id = user_id + 1;
+end
+while;
+end $$;
+```
+
+3）执行调用
+
+```mysql
+CALL addTestData;
+```
+
+4）删除存储过程
+
+```mysql
+drop procedure addTestData;
+```
+
 ## 九、进阶知识-查询语句执行过程
 
-> 原文链接： https://cloud.tencent.com/developer/article/1981543
+> [参考原文链接](https://cloud.tencent.com/developer/article/1981543 "参考原文链接")  
 
 下面是Select的执行流程图：
 
