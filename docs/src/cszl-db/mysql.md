@@ -12,7 +12,6 @@ head:
       content: 数据库,MySQL,关系型数据库,MySQL语法,MySQL原理
 ---
 
-
 # MySQL知识点大全
 
 > 官方文档https://www.mysql.com/cn/products/community/
@@ -38,7 +37,7 @@ MySQL 是当下最流行的关系型数据库管理系统，在 WEB 应用方面
 - LAMP、LNMP、LNMT（tomcat）等流行 Web 架构都含有 MySQL。
 
 - MySQL 支持多种操作系统，提供了多种 API，支持多种开发语言，特别是对流行的 Java、Python、PHP 等语言都有很好的支持。
- 
+
 
 接下来小郭将把MySql的常见知识点进行总结(部分知识点转载于网络)。
 
@@ -91,7 +90,7 @@ MySQL 是当下最流行的关系型数据库管理系统，在 WEB 应用方面
 **3）连接池**
 
 连接池主要负责连接管理、授权认证、安全等等。每个客户端连接都对应着MySql服务器上的一个线程。服务器上维护了一个线程池，避免为每个连接都创建销毁一个线程。当客户端连接到MySQL服务器时，服务器对其进行认证。可以通过用户名与密码认证，也可以通过SSL证书进行认证。登录认证后，服务器还会验证客户端是否有执行某个查询的操作权限。
- 
+
 > 由于每次建立连接需要消耗很多时间，连接池的作用就是将这些连接缓存下来，下次可以直接用已经建立好的连接，提升服务器性能。 连接池可以大大提高Java应用程序的性能，同时减少总体资源使用量。
 
 **4）SQL 接口**
@@ -111,7 +110,7 @@ SQL命令传递到解析器的时候会被解析器验证和解析。解析器�
 **6）查询优化器** 
 
 SQL语句在查询之前会使用查询优化器对查询进行优化。就是优化客户端请求的 query（sql语句） ，根据客户端请求的 query 语句，和数据库中的一些统计信息，在一系列算法的基础上进行分析，得出一个最优的策略，告诉后面的程序如何取得这个 query 语句的结果
- 
+
 **7）缓存**
 
 > 8.0版本之前支持查询缓存，8.0之后不支持了
@@ -124,7 +123,7 @@ SQL语句在查询之前会使用查询优化器对查询进行优化。就是�
 
 存储引擎负责与数据库文件交互。存储引擎接口模块可以说是 MySQL 数据库中最有特色的一点了。目前各种数据库产品中，基本上只有 MySQL 可以实现其底层数据存储引擎的插件式管理。这个模块实际上只是 一个抽象类，但正是因为它成功地将各种数据处理高度抽象化，才成就了今天 MySQL 可插拔存储引擎的特色。
 
-  
+
 > 注意：存储引擎是基于表的，而不是数据库。
 
 
@@ -187,7 +186,7 @@ default-storage-engine=INNODB
 接下来我们来启动下 MySQL 数据库：
 
 以管理员身份打开 cmd 命令行工具，切换到bin目录:
- 
+
 ```
 cd D:\\mysql-5.7.43-winx64
 ```
@@ -576,7 +575,7 @@ DELETE FROM User WHERE user_name='admin';
 
 ![删除数据行](http://cdn.gydblog.com/images/database/mysql/mysql-16.png)
 
- 
+
 ### 12、模糊查询LIKE
 语法
 ```
@@ -750,7 +749,7 @@ mysql -u用户名    -p密码    <  要导入的数据库数据(data.sql)
 > source 命令导入数据库需要先登录到数库终端
 
 导入步骤：
-```
+```mysql
 mysql> create database gyd;      # 创建数据库
 mysql> use gyd;                  # 使用已创建的数据库 
 mysql> set names utf8;           # 设置编码
@@ -763,17 +762,18 @@ mysql> source /home/gyd/gyd.sql  # 导入备份数据库
 ```
 mysql> LOAD DATA LOCAL INFILE 'outfile.txt' INTO TABLE user;
 ```
- 
+
 LOAD DATA 默认情况下是按照数据文件中列的顺序插入数据的，如果数据文件中的列与插入表中的列不一致，则需要指定列的顺序。
 
 如，在数据文件中的列顺序是  user_sex,user_name, insert_date，但在插入表的列顺序为user_name, user_sex, insert_date，则数据导入语法如下：
-```
+```mysql
 mysql> LOAD DATA LOCAL INFILE 'outfile.txt' 
     -> INTO TABLE user (user_name, user_sex, insert_date);
 ```
 
 4）使用 mysqlimport 导入数据
-```
+
+```mysql
 $ mysqlimport -u root -p --local user outfile.txt
 password *****
 ```
@@ -789,7 +789,7 @@ FLUSH TABLES : 关闭所有打开的表，同时该操作将会清空查询缓�
 
 ### 22、查询系统性能
 语法：
-```
+```mysql
 SHOW STATUS LIKE 'value';
 ```
 
@@ -801,6 +801,18 @@ Com_Select : 查询操作的次数
 Com_insert : 插入操作的次数
 Com_update : 更新操作的次数
 Com_delete : 删除操作的次数
+
+
+
+### 23、查看建表语句
+
+语法：
+
+```mysql
+SHOW CREATE TABLE TABLE_NAME
+```
+
+
 
 mysql还有很多命令，小郭会慢慢的补充进来。
 
@@ -1283,7 +1295,7 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 	  </tr>
 	</tbody>
   </table>
-  
+
 ### 3、日期函数
 <table class="reference">
 	<tbody>
@@ -1738,7 +1750,7 @@ alter table table_name auto_increment=1
 建立与 MySQL 的连接，这就是由连接器Connectors来完成的。连接器Connectors负责跟客户端建立连接、获取权限、维持和管理连接。
 
 连接命令为： mysql -h localhost -P 3306 -u user -p password
- 
+
 验证通过后，连接器会到权限表里面查出登录用户拥有的权限，之后这个连接里面的权限判断逻辑，都将依赖于此时读到的权限，一个用户成功建立连接后，即使管理员对这个用户的权限做了修改，也不会影响已经存在连接的权限，修改完后，只有再新建的连接才会使用新的权限设置。
 
 连接完成后，如果没有后续的动作，这个连接就处于空闲状态，可以在mysql服务端控制台执行 show processlist 命令中看到已建立的客户端连接。
@@ -1944,7 +1956,7 @@ redo log在数据库重启恢复的时候被使用，因为其属于物理日志
 
 
 
-## 十、进阶知识-索引
+## 十一、进阶知识-索引
 [MySQL索引概念详解](./mysql-index.md)
 
 

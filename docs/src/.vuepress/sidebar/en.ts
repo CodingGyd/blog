@@ -294,13 +294,9 @@ export const enSidebar = sidebar({
       collapsible: true,
       prefix: "cszl-db/",
       children: [   
-        // "redis",
-        // "mongodb",
         "mysql",
         "mysql-gf",
         "mysql-index"
-        // "oracle",
-        // "sqlserver",
       ],
    
     },

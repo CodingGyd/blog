@@ -12,7 +12,7 @@ tag:
 # 接入流程
 # 配置
 
-
+3.0版本在配置上与2.9稍有差别，包括依赖包改为: springfox-boot-starter，启用注解更改为: @EnableOpenApi等。
 # 遇到的问题
 网上查的答案：
 https://blog.csdn.net/LeeKitch/article/details/126967804

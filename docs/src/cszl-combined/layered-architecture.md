@@ -10,7 +10,10 @@ category:
  
 每个人、每个开发团队的规范习惯都不太一样，没有固定标准，合适的才是最好的。这里记录下我习惯的一种springboot项目分层方式
 
+```
+也不是固定死模板，在实际开发中要学会做适当的加减法
 源码已上传到github：https://github.com/CodingGyd/spring-demo/  会不定时迭代
+```
 
 ## 一、初学时简单分层-单个module
 初学时一般都是一些简单项目，单个module即可满足需求，该module内划分如下：
@@ -22,29 +25,43 @@ category:
 controller层是用来接受前端提交的数据并调用一个或多个service层接口执行，返回请求结果的。该层一般不能包含任何业务处理逻辑，通常在该层做一些系统级别的参数校验、鉴权、限流、入参出参打印、耗时统计等切面拦截。 controller层应该只是一个转发者，不能包含太重的处理逻辑！
 
 ```java
+package com.gyd.contoller;
+
+import com.gyd.dto.UserDto;
+import com.gyd.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-public class ApiController {
- 
+@RequestMapping("/user")
+@Api(tags="用户数据操作相关接口")
+public class UserController {
+
     @Autowired
-    private ApiService apiService;
-    
-    @GetMapping("/select")
-    public List<String> index(){
-        return apiService.query();
+    private UserService service;
+
+    @ApiOperation("新增用户接口")
+    @PostMapping("/save")
+    public boolean save(@ApiParam @RequestBody UserDto data){
+        return service.save(data);
     }
- 
-    @PostMapping("/insert")
-    public boolean save(@RequestBody String data){
-        return apiService.save(data);
+
+    @ApiOperation("查询用户列表接口")
+    @PostMapping("/queryAll")
+    public List<String> query(){
+        return service.queryAll();
     }
- 
-    @DeleteMapping("/{id}")
-    public Integer delete(@PathVariable Integer id){
-        return apiService.deleteById(id);
-    } 
+
 }
+
 ```
 
 ### 2、service层
@@ -52,36 +69,56 @@ public class ApiController {
 service层接收controller层的请求参数，并实现具体的业务复杂逻辑，service层也会调用多个mapper层与数据库进行交互，或者调用其他依赖服务进行数据的增删改查操作。 一个controller层会对应多个service层的具体实现。
 
 ```java
-public class ApiServiceImpl extends ApiService {
-    @Autowired
-    private ApiMapper mapper;
+package com.gyd.service.impl;
 
-        public boolean save(String data) {
-            if(data == "1"){
-            return mapper.save(user);//mapper层的实现 
-            }else{
-            return mapper.update(data);
-        }
-} 
+import com.gyd.dto.UserDto;
+import com.gyd.entity.UserEntity;
+import com.gyd.mapper.UserMapper;
+import com.gyd.service.UserService;
+import org.springframework.stereotype.Service;
+import javax.annotation.Resource;
+import java.util.List;
+
+@Service
+public class UserServiceImpl implements UserService {
+    @Resource
+    private UserMapper mapper;
+
+    @Override
+    public boolean save(UserDto request) {
+        UserEntity entity = new UserEntity();
+        entity.setAge(request.getAge());
+        entity.setLastName(request.getLastName());
+        entity.setFirstName(request.getFirstName());
+        mapper.insert(entity);
+        System.out.println("插入一条用户数据记录");
+        return true;
+    }
+
+    @Override
+    public List<String> queryAll() {
+        return mapper.findAllFirstName();
+    }
+}
 ```
 
 ### 3、mapper层
 
 mapper层是持久化层，负责和数据库进行交互，定义了具体的增删改查sql。在mybatis中mapper方法主要与与xxx.xml内相互一一映射。
 ```java
+package com.gyd.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.gyd.entity.UserEntity;
+import org.apache.ibatis.annotations.*;
+import java.util.List;
+
+//继承 mybatis-plus 的 BaseMapper<T> 后，无需编写 mapper.xml 文件，即可获得CRUD功能
 @Mapper
-public interface ApiMapper extends BaseMapper<String> {//数据库查询接口，专门用来跟数据库交互用的
-    @Select("SELECT xx from api_data")
-    public List<String> findAll();
- 
-    List<User> findAll1();
-    @Insert("INSERT into api_data(xx)VALUES(#{data};")
-    public int insert(String data);
- 
-    public int update(String data);
- 
-    @Delete("delete from api_data where id = #{id}")
-    public Integer deleteById(@Param("id") Integer id); 
+public interface UserMapper extends BaseMapper<UserEntity> {
+     @Select("SELECT distinct first_name from user_info")
+     public List<String> findAllFirstName();
+}
 ```
 
 ### 4、entity层
@@ -89,12 +126,21 @@ public interface ApiMapper extends BaseMapper<String> {//数据库查询接口�
 entity层创建实体类，和数据库表里面属性值一一对应。实现set和get的方法。
 
 ```java
-@Data//Data注解代替了get和set方法
-@TableName(value = "table_xxx")
-public class DataEntity {
+package com.gyd.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+@TableName(value = "user_info")
+public class UserEntity {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    private String data;
+    private String firstName;
+    private String lastName;
+    private Integer age;
+
+    //getter setter方法略
 }
 ```
 
@@ -103,11 +149,22 @@ public class DataEntity {
 dto层主要负责定义服务之间交互的实体类，大部分情况下和entity层保持一致。也会存在一些聚合结构或者字段转换后的定义，主要用于业务处理后生成的数据结构定义或者服务与服务之间接口传输参数的定义, 有时候也会直接返回给前端用于展示
 
 ```java
-@Data//Data注解代替了get和set方法
-public class DataDto {
+package com.gyd.dto;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "用户信息实体")
+ public class UserDto {
     private Integer id;
-    private String data;
-}
+    @ApiModelProperty(value = "姓")
+    private String firstName;
+    @ApiModelProperty(value = "名")
+    private String lastName;
+    @ApiModelProperty(value = "年龄")
+    private Integer age;
+
+    //getter setter方法略
+ }
 ```
 
 ### 6、vo层
@@ -168,14 +225,60 @@ public class ArithmeticUtils {
 constant层主要用于定义项目中用到的所有常量，如配置项名称、字段名称等。
 示例：
 ```java
-public class Configs {
+public class xxxconstants {
     //接口请求超时实际
     public static final int TIME_OUT = 100;
 }
 ```
 
+
+
+### 10、config层
+config层主要用于定义启动时的一些自动化配置项
+示例：
+> 引入swagger自动化接口文档
+```java
+package com.gyd.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+@Configuration
+@EnableOpenApi
+public class SwaggerConfig {
+    @Bean
+    public Docket docket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo()).enable(true)
+                .select()
+                //apis： 添加swagger接口提取范围
+                .apis(RequestHandlerSelectors.basePackage("com.gyd"))
+                //.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private ApiInfo apiInfo(){
+        return new ApiInfoBuilder()
+                .title("SpringBoot脚手架项目接口文档")
+                .description("这里是项目描述信息")
+                .contact(new Contact("代码小郭", "url", "964781872@qq.com"))
+                .version("1.0")
+                .build();
+    }
+}
+```
+
 ## 二、进阶多模块分层-多个module
- <img src="http://cdn.gydblog.com/images/cszl-combined/layered-3.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/cszl-combined/layered-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 主要分成以下几层来划分module：
 ```
 控制层：xxx-controller 
@@ -330,3 +433,19 @@ DemoDTO demo = DemoDTO.builder()
 
 
 
+
+
+## 三、进阶-微服务工程结构
+
+如今的互联网公司技术部门通常会采用微服务架构方式协作开发业务需求，划分不同的业务单元，每个业务单元都由某个部门或者部门下的某个小组负责具体应用开发迭代，
+所有业务单元的应用都通过统一的网关对外业务服务，同时每个应用都会统一注册到注册中心提供互相之间的服务注册发现和接口交互。通常情况还会有一个统一的分布式配置中心，所有应用的业务配置项会在这个分布式配置中心进行维护更新。
+
+上面谈到的网关、注册中心、配置中心等组件一般也都是由架构角色来进行技术选型，并且交由公司内部专业的运维人员来维护（小公司例外）。
+
+至于每个业务单元下具体某个应用内的工程结构就由具体的部门或小组自行定义了，这里定义参考的标准一般就是公司级别的开发规范以及部门内部自己的开发规范了。 
+
+![微服务架构-图片来源于网络](http://cdn.gydblog.com/images/cszl-combined/layered-3.jpg)
+
+上面示例图是一个简单的微服务架构，实际企业生产环境的微服务架构远比这个要复杂，而且每个企业的方式都不太一样。
+
+ 
