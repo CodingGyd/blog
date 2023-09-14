@@ -173,7 +173,6 @@ export const enSidebar = sidebar({
           "spring-aop",
           "spring-transaction",
           "spring-listener",
-
           ],
         },
         {
@@ -187,63 +186,30 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "message/",
-          text: "3.3 消息中间件",
+          prefix: "middleware/",
+          text: "3.3 中间件",
           collapsible: true,
           children: [
-          // "message",
-          
-          ],
-        },
-        {
-          prefix: "task/",
-          text: "3.4 任务调度",
-          collapsible: true,
-          children: [
+          "message",
           "elasticjob",
-          
+          // "dubbo",
+          // "nginx",
+          // "zookeeper",
+          // "apollo",
+          // "eurka",
           ],
         },
         {
           prefix: "instant-message/",
-          text: "3.5 即时通讯",
+          text: "3.4 即时通讯",
           collapsible: true,
           children: [
           "websocket",
-           
-          ],
-        },
-        {
-          prefix: "rpc/",
-          text: "3.6 RPC框架",
-          collapsible: true,
-          children: [
-          // "dubbo",
-          
-          ],
-        },
-        {
-          prefix: "register/",
-          text: "3.7 注册中心",
-          collapsible: true,
-          children: [
-          // "zookeeper",
-          
-          ],
-        },
-        {
-          prefix: "config/",
-          text: "3.8 配置中心",
-          collapsible: true,
-          children: [
-          // "apollo",
-          // "eurka",
-
           ],
         },
         {
           prefix: "distributed/",
-          text: "3.9 分布式",
+          text: "3.5 分布式",
           collapsible: true,
           children: [
           "distributed",
@@ -255,7 +221,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "docker/",
-          text: "3.10 容器化",
+          text: "3.6 容器化",
           collapsible: true,
           children: [
           "docker",
@@ -264,7 +230,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "code-quality/",
-          text: "3.11 代码质量",
+          text: "3.7 代码质量",
           collapsible: true,
           children: [
           // "code-quality",
@@ -272,7 +238,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "test/",
-          text: "3.12 软件测试",
+          text: "3.8 软件测试",
           collapsible: true,
           children: [
           "unit-testing",
@@ -284,13 +250,12 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "tools/",
-          text: "3.13 开发/构建工具",
+          text: "3.9 开发/构建工具",
           collapsible: true,
           children: [
           // "git",
           // "svn",
           // "maven",
-          // "nginx",
           // "ide",
           // "xshell",
           ],
@@ -319,7 +284,6 @@ export const enSidebar = sidebar({
       children: [   
         "layered-architecture",
         "domain",
-        // "nginx",
         "industry-lossary",
         "poi",
       ],
