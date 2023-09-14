@@ -8,7 +8,7 @@ head:
 article: false 
 ---
 
-* [项目分层结构](./cszl-combined/layered-architecture.md)
+* [项目分层结构](./combined/layered-architecture.md)
 * [域名备案流程](./domain.md)
 * [分布式任务框架elasticjob的简单使用](./elasticjob.md)
 * [行业术语](./industry-lossary.md)

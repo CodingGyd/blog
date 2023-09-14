@@ -152,7 +152,7 @@ public static LocalDate parseYMD(String dateStr){}
 ### 1、代码目录结构
 统一的目录结构是所有项目的基础，没有固定的目录结构，适合项目团队的才是最好的。  
 
-[目录分层参考](../cszl-combined/layered-architecture.md)
+[目录分层参考](../combined/layered-architecture.md)
 
 ### 2、Http接口对接规范
 > 科普：API（Application Programming Interface，应用程序编程接口）

@@ -13,25 +13,25 @@ tag:
 
 ## JMeter的安装
 官方下载链接：https://jmeter.apache.org/download_jmeter.cgi
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## JMeter的系统参数配置和启动
 - 配置：解压下载好的程序zip包，并找到文件 jmeter.properties 修改语言 [optional]
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 启动：进入bin目录,并双击jmeter.bat运行，需要等一会，并且本机需要提前准备好Java环境
 
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 此时会弹出两个界面，一个是命令窗口，一个是图形化窗口，意味着JMeter已经安装和运行成功了。
 
 命令窗口：
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
 图形化窗口：
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## JMeter的入门简单使用。
 下面用一个接口压测来演示JMeter的简单使用。
@@ -199,18 +199,18 @@ public class DemoController {
 ### 压测参数配置-并发线程和执行次数
 > 计划100个线程并发1次
 
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 压测参数配置-http请求入参配置
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 压测结果数据查看
 - 选中线程组tab，执行压测
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 - 查看结果聚合报告
 > 可以看到各种性能指标数据
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 对聚合报告的指标解释如下：
 1）Label：请求的名称，就是脚本中Sampler的名称。
@@ -229,7 +229,7 @@ public class DemoController {
 
 查看数据库最终数据符合预期
 
-<img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/test/jmeter-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 结论
 > 执行100个线程并发访问1次，预期是1000，数据库符合预期
@@ -264,6 +264,6 @@ public static void main(String[] args) {
 
 spring对事务管理的处理流程大概是下面这样：
 > 源码出处：spring-tx包中的TransactionAspectSupport.invokeWithinTransaction方法
- <img src="http://cdn.gydblog.com/images/cszl-enterprise-development-test/jmeter-12.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/> 
+ <img src="http://cdn.gydblog.com/images/test/jmeter-12.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/> 
 
  看完源码恍然大悟，spring的事务流程是调用service方法前开启事务，调用方法后提交事务,在并发多线程环境下，就可能会出现：方法执行完了(synchronized代码块执行完了)，事务还没提交，别的线程可以进入被synchronized修饰的方法，再读取的时候，读到的是还没提交事务的数据，这个数据不是最新的，所以就出现了这个问题。

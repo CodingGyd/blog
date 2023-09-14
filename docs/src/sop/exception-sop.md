@@ -10,7 +10,7 @@ category:
  
 当使用@ConfigurationProperties时IDEA顶部出现这样的提示： 
 
-![ConfigurationProperties](http://cdn.gydblog.com/images/cszl-sop/problem-manual-2.png)
+![ConfigurationProperties](http://cdn.gydblog.com/images/sop/problem-manual-2.png)
 
 错误信息：  
 Not registered via @EnableConfigurationProperties, marked as Spring component, or scanned via @ConfigurationPropertiesScan.
@@ -28,13 +28,13 @@ Not registered via @EnableConfigurationProperties, marked as Spring component, o
 ```
 
 2>回到自定义的bean Person中，添加注解@Component，声明将这个组件添加至容器中，这样才可以被使用
-![](http://cdn.gydblog.com/images/cszl-sop/problem-manual-3.png)
+![](http://cdn.gydblog.com/images/sop/problem-manual-3.png)
 
 
 
 ## java.lang.NoClassDefFoundError:javassist/bytecode/ClassFile
 错误信息：  
-![NoclassdeffoundError](http://cdn.gydblog.com/images/cszl-sop/problem-manual-1.png)
+![NoclassdeffoundError](http://cdn.gydblog.com/images/sop/problem-manual-1.png)
 
 解决方式：  
 是javassist.jar这个jar包出问题了, 去MAVEN仓库里找到这个jar包, 删除, 然后重新构建程序让其重新下载一个即可。
@@ -123,4 +123,4 @@ PS D:\code\springboot-hello> mvn clean package -Dmaven.test.skip=true
 
 不过这只需要加在此参数外加单引号即可，即：mvn package '-Dmaven.test.skip=true'。也可以选择将 IntelliJ IDEA 的终端设置成 CMD 模式（Command Prompt）
 
-![Unknown lifecycle phase](http://cdn.gydblog.com/images/cszl-sop/problem-manual-4.png)
+![Unknown lifecycle phase](http://cdn.gydblog.com/images/sop/problem-manual-4.png)

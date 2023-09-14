@@ -1,6 +1,6 @@
 ---
-title: MYSQL性能分析工具的使用
-shortTitle:  MYSQL性能分析工具的使用
+title: MYSQL性能分析思路
+shortTitle:  MYSQL性能分析思路
 date: 2023-09-11
 category:
   - JAVA企业级开发
@@ -12,9 +12,17 @@ head:
       content: 数据库,MySQL,关系型数据库,性能分析工具,慢SQL
 ---
 
-# MYSQL性能分析
+# MYSQL性能分析思路
 
-## 一、准备工作
+## 一、前言
+
+MySQL的SQL性能分析是一个专业的JAVA开发人员无法逃避的知识，不管是面试还是在软件实际生产环境中，了解MySQL的SQL性能分析是非常重要的。
+
+下面小郭对常见的MySQL性能分析排查思路进行了一个小结，分享给大家。
+
+> MySQL性能分析的水很深，本文也只是粗略介绍一些概念和方法，大家有补充的可以在评论区讨论一下哦！
+
+## 二、**测试数据准备工作**
 1）创建测试表
 
 ```mysql
@@ -61,7 +69,7 @@ call addTestData;
 
 小郭这里插入了200W条测试数据，耗时2.5小时。。
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-8.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-8.png)
 
 4）删除存储过程（可选）
 
@@ -69,9 +77,9 @@ call addTestData;
 drop procedure addTestData;
 ```
 
+> 该测试表用于后续的索引语法查找验证
 
-
-## 二、分析
+## 三、分析方法
 
 ### 1、查看SQL查询成本：last_query_cost
 
@@ -150,7 +158,7 @@ set profiling = 'on'
 show profiles;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-13.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-13.png)
 
 通过上面的图可以看到当前会话一共有 3 个查询。如果我们想要查看最近一次查询的执行成本开销，可以使用show profile：
 
@@ -160,7 +168,7 @@ show profile;
 
 
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-12.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-12.png)
 
 show profile 也可以指定参数，如 cpu、block io等：
 
@@ -168,7 +176,7 @@ show profile 也可以指定参数，如 cpu、block io等：
 show profile cpu,block io for query 2;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-14.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-14.png)
 
 **<font color="red">show profile的常用查询参数有下面这些： </font>**
 
@@ -213,7 +221,7 @@ show variables like '%slow_query_log'
 
 
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-1.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-1.png)
 
 可以看到 `slow_query_log=OFF`，我们需要把慢查询日志打开:
 
@@ -222,7 +230,7 @@ show variables like '%slow_query_log'
 set global slow_query_log='ON';
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-2.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-2.png)
 
 
 
@@ -236,7 +244,7 @@ show variables like '%long_query_time'
 
 
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-3.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-3.png)
 
 可以看出针对参数long_query_time默认配置的是10秒，也就是说执行超过10秒的sql才肯会被判断为慢SQL， 这里我们把参数设置为1秒
 
@@ -266,7 +274,7 @@ SHOW global variables LIKE '%long_query_time';
 
 会发现值其实是生效的:
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-4.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-4.png)
 
 这里需要注意一点：**设置global的方式对当前session的long_query_time不会失效，只对新连接的客户端有效。**
 
@@ -276,11 +284,11 @@ SHOW global variables LIKE '%long_query_time';
 set long_query_time=1;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-5.png)
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-5.png)
 
 
 
-### 4 定位慢查询SQL语句: slow_queries
+### 4 、定位慢查询SQL语句: slow_queries
 
 首先查看系统目前监控到的慢查询语句的数量：
 
@@ -288,7 +296,7 @@ set long_query_time=1;
 show global variables like '%slow_queries'
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-6.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-6.png) 
 
 如果查询显示大于0，则说明存在慢SQL， 找到慢SQL记录文件所在路径：  
 
@@ -296,28 +304,25 @@ show global variables like '%slow_queries'
 SHOW VARIABLES LIKE 'slow_query_log%';
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-9.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-9.png) 
 
 可以看到默认配置的慢SQL记录保存在D:\mysql-5.7.43-winx64\data\ace-slow.log （这是小郭安装mysql程序的目录），我们找到这个ace-slow.log文件就能看到慢查询语句是哪些了。
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-10.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-10.png) 
 
 如上图所示，文件中有记录call addTestData这条执行语句，本文最开始的部分【准备工作】说过这条存储过程执行耗时了2.5h，是肯定符合慢SQL判定条件的！  
 
 一般我们的生产环境系统不太会直接使用到存储过程，该文件中会记录的大部分都是一些常见的CRUD表操作，只要定位到某条语句是慢查询，接下来就可以针对这条语句进行具体的分析优化了。
 
-### 5 分析慢查询SQL原因: explain  
+### 5 、分析慢查询SQL原因: explain  
+
+**Explain工具的官方完整文档**： [MySQL5.7](https://dev.mysql.com/doc/refman/5.7/en/explain-output.html  "MySQL5.7")      [MySQL8.0](https://dev.mysql.com/doc/refman/8.0/en/explain-output.html  "MySQL8.0")  
 
 通过前面的铺垫，我们已经定位到了具体的慢SQL语句了，接下来可以使用MySQL提供的Explain工具(Describe工具等价)对该语句做具体问题分析了。 
 通过Explain工具可以查看到某个SQL语句的具体执行计划，了解Explain工具的分析结果，比如对每个表采用的是什么访问方法，走了哪个索引查询，多表连接的顺序等等信息，可以引导我们针对性的优化SQL。
 
 > 执行计划是MySQL中专门负责优化SELECT语句的模块来定义的，该模块会经过一系列分析最终定它认为最优的执行计划，然后交给执行模块去执行。
 >
-> 
-
-**Explain工具的官方完整文档**： [MySQL5.7](https://dev.mysql.com/doc/refman/5.7/en/explain-output.html  "MySQL5.7")      [MySQL8.0](https://dev.mysql.com/doc/refman/8.0/en/explain-output.html  "MySQL8.0")  
-
-
 
 **Explain工具支持的SQL类型**： 
 
@@ -338,7 +343,7 @@ EXPLAIN SQL语句
 explain select user_id from user_info limit 1
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-15.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-15.png) 
 
 如上图所示就是MySQL的SQL优化器模块给出来的执行计划。执行explain并没有真正的去执行SQL语句，不会对数据产生实际影响，只是确定一个待执行的执行计划，如果后面提交执行就是使用该执行计划去落地。
 
@@ -363,7 +368,7 @@ explain select user_id from user_info limit 1
 
 
 
-下面小郭将对每个字段的用途进行详细的总结。
+下面小郭将对其中重要字段的用途进行详细的总结说明。
 
 **1）id**
 
@@ -381,7 +386,7 @@ SELECT user_id from user_info limit 1;
 EXPLAIN SELECT user_id from user_info limit 1;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-15.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-15.png) 
 
 可以看出，mysql为这条sql的select生成的唯一值id是1。
 
@@ -391,7 +396,7 @@ EXPLAIN SELECT user_id from user_info limit 1;
 EXPLAIN SELECT a.user_id,b.name from user_info a inner join user_info2 b where a.user_id = b.user_id and a.user_id = 1;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-16.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-16.png) 
 
 从上图可以看到, 连接查询时出现了两次select关键字，对应执行计划中生成了两条记录，但是他们的id值是相同的。 <font color="red">这是MySQL内部的特殊处理，在多表连接查询的执行计划中，每个表都会对应一条执行计划的记录，且这些记录的id列的值是相同的。</font>出现在前边的表表示`驱动表`，出现在后面的表表示`被驱动表`。所以从上边的EXPLAIN输出中我们可以看到，查询优化器准备让b表作为驱动表，让a表作为被驱动表来执行查询(这里的a和b是sql中定义的表的别名)。
 
@@ -403,7 +408,7 @@ UNION
 SELECT user_id,name from user_info2  ;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-17.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-17.png) 
 
 
 
@@ -417,7 +422,7 @@ UNION ALL
 SELECT user_id,name from user_info2  ;
 ```
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-18.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-18.png) 
 
 从上图可以看出，union类型的sql在执行计划中生成了3条记录，其中有一条id为null的记录，而union all类型的sql只生成了2条记录。
 
@@ -443,7 +448,7 @@ SELECT user_id,name from user_info2  ;
 
 所 以MySQL规定EXPLAIN语句输出的每条记录都对应着某个单表的访问方法，该条记录的table列代表着该 表的表名（有时不是真实的表名字，可能是简称）。EXPLAIN语句输出多条记录，table列就会有多个值。
 
-![](Http://cdn.gydblog.com/images/database/mysql/mysql-slow-19.png) 
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-19.png) 
 
 **4）partitions**
 
@@ -515,11 +520,14 @@ type的可选值有很多： `system ， const ， eq_ref ， ref ， fulltext �
 
   当我们根据主键或者唯一二级索引列与常数进行等值匹配时，对单表的访问方法就是`const`, 比如：
 
-  >  下面演示的是创建一个表t2，id是主键列，并插入一条记录，最后使用explain进行查询语句的分析
+  >  
 
   ```mysql
+  //创建表t2，id是主键列
   create table t2(id int primary key) engine =INNODB;
+  //插入一条记录
   insert into t2 values(1);
+  //使用explain进行查询语句的分析
   explain select *from t2 where id = 1;
   ```
 
@@ -579,5 +587,165 @@ explain select *from t5 where name = 'test' or name is null;
 
 ![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-28.png)
 
-从explain生成的执行计划结果可以看出，使用主键索引和二级索引进行同时检索（实际不会发生这种情况，因为主键索引就可以唯一定位记录了） ，type的值就是index
+从explain生成的执行计划结果可以看出，使用主键索引和二级索引进行同时检索（实际不会发生这种情况，因为主键索引就可以唯一定位记录了） ，type的值就是index。
+
+
+
+**6）possible_keys | key**
+
+​	 possible_keys:  可能命中的索引
+
+​     key:  实际命中的索引  
+
+**7）Extra**
+
+| 类型                  | 解释                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| Using filesort        | MySQL 需要额外的一次传递，以找出如何按排序顺序检索行。通过根据联接类型浏览所有行并为所有匹配 WHERE 子句的行保存排序关键字和行的指针来完成排序。然后关键字被排序，并按排序顺序检索行 |
+| Using temporary       | 使用了临时表保存中间结果，性能特别差，需要重点优化           |
+| Using index           | 表示相应的 select 操作中使用了覆盖索引（Coveing Index）,避免访问了表的数据行，效率不错！如果同时出现 using where，意味着无法直接通过索引查找来查询到符合条件的数据 |
+| Using index condition | MySQL5.6 之后新增的index condition pushdown, 简称 ICP，using index condtion 就是使用了 ICP（索引下推），在存储引擎层进行数据过滤，而不是在服务层过滤，利用索引现有的数据减少回表的次数 |
+| Using where           | 表示MySQL服务器层将在存储引擎层返回行以后再应用WHERE过滤条件 |
+
+
+
+## 四、常见索引失效案例
+
+表结构如下：
+
+```
+ CREATE TABLE `user_info3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(20) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_userid_companyid` (`user_id`,`company_id`),
+  KEY `idx_phone` (`phone`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+```
+
+
+
+### 1、最左匹配
+
+> 最左匹配常见于联合索引中。
+
+索引结构：
+
+```mysql
+KEY`idx_userid_companyid`(`user_id`,`company_id`)
+```
+
+业务SQL: 
+
+```mysql
+select * from  user_info  where company_id=111
+```
+
+上面业务SQL在实际执行时不会命中索引， 是因为在MySQL的联合索引中，查询匹配是从左往右进行匹配的，要使用 company_id走索引，必须查询条件携带 user_id或者修改索引结构由（`user_id`，`company_id`）变为(`company_id`,`user_id`) 调换前后顺序。
+
+### 2、字段类型不同(隐式转换)
+
+索引：
+
+```mysql
+KEY`idx_phone`(`phone`)
+```
+
+SQL 语句：
+
+```mysql
+select * from user_info where phone= 15974154444
+```
+
+隐式转换相当于在索引上做运算，会让索引失效。phone是字符类型，使用了数字，应该使用字符串匹配，否则 MySQL 会用到隐式替换，导致索引失效。
+
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-29.png)
+
+
+
+### 3、不等于、不包含等场景
+
+索引：
+
+```mysql
+KEY`idx_userid_companyid`(`user_id`,`company_id`)
+```
+
+SQL：
+
+```mysql
+select *from user_info where user_id != 1;
+```
+
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-30.png)
+
+可以看到，索引是不生效的。
+
+在索引上，避免使用 NOT、!=、<>、!<、!>、NOT EXISTS、NOT IN、NOT LIKE等。
+
+
+
+### 4、复杂查询
+
+类似下面的sql，查询条件比较多的情况都认为是一个复杂查询了：
+
+```mysql
+select  sum(xxx)  from   table where  a=1   and   b   in(1,2,3)   and  c >'2020-01-01' ;
+```
+
+如果是统计某些数据，可能改用数仓进行解决；如果是业务上就有那么复杂的查询，可能就不建议继续走 SQL 了，而是采用其他的方式进行解决，比如使用 ES 等搜索组件进行解决。
+
+
+
+### 5、 索引列上有计算
+
+```mysql
+select * from  user_info where user_id+1=2;  
+```
+
+![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-31.png)
+
+ 如果索引有计算或者索引列上使用了函数都会导致索引失效。
+
+
+
+### 6、like左边包含%
+
+模糊查询，在我们日常的工作中，使用频率还是比较高的。
+
+目前like查询主要有三种情况：
+
+- select *from xxx  where field like '%a'
+- select *from xxx  where field like 'a%'
+- select *from xxx  where field like '%a%'
+
+如果field是索引列，只有 like 'a%'的方式是会走索引的！ 
+
+
+
+### 7、列对比
+
+如果把两个单独建了索引的列，用来做列对比时索引会失效。
+
+```mysql
+select * from table where a=b
+```
+
+### 8、or
+
+如果使用了`or`关键字，那么它前面和后面的字段都要加索引，不然所有的索引都会失效，这是一个大坑。
+
+```mysql
+select * from table where a=1 OR b=2 or c=3
+```
+
+上述sql中若a、b、c任一一个不是索引列，则sql不会走索引查询
+
+## 五、结束语
+
+上面总结了MySQL中慢SQL的几种排查手段，都涉及到MySQL服务的一些全局的基本配置项修改。而然在实际生产环境，修改任何MySQL全局配置都需要慎重！
 

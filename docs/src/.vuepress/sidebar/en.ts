@@ -67,7 +67,7 @@ export const enSidebar = sidebar({
       collapsible: true,
       children: [   
         {
-          prefix: "cszl-java-overview/",
+          prefix: "java-overview/",
           text: "2.1 Java概述及环境配置",
           collapsible: true,
           children: [
@@ -78,7 +78,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-basic/",
+          prefix: "java-basic/",
           text: "2.2 Java基础语法",
           collapsible: true,
           children: [
@@ -91,7 +91,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-collections/",
+          prefix: "java-collections/",
           text: "2.3 集合框架",
           collapsible: true,
           children: [
@@ -103,7 +103,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-concurrent/",
+          prefix: "java-concurrent/",
           text: "2.4 并发编程",
           collapsible: true,
           children: [
@@ -121,7 +121,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-io/",
+          prefix: "java-io/",
           text: "2.5 IO编程",
           collapsible: true,
           children: [
@@ -129,7 +129,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-exception/",
+          prefix: "java-exception/",
           text: "2.6 异常处理",
           collapsible: true,
           children: [
@@ -137,7 +137,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-net/",
+          prefix: "java-net/",
           text: "2.7 网络编程",
           collapsible: true,
           children: [
@@ -145,7 +145,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-java-jvm/",
+          prefix: "java-jvm/",
           text: "2.8 JVM",
           collapsible: true,
           children: [
@@ -162,7 +162,7 @@ export const enSidebar = sidebar({
       collapsible: true,
       children: [   
         {
-          prefix: "cszl-enterprise-development-spring/",
+          prefix: "spring/",
           text: "3.1 Spring",
           collapsible: true,
           children: [
@@ -177,7 +177,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-springboot/",
+          prefix: "springboot/",
           text: "3.2 SpringBoot",
           collapsible: true,
           children: [
@@ -187,7 +187,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-message/",
+          prefix: "message/",
           text: "3.3 消息中间件",
           collapsible: true,
           children: [
@@ -196,7 +196,7 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-task/",
+          prefix: "task/",
           text: "3.4 任务调度",
           collapsible: true,
           children: [
@@ -205,8 +205,17 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-rpc/",
-          text: "3.5 RPC框架",
+          prefix: "instant-message/",
+          text: "3.5 即时通讯",
+          collapsible: true,
+          children: [
+          "websocket",
+           
+          ],
+        },
+        {
+          prefix: "rpc/",
+          text: "3.6 RPC框架",
           collapsible: true,
           children: [
           // "dubbo",
@@ -214,8 +223,8 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-register/",
-          text: "3.6 注册中心",
+          prefix: "register/",
+          text: "3.7 注册中心",
           collapsible: true,
           children: [
           // "zookeeper",
@@ -223,8 +232,8 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-config/",
-          text: "3.7 配置中心",
+          prefix: "config/",
+          text: "3.8 配置中心",
           collapsible: true,
           children: [
           // "apollo",
@@ -233,8 +242,8 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-distributed/",
-          text: "3.8 分布式",
+          prefix: "distributed/",
+          text: "3.9 分布式",
           collapsible: true,
           children: [
           "distributed",
@@ -245,8 +254,8 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-docker/",
-          text: "3.9 容器化",
+          prefix: "docker/",
+          text: "3.10 容器化",
           collapsible: true,
           children: [
           "docker",
@@ -254,16 +263,16 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-code-quality/",
-          text: "3.10 代码质量",
+          prefix: "code-quality/",
+          text: "3.11 代码质量",
           collapsible: true,
           children: [
           // "code-quality",
           ],
         },
         {
-          prefix: "cszl-enterprise-development-test/",
-          text: "3.11 软件测试",
+          prefix: "test/",
+          text: "3.12 软件测试",
           collapsible: true,
           children: [
           "unit-testing",
@@ -274,8 +283,8 @@ export const enSidebar = sidebar({
           ],
         },
         {
-          prefix: "cszl-enterprise-development-tools/",
-          text: "3.12 开发/构建工具",
+          prefix: "tools/",
+          text: "3.13 开发/构建工具",
           collapsible: true,
           children: [
           // "git",
@@ -290,22 +299,23 @@ export const enSidebar = sidebar({
    
     },
     {
-      text: '三、数据库',
+      text: '四、数据库',
       collapsible: true,
-      prefix: "cszl-db/",
+      prefix: "db/",
       children: [   
         "mysql",
         "mysql-gf",
         "mysql-index",
-        "mysql-tiaoyou"
+        "mysql-tiaoyou",
+        "mysql-mianshi"
 
       ],
    
     },
     {
-      text: '四、综合',
+      text: '五、综合',
       collapsible: true,
-      prefix: "cszl-combined/",
+      prefix: "combined/",
       children: [   
         "layered-architecture",
         "domain",
@@ -316,9 +326,9 @@ export const enSidebar = sidebar({
    
     },
     {
-      text: '五、SOP库(持续更新)',
+      text: '六、SOP库(持续更新)',
       collapsible: true,
-      prefix: "cszl-sop/",
+      prefix: "sop/",
       children: [   
         "exception-sop",
         "compute-sop",

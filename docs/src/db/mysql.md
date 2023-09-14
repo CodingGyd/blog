@@ -279,7 +279,7 @@ flush privileges; //修改成功后刷新权限
 
 > 前面的安装步骤特别繁琐，也可以采用如今的容器化技术docker ，简单几个命令就可以安装完毕。
 
-[docker一键安装mysql](../cszl-enterprise-development-docker/docker.html#四、示例-部署安装mysql程序)
+[docker一键安装mysql](../docker/docker.html#四、示例-部署安装mysql程序)
 
 
 ## 五、基础知识-常用命令
@@ -943,6 +943,9 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 </table>
 
 ### 3、字符串类型
+
+> 效率来说基本是 Char > Varchar > Text > Blob，但是如果使用的是 Innodb 引擎的话，推荐使用 Varchar 代替 Char。
+
 <table>
 	<tbody>
 		<tr>
@@ -972,33 +975,33 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 		</tr>
 		<tr>
 			<td>BLOB</td>
-			<td>0-65 535 bytes</td>
+			<td>0-65535 bytes</td>
 			<td>二进制形式的长文本数据</td>
 		</tr>
 		<tr>
 			<td>TEXT</td>
-			<td>0-65 535 bytes</td>
+			<td>0-65535bytes，约64kb</td>
 			<td>长文本数据</td>
 		</tr>
 		<tr>
 			<td>MEDIUMBLOB</td>
-			<td>0-16 777 215 bytes</td>
+			<td>0-16777215 bytes</td>
 			<td>二进制形式的中等长度文本数据</td>
 		</tr>
 		<tr>
 			<td>MEDIUMTEXT</td>
-			<td>0-16 777 215 bytes</td>
+			<td>0-16777215bytes，约 16 Mb</td>
 			<td>中等长度文本数据</td>
 		</tr>
 		<tr>
 			<td>LONGBLOB</td>
-			<td>0-4 294 967 295 bytes
+			<td>0-4294967295 bytes
 			</td>
 			<td>二进制形式的极大文本数据</td>
 		</tr>
 		<tr>
 			<td>LONGTEXT</td>
-			<td>0-4 294 967 295 bytes</td>
+			<td>0-4294967295 bytes，约 4Gb</td>
 			<td>极大文本数据</td>
 		</tr>
 	</tbody>

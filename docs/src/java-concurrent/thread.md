@@ -734,7 +734,7 @@ public class ThreadDemo {
 ```
 
 ### 2、CompletableFuture
-[CompletableFuture入门](../cszl-java-concurrent/completableFuture.md)
+[CompletableFuture入门](../java-concurrent/completableFuture.md)
  
 
 ## 四、参考资料  

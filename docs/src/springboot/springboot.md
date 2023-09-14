@@ -32,9 +32,9 @@ Spring Boot是由Pivotal团队提供的一套开源框架，其设计目的是�
  - 支持完全注解化，简化xml配置
  - 提供一系列大类项目常见的非功能特性支持（如嵌入式服务器、安全、度量、健康检查和外部化配置）。
 
- 
+
 因为使用简单，目前Spring Boot已经成为了JAVA应用开发领域的主流技术栈。尤其是目前微服务开发的流行，大家已经把SpringBoot当成JAVA微服务开发技术栈的首选项。
- 
+
 ## 三、SpringBoot的迭代史
 小郭花了2H，整理了SpringBoot的所有迭代版本和依赖组件的依赖关系表，方便日后查阅
 
@@ -151,7 +151,7 @@ public @interface IsInheritedAnnotation {
 public @interface NoInherritedAnnotation {
 }
 ```
- 
+
 - 测试类继承关系中@Inherited的作用
 ```java
 @NoInherritedAnnotation
@@ -365,7 +365,7 @@ protected List<String> getCandidateConfigurations(AnnotationMetadata metadata, A
 	return configurations;
 }
 ```
- 
+
 getCandidateConfigurations调用了SpringFactoriesLoader.loadFactoryNames，该方法源码如下：
 ```
 public static List<String> loadFactoryNames(Class<?> factoryType, @Nullable ClassLoader classLoader) {
@@ -413,7 +413,7 @@ private static Map<String, List<String>> loadSpringFactories(ClassLoader classLo
 ## 六、基础知识-自定义starter
 
 > 本节的相关知识来源于对[starter概述](https://springdoc.cn/spring-boot/using.html#using.build-systems.starters "starter概述") 的总结学习
- 
+
 ### 1、Starter概述
 
 Starter是一系列开箱即用的依赖，通过直接引入Starter，我们可以一次性获得某个技术组件需要的全部依赖，免去了需要到处大量复制粘贴依赖的烦恼。 
@@ -1074,7 +1074,7 @@ public class MyLogProperties {
 }
 ```
 如果我们需要从 application.yaml 或 application.properties 中拿到一些使用者配置的数据，那么我们就需要定义一个properties类。这个properties类主要作用是将 application.yaml 或 application.properties 中的配置信息映射成实体类，比如我们这里指定 prefix = "gyd.log" 这样，我们就能将以gyd.log为前缀的配置项拿到了。
- 
+
 4）编写Starter项目的业务功能
 
 
@@ -1149,7 +1149,7 @@ MyLogAutoConfig 使用了以下 5 个注解：
 @ConditionalOnMissingBean(xxx.class)：该注解表示当容器中没有 xxx 类时，该方法才生效；
 
 @Bean：该注解用于将方法的返回值以 Bean 对象的形式添加到容器中。
- 
+
 6）编写spring.factories文件加载自动配置类
 ```
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
@@ -1632,7 +1632,7 @@ public interface UserMapper {
 }
 
 ```
- 
+
 
 - 在 @SpringBootApplication注解下的启动类，添加@MapperScan注解 value参数为 扫描的包路径
 ```
@@ -1675,6 +1675,294 @@ public class MybatisTest {
     }
 }
 ```
+
+### 5、整合WebSocket
+
+> 参考资料：[一文吃透 WebSocket 原理 刚面试完，趁热赶紧整理 - 掘金 (juejin.cn)](https://juejin.cn/post/7020964728386093093)
+
+**WebSocket简介**  
+
+WebSocket 是一种在单个TCP连接上进行全双工通信的协议。WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。
+
+在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接， 并进行双向数据传输。（维基百科）
+
+WebSocket本质上一种`计算机网络应用层的协议`，用来弥补http协议在持久通信能力上的不足。
+
+WebSocket 协议在2008年诞生，2011年成为国际标准。现在最新版本浏览器都已经支持了。
+
+它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于[服务器推送技术](https://link.juejin.cn?target=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FPush_technology)的一种。
+
+WebSocket 的其他特点包括：
+
+（1）建立在 TCP 协议之上，服务器端的实现比较容易。
+
+（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。
+
+（3）数据格式比较轻量，性能开销小，通信高效。
+
+（4）可以发送文本，也可以发送二进制数据。
+
+（5）没有同源限制，客户端可以与任意服务器通信。
+
+（6）协议标识符是`ws`（如果加密，则为`wss`），服务器网址就是 URL。
+
+**WebSocket优缺点**
+
+1）优点：
+
+- WebSocket协议一旦建议后，互相沟通所消耗的请求头是很小的
+- 服务器可以向客户端推送消息了
+
+2）缺点：
+
+- 少部分浏览器不支持，浏览器支持的程度与方式有区别（IE10）
+
+**WebSocket使用场景**
+
+- 即时聊天通信
+
+- 多玩家游戏
+
+- 在线协同编辑/编辑
+
+- 实时数据流的拉取与推送
+
+- 体育/游戏实况
+
+- 实时地图位置
+
+- 即时`Web`应用程序：即时`Web`应用程序使用一个`Web`套接字在客户端显示数据，这些数据由后端服务器连续发送。在`WebSocke`t中，数据被连续推送/传输到已经打开的同一连接中，这就是为什么`WebSocket`更快并提高了应用程序性能的原因。 例如在交易网站或比特币交易中，这是最不稳定的事情，它用于显示价格波动，数据被后端服务器使用Web套接字通道连续推送到客户端。
+
+- 游戏应用程序：在游戏应用程序中，你可能会注意到，服务器会持续接收数据，而不会刷新用户界面。屏幕上的用户界面会自动刷新，而且不需要建立新的连接，因此在`WebSocket`游戏应用程序中非常有帮助。
+
+- 聊天应用程序：聊天应用程序仅使用`WebSocket`建立一次连接，便能在订阅户之间交换，发布和广播消息。它重复使用相同的`WebSocket`连接，用于发送和接收消息以及一对一的消息传输。 
+
+下面记录一下 SpringBoot程序是如何整合WebSocket能力的。
+
+1）引入jar包
+
+这里直接创建前后端不分离的web应用程序（实际生产中web前端和后端是分离的工程）
+
+```xml
+<!-- 添加Web依赖 -->
+ <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-web</artifactId>
+ </dependency>
+ <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-thymeleaf</artifactId>
+ </dependency>
+ <!--websocket-->
+ <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-websocket</artifactId>
+ </dependency>
+```
+
+2）配置页面信息
+
+在application.properties中添加页面相关配置
+
+```properties
+server.port=8082
+# Spring thymeleaf
+spring.thymeleaf.cache=false
+spring.thymeleaf.prefix=classpath:/templates/pages/
+spring.thymeleaf.suffix=.html
+```
+
+
+
+3）配置websocket
+
+```java
+@Configuration
+public class WebSocketConfig {
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
+}
+```
+
+```java
+package com.gyd.websocket;
+
+import org.springframework.stereotype.Component;
+
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+@Component
+@ServerEndpoint("/websocket")
+
+public class WebSocketService {
+    private Session session;
+
+    //保存连接
+    private static CopyOnWriteArraySet<WebSocketService> webSocketService = new CopyOnWriteArraySet<>();
+
+    /**
+     * 建立连接
+     * @param session
+     */
+    @OnOpen
+    public void opOpen(Session session) {
+        this.session = session;
+        webSocketService.add(this);
+        System.out.println("有新的连接=============》" + webSocketService.size());
+    }
+
+    /**
+     * 断开连接
+     */
+    @OnClose
+    public void onClose() {
+        webSocketService.remove(this);
+        System.out.println("断开连接=============》" + webSocketService.size());
+    }
+
+    /**
+     * 接收客户端消息
+     * @param message
+     */
+    @OnMessage
+    public void onMessage(String message) {
+        System.out.println("收到客户端消息" + message);
+    }
+
+    /**
+     * 发送消息到客户端
+     * @param message
+     */
+    public void sendMessage(String message) {
+        for (WebSocketService webSocketService2 : webSocketService) {
+            System.out.println("广播消息" + message);
+            webSocketService2.session.getAsyncRemote().sendText(message);
+        }
+    }
+}
+```
+
+4）创建接口
+
+页面访问接口：/show/topic   (对应页面名称)
+
+websocket数据模拟接口：/show/createOrder
+
+```java
+package com.gyd.contoller;
+
+
+import com.gyd.websocket.WebSocketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.UUID;
+
+
+/*
+ *@Controller：如果当前类所在的包配置了Spring容器包扫描，具有
+ *该注解的类，就会作为bean注册到spring容器中，由spring容器创建实例。
+ */
+@Controller
+@RequestMapping("/show/")
+public class WebSocketTestController {
+
+    @Autowired
+    private WebSocketService webSocketService;
+
+    /**
+     * 跳转thymeleaf模板路径
+     *
+     * @return
+     */
+    @RequestMapping("/topic")
+    public String websocket() {
+        return "topic";
+    }
+
+    /**
+     * 模拟创建订单，发送消息到客户端
+     *
+     * @return
+     */
+    @RequestMapping("/createOrder")
+    public @ResponseBody String createOrder() {
+        webSocketService.sendMessage("你有新的订单，请及时处理========>" + UUID.randomUUID());
+        return "新增订单成功!";
+    }
+}
+```
+
+5）编写html页面
+
+页面：topic.html
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+    var websocket=null
+    if('WebSocket' in window){
+        //调用service请求,获取信息
+        topic=new WebSocket("ws://localhost:8082/websocket");
+    }else{
+        alert("该浏览器不支持WebSocket!")
+    }
+
+    topic.onopen=function(event){
+        console.log("建立连接!");
+    }
+
+
+    topic.onclose=function(event){
+        console.log("连接关闭!");
+    }
+
+    topic.onmessage=function(event){
+        console.log("收到消息!"+event.data);
+        document.getElementById("info").textContent +=event.data;
+        //弹窗提醒
+    }
+
+    topic.onerror=function(){
+        alert("websocket发生错误!");
+    }
+
+    topic.onbeforeunload=function(){
+        topic.close();
+    }
+</script>
+<h4>您好</h4>
+    <span id="info"></span>
+</body>
+</html>
+
+```
+
+6）运行测试
+
+先启动应用，然后在浏览器输入127.0.0.1:8082/show/topic 打开topic.html页面，然后调用127.0.0.1:8082/show/createOrder 模拟数据创建，看页面是否收到创建的数据：
+
+![](http://cdn.gydblog.com/images/springboot/websocket-1.png)
+
+![](http://cdn.gydblog.com/images/springboot/websocket-2.png)
+
+这样就实现了服务端推送数据到客户端的效果啦！ websocket是全双工的，客户端也可以往服务端推送，两者之间只需要建立一次链接即可！
+
 
 
 ## 八、基础知识-打包、部署和运行
@@ -1854,7 +2142,7 @@ Spring Boot支持在启动时添加定制，比如设置应用的堆内存、垃
 
 前面介绍的运行方式比较简单，仅适合在开发测试环节使用，实际生产环境中考虑到后期的运维，建议大家使用脚本的方式来部署。
 
-详情可参考：[linux部署脚本](../cszl-sop/linux.html#常用shell脚本)
+详情可参考：[linux部署脚本](../sop/linux.html#常用shell脚本)
 
 
 ## 九、基础知识-监控和告警
@@ -1880,7 +2168,7 @@ Actuator创建了所谓的endpoint来暴露HTTP或者JMX来监控和管理应用
 - /health 提供了关于应用健康的基础信息
 - /metricsendpoints 展示了几个有用的度量信息，比如JVM内存使用情况、系统CPU使用情况、打开的文件等等
 - /loggers 展示了应用的日志和可以让你在运行时改变日志等级
- 
+
 Actuator提供了非常多的endpoint，所有的endpoint都可以通过配置显示的开启和关闭，满足了我们基本的生产应用功能，官方介绍在这里：[Actuator详解](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints "Actuator详解")  
 
 3）启动应用，访问http://localhost:8080/actuator/health，则会显示如下内容:
@@ -1892,7 +2180,7 @@ Actuator提供了非常多的endpoint，所有的endpoint都可以通过配置�
 
 
 Actuator同时还可以与外部应用监控系统整合，比如 Prometheus, Graphite, DataDog, Influx, Wavefront, New Relic等。这些系统提供了非常好的仪表盘、图标、分析和告警等功能，使得我们可以通过统一的接口轻松的监控和管理应用。
- 
+
 SpringBoot的应用监控组合方案比较多，以小郭的工作经验来看，SpringBoot+Prometheus+Grafana是目前比较常用的方案之一。它们三者之间的关系大概如下图：
 
 ![监控组件关系图](http://cdn.gydblog.com/images/springboot/monitor.png)
@@ -1903,7 +2191,7 @@ SpringBoot的应用监控组合方案比较多，以小郭的工作经验来看�
 
 ### 1、热部署
 Spring Boot提供了一个开发者工具，可以监控classpath路径上的文件。只要源码或配置文件发生修改，可以实现不重启服务器情况下，对项目进行即时编译。引入热部署插件的步骤如下。
- 
+
 
 要使用这一开发者功能，我们只需添加如下依赖到pom.xml：
 
@@ -1926,7 +2214,7 @@ Spring Boot提供了一个开发者工具，可以监控classpath路径上的文
 本文总结了SpringBoot框架的常见基础知识，例如自动配置原理、外部框架整合、打包部署运行、监控和告警等。许多知识点只是总结了入门级别的使用方式，希望借此篇总结为开始，后续持续丰富自己对SpringBoot框架的理解。
 
 同时也希望此篇文章能够帮助到新手小伙伴们！
- 
+
 > 如果对您有帮助，动动小手指，点个关注啦！
 
 ## 参考资料

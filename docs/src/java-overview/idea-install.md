@@ -121,7 +121,7 @@ Error running 'Generate POJOs': Argument for @NotNull parameter 'module' of org/
 只要是这样就说明成功了。
 
 ## 07、 配置常用代码注释模板
-[注释模板获取](../cszl-java-basic/javadoc.html##注释模板)
+[注释模板获取](../java-basic/javadoc.html##注释模板)
 
 ### 001、类文件注释 
 <img src="http://cdn.gydblog.com/images/java/java-idea-10.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>

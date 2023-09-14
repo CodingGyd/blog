@@ -18,8 +18,8 @@ category:
 ## 一、初学时简单分层-单个module
 初学时一般都是一些简单项目，单个module即可满足需求，该module内划分如下：
 
- <img src="http://cdn.gydblog.com/images/cszl-combined/layered-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
- <img src="http://cdn.gydblog.com/images/cszl-combined/layered-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/combined/layered-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/combined/layered-1.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ### 1、controller层
 controller层是用来接受前端提交的数据并调用一个或多个service层接口执行，返回请求结果的。该层一般不能包含任何业务处理逻辑，通常在该层做一些系统级别的参数校验、鉴权、限流、入参出参打印、耗时统计等切面拦截。 controller层应该只是一个转发者，不能包含太重的处理逻辑！
@@ -278,7 +278,7 @@ public class SwaggerConfig {
 ```
 
 ## 二、进阶多模块分层-多个module
- <img src="http://cdn.gydblog.com/images/cszl-combined/layered-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
+ <img src="http://cdn.gydblog.com/images/combined/layered-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 主要分成以下几层来划分module：
 ```
 控制层：xxx-controller 
@@ -444,7 +444,7 @@ DemoDTO demo = DemoDTO.builder()
 
 至于每个业务单元下具体某个应用内的工程结构就由具体的部门或小组自行定义了，这里定义参考的标准一般就是公司级别的开发规范以及部门内部自己的开发规范了。 
 
-![微服务架构-图片来源于网络](http://cdn.gydblog.com/images/cszl-combined/layered-3.jpg)
+![微服务架构-图片来源于网络](http://cdn.gydblog.com/images/combined/layered-3.jpg)
 
 上面示例图是一个简单的微服务架构，实际企业生产环境的微服务架构远比这个要复杂，而且每个企业的方式都不太一样。
 
