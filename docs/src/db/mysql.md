@@ -749,7 +749,7 @@ mysql -u用户名    -p密码    <  要导入的数据库数据(data.sql)
 > source 命令导入数据库需要先登录到数库终端
 
 导入步骤：
-```mysql
+```sql
 mysql> create database gyd;      # 创建数据库
 mysql> use gyd;                  # 使用已创建的数据库 
 mysql> set names utf8;           # 设置编码
@@ -766,14 +766,14 @@ mysql> LOAD DATA LOCAL INFILE 'outfile.txt' INTO TABLE user;
 LOAD DATA 默认情况下是按照数据文件中列的顺序插入数据的，如果数据文件中的列与插入表中的列不一致，则需要指定列的顺序。
 
 如，在数据文件中的列顺序是  user_sex,user_name, insert_date，但在插入表的列顺序为user_name, user_sex, insert_date，则数据导入语法如下：
-```mysql
+```sql
 mysql> LOAD DATA LOCAL INFILE 'outfile.txt' 
     -> INTO TABLE user (user_name, user_sex, insert_date);
 ```
 
 4）使用 mysqlimport 导入数据
 
-```mysql
+```sql
 $ mysqlimport -u root -p --local user outfile.txt
 password *****
 ```
@@ -789,7 +789,7 @@ FLUSH TABLES : 关闭所有打开的表，同时该操作将会清空查询缓�
 
 ### 22、查询系统性能
 语法：
-```mysql
+```sql
 SHOW STATUS LIKE 'value';
 ```
 
@@ -808,7 +808,7 @@ Com_delete : 删除操作的次数
 
 语法：
 
-```mysql
+```sql
 SHOW CREATE TABLE TABLE_NAME
 ```
 
@@ -1688,7 +1688,8 @@ MySQL 支持多种类型，大致可以分为三类：数值、日期/时间和�
 
 1）按天统计
 format参数的取值为’%y%m%d’，可以按天输出统计结果。
-```
+
+```sql
 SELECT DATE_FORMAT(insertTime,'%y年%m月%d日') as d,count(1)
 FROM table
 GROUP BY DATE_FORMAT(insertTime,'%y%m%d')
@@ -1698,7 +1699,7 @@ ORDER BY d asc;
 2）按自然周统计
 format()函数的format参数取值为’%y%u’时，可实现按年、年中的周来统计结果。如果在where条件中限制是某一年的周期，可以直接将format参数的值配置为’%u’，否则一定要用’%y%u’，不然会把不同年的第n周合并到一起而出现错乱。
 
-```
+```sql
 SELECT DATE_FORMAT(insertTime,'%y年%u周') as w,min(insertTime) as st,count(1)
 FROM table
 GROUP BY DATE_FORMAT(insertTime,'%y%u')
@@ -1707,7 +1708,8 @@ ORDER BY w asc;
 
 3）按月统计
 format()函数的format参数值为’%y%m’时，可实现按月份输出聚合结果。
-```
+
+```sql
 SELECT DATE_FORMAT(insertTime,'%y年%m月') as m,count(1) 
 FROM table
 GROUP BY DATE_FORMAT(insertTime,'%y%m')
@@ -1716,7 +1718,8 @@ ORDER BY m asc
 
 4）按季度统计
 date_format()函数没有直接按照季节输出结果的功能，但这对于数据分析师并不是什么难事，自己利用月度聚合结果去加工以下即可：
-```
+
+```sql
 SELECT FLOOR((DATE_FORMAT(insertTime,'%m')-1)/3)+1 as q,min(insertTime) as st,count(*)
 FROM table
 WHERE DATE_FORMAT(insertTime,'%Y') = 2023
@@ -1739,7 +1742,7 @@ alter table table_name auto_increment=1
 
 ### 3、生成随机数
 
-```Mysql
+```sql
 -- 生成 3 位的随机整数
 SELECT CEILING(RAND() * 900 + 100);
  
@@ -1760,7 +1763,7 @@ SELECT TRIM(CONCAT('1', ELT(floor(rand() * 6 + 1), '3', '4', '5', '7', '8', '9')
 
 1）先新增一张测试表
 
-```mysql
+```sql
 CREATE TABLE `user_info` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `user_id` INT NOT NULL ,
@@ -1773,8 +1776,8 @@ CREATE TABLE `user_info` (
 ```
 
 2）构造生成测试数据的存储过程(插入1000000条测试数据)
-mysql
-```mysql
+ 
+```sql
 delimiter $$  # 定义结束符
 drop procedure if exists addTestData; # 存储过程名叫：addTestData
 create procedure addTestData()
@@ -1793,13 +1796,13 @@ end $$;
 
 3）执行调用
 
-```mysql
+```sql
 CALL addTestData;
 ```
 
 4）删除存储过程
 
-```mysql
+```sql
 drop procedure addTestData;
 ```
 
@@ -1963,6 +1966,7 @@ B.之后循环取满足索引条件的下一行接口（ha_index_next）。
 ```
 
 通过索引访问table内容：
+```
  //使用索引前调用该方法
  int ha_foo::index_init(uint keynr, bool sorted)
  //使用索引后调用该方法
@@ -1977,7 +1981,7 @@ B.之后循环取满足索引条件的下一行接口（ha_index_next）。
  int ha_index_last(uchar * buf);
  //给定一个key基于索引读取内容
  int index_read(uchar * buf, const uchar * key, uint key_len,  enum ha_rkey_function find_flag)
-
+```
 
  数据库的慢查询日志中有 rows_examined 字段，表示这个语句执行过程中扫描了多少行。这个值就是在执行器每次调用引擎获取数据行的时候累加的。在有些场景下，执行器调用一次，在引擎内部则扫描了多行，因此引擎扫描行数跟 rows_examined 并不是完全相同的。
 

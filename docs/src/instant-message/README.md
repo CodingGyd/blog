@@ -2,6 +2,7 @@
 title: 即时通讯技术
 shortTitle:  即时通讯技术
 date: 2023-09-13
+article: false  
 head:
   - - meta
     - name: keywords

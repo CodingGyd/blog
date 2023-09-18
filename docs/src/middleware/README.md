@@ -1,13 +1,13 @@
 ---
-title: 服务端中间件
-shortTitle: 服务端中间件
+title: 常见微服务中间件
+shortTitle: 常见微服务中间件
 category:
-  - JAVA基础
+  - WEB开发
 article: false 
 head:
   - - meta
     - name: keywords
-      content: 服务器中间件,nginx,消息
+      content: 常见微服务中间件,nginx,消息
 ---
 
 

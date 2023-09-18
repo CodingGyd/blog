@@ -187,7 +187,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "middleware/",
-          text: "3.3 中间件",
+          text: "3.3 微服务中间件",
           collapsible: true,
           children: [
           "message",
@@ -201,7 +201,7 @@ export const enSidebar = sidebar({
         },
         {
           prefix: "instant-message/",
-          text: "3.4 即时通讯",
+          text: "3.4 即时通讯技术",
           collapsible: true,
           children: [
           "websocket",

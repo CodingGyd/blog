@@ -18,7 +18,7 @@ head:
 
 MySQL的SQL性能分析是一个专业的JAVA开发人员无法逃避的知识，不管是面试还是在软件实际生产环境中，了解MySQL的SQL性能分析是非常重要的。
 
-下面小郭对常见的MySQL性能分析排查思路进行了一个小结，分享给大家。
+小郭对常见的MySQL性能分析排查思路进行了一个小结，分享给大家。
 
 > MySQL性能分析的水很深，本文也只是粗略介绍一些概念和方法，大家有补充的可以在评论区讨论一下哦！
 
@@ -67,7 +67,7 @@ end $$;
 call addTestData;
 ```
 
-小郭这里插入了200W条测试数据，耗时2.5小时。。
+小郭这里插入了200W条测试数据，耗时2.5小时。。(正常不应该这么慢，应该是电脑资源问题导致)
 
 ![](http://cdn.gydblog.com/images/database/mysql/mysql-slow-8.png)
 
@@ -607,9 +607,61 @@ explain select *from t5 where name = 'test' or name is null;
 | Using index condition | MySQL5.6 之后新增的index condition pushdown, 简称 ICP，using index condtion 就是使用了 ICP（索引下推），在存储引擎层进行数据过滤，而不是在服务层过滤，利用索引现有的数据减少回表的次数 |
 | Using where           | 表示MySQL服务器层将在存储引擎层返回行以后再应用WHERE过滤条件 |
 
+## 四、常用性能参数
 
+有时候SQL本身没有性能问题，问题可能出现在数据库服务器机器资源上。
 
-## 四、常见索引失效案例
+在MySQL中，可以使用 `SHOW STATUS` 语句查询一些MySQL数据库服务器的`性能参数、执行频率`。
+
+SHOW STATUS语句语法如下：
+
+```sql
+SHOW [GLOBAL|SESSION] STATUS LIKE '参数';
+```
+
+一些常用的性能参数如下：
+
+* Connections：连接MySQL服务器的次数。 
+* Uptime：MySQL服务器的上线时间。 
+* Slow_queries：慢查询的次数。 
+* Innodb_rows_read：Select查询返回的行数 
+* Innodb_rows_inserted：执行INSERT操作插入的行数 
+* Innodb_rows_updated：执行UPDATE操作更新的 行数 
+* Innodb_rows_deleted：执行DELETE操作删除的行数 
+* Com_select：查询操作的次数。 
+* Com_insert：插入操作的次数。对于批量插入的 INSERT 操作，只累加一次。 
+* Com_update：更新操作 的次数。 
+* Com_delete：删除操作的次数。
+
+若查询MySQL服务器的连接次数，则可以执行如下语句:
+
+```mysql
+SHOW STATUS LIKE 'Connections';
+```
+
+若查询服务器工作时间，则可以执行如下语句:
+
+```mysql
+SHOW STATUS LIKE 'Uptime';
+```
+
+若查询MySQL服务器的慢查询次数，则可以执行如下语句:
+
+```mysql
+SHOW STATUS LIKE 'Slow_queries';
+```
+
+慢查询次数参数可以结合慢查询日志找出慢查询语句，然后针对慢查询语句进行`表结构优化`或者`查询语句优化`。
+
+再比如，如下的指令可以查看相关的指令情况：
+
+```mysql
+SHOW STATUS LIKE 'Innodb_rows_%';
+```
+
+## 
+
+## 五、常见索引失效案例
 
 表结构如下：
 
@@ -745,7 +797,7 @@ select * from table where a=1 OR b=2 or c=3
 
 上述sql中若a、b、c任一一个不是索引列，则sql不会走索引查询
 
-## 五、结束语
+## 六、结束语
 
 上面总结了MySQL中慢SQL的几种排查手段，都涉及到MySQL服务的一些全局的基本配置项修改。而然在实际生产环境，修改任何MySQL全局配置都需要慎重！
 
