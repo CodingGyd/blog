@@ -8,7 +8,7 @@ tag:
 ---
 
 
-# 分布式任务框架elasticjob的简单使用
+# 分布式任务elasticjob
 
 某业务项目原先用的是quartz，需要用elasticjob来进行组件替换。
 

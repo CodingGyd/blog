@@ -192,8 +192,9 @@ export const enSidebar = sidebar({
           children: [
           "message",
           "elasticjob",
+          "nginx",
+
           // "dubbo",
-          // "nginx",
           // "zookeeper",
           // "apollo",
           // "eurka",
