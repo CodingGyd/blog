@@ -1,6 +1,6 @@
 ---
-title: MYSQL常见面试题
-shortTitle: MYSQL常见面试题
+title: MySQL常见面试题
+shortTitle: MySQL常见面试题
 date: 2023-09-12
 category:
   - JAVA企业级开发
@@ -16,4 +16,3 @@ head:
 
 > 整理：代码小郭
 > 原作者：程序猿周周，戳 <a href="https://blog.csdn.net/adminpd/article/details/122910606" title="原文链接">原文链接</a>
- 

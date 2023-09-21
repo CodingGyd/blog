@@ -193,7 +193,7 @@ export const enSidebar = sidebar({
           "message",
           "elasticjob",
           "nginx",
-
+          "redis",
           // "dubbo",
           // "zookeeper",
           // "apollo",

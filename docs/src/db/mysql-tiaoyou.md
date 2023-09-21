@@ -426,7 +426,19 @@ SELECT user_id,name from user_info2  ;
 
 从上图可以看出，union类型的sql在执行计划中生成了3条记录，其中有一条id为null的记录，而union all类型的sql只生成了2条记录。
 
+规律：
+
+```
+1）id相同时，可以认为是一组，从上往下顺序执行。
+2）在所有组中，id值越大，优先级越高，越先执行。
+3）每个不同的id，表示一次独立的小查询，一个sql下面的小查询次数越少越好。
+```
+
+
+
 **2）select_type** 
+
+
 
 | 类型                 | 解释                                                         |
 | -------------------- | ------------------------------------------------------------ |
@@ -494,7 +506,11 @@ explain SELECT * FROM user_info_partitions WHERE id<100;
 
 执行计划中的type是我们分析慢SQL时要重点关注的。该字段代表着MySQL对某个表的 `执行查询时的访问方法` , 又称“访问类型”，比如，看到`type`列的值是`ref`，表明`MySQL`即将使用`ref`访问方法来执行对xxx表的查询。
 
-type的可选值有很多： `system ， const ， eq_ref ， ref ， fulltext ， ref_or_null ， index_merge ， unique_subquery ， index_subquery ， range ， index ， ALL` 。
+type的可选值有很多, 执行效率由高到低依次是： <font color="green">system > const > eq_ref > ref </font>> fulltext > ref_or_null > index_merge > unique_subquery > index_subquery > <font color="red">range > index > ALL </font>。
+
+**SQL性能优化目标：至少要达到range级别，要求达到ref级别，最好是const级别！！！**
+
+
 
 因为type这个属性比较重要，小郭来对type的部分重要可选值来详细演示说明一下。
 
@@ -591,11 +607,13 @@ explain select *from t5 where name = 'test' or name is null;
 
 
 
-**6）possible_keys | key**
+**6）possible_keys | key | key_len**
 
 ​	 possible_keys:  可能命中的索引
 
 ​     key:  实际命中的索引  
+
+​      key_len: 实际使用到的索引长度（字节数），帮我们检查是否充分利用上了索引，值越大代表越好。
 
 **7）Extra**
 
