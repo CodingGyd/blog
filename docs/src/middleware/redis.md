@@ -1,4 +1,6 @@
 ---
+
+
 title: Redis知识点详解
 shortTitle: Redis知识点详解
 date: 2023-09-21
@@ -42,7 +44,7 @@ Microsoft Access、Google Fusion Tables、SQLite、DB2、FileMaker、SQL Server�
 
 *关系型数据库最典型的数据结构是表，由二维表及其之间的联系所组成的一个数据组织，有如下优缺点。*
 
-优点：
+**1）优点**
 
 - 使用方便
 
@@ -58,7 +60,7 @@ Microsoft Access、Google Fusion Tables、SQLite、DB2、FileMaker、SQL Server�
 
 - 支持事务控制
 
- 缺点：
+**2） 缺点**
 
 - 高并发读写性能比较差
 
@@ -70,7 +72,7 @@ Microsoft Access、Google Fusion Tables、SQLite、DB2、FileMaker、SQL Server�
 
 *非关系型数据库严格上不是一种数据库，应该是一种数据结构化存储方法的集合，可以是文档或者键值对等。有如下优缺点。*
 
- 优点：
+ **1）优点**
 
 - 读写速度快
 
@@ -86,7 +88,7 @@ Microsoft Access、Google Fusion Tables、SQLite、DB2、FileMaker、SQL Server�
 
   部署简单，大部分开源免费，社区活跃。
 
-缺点：
+**2）缺点**
 
 - 不支持join等复杂连接操作
 
@@ -123,6 +125,8 @@ Microsoft Access、Google Fusion Tables、SQLite、DB2、FileMaker、SQL Server�
 目前业界的技术选型原则基本是：核心数据存储选择关系型数据库，次要数据存储选择非关系型数据库。
 
 本文接下来主要总结非关系型数据库中的Redis技术的相关知识。
+
+![redis知识点大纲](http://cdn.gydblog.com/images/middleware/redis-ml.jpg)
 
 ## 二、Redis简介
 
@@ -381,8 +385,6 @@ root     22143 22121  0 14:35 pts/2    00:00:00 grep --color=auto redis
 
 
 redis支持许多客户端同时建立连接，接下来我们就可以在业务系统中同时开启多个客户端去访问redis了。
-
-
 
 
 
@@ -2509,7 +2511,7 @@ auto-aof-rewrite-min-size 64mb
 aof-load-truncated yes
 
 
-//Redis可以创建RDB或AOF格式的仅追加基础文件。使用RDB格式总是更快、更高效，只有出于向后兼容性的目的才支持禁用它。
+//AOF和RDB的混合持久化模式，Redis可以创建RDB或AOF格式的仅追加基础文件。使用RDB格式总是更快、更高效，只有出于向后兼容性的目的才支持禁用它。
 aof-use-rdb-preamble yes
 
 
@@ -3555,74 +3557,532 @@ geopos 用于从给定的 key 里返回所有指定名称(member)的位置（经
 
 ### 9、自定义数据类型
 
-## 基础知识-编码类型
 
-## 基础知识-事务
 
-todo
+## 十、基础知识-事务
 
-## 基础知识-淘汰策略
+### 1、简介
 
-todo
+说到事务，大家可能最先想到的就是关系型数据库中的事务管理，其实redis中的事务也有类似的特点：
 
-## 基础知识-持久化机制
+-  隔离性：事务是一个单独的隔离操作，事务中的所有命令都会序列化、按顺序地执行。事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。
+-  原子性：事务是一个原子操作，事务中的命令要么全部被执行，要么全部都不执行。
 
-todo
+但是redis的事务和关系型数据库的事务有一个最大的区别：redis事务不会回滚，即使事务中有某条/某些命令执行失败了， 事务队列中的其他命令仍然会继续执行完毕。
 
-## 基础知识-发布与订阅
+**为什么 Redis 不支持回滚（roll back）?**
 
-todo
+*redis官方文档中大概是这样解释的：*
 
-## 基础知识-并发问题
+1）redis 命令只会因为错误的语法而失败，或是命令用在了错误类型的键上面：也就是说，从实用性的角度来说，失败的命令是由编程错误造成的，而这些错误应该在开发的过程中被发现，而不应该带到生产环境中。
 
-todo
-
-缓存穿透、缓存击穿、雪崩
-
-## 基础知识-常用命令
-
-todo
-
-## 进阶知识-Redis DEBUG 调试命令
-
-## 进阶知识-主从复制
-
-todo
-
-## 进阶知识-哨兵机制
-
-todo
+2）因为不需要对回滚进行支持，所以 Redis 的内部可以保持简单且快速。
 
 
 
-## 常见问题
+Redis 中的脚本(比如lua)本身也是一种事务， 所以任何在事务里可以完成的事， 在脚本里面也能完成。 并且一般来说， 使用脚本要来得更简单，并且速度更快。因为脚本功能是 Redis 2.6 才引入的， 而事务功能则更早之前就存在了， 所以 Redis 才会同时存在两种处理事务的方法。
 
-todo
+本小节只总结原始的事务功能。
 
-1 如何解决缓存穿透与缓存雪崩
+### 2、语法
 
-**这里需要注意和缓存击穿的区别，缓存击穿，是指一个key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在一个屏障上凿开了一个洞**
+MULTI 、 EXEC 、 DISCARD 和 WATCH 是 Redis 事务相关的命令。
+
+#### 1）MULTI
+
+MULTI负责开启一个事务，执行它总是返回’OK‘，只有当执行了MULTI，才可以继续接下来的操作。
+
+MULTI执行之后， Redis客户端可以继续向服务器发送任意多条命令， 这些命令不会立即被执行， 而是被放到一个队列中， 当EXEC命令被调用时， 所有队列中的命令才会被执行。 通过调用DISCARD， 客户端可以清空事务队列， 并放弃执行事务。
+
+#### 2）EXEC
+
+EXEC命令负责触发并顺序执行事务的命令队列中的全部命令。
+
+- 如果客户端在使用MULTI 开启了一个事务之后，却因为网络异常等情况而没有成功执行EXEC，那么事务中的所有命令都不会被执行。
+- 如果客户端在成功使用MULTI开启事务之后执行EXEC，那么事务中的所有命令都会被执行。
+
+当使用 AOF 方式做持久化的时候， Redis 会使用单个 write(2) 命令将事务写入到磁盘中，然而，如果 Redis 服务器因为某些原因被管理员杀死，或者遇上某种硬件故障，那么可能只有部分事务命令会被成功写入到磁盘中。
+
+如果 Redis 在重新启动时发现 AOF 文件出了这样的问题，那么它会退出，并汇报一个错误。
+
+使用`redis-check-aof`程序可以修复这一问题：它会移除 AOF 文件中不完整事务的信息，确保服务器可以顺利启动。
+
+从 redis的2.2 版本开始，Redis 还可以通过乐观锁（optimistic lock）实现 CAS （check-and-set）操作。
+
+
+
+以下是一个事务例子， 它原子地增加了 `A` 和 `B` 两个键的值：
+
+```
+[root@XXX ~]# redis-cli -h 127.0.0.1 -p 6379
+127.0.0.1:6379> MULTI
+OK
+127.0.0.1:6379(TX)> INCR A
+QUEUED
+127.0.0.1:6379(TX)> INCR B
+QUEUED
+127.0.0.1:6379(TX)> EXEC
+1) (integer) 1
+2) (integer) 1
+127.0.0.1:6379> 
+```
+
+EXEC 命令的回复是一个数组， 数组中的每个元素都是执行事务中的命令所产生的回复。 其中， 回复元素的先后顺序和命令发送的先后顺序一致。
+
+在 EXEC 命令执行之后所产生的错误， 并没有对它们进行特别处理： 即使事务中有某个/某些命令在执行时产生了错误， 事务中的其他命令仍然会被继续执行。
+
+#### 3）DISCARD
+
+通过DISCARD命令，客户端可以清空事务中的命令队列， 并放弃执行当前事务。
+
+下面演示如何使用DISCARD: 
+
+```
+127.0.0.1:6379> SET AAA 10
+OK
+127.0.0.1:6379> GET AAA
+"10"
+127.0.0.1:6379> MULTI
+OK
+127.0.0.1:6379(TX)> INCR AAA
+QUEUED
+127.0.0.1:6379(TX)> DISCARD
+OK
+127.0.0.1:6379> GET AAA
+"10"
+127.0.0.1:6379> 
+```
+
+在上面的示例中，创建了一个初始值为10的key"AAA"， 然后开启一个事务对该key进行自增，在执行EXEC之前，执行了DISCARD放弃执行。
+
+#### 4）WATCH
+
+假如我们在执行redis事务操作某些键的过程中，有其它客户端对相同的键做了修改，那么此时事务执行就会导致业务问题，Redis提供了WATCH机制来监控某个键是否被修改。
+
+WATCH命令可以为 Redis 事务提供 check-and-set （CAS）行为。
+
+被 WATCH 的键会被监视， 如果有至少一个被监视的键在EXEC执行之前被修改了， 那么整个事务都会被取消，EXEC返回nil-reply来表示事务已经失败。
+
+WATCH 命令可以被调用多次。 对键的监视从WATCH执行之后开始生效， 直到调用 EXEC为止。当客户端断开连接时， 该客户端对键的监视也会被取消。
+
+我们可以在单个WATCH 命令中监视任意多个键，示例：
+
+```
+redis> WATCH key1 key2 key3
+OK
+```
+
+
+
+## 十一、基础知识-淘汰策略
+
+### 1、过期删除策略
+
+Redis提供了四个命令来设置过期时间（生存时间）。
+
+```
+EXPIRE <key> <ttl> ：表示将键 key 的生存时间设置为 ttl 秒。
+PEXPIRE <key> <ttl> ：表示将键 key 的生存时间设置为 ttl 毫秒。
+EXPIREAT <key> <timestamp> ：表示将键 key 的生存时间设置为 timestamp 所指定的秒数时间戳。
+PEXPIREAT <key> <timestamp> ：表示将键 key 的生存时间设置为 timestamp 所指定的毫秒数时间戳。
+```
+
+在Redis内部实现中，前面三个设置过期时间的命令最后都会转换成最后一个PEXPIREAT 命令来完成。
+
+另外还有三个命令：
+
+```
+//移除键的过期时间
+PERSIST <key> ：表示将key的过期时间移除。
+```
+
+```
+//返回键的剩余生存时间
+TTL <key> ：以秒的单位返回键 key 的剩余生存时间。
+PTTL <key> ：以毫秒的单位返回键 key 的剩余生存时间。
+```
+
+
+
+*redis对于已过期的key，有下面两种清理策略：*
+
+#### 1）定期删除
+
+redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会定期遍历这个字典来删除到期的 key。
+
+Redis 默认每秒进行十次过期扫描（100ms一次），过期扫描不会遍历过期字典中所有的 key，而是采用了一种简单的贪心策略：
+
+```
+a.从过期字典中随机 20 个 key；
+b.删除这 20 个 key 中已经过期的 key；
+c.如果过期的 key 比率超过 1/4，那就重复步骤 1；
+```
+
+redis默认是每隔 100ms就随机抽取一些设置了过期时间的key，检查其是否过期，如果过期就删除。注意这里是随机抽取的,为什么要随机呢？想一想假如 redis 存了几十万个 key ，每隔100ms就遍历所有的设置过期时间的 key 的话，就会给 CPU 带来很大的负载。 
+
+在Redis 2.8 版本后，可以通过修改配置文件redis.conf 的 **hz** 选项来调整这个扫描次数，默认是10：
+
+```
+# The range is between 1 and 500, however a value over 100 is usually not
+# a good idea. Most users should use the default of 10 and raise this up to
+# 100 only in environments where very low latency is required.
+hz 10
+```
+
+
+
+#### 2）惰性删除
+
+惰性策略就是在客户端访问这个key的时候，redis对key的过期时间进行检查，如果过期了就立即删除，不会给你返回任何东西。
+
+
+
+### 2、内存淘汰策略
+
+>  redis.conf中MEMORY MANAGEMENT部分就是对内存淘汰策略的相关配置。
+
+我们的机器资源是有限的，安装完redis之后最好是在redis根目录中找到redis.conf文件,在配置文件中设置redis的最大可用内存大小：
+
+```
+# 设置 Redis 最大使用内存大小为200M
+maxmemory 200mb    //指定最大内存为200mb
+
+# 下面的写法均合法：
+# maxmemory 1024000
+# maxmemory 1GB
+# maxmemory 1G
+# maxmemory 1024KB
+# maxmemory 1024K
+# maxmemory 1024MB
+```
+
+上面的配置，当 Redis 使用的内存超过 200Mb 时,就开始对数据进行淘汰。
+
+每进行一次redis操作的时候，redis都会检测可用内存，判断是否要进行内存淘汰，当超过可用内存的时候，redis就会使用对应淘汰策略。
+
+**内存淘汰策略有8种，分别如下：**
+
+#### 1）no-envicition
+该策略对于写请求不再提供服务，会直接返回错误，当然排除del等特殊操作，redis默认是no-envicition策略。
+
+#### 2）allkeys-random
+从redis的数据集（server.db[i].dict）随机选取key进行淘汰
+
+#### 3）allkeys-lru
+使用LRU（Least Recently Used，最近最少使用）算法，从redis从redis的数据集（server.db[i].dict）中选取使用最少的key进行淘汰
+
+#### 4）volatile-random
+从已设置过期时间的数据集中任意选择key，进行随机淘汰
+
+#### 5）volatile-ttl：
+从已设置过期时间的数据集中选取即将过期的key，进行淘汰
+
+#### 6）volatile-lru
+使用LRU（Least Recently Used，最近最少使用）算法，从已设置过期时间的数据集中，选取最少使用的进行淘汰
+
+#### 7）volatile-lfu
+使用LFU（Least Frequently Used，最不经常使用），从设置了过期时间的键中选择某段时间之内使用频次最小的键值对清除掉
+
+#### 8）allkeys-lfu
+使用LFU（Least Frequently Used，最不经常使用），从所有的键中选择某段时间之内使用频次最少的键值对清除 
+
+#### 9）配置项
+
+上面这八种策略可以分为4种类型：lru、lfu、random、ttl。默认是no-envicition，可以通过修改配置redis.conf来调整策略：
+
+```
+每个配置项的具体含义可以查看文章的第七部分：七、基础知识-配置文件解读
+```
+
+```
+############################## MEMORY MANAGEMENT（内存策略管理） ################################
+# maxmemory <bytes>
+# maxmemory-policy noeviction
+# maxmemory-samples 5
+# maxmemory-eviction-tenacity 10
+# replica-ignore-maxmemory yes
+# active-expire-effort 1
+```
+
+
+
+## 十二、基础知识-持久化机制
+
+ redis 提供了两种持久化的方式，分别是**RDB**（Redis DataBase）和**AOF**（Append Only File）。
+
+### 1、RDB
+
+RDB 方式，是定期将 redis 某一时刻的数据持久化到磁盘中，是一种快照式的持久化方法。
+
+#### 1）原理
+
+Redis会单独创建一个子进程（执行文件IO操作），将数据写入到一个临时文件中，待持久化过程都结束了，才会用这个临时文件替换上次持久化好的文件。正是这种特性，让我们可以随时来进行备份，因为快照文件总是完整可用的。而主进程是不会进行任何 IO 操作的，这样也确保了 redis 极高的性能。
+
+RDB持久化主要是通过SAVE和BGSAVE两个命令对Redis中当前的数据做snapshot并生成rdb文件来实现的。其中SAVE是阻塞的，BGSAVE是非阻塞的（通过fork了一个子进程来完成的）在Redis启动的时候会检查这些rdb文件，然后载入rdb文件中未过期的数据到服务器中。
+
+#### 2）配置
+
+RDB模块相关配置汇总如下：
+
+> 每个配置项的具体含义可以查看文章的第七部分：[七、基础知识-配置文件解读]
+
+```
+################################ SNAPSHOTTING （RDB持久化配置） ################################
+# save 3600 1 300 100 60 10000
+# save ""
+stop-writes-on-bgsave-error yes
+rdbcompression yes
+rdbchecksum yes
+dbfilename dump.rdb
+rdb-del-sync-files no
+dir ./
+```
+
+
+
+### 2、AOF
+
+#### 1）原理
+
+AOF，英文是 Append Only File，即只允许追加不允许改写的文件。
+
+和RDB相比，其实是换了一个角度来实现持久化，那就是将 redis 执行过的所有写指令记录下来，在下次 redis 重新启动时，只要把这些写指令按先后顺序再重复执行一遍，就可以实现数据恢复了。
+
+通过配置 redis.conf 中的 appendonly yes 就可以打开 AOF 功能。
+
+```
+appendonly yes
+```
+
+开启AOF配置后，只要有写操作（如 SET 等），命令就会被追加到 AOF 文件的末尾。
+
+默认的 AOF 持久化策略是每秒钟 fsync 一次（fsync 是指把缓存中的写指令记录到磁盘中）:
+
+```
+//everysec代表每秒一次，在这种情况下，redis 仍然可以保持很好的处理性能，即使 redis 故障，也只会丢失最近 1 秒钟的数据。
+appendfsync everysec
+```
+
+如果在AOF追加日志时，恰好遇到磁盘空间满、inode 满或断电等情况导致日志写入不完整，也没有关系，redis 提供了 redis-check-aof 工具，可以用来进行日志修复。
+
+**AOF 文件重写（rewrite）机制**
+
+采用文件追加方式不断追加写入命令，且不做任何限制措施的话，会使得AOF 文件会变得越来越大。
+
+因此，redis 设计者加入了 AOF 文件重写（rewrite）机制，即当 AOF 文件的大小超过所设定的阈值时，redis 就会主动压缩 AOF 文件的内容，只保留可以恢复数据的最小指令集。
+
+举个栗子：假如我们对同一个key，执行了200次set指令，在 AOF 文件中就要存储 200 条指令，其实完全可以把这 200 条指令合并成一条 SET 指令，也就是取最后一次set指令进行追加就行了，这就是重写机制的核心逻辑。
+
+**文件重写原理**
+
+在进行 AOF 重写时，也是采用先写临时文件，全部完成后再替换的流程，所以断电、磁盘满等问题都不会影响 AOF 文件的可用性。
+
+在重写即将开始时，redis 会创建（fork）一个“重写子进程”，这个子进程会首先读取现有的 AOF 文件，并将其包含的指令进行分析压缩写入到一个临时文件中。
+
+与此同时，主工作进程会将新接收到的写指令一边累积到内存缓冲区中，一边继续写入到原有的 AOF 文件中，这样做是保证原有的 AOF 文件的可用性，避免在重写过程中出现意外。
+
+当“重写子进程”完成重写工作后，它会给父进程发一个信号，父进程收到信号后就会将内存中缓存的写指令追加到新 AOF 文件中。
+
+当追加结束后，redis 就会用新 AOF 文件来整体代替旧 AOF 文件，之后再有新的写指令，就都会追加到新的 AOF 文件中了。
+
+#### 2）配置
+
+AOF相关的配置项汇总如下：
+
+> 每个配置项的具体含义可以查看文章的第七部分：[七、基础知识-配置文件解读]
+
+```
+################APPEND ONLY MODE(AOF持久化配置) ###############################
+appendonly no
+appendfilename "appendonly.aof"
+appenddirname "appendonlydir"
+appendfsync everysec
+no-appendfsync-on-rewrite no
+auto-aof-rewrite-percentage 100
+auto-aof-rewrite-min-size 64mb
+aof-load-truncated yes
+aof-use-rdb-preamble yes
+aof-timestamp-enabled no
+```
+
+
+
+### 3、总结
+
+官方的建议是两种持久化方式同时使用，这样可以提供更可靠的持久化方案。在这种情况下，如果 redis 重启的话，则会优先采用 AOF 方式来进行数据恢复，这是因为 AOF 方式的数据恢复完整度更高。
+
+如果项目种没有数据持久化的需求，也完全可以关闭 RDB 和 AOF 方式，这样的话，redis 将变成一个纯内存数据库，就像 memcache 一样。
+
+*下面对AOF和RDB在多个维度做对比：*
+
+**1）持久化方式**
+
+RDB定时对整个内存做快照；AOF记录每一次执行的命令。
+
+**2）数据完整性**
+
+RDB不完整，两次备份之间会存在数据丢失；AOF相对完整，取决于刷盘策略配置。
+
+**3）文件大小**
+
+RDB有压缩，文件体积小；AOF记录命令，文件体积大，但是经过重写后会减小。
+
+**3）宕机恢复速度**
+
+RDB很快，AOF慢
+
+**4）数据恢复优先级**
+
+RDB低，因为数据完整性不如AOF；AOF高，因为数据完整性更高
+
+**5）系统资源占用**
+
+RDB高，大量CPU和内存的消耗；AOF低，主要是磁盘IO资源，但AOF重写时会占用大量CPU和内存资源
+
+**6）使用场景**
+
+RDB使用于可以容忍数分钟的数据丢失，追求赶快的启动速度的场景；AOF使用于对数据安全性要求较高的场景。
+
+
+
+由于 RDB 和 AOF 各有优势，于是，Redis 4.0 开始支持 RDB 和 AOF 的混合持久化（默认关闭，可以通过配置项 aof-use-rdb-preamble 开启）。
+
+**如果把混合持久化打开，AOF 重写的时候就直接把 RDB 的内容写到 AOF 文件开头。**
+
+这样做的好处是可以结合 RDB 和 AOF 的优点, 快速加载同时避免丢失过多的数据。当然缺点也是有的， AOF 里面的 RDB 部分是压缩格式不再是 AOF 格式，可读性较差。
+
+
+
+## 十三、基础知识-发布与订阅
+
+### 1）简介
+
+Redis 发布/订阅是一种消息通信模式，发送者（pub）发布消息，而订阅者（sub）接收消息。
+
+传递消息的通道称为**channel**（频道），Redis客户端可以订阅任意数量的频道。
+
+下图展示了频道 channel1 ， 以及订阅这个频道的三个客户端 —— client2 、 client5 和 client1 之间的关系：
+
+![](http://cdn.gydblog.com/images/middleware/redis-pubsub-1.png)
+
+
+
+当有新消息通过 PUBLISH 命令发送给频道 channel1 时， 这个消息就会被发送给订阅它的三个客户端：
+
+![](http://cdn.gydblog.com/images/middleware/redis-pubsub-2.png)
+
+### 2）使用
+
+使用非常简单，在下面的例子中我们创建了订阅频道名为 **pubsubdemo**,
+
+先开启一个redis客户端A，代表消息订阅者，订阅频道pubsubdemo的消息：
+
+```
+127.0.0.1:6379> subscribe pubsubdemo
+1) "subscribe"
+2) "pubsubdemo"
+3) (integer) 1
+```
+
+
+
+再重新开启一个新的 redis 客户端B，代表消息发布者，在频道 pubsubdemo发布消息，订阅者A就能接收到消息。
+
+```
+127.0.0.1:6379> publish pubsubdemo "helloredis"
+(integer) 1
+127.0.0.1:6379> 
+```
+
+```
+# 订阅者A的客户端会显示如下消息
+1) "message"
+2) "pubsubdemo"
+3) "helloredis"
+```
+
+### 3）常用命令
+
+| 命令语法                                    | 描述                             |
+| ------------------------------------------- | -------------------------------- |
+| PSUBSCRIBE pattern [pattern ...]            | 订阅一个或多个符合给定模式的频道 |
+| PUBSUB subcommand [argument [argument ...]] | 查看订阅与发布系统状态           |
+| PUBLISH channel message                     | 将信息发送到指定的频道           |
+| PUNSUBSCRIBE [pattern [pattern ...]]        | 退订所有给定模式的频道           |
+| SUBSCRIBE channel [channel ...]             | 订阅给定的一个或多个频道的信息   |
+| UNSUBSCRIBE [channel [channel ...]]         | 指退订给定的频道                 |
+
+
+
+## 十四、应用接入
+
+参见springboot整合redis的文章
+
+springboot/springboot.html#_6、整合Redis
+
+
+
+## 十五、常见问题
+
+### 1、缓存击穿
+
+缓存击穿，是指一个key非常热点，在不停的扛着大并发，大并发集中对这一个点进行访问，当这个key在失效的瞬间，持续的大并发就穿破缓存，直接请求数据库，就像在一个屏障上凿开了一个洞 。
+
+常见解决方案：
+
+1）设置热点数据永远不过期
+
+2）接口限流与熔断，降级
+
+3）布隆过滤器
+
+4）加互斥锁
+
+
+
+### 2、缓存穿透
 
 缓存穿透的概念很简单，用户想要查询一个数据，发现redis内存数据库没有，也就是缓存没有命中，于是向持久层数据库查询。发现也没有，于是本次查询失败。当用户很多的时候，缓存都没有命中，于是都去请求了持久层数据库。这会给持久层数据库造成很大的压力，这时候就相当于出现了缓存穿透。
 
-缓存穿透的解决方案：**布隆过滤器**、**缓存空对象**
+<font color="red">一些恶意的请求会故意查询不存在的key,请求量很大，就会对后端系统造成很大的压力。</font>
+
+常见解决方案：**Bitmap布隆过滤器**、**缓存空对象**
+
+### 3、缓存雪崩
+
+缓存雪崩是指，缓存层不能正常工作了（服务器重启期间、大量缓存集中在某个时间失效）。于是所有的请求都会达到存储层，存储层的调用量会暴增，造成存储层也会挂掉的情况。
+
+缓存雪崩的解决方案：**redis高可用(集群部署)**、**限流降级**、**数据预热**、**多级缓存**、**key有效期增加随机数**等
 
 
 
-#### **缓存雪崩**
+### 4、双写一致性问题
 
-缓存雪崩是指，缓存层出现了错误，不能正常工作了。于是所有的请求都会达到存储层，存储层的调用量会暴增，造成存储层也会挂掉的情况。
+一致性问题是分布式常见问题，还可以再分为最终一致性和强一致性。
 
-缓存雪崩的解决方案：**redis高可用(集群部署)**、**限流降级**、**数据预热**
+只要涉及到数据库和缓存双写，就必然会存在不一致的问题。如果我们的业务场景对数据有强一致性要求，那就不能放缓存。
+
+既然使用了缓存，我们所做的一切方案，就只能保证数据最终一致性。只能降低不一致发生的概率，无法完全避免。因此，有强一致性要求的数据，不能放缓存。
+
+那么如何尽最大可能保证双写的一致性呢？ 
+
+这里可以采取一些手段，比如：
+
+1）缓存延时双删
+
+2）删除缓存重试机制
+
+3）读取binlog异步删除缓存
+
+参考：[美团二面：Redis与MySQL双写一致性如何保证？ - 掘金 (juejin.cn)](https://juejin.cn/post/6964531365643550751)
+
+### 5、其它
+
+持续补充...
 
 
 
+##  十五、参考资料
 
-
-参考资料：
-
-- https://redis.io/topics/replication
-- https://redis.io/topics/sentinel
-- https://redis.io/topics/cluster-tutorial
-- https://redis.io/topics/cluster-spec
-- http://c.biancheng.net/redis/sorted-set.html
+- [Documentation | Redis](https://redis.io/docs/)
+- [Redis文档中心 -- Redis中国用户组（CRUG）](http://www.redis.cn/documentation.html)

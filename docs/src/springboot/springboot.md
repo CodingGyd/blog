@@ -1373,7 +1373,7 @@ public class TestController {
 ![访问结果](http://cdn.gydblog.com/images/springboot/springboot-mvc-1.png)
 
 
-### 2、整合junit
+### 2、整合Junit
 
 1）引入单元测试框架支持
 ```xml
@@ -1568,7 +1568,7 @@ public class JDBCDaoTest {
 }
 ```
 
-### 4、整合mybatis框架
+### 4、整合Mybatis框架
 
 1）引入mybatis依赖
 ```xml
@@ -1962,6 +1962,130 @@ public class WebSocketTestController {
 ![](http://cdn.gydblog.com/images/springboot/websocket-2.png)
 
 这样就实现了服务端推送数据到客户端的效果啦！ websocket是全双工的，客户端也可以往服务端推送，两者之间只需要建立一次链接即可！
+
+### 6、整合Redis
+
+**1）添加redis所需依赖**
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
+
+这里我们直接引入了spring-boot-starter-data-redis这个springBoot本身就已经提供好了的starter, 我们可以点击去看一下这个starter中包含了哪些依赖：
+
+```XML
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>2.7.14</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>2.7.14</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.lettuce</groupId>
+      <artifactId>lettuce-core</artifactId>
+      <version>6.1.10.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+```
+
+可以发现，里面包含了spring-data-redis和 lettuce-core两个核心包，这就是为什么说我们的spring-boot-starter-data-redis默认使用的就是lettuce这个客户端。
+
+如果我们想要使用jedis客户端怎么办呢？只需要排除lettuce这个依赖，再引入jedis的相关依赖就可以了，这里得亏springboot强大的自动配置功能。
+
+
+
+**2）添加redis配置**
+
+```
+# redis
+spring.redis.host=localhost
+spring.redis.port=6379
+spring.redis.password=
+spring.redis.database=0
+
+```
+
+如果是使用的集群模式部署redis，那么配置如下：
+
+```
+#spring.redis.cluster.nodes=10.255.144.115:7001,10.255.144.115:7002,10.255.144.115:7003
+#spring.redis.cluster.max-redirects=3
+```
+
+
+
+如果我们想要给我们的redis客户端（lettuce）配置上连接池，可以增加如下配置：
+
+```
+spring.redis.lettuce.pool.max-idle=16
+spring.redis.lettuce.pool.max-active=32
+spring.redis.lettuce.pool.min-idle=8
+
+#如果使用的是jedis,就把lettuce换成jedis（同时要注意依赖也是要换的）。
+#spring.redis.jedis.pool.max-idle=16
+#spring.redis.jedis.pool.max-active=32
+#spring.redis.jedis.pool.min-idle=8
+```
+
+上面增加了连接池的配置，还需要引入一个连接池依赖，才会生效，pom依赖如下：
+
+```
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-pool2</artifactId>
+</dependency>
+```
+
+
+
+**3）使用redis进行读写**
+
+使用spring-data-redis中为我们提供的 RedisTemplate 这个类，就可以操作redis读写缓存了
+
+```java
+package com.gyd.contoller;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/redis")
+public class RedisController {
+
+    private final RedisTemplate redisTemplate;
+
+    public RedisController(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @GetMapping("/save")
+    public String save(String key, String value){
+        redisTemplate.opsForValue().set(key, value);
+        return "success";
+    }
+
+    @GetMapping("/get")
+    public String get(String key){
+        Object value = redisTemplate.opsForValue().get(key);
+        return null != value ? (String) value :null;
+    }
+}
+```
+
+上面代码简单演示了使用set和get命令和redis服务端进行交互，实际业务中可能涉及到其它的命令，一般是将RedisTemplate封装为工具类，然后提供给业务类进行调用。
 
 
 
