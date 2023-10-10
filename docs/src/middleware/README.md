@@ -13,3 +13,4 @@ head:
 
 * [nginx知识详解](./nginx.md)
 * [分布式任务框架elasticjob](./elasticjob.md)
+* [Redis知识点详解](./redis.md)

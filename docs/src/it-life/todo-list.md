@@ -1,11 +1,20 @@
 ---
 # icon: lock
 article: false
+star: true
 ---
 
-# 待办任务
-- 持续丰富文章内容  doing
-- java接口如何高并发的支持对同一条数据的修改
-- mybatis-plus 正则表达式https://blog.csdn.net/huqianlei/article/details/128038348
-- seo优化、百度收录  百度资源平台
-- 推广广告 https://www.qianguyihao.com/post/2021-06-30-Google-adSense/#%E5%89%8D%E8%A8%80
+# 每日必看
+
+## 黄牛任务
+- i茅台申购 每天9点
+- 京东茅台旗舰店每天10点预约，12点抢购
+- 葫芦娃平台预约
+
+## 写作任务
+- 掘金社区签到
+- 持续学习一个技术点并撰写文章发布到自媒体平台(今日头条、知乎、掘金社区、csdn、51CTO等)
+- 个人博客更新
+
+## 待办任务
+

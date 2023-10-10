@@ -37,12 +37,12 @@ export const enSidebar = sidebar({
       text: 'IT人生',
       link: '/it-life/',
       children: [   
-        { text: "优秀码农都应该具备的开发好习惯", link: "better-coder" },
+        { text: "开发好习惯", link: "better-coder" },
         { text: "程序员的中年危机",  link: "fuye" },
         { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
         { text: "通用的现代写作技能，你学会了吗？",  link: "markdown" },
         { text: "生命不熄,学习不止！",  link: "learn" },
-        { text: "待办任务",  link: "todo-list" },
+        { text: "每日必看！！！",  link: "todo-list" },
 
       ],
       

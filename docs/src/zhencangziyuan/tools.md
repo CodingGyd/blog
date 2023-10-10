@@ -8,6 +8,7 @@ category:
 ## 1、离线工具
 - jar包反编译工具 [jd-gui](https://github.com/java-decompiler/jd-gui/releases)  
 - 桌面录屏截图工具  [faststonecapture](https://www.faststonecapture.cn/download)    百度搜索有破解版哦~
+- 桌面录屏截图工具(可钉图到桌面)  [snipaste](https://zh.snipaste.com/)     
 
 
 ## 2、IntelliJ IDEA
@@ -64,3 +65,5 @@ https://www.jetbrains.com/idea/download/?var=1&section=windows
 
 ## 3、Navicate破解
 https://www.cnblogs.com/cdaniu/p/17300147.html
+
+## 4、截图工具

@@ -11,6 +11,11 @@ category:
 
 [程序员一站式导航|程序员的天堂](http://www.cxy521.com/)<br/>
 
+**在线工具**
+[REDIS命令在线练习工具](https://try.redis.io/)<br/>
+[JSON在线解析](https://www.sojson.com/)<br/>
+[Hutool|Java工具集](https://hutool.cn/)<br/>
+
 **官方文档**
 [Java学习|官方权威手册](https://docs.oracle.com/javase/tutorial/java/index.html)<br/>
 [Java API文档|官方权威手册](https://www.oracle.com/cn/java/technologies/java-se-api-doc.html)<br/>
@@ -27,7 +32,8 @@ category:
 [51CTO|专注IT技术领域，打造中国领先的IT技术网络平台](https://www.51cto.com/)<br/>
 [开源中国|开源软件](https://www.oschina.net/)<br/>
 [博客园](https://www.cnblogs.com/)<br/>
- 
+[掘金社区](https://juejin.cn/user/3104676565223671)<br/>
+
 
 
 ## 二、写作
@@ -39,9 +45,6 @@ category:
 [Iconify|vuepress支持的图标网站](https://icon-sets.iconify.design/)<br/>
 [Iconfont|vuepress支持的图标网站](https://www.iconfont.cn/)<br/>
 [Fontawesome|vuepress支持的图标网站](https://fontawesome.com/icons/)<br/>
-
-[JSON在线解析](https://www.sojson.com/)<br/>
-[Hutool|Java工具集](https://hutool.cn/)<br/>
 [Processon|在线画图](https://www.processon.com/)<br/>
 [diagram|在线画图](https://app.diagrams.net/)<br/>
 [icon|免费图标素材下载](https://iconmonstr.com/)<br/>

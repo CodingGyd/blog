@@ -5,7 +5,7 @@ category:
 
 ---
 
-# 优秀码农都应该有的开发好习惯
+# 开发好习惯
 
 1.项目目录结构要划分明确
 目前主流的项目都遵循MVC模式，很多人都习惯将目录直接划分为Controller、Service、Mapper、Modal等。
