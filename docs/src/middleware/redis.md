@@ -1,6 +1,4 @@
 ---
-
-
 title: Redis知识点详解
 shortTitle: Redis知识点详解
 date: 2023-09-21
@@ -15,7 +13,6 @@ head:
 
 # Redis知识点详解
 
-[TOC]
 
 ## 一、前言
 

@@ -190,7 +190,7 @@ export const enSidebar = sidebar({
           text: "3.3 微服务中间件",
           collapsible: true,
           children: [
-          "message",
+          "kafka",
           "elasticjob",
           "nginx",
           "redis",

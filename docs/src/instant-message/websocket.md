@@ -171,7 +171,7 @@ Web 浏览器和服务器都必须实现 WebSockets 协议来建立和维护连�
 
 
 
-### 2、WebSocket 服务端
+### 2、WebSocket 服务端（单机版）
 
 #### 1）概述
 
@@ -257,84 +257,92 @@ spring.thymeleaf.suffix=.html
   > 因为WebSocket是类似客户端服务端的形式(`采用ws协议`)，那么这里的WebSocketServer其实就相当于一个ws协议的Controller
   >
   > 直接@ServerEndpoint("/websocket") 、@Component启用即可，然后在里面实现@OnOpen开启连接，@onClose关闭连接，@onMessage接收消息等事件方法。
-
-```java
-@Configuration
-public class WebSocketConfig {
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
-}
-package com.gyd.websocket;
-
-import org.springframework.stereotype.Component;
-
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.ServerEndpoint;
-import java.util.concurrent.CopyOnWriteArraySet;
-
-@Component
-//这个注解用来标记一个类是 WebSocket 的处理器。然后，我们可以在这个类的方法签名上使用一系列注解来表明所修饰的方法是某种事件类型的回调
-@ServerEndpoint("/websocket")
-public class WebSocketService {
-    private Session session;
-
-    //保存连接
-    private static CopyOnWriteArraySet<WebSocketService> webSocketService = new CopyOnWriteArraySet<>();
-
-    /**
-     * 建立连接
-     * @param session
-     */
-    @OnOpen
-    public void opOpen(Session session) {
-        this.session = session;
-        webSocketService.add(this);
-        System.out.println("有新的连接=============》" + webSocketService.size());
-    }
-
-    /**
-     * 断开连接
-     */
-    @OnClose
-    public void onClose() {
-        webSocketService.remove(this);
-        System.out.println("断开连接=============》" + webSocketService.size());
-    }
-
-    /**
-     * 接收客户端消息
-     * @param message
-     */
-    @OnMessage
-    public void onMessage(String message) {
-        System.out.println("收到客户端消息" + message);
-    }
-
-    /**
-     * 发送消息到客户端
-     * @param message
-     */
-    public void sendMessage(String message) {
-        for (WebSocketService webSocketService2 : webSocketService) {
-            System.out.println("广播消息" + message);
-            webSocketService2.session.getAsyncRemote().sendText(message);
-        }
-    }
-     /**
-     * 传输消息错误触发事件
-     * @param error
-     */
-    @OnError
-    public void onError(Throwable error) {
-
-    }
-}
-```
+  
+  
+  
+  ```java
+  @Configuration
+  public class WebSocketConfig {
+      @Bean
+      public ServerEndpointExporter serverEndpointExporter() {
+          return new ServerEndpointExporter();
+      }
+  }
+  ```
+  
+  ```java
+  
+  package com.gyd.websocket;
+  
+  import org.springframework.stereotype.Component;
+  
+  import javax.websocket.OnClose;
+  import javax.websocket.OnMessage;
+  import javax.websocket.OnOpen;
+  import javax.websocket.Session;
+  import javax.websocket.server.ServerEndpoint;
+  import java.util.concurrent.CopyOnWriteArraySet;
+  
+  @Component
+  //这个注解用来标记一个类是 WebSocket 的处理器。然后，我们可以在这个类的方法签名上使用一系列注解来表明所修饰的方法是某种事件类型的回调
+  @ServerEndpoint("/websocket")
+  public class WebSocketService {
+      private Session session;
+  
+      //保存连接
+      private static CopyOnWriteArraySet<WebSocketService> webSocketService = new CopyOnWriteArraySet<>();
+  
+      /**
+       * 建立连接
+       * @param session
+       */
+      @OnOpen
+      public void opOpen(Session session) {
+          this.session = session;
+          webSocketService.add(this);
+          System.out.println("有新的连接=============》" + webSocketService.size());
+      }
+  
+      /**
+       * 断开连接
+       */
+      @OnClose
+      public void onClose() {
+          webSocketService.remove(this);
+          System.out.println("断开连接=============》" + webSocketService.size());
+      }
+  
+      /**
+       * 接收客户端消息
+       * @param message
+       */
+      @OnMessage
+      public void onMessage(String message) {
+          System.out.println("收到客户端消息" + message);
+      }
+  
+      /**
+       * 发送消息到客户端
+       * @param message
+       */
+      public void sendMessage(String message) {
+          for (WebSocketService webSocketService2 : webSocketService) {
+              System.out.println("广播消息" + message);
+              webSocketService2.session.getAsyncRemote().sendText(message);
+          }
+      }
+       /**
+       * 传输消息错误触发事件
+       * @param error
+       */
+      @OnError
+      public void onError(Throwable error) {
+  
+      }
+  }
+  ```
+  
+  
 
 - d、创建接口
 
@@ -468,7 +476,182 @@ public class WebSocketTestController {
 
 @OnError：当WebSocket建立连接时出现异常会触发这个注解修饰的方法。 
 
+### 3、WebSocket 服务端（分布式版）
 
+前面介绍的例子，在单机环境下没有问题，如果是多节点部署的话需要解决一个问题：如何解决多台客户端连接在不同服务器，互相发送消息问题！ 比如部署了两台服务器分别是AA和BB，此时客户端A 连接了服务器AA，但是业务处理是发生在服务器BB上，那么服务器BB就通知不到客户端A了！
+
+针对上述多节点部署问题，我们可以借助redis的发布订阅功能来解决，下面用代码示例如何实现。
+
+#### 1）添加redis配置
+
+```properties
+spring.redis.host=XXX.XXXX.XXX.XXX
+spring.redis.port=6479
+spring.redis.password=123456
+spring.redis.database=0
+spring.redis.lettuce.pool.max-idle=6
+spring.redis.lettuce.pool.max-active=10
+spring.redis.lettuce.pool.min-idle=2
+```
+
+
+
+#### 2）redis消息监听类定义
+
+```java
+package com.gyd.websocket;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.Message;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+/**
+ * @ClassName MessageListener
+ * @Description TODO
+ * @Author guoyading
+ * @Date 2023/10/11 11:03
+ * @Version 1.0
+ */
+@Component
+public class MessageListener implements org.springframework.data.redis.connection.MessageListener {
+
+    @Resource
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private WebSocketService webSocketService;
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        RedisSerializer<String> valueSerializer = redisTemplate.getValueSerializer();
+        String value = valueSerializer.deserialize(message.getBody());
+        if (null != value && value.length() > 0) {
+            System.out.println("监听集群websocket消息--"+value);
+            webSocketService.sendMessage(value);
+         }
+    }
+}
+```
+
+
+
+#### 3）redis消息订阅配置类
+
+```java
+package com.gyd.config;
+
+import com.gyd.websocket.MessageListener;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+
+/**
+ * @Description redis消息订阅配置类
+ */
+@Configuration
+public class RedisSubscriberConfig {
+
+    /**
+     * 消息监听适配器，注入接受消息方法
+     *
+     * @param receiver
+     * @return
+     */
+    @Bean
+    public MessageListenerAdapter messageListenerAdapter(MessageListener receiver) {
+        MessageListenerAdapter adapter = new MessageListenerAdapter(receiver);
+        return adapter;
+    }
+    /**
+     * 创建消息监听容器
+     *
+     * @param redisConnectionFactory
+     * @param messageListenerAdapter
+     * @return
+     */
+    @Bean
+    public RedisMessageListenerContainer getRedisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory, MessageListenerAdapter messageListenerAdapter) {
+        RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
+        redisMessageListenerContainer.setConnectionFactory(redisConnectionFactory);
+        redisMessageListenerContainer.addMessageListener(messageListenerAdapter, new PatternTopic("websocket"));
+        return redisMessageListenerContainer;
+    }
+}
+```
+
+
+
+#### 4）封装redis操作工具类
+
+```java
+package com.gyd.util;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+/**
+ * @ClassName RedisUtil
+ * @Description TODO
+ * @Author guoyading
+ * @Date 2023/10/11 10:47
+ * @Version 1.0
+ */
+@Component
+public class RedisUtil {
+
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
+    /**
+     * 发布
+     *
+     * @param key
+     */
+    public void publish(String key, String value) {
+        redisTemplate.convertAndSend(key, value);
+    }
+}
+```
+
+
+
+#### 5）测试接口定义
+
+```java
+
+@Controller
+@RequestMapping("/show/")
+public class WebSocketTestController {
+ 
+    @Autowired
+    private RedisUtil redisUtil;
+
+    /**
+     * 模拟创建订单，通过redis的发布订阅  发送消息到客户端
+     *
+     * @return
+     */
+    @RequestMapping("/createOrderAsync")
+    public @ResponseBody String createOrderAsync() {
+        redisUtil.publish("websocket","订阅：你有新的订单，请及时处理========>" + UUID.randomUUID());
+        return "新增订单成功!";
+    }
+}
+```
+
+
+
+#### 6）验证
+
+先启动应用，然后在浏览器输入127.0.0.1:8082/show/topic 打开topic.html页面，然后调用127.0.0.1:8082/show/createOrderAsync 模拟数据创建，页面就能收到订阅的推送数据
+
+![](http://cdn.gydblog.com/images/springboot/websocket-redis.png)
 
 ## 五、结束语
 
