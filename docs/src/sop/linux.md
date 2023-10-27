@@ -129,7 +129,83 @@ esac
 
 ```
 
+
+
+## 
+
+## 程序在后台运行且不关闭
+
+一般来说，nohup 和 & 都是结合起来使用的。表示程序后台运行，不占用当前终端，而且终端关闭后，程序还能继续运行。
+
+- 想要**启动rabbitmq**在后台一直运行：
+
+```powershell
+nohup ./rabbitmq-server start &
+```
+
+  但是报了个错： nohup: ignoring input and appending output to ‘nohup.out’
+
+  这个错误可以忽略，程序已经在后台运行了！
+
+
+
+- 启动Zookeeper在后台一直运行：
+
+ ```powershell
+ nohup ./zkServer.sh start &
+ ```
+
+- 启动Kafka在后台一直运行
+
+```powershell
+nohup bin/kafka-server-start.sh config/server.properties &
+```
+
+​    kafka会自动挂掉问题解决，加上daemon：
+
+```powershell
+ nohup bin/kafka-server-start.sh -daemon ./config/server.properties &
+```
+
+
+
+## 查看内存和CPU占用排名前10相关
+
+- 查看内存占比占用最多前十排名
+
+```powershell
+[root@xxx ~]# ps auxw|head -1;ps -auxf|sort -nr -k4|head -10
+```
+
+- 查看CPU占比占用最多前十排名
+
+```powershell
+[root@xxx ~]# ps auxw|head -1;ps -auxf|sort -nr -k3|head -10
+```
+
+- 查看内存VSZ占用最多前十排名
+
+```powershell
+[root@xxx ~]# ps auxw|head -1;ps -auxf|sort -nr -k5|head -10
+```
+
+- 查看内存RSS占用最多前十排名
+
+```powershell
+[root@xxx ~]# ps auxw|head -1;ps -auxf|sort -nr -k6|head -10
+```
+
+
+
+**ps auxw|head -1;** 语句解释：设置表格表头。
+
+**特别字段解释：**
+VSZ:：表示进程分配的虚拟内存，包括进程可以访问的所有内存，包括进入交换分区的内容，以及共享库占用的内存。
+RSS： 是常驻内存集（Resident Set Size），表示该进程分配的内存大小，RSS 包括所有分配的栈内存和堆内存。
+-k：后面跟数字，表示对第几列排序。
+
 ## ssh连接远程服务器
+
 语法格式：ssh 用户名@IP地址 -p 端口号
 
 示例：

@@ -88,6 +88,16 @@ star: true
    - https://maotai.pro:2023/index  guoyading
    - https://blog.csdn.net/weixin_47481826/article/details/128893239
 
+### 3、软件创意
+
+- 工具产品：全网智能自动签到系统
+
+  [躺赚，每天自动签到30多个应用，你也可以-CSDN博客](https://blog.csdn.net/somenzz/article/details/115683497)
+
+- 数据分析产品：家庭元素数字化平台
+
+  
+
 ## 三、体力型
 
 ### 1、外卖配送

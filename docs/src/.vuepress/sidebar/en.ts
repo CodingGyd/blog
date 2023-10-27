@@ -191,6 +191,8 @@ export const enSidebar = sidebar({
           collapsible: true,
           children: [
           "kafka",
+          "kafka-config",
+          "kafka-operations",
           "elasticjob",
           "nginx",
           "redis",

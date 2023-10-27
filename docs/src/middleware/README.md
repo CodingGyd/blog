@@ -12,5 +12,8 @@ head:
 
 
 * [nginx知识详解](./nginx.md)
-* [分布式任务框架elasticjob](./elasticjob.md)
+* [初识分布式任务elasticjob](./elasticjob.md)
 * [Redis知识点详解](./redis.md)
+* [Kafka知识点详解](./kafka.md)
+* [Kafka知识点详解-配置说明](./kafka-config.md)
+* [Kafka知识点详解-常用操作](./kafka-operations.md)

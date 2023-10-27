@@ -653,6 +653,48 @@ public class WebSocketTestController {
 
 ![](http://cdn.gydblog.com/images/springboot/websocket-redis.png)
 
+### 4、如何携带参数?
+
+- 方式1
+
+```
+@ServerEndpoint("/websocket/{param}")
+```
+
+- 方式2
+
+```
+ws:localhost:8080/websocket/123?username=gyd&token=xxx";
+```
+
+
+
+java代码获取参数：
+
+> 连接建立时获取传参
+
+```
+@OnOpen
+public void open(Session session, @PathParam("param")String  param) {
+    //通过注解@PathParam获取参数
+    System.out.println("注解参数: "+param);
+    //通过URL获取
+    Map<String, String> map = session.getPathParameters();
+    System.out.println("getParameter:token="+map.get("token").toString());
+    System.out.println("getParameter:token="+map.get("username").toString());
+    String username = session.getQueryString();
+    System.out.println("session.getQueryString()="+username);
+    String uri = session.getRequestURI().toString();
+    System.out.println("session.getRequestURI().toString()="+uri);
+}
+```
+
+
+
+
+
+
+
 ## 五、结束语
 
 >  学不完，根本学不完

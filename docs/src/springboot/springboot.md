@@ -2089,6 +2089,233 @@ public class RedisController {
 
 
 
+### 7、整合Kafka
+
+> 默认已经部署好了Kafka环境，关于环境部署可以参考[Kafka基本概念入门](../middleware/kafka.md)
+
+**1）添加kafka所需依赖**
+
+```xml
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.apache.kafka</groupId>
+    <artifactId>kafka-clients</artifactId>
+</dependency>
+```
+
+
+
+**2）新增配置项**
+
+```properties
+# kafka
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.consumer.group-id=my-group
+spring.kafka.consumer.auto-offset-reset=earliest
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+```
+
+
+
+**3）创建生产者**
+
+首先，我们将创建一个 `KafkaProducerConfig` 类，用于配置 Kafka 生产者：
+
+```java
+package com.gyd.config;
+
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @ClassName KafkaProducerConfig
+ * @Description kafka生产者配置
+ * @Author guoyading
+ * @Date 2023/10/26 14:34
+ * @Version 1.0
+ */
+@Configuration
+public class KafkaProducerConfig {
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
+
+    @Bean
+    public Map<String, Object> producerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return props;
+    }
+
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+
+}
+```
+
+
+
+然后，我们使用 `kafkaTemplate.send` 方法发送消息到 `my-topic` 主题。
+
+```java
+package com.gyd.contoller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @ClassName KafkaController
+ * @Description 生产消息测试接口
+ * @Author guoyading
+ * @Date 2023/10/26 14:35
+ * @Version 1.0
+ */
+@RestController
+public class KafkaController {
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @PostMapping("/send")
+    public void sendMessage(@RequestBody String message) {
+        kafkaTemplate.send("my-topic", message);
+    }
+
+}
+```
+
+
+
+**4）创建消费者**
+
+首先，我们将创建一个 `KafkaConsumerConfig` 类，用于配置 Kafka 消费者：
+
+```java
+package com.gyd.config;
+
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @ClassName KafkaConsumerConfig
+ * @Description kafka消费者配置
+ * @Author guoyading
+ * @Date 2023/10/26 14:36
+ * @Version 1.0
+ */
+@Configuration
+@EnableKafka
+public class KafkaConsumerConfig {
+
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
+
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
+    @Bean
+    public Map<String, Object> consumerConfigs() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        return props;
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+}
+```
+
+
+
+然后，我们将创建一个 Kafka 消费者类 `KafkaConsumer`，用于监听 `my-topic` 主题并接收消息：
+
+```java
+package com.gyd.listener;
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Service;
+
+/**
+ * @ClassName KafkaConsumer
+ * @Description kafka消费者
+ * @Author guoyading
+ * @Date 2023/10/26 14:37
+ * @Version 1.0
+ */
+@Service
+public class KafkaConsumer {
+
+    @KafkaListener(topics = "my-topic", groupId = "my-group-id")
+    public void consume(String message) {
+        System.out.println("Received message: " + message);
+    }
+}
+```
+
+
+
+**5）验证**
+
+请求http://localhost:8082/send，   生产一个消息。
+
+![生产消息](http://cdn.gydblog.com/images/middleware/springboot-kafka-1.png)
+
+查看控制台，消费者消费到了对应的消息：
+
+![消费消息](http://cdn.gydblog.com/images/middleware/springboot-kafka-2.png)
+
+一个简单的kafka接入demo就完成了。
+
+
+
 ## 八、基础知识-打包、部署和运行
 
 Spring Boot使用了内嵌容器，因此它的部署方式也变得非常简单灵活，一方面可以将Spring Boot项目打包成独立的jar或者war包来运行，也可以单独打包成war包部署到Tomcat容器中运行。
