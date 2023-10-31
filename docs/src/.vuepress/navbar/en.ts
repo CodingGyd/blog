@@ -23,7 +23,9 @@ export const enNavbar = navbar([
     prefix: "/interview/",
     children: [
       { text: "JAVA面试", link: "interview-java" },
-      { text: "77道Spring面试题以及参考答案(转载)", link: "interview-spring" }
+      { text: "77道Spring面试题以及参考答案(转载)", link: "interview-spring" },
+      { text: "Redis经典面试题", link: "interview-redis" }
+
     ],
   },
   

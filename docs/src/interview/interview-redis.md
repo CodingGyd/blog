@@ -11,6 +11,7 @@ head:
       content: Redis,非关系型数据库,缓存,NoSQL,分布式缓存,集群,哨兵
 ---
 
+
 # Redis 
 
 ## 一、前言
@@ -370,8 +371,8 @@ Redis实现分布式锁有多种方案：
 
 ## 四、更多面试题
 
-前面列出的面试题是小郭目前能侃侃而谈的知识点，还远远不够。
+前面列出的面试题是小郭目前熟知的知识，还比较少。
 
-下面这个链接里是某位大佬整理的非常全的Redis面试题，小郭已经收藏正在慢慢看了，强烈推荐大家也可以收藏一下。
+下面这个链接里是是某位大佬整理的非常全的面试题，小郭已经收藏慢慢看了，推荐大家也可以收藏一下。
 
 推荐大佬的面试宝库：[JavaFamily/docs/all/缓存/redis at master · AobingJava/JavaFamily (github.com)](https://github.com/AobingJava/JavaFamily/tree/master/docs/all/缓存/redis)
