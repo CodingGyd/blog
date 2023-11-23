@@ -1,6 +1,6 @@
 ---
-title: Spring Boot系列笔记-Spring Boot的迭代史
-shortTitle: Spring Boot的迭代史
+title: SpringBoot系列笔记-SpringBoot的迭代史
+shortTitle: SpringBoot的迭代史
 date: 2023-08-23
 category:
   - JAVA企业级开发
@@ -12,7 +12,7 @@ head:
       content: JAVA企业级开发,Spring Boot笔记,Spring Boot2,Spring Boot总结,Spring Boot的迭代史
 ---
 
-# Spring Boot的迭代史
+# SpringBoot的迭代史
 
 ![](http://cdn.gydblog.com/images/sucai/sc-1.jpg)
 

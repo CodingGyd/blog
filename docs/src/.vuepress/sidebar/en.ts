@@ -183,8 +183,7 @@ export const enSidebar = sidebar({
           collapsible: true,
           children: [
           "springboot",
-          "springboot-version-list",
-
+          "springboot-version-list"
           ],
         },
         {

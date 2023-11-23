@@ -326,17 +326,42 @@ make[1]: Leaving directory `/home/guoyd/redis-stable/src'
 [root@iZbp128dczen7roibd3xciZ redis-stable]# 
 ```
 
+`make install`执行完成后，redis就被安装到了默认目录usr/local/bin中，该目录中有如下文件：
+
+```
+[root@iZbp128dczen7roibd3xciZ bin]# ls
+redis-benchmark  redis-check-aof  redis-check-rdb  redis-cli  redis-sentinel  redis-server
+```
+
+**redis-benchmark**：性能测试工具，可以在自己电脑上运行，看看自己电脑性能情况。
+
+**redis-check-aof**：修复有问题的AOF文件。
+
+**redis-check-rdb**：修复有问题的RDB文件。
+
+**redis-cli**：Redis客户端操作入口（常用）
+
+**redis-sentinel**：Redis哨兵集群使用。
+
+**redis-server**：Redis服务器启动命令入口 （常用）
+
+
+
 #### 4）启动服务端
 
-redis安装好了，我们可以在任意目录下执行`redis-server`命令启动服务端:
+redis安装好了，我们可以在任意目录下执行`redis-server`命令启动服务端，启动方式有两种：`前台启动`、`后台启动`，它们的区别如下：
+
+**前台启动（不推荐）**：启动命令行窗口不能被关闭，否则Redis服务进程将被停止。
+
+**后台启动（推荐）**：启动命令执行后，命令执行窗口可以关闭，Redis服务进程正常运行。
+
+下面演示启动Redis服务，用的是`前台启动`方式。
 
 > 因为redis-server已经被配置到了环境变量中，所以可以在任意目录执行
 
 ```
 [root@xxx ~]# redis-server  
 ```
-
-![启动日志](http://cdn.gydblog.com/images/middleware/redis-install-6.png)
 
 上面演示的是使用默认配置启动redis服务，如果我们想自定义配置，可以使用如下方式：
 
@@ -345,6 +370,8 @@ redis-server /xxx/xxx/redis.conf
 ```
 
 redis.conf是redis的核心配置文件，我们可以按需进行配置修改。 
+
+比如如果你想使用`后台启动`方式，修改redis.conf中的配置项`daemonize`为yes，然后重新执行启动命令即可。
 
 在源码redis-stable的根目录中也提供了配置文件的模板redis.conf， 小郭会在本文后续章节中对这个配置文件做详细说明。
 
@@ -620,6 +647,8 @@ Redis Cluster（分片集群）是Redis提供的分布式高可扩展解决方�
 ### 7、其它模块
 
 还有一些其他模块，例如：数据压缩、过期机制、数据淘汰策略、主从复制、集群化、高可用等功能，另外还可以增加统计模块、通知模块、调试模块、元数据查询等辅助功能。
+
+
 
 ## 六、基础知识-请求执行流程
 
