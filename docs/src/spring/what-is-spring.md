@@ -23,7 +23,6 @@ Spring Framework 6.1.x: JDK 17-23
 Spring Framework 6.0.x: JDK 17-21
 Spring Framework 5.3.x: JDK 8-21 (as of 5.3.26)
 ```
-小郭在这里使用最新的Spring Framework6来进行学习总结，但由于小郭本地只安装了JDK8环境，部分Spring6新特性会选择忽略。  
 
 ## 二、Spring是什么？
 
@@ -90,11 +89,11 @@ Spring框架非常强调有意义的、最新的和准确的javadoc。它是为�
 ![spring程序在线生成](http://cdn.gydblog.com/images/spring/spring-1.png)
 
 如上图所示，主要填写以下几个元素：
-- 1）JAVA作为编程语言(Spring也支持别的语言如Kotlin、Groovy)
-- 2）选择MAVEN作为项目管理工具
-- 3）使用SpringBoot作为脚手架
-- 4）打包方式选择jar，项目基本描述信息填写完整(Group、Artifact、Name、Description、Package Name)
-- 5）Java语言选择jdk8
+- JAVA作为编程语言(Spring也支持别的语言如Kotlin、Groovy)
+- 选择MAVEN作为项目管理工具
+- 使用SpringBoot作为脚手架
+- 打包方式选择jar，项目基本描述信息填写完整(Group、Artifact、Name、Description、Package Name)
+- Java语言选择jdk8
 
 相关要素填写完毕后，点击按钮[GENERATE]，即可生成一个源码工程！
 
