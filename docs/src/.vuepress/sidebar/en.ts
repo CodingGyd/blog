@@ -263,6 +263,15 @@ export const enSidebar = sidebar({
           // "ide",
           // "xshell",
           ],
+        },
+        {
+          prefix: "security/",
+          text: "3.10 安全相关",
+          collapsible: true,
+          children: [
+          "data-security",
+          "api-security"
+          ],
         }
       ],
    

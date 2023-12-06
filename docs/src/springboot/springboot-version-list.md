@@ -25,8 +25,6 @@ head:
 
 **系统环境要求：**
 
-![](http://cdn.gydblog.com/images/sucai/sc-3.jpg)
-
 <table>
 	<tbody>
 		<tr>
