@@ -1,6 +1,9 @@
 import { hopeTheme, readingTime } from "vuepress-theme-hope";
 import { enNavbar, zhNavbar } from "./navbar/index.js";
 import { enSidebar, zhSidebar } from "./sidebar/index.js";
+
+import  VPCard from "vuepress-plugin-components" 
+
 export default hopeTheme({
   hostname: "http://www.gydblog.com/",
   //网站左上角logo
@@ -67,7 +70,8 @@ export default hopeTheme({
           Zhihu: "https://www.zhihu.com/people/guoyading",
           Baidu: "https://blog.csdn.net/u011208987",//没有对应csdn的图标
           // Weibo: "https://blog.sina.com.cn/u/3373065440",
-          
+          Email: "mailto:964781872@qq.com",
+
         },
       },
 
@@ -147,7 +151,6 @@ export default hopeTheme({
       // 你想使用的组件
       components: [
         "ArtPlayer",
-        "AudioPlayer",
         "Badge",
         "BiliBili",
         "CodePen",
@@ -157,16 +160,15 @@ export default hopeTheme({
         "SiteInfo",
         "StackBlitz",
         // "VidStack",
-        "VideoPlayer",
         "XiGua",
-        "YouTube",
+        "VPCard"
       ],
     },
     mdEnhance:{
       // 启用自定义容器
-      container: true,
-      // 开启卡片支持
-      card: true,
+      hint: true,
+      // // 开启卡片支持
+      // card: true,
       mark: true,
        //自动对齐
        align: true,

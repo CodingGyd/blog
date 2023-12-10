@@ -1,9 +1,3 @@
----
-# icon: lock
-date: 2018-01-05
-article: false
----
-
 # Zookeeper入门
 
 > 小郭写文章的目的是总结复盘学过的知识点，方便以后查阅。
@@ -22,9 +16,9 @@ article: false
 
 ## 二、zookeeper简介
 
-Apache ZooKeeper 是 Apache 软件基金会旗下的开源项目，是用于分布式应用程序的分布式开源协调服务。它公开了一组简单的构件，分布式应用程序可以在这些构件的基础上进行构建，以实现更高级别的同步、配置维护以及组和命名服务。它被设计为易于编程，并使用以熟悉的文件系统目录树结构为基础的数据模型。它在 Java环境 中运行。
+Apache ZooKeeper 是 Apache 软件基金会旗下的开源项目，是用于分布式应用程序的分布式开源协调服务。它被设计为易于编程，并使用以熟悉的文件系统目录树结构为基础的数据模型。它在 Java环境 中运行。
 
-**ZooKeeper 的设计：** ZooKeeper 允许分布式进程通过共享的分层命名空间相互协调，该命名空间的组织方式类似于标准文件系统，命名空间由文件和目录组成，在 ZooKeeper 术语中称为` znodes`。与专为存储而设计的传统文件系统不同，ZooKeeper 数据保存在内存中，这意味着 ZooKeeper 可以实现高吞吐量和低延迟。ZooKeeper 的设计非常重视高性能、高可靠性、严格有序的访问。ZooKeeper 的性能优秀，因此它完全可以用于大型分布式系统. 可靠性方面使其不会成为单点故障。严格有序的访问意味着可以在客户端实现复杂的同步原语。
+**ZooKeeper 的设计：** ZooKeeper 允许分布式进程通过共享的分层命名空间相互协调，该命名空间的结构类似于标准文件系统，命名空间由文件和目录组成，而这些组成单元在 ZooKeeper 术语中统称为` znodes`。与专为存储而设计的传统文件系统不同，ZooKeeper 数据保存在内存中，这意味着 ZooKeeper 可以实现高吞吐量和低延迟。ZooKeeper 的设计非常重视高性能、高可靠性、严格有序的访问。ZooKeeper 的性能优秀，因此它完全可以用于大型分布式系统. 可靠性方面使其不会成为单点故障。严格有序的访问意味着可以在客户端实现复杂的同步原语。
 
 下面针对zookeeper的一些特性展开简介。
 
@@ -40,7 +34,7 @@ Apache ZooKeeper 是 Apache 软件基金会旗下的开源项目，是用于分�
 
 ### 3、高性能
 
-Zookeeper的速度非常快。ZooKeeper 应用程序在数千台机器上运行，尤其是在读多写少的情况下，它的性能最佳，比率约为 10：1。
+**Zookeeper的速度非常快。**ZooKeeper 应用程序在数千台机器上运行，尤其是在读多写少的情况下，它的性能最佳，比率约为 10：1。
 
 <font color="red">雅虎研究院的 ZooKeeper 开发团队的测试结果表明，Zookeeper的性能确实强悍。</font>
 
@@ -61,7 +55,7 @@ Zookeeper的速度非常快。ZooKeeper 应用程序在数千台机器上运行�
 
 ### 4、高可靠
 
-就像它协调的分布式应用程序一样，ZooKeeper 的部署本身也是多节点的，其中有且仅有一个leader节点，组成 ZooKeeper 集群的服务器之间相互保持了解，并且它们在持久性存储中维护状态的内存映像，以及事务日志和快照信息。
+就像它协调的分布式应用程序一样，ZooKeeper 的部署本身也是多节点的，其中有且仅有一个Leader节点，组成 ZooKeeper 集群的服务器之间相互保持了解，并且它们在持久性存储中维护状态的内存映像，以及事务日志和快照信息。
 
 通常情况下，只要大多数服务器可用，ZooKeeper 服务对外就是可用的。ZooKeeper 集群中，建议部署奇数个 ZooKeeper节点（或进程） —— 大多数情况下，3个节点就足够了。节点个数并不是越多越好 —— 节点越多，节点间通信所需的时间就会越久，选举 Leader 时需要的时间也会越久。
 
@@ -75,7 +69,7 @@ Zookeeper的速度非常快。ZooKeeper 应用程序在数千台机器上运行�
 
 ![](http://cdn.gydblog.com/images/middleware/zk-5.jpg)
 
-从上面的图中可以看出一些重要的观察结果。首先，如果`followers`失败并迅速恢复，那么即使发生故障，ZooKeeper 也能够维持高吞吐量。但也许更重要的是，领导者选举算法允许系统恢复得足够快，以防止吞吐量大幅下降。根据我们的观察，ZooKeeper 只需不到 200 毫秒即可选出新的`leader `。第三，随着followers的恢复，一旦他们开始处理请求，ZooKeeper 就能够再次提高吞吐量。
+从上面的图中可以看出一些重要的观察结果。首先，如果`followers`失败并迅速恢复，那么即使发生故障，ZooKeeper 也能够维持高吞吐量。但也许更重要的是，领导者选举算法允许系统恢复得足够快，以防止吞吐量大幅下降。根据测试时的观察，ZooKeeper 只需不到 200 毫秒即可选出新的`leader `。随着followers的恢复，一旦他们开始处理请求，ZooKeeper 就能够再次提高吞吐量。
 
 ### 5、顺序一致性
 
@@ -283,8 +277,18 @@ apache-zookeeper-3.8.3-bin.tar.gz
 [root@XX ~]# tar -xvf apache-zookeeper-3.8.3-bin.tar.gz
 [root@XX ~]# cd apache-zookeeper-3.8.3-bin
 [root@iZbp128dczen7roibd3xciZ apache-zookeeper-3.8.3-bin]# ls
-bin  conf  docs  lib  LICENSE.txt  logs  NOTICE.txt  README.md  README_packaging.md
+bin  conf  docs  lib  LICENSE.txt   NOTICE.txt  README.md  README_packaging.md
 ```
+
+**程序主要目录结构说明**
+
+- bin：主要的一些运行命令
+- conf：存放配置文件，提供了配置模板文件zoo_sample.cfg
+- docs：API文档
+- lib：需要依赖的jar包
+- LICENSE.txt、NOTICE.txt、README.md、README_packaging.md：Apache开源项目许可证说明、打包等说明
+
+
 
 根目录下的`conf/`目录就是zookeeper的配置文件目录了，cd到`conf/`目录
 
@@ -488,8 +492,6 @@ Znodes 维护一个统计信息结构，其中包括数据更改、ACL 更改和
 
 ZooKeeper 被设计用于存储协调数据：状态信息、配置、位置信息等，因此每个节点存储的数据通常很小，在字节到千字节的范围内。
 
-
-
 **znode的属性说明：**
 
 ZooKeeper 树中的每个节点都称为 *znode*。通过`bin/zkCli.sh start` 连接上zk服务后，执行`get -s znode_name`，可以获取znode（示例znode是`zk_test`）的属性信息，如下：
@@ -619,13 +621,13 @@ ZooKeeper 中的所有读取操作 - getData（）、**getChildren**（） 和 *
 
 #### 3）**其它说明**
 
-1）watch在客户端连接到的 ZooKeeper 服务器上本地维护，Watcher 将作为整个 ZooKeeper 会话期间的上下文 ，一直被保存在客户端 ZKWatchManager 的 defaultWatcher 中 。
+- watch在客户端连接到的 ZooKeeper 服务器上本地维护，Watcher 将作为整个 ZooKeeper 会话期间的上下文 ，一直被保存在客户端 ZKWatchManager 的 defaultWatcher 中 。
 
-2）当客户端与服务器断开连接时，不会收到watch事件。当客户端重新连接时，将重新注册并在需要时触发任何以前注册的watch事件。
+- 当客户端与服务器断开连接时，不会收到watch事件。当客户端重新连接时，将重新注册并在需要时触发任何以前注册的watch事件。
 
-3）有一种情况可能会错过监听事件：如果在断开连接时创建并删除了 znode，则将错过尚未创建的 znode 存在的watch事件。
+- 有一种情况可能会错过监听事件：如果在断开连接时创建并删除了 znode，则将错过尚未创建的 znode 存在的watch事件。
 
-4）**3.6.0 中的新功能：** 客户端可以在 znode 上设置永久的递归监听事件，这些监听事件在触发时不会被删除，并且会以递归方式触发已注册的 znode 以及任何子 znode 上的更改。
+- **3.6.0 中的新功能：** 客户端可以在 znode 上设置永久的递归监听事件，这些监听事件在触发时不会被删除，并且会以递归方式触发已注册的 znode 以及任何子 znode 上的更改。
 
 #### 4）**应用案例**
 
@@ -663,27 +665,164 @@ ZooKeeper 客户端通过使用的编程语言创建服务的句柄来建立与 
 
 当客户端获取 到ZooKeeper 服务的句柄时，ZooKeeper 会创建一个 代表ZooKeeper 会话的64 位数字，并将其分配给客户端。如果客户端连接到其他 ZooKeeper 服务器，它将发送会话 ID 作为连接握手的一部分。服务器会为该会话 ID 创建一个密码，任何 ZooKeeper 服务器都可以验证该密码。当客户端建立会话时，密码将随会话 ID 一起发送到客户端。每当客户端与新服务器重新建立会话时，客户端都会将此密码与会话 ID 一起发送。
 
-
-
-
-
 **异常说明**
 
 在3.2.0版本中增加了SessionMovedException。发生此异常的原因是，已在其他服务器上重新建立的会话的连接上收到了请求。此错误的正常原因是客户端向服务器发送请求，但网络数据包延迟，因此客户端超时并连接到新服务器。当延迟的数据包到达第一台服务器时，旧服务器检测到会话已移动，并关闭客户端连接。
 
-架构设计
-
-程序目录结构
-
-完整配置说明
-
-api操作
-
-客户端操作（java代码演示）
 
 
+### 4、配置文件详解
 
-[Zookeeper详解（从安装—入门—使用）_〖雪月清〗的博客-CSDN博客](https://blog.csdn.net/qq_52595134/article/details/123467180)
+[ZooKeeper: Because Coordinating Distributed Systems is a Zoo (apache.org)](https://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_configuration)
+
+#### 1）基本配置
+
+| 配置项           | 含义                                                         | 默认值         |
+| ---------------- | ------------------------------------------------------------ | -------------- |
+| tickTime         | 客户端与服务器或者服务器与服务器之间维持心跳的时间间隔，单位是毫秒 | 2000           |
+| dataDir          | 存储内存中数据库快照的位置，也称为`snapshot`快照文件目录，用来存放myid信息跟一些版本日志，还有服务器唯一的ID信息等。 | /tmp/zookeeper |
+| clientPort       | 客户端连接的端口号，客户端连接zookeeper服务器的端口，zookeeper会监听这个端口，接收客户端的请求访问。 | 2181           |
+| secureClientPort | 客户端SSL连接的端口。而clientPort是明文连接的端口，指定两者将启用混合模式，而省略其中任何一个都将禁用该模式。需要开启SSL认证方式还需要开启如下两个配置：zookeeper.serverCnxnFactory、zookeeper.clientCnxnSocket |                |
+|                  |                                                              |                |
+
+#### 2）高级配置
+
+| 配置项                          | 含义                                                         | 默认值                                                       |
+| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| dataLogDir                      | 存放事务日志的文件夹。未指定时日志文件存放在`dataDir`目录中，一般建议创建`dataDir`和`dataLogDir`，将数据文件和日志文件区分存放在不同的位置，这有助于避免日志记录和快照之间的竞争。拥有专用日志设备对吞吐量和稳定的延迟有很大影响。强烈建议事务日志存放于专用日志设备 |                                                              |
+| globalOutstandingLimit          | 当客户端提交请求的速度比 ZooKeeper 处理请求的速度快，尤其是在客户端很多的情况下。为了防止 ZooKeeper 因请求积压排队而耗尽内存，ZooKeeper 将限制客户端访问使整个排队集合中不超过 globalOutstandingLimit个 未完成的请求。<br/>对应Java 系统属性：**zookeeper.globalOutstandingLimit** | 默认限制为 1,000，例如有 3 个成员，每个成员将有 1000 / 2 = 500 个单独的限制。 |
+| preAllocSize                    | 预分配的事务日志文件块大小，ZooKeeper 以 **preAllocSize** 千字节的块为单位分配事务日志文件中的空间<br/>对应Java系统属性：zookeeper.preAllocSize | 默认块大小为 64M                                             |
+| snapCount                       | ZooKeeper 使用快照和事务日志记录其事务数据。ZK 使用事务日志和快照来记录事务(考虑 提前写日志 write-ahead log). snapCount 决定了多少个事务日志之后会开始产生快照. 为了防止所有的成员同时生成快照, 每个 ZK服务器会产生一个随机数处于 [snapCount/2+1, snapCount] 之间, 在达到这个随机数之后就会产生快照。<br/>对应Java系统属性：zookeeper.snapCount | 100000                                                       |
+| commitLogCount                  | ZK会在内存中维护一部分已提交的请求列表以供服务器间同步最近的请求的使用. 在快照很大的时候(> 100,000), 能提高同步的性能。<br/>对应Java系统属性：zookeeper.commitLogCount | 500                                                          |
+| snapSizeLimitInKb               | 和 snapCount做作用类似 , 但是这个使用的是文件大小来进行限制。在生成快照(以及滚转事务日志)之前，事务日志中记录的事务集允许的总字节大小由snapSizeLimitInKb确定。<br/>对应Java系统属性：zookeeper.snapSizeLimitInKb | 默认是 4,194,304 (4GB), 负数表示不开启这个功能.              |
+| txnLogSizeLimitInKb             | 可以使用 txnLogSizeLimitInKb 更直接地控制 Zookeeper 事务日志文件。使用事务日志完成同步时，较大的 txn 日志可能会导致关注者同步速度变慢。这是因为领导者必须扫描磁盘上的相应日志文件，以查找要从中启动同步的事务。默认情况下，此功能处于关闭状态，snapCount 和 snapSizeLimitInKb 是唯一限制事务日志大小的值。启用后，Zookeeper 将在达到任何限制时滚动日志。请注意，实际日志大小可能会超过此值，因为序列化事务的大小。另一方面，如果此值设置得太接近（或小于）**preAllocSize**，则可能导致 Zookeeper 为每个事务滚动日志。虽然这不是正确性问题，但这可能会导致性能严重下降。为了避免这种情况并充分利用此功能，建议将值设置为 N * **preAllocSize**，其中 N >= 2。<br/>对应Java系统属性：zookeeper.txnLogSizeLimitInKb | 默认情况下，此功能处于关闭状态                               |
+| maxCnxns                        | 限制每个zk服务器并发的连接总数(每个服务器的每个客户端端口). 用来防止特定类型的 DOS 攻击。 因为 serverCnxnFactory 和 secureServerCnxnFactory 是分开算的，所以最多的连接数是 2 *maxCnxns。<br/>对应Java系统属性：**zookeeper.maxCnxns** | 默认是 0, 表示没有限制.。                                    |
+| maxClientCnxns                  | 在 socket 层面限制一个客户端(根据ip)允许连接zk集群中某个服务器的最大连接数<br/>限制范围仅仅是单台客户机对单台服务器之间的链接数限制，并不能控制集群中所有客户端的连接数总和。 | 默认60. 设置成0 表示没有限制                                 |
+| clientPortAddress               | 3.3.0新增，用于侦听客户端连接的地址（IPv4、IPv6 或主机名）, 默认监听使用 clientPort 的所有连接 |                                                              |
+| minSessionTimeout               | 3.3.0新增，服务器允许客户端协商的最小会话超时（以毫秒为单位）。 | 默认值为 **tickTime** 的 2 倍。                              |
+| maxSessionTimeout               | 3.3.0新增，服务器允许客户端协商的最大会话超时（以毫秒为单位）。 | 默认值为 **tickTime** 的 20 倍。                             |
+| fsync.warningthresholdms        | 3.3.4新增，事务日志执行 fsync 的时候超过了这个毫秒数就会打印警告信息。<br/>对应Java系统属性：zookeeper.fsync.warningthresholdms | 默认 1000                                                    |
+| maxResponseCacheSize            | 确定存储最近读取记录的序列化形式的缓存的大小,  可以使用 response_packet_cache_hits 和 response_packet_cache_misses 指标来调整这个值。<br/>对应Java系统属性：zookeeper.maxResponseCacheSize | 默认是 400, 负数或者 0 表示不启用。                          |
+| maxGetChildrenResponseCacheSize | 3.6.0新增，与 maxResponseCacheSize 类似，但适用于获取子请求。可以使用指标 response_packet_get_children_cache_hits和 response_packet_get_children_cache_misses来调整这个值。 <br/>对应Java系统属性：zookeeper.maxGetChildrenResponseCacheSize | 默认是 400, 负数或者 0 表示不启用。                          |
+| autopurge.snapRetainCount       | 3.4.0新增，ZooKeeper 自动清除功能分别在 dataDir 和 dataLogDir中保留 最新快照和相应的事务日志的个数，并删除其余部分。 | 默认值为 3。最小值为 3。                                     |
+| autopurge.purgeInterval         | 3.4.0新增，触发自动清除日志任务的间隔。                      | 默认是0表示不开启（以小时为单位）                            |
+| syncEnabled                     | 3.4.6, 3.5.0新增，是否允许让观察者和其他参与者一样把事务日志写到磁盘, 减少观察者重启恢复的时间。<br/>对应Java系统属性：zookeeper.observer.syncEnabled | 默认是true , 设置为 false 关闭。                             |
+| extendedTypesEnabled            | 3.5.4，3.6.0新增，定义以启用扩展功能，例如创建 TTL 节点]。默认情况下，它们处于禁用状态。重要说明：启用后，由于内部限制，服务器 ID 必须小于 255。<br/>仅限Java系统属性：zookeeper.extendedTypesEnabled |                                                              |
+| emulate353TTLNodes              | 3.5.4、3.6.0新增，由于ZOOKEEPER-2901，3.5.4/3.6.0版本中不支持在3.5.3中创建的TTL节点。然而，通过zookeeper.emulate353TTLNodes系统属性提供了解决办法。如果您在ZooKeeper 3.5.3中使用了TTL节点，并且除了zookeeper.extendedTypesEnabled外，还需要将zookeeper.emulate353TTLNodes的兼容性保持为`true`。注意：由于错误，服务器ID必须为127或更少。此外，最大支持TTL值为`1099511627775`，小于3.5.3（`1152921504606846975`）中允许的值。<br/>仅限Java系统属性：zookeeper.emulate353TTLNodes |                                                              |
+| watchManagerName                | 3.6.0新增，在ZOOKEEPER-1179添加， 添加了新的观察程序管理器 WatchManagerOptimized，以优化繁重的监视用例中的内存开销。此配置用于定义要使用的观察程序管理器。目前，我们仅支持 WatchManager 和 WatchManagerOptimized。<br/>仅限Java系统属性：zookeeper.watchManagerName |                                                              |
+| watcherCleanThreadsNum          | 3.6.0新增，在 ZOOKEEPER-1179添加， 新的观察者管理器 WatchManagerOptimized 将异步并发地清理下线的观察者，此配置用于决定 WatcherCleaner 中使用了多少线程。线程越多，通常意味着清理吞吐量越大。默认值为 2，即使对于繁重且连续的会话关闭/重新创建案例，也足够好。<br/>仅限Java系统属性：zookeeper.watcherCleanThreadsNum | 2                                                            |
+| watcherCleanThreshold           | 3.6.0新增，新增于 ZOOKEEPER-1179。新的 watcher 管理器 WatchManagerOptimized 会懒惰地清理死掉的 watcher，清理过程比较繁重，批处理会降低成本，提高性能。此设置用于确定批大小。默认值为 1000，如果没有内存或清理速度问题，我们不需要更改它。<br/>仅限Java系统属性：zookeeper.watcherCleanThreshold | 1000                                                         |
+
+
+
+#### 2）集群配置
+
+| 配置项             | 含义                                                         | 默认值                                                       |
+| ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| initLimit          | 初始通信时限，在最开始实现通信时，即`初始化连接`时，Leader会同步到所有Follower，这个同步的过程所用的时限即为初始通信时限。集群中的Follower和Leader之间初始连接时能容忍的最多心跳数 | 10（此时限的值为tickTime的倍数，10表示时限为10*2000毫秒(20秒)） |
+| syncLimit          | 集群中folower跟leader之间的请求和应答最多能容忍的心跳数，计算方式与initLimit相同，在运行时Leader通过心跳检测与Follower进行通信。 | 5（如果超过syncLimit*tickTime即5*2000（10秒）时间还未收到响应，则认定该Follower宕机） |
+| observerMasterPort | 用于侦听Observer 连接的端口;即Observer 尝试连接到的端口      |                                                              |
+
+
+
+#### 3）日志配置
+
+#### 4）权限和角色配置
+
+- zoo.cfg
+
+| 配置项                        | 含义                                                         | 默认值                                                       |
+| ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| maxClientCnxns                |                                                              | 60（表示单个客户端最大连接数为60个，默认不启用该配置）       |
+| autopurge.snapRetainCount     | 表示保留文件的数量                                           | 3（默认不启用该配置）                                        |
+| autopurge.purgeInterval       | 表示自动清理快照文件和日志的`频率`，默认为`0`，表示不开启自动清理，单位为`小时` | 1（默认不启用该配置）                                        |
+| metricsProvider.className     |                                                              | org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider（默认不启用该配置） |
+| metricsProvider.httpHost      |                                                              | 0.0.0.0（默认不启用该配置）                                  |
+| metricsProvider.httpPort      |                                                              | 7000（默认不启用该配置）                                     |
+| metricsProvider.exportJvmInfo |                                                              | true（默认不启用该配置）                                     |
+
+
+
+#### 5）SSL认证
+
+>  要预先 生成好客户端与服务端的ssl证书keystore和cert，生成步骤可以自行百度。
+
+- **a. 修改服务端配置**
+
+在配置文件zoo.cfg中将配置项`clientPort`替换为`secureClientPort`
+
+```
+#clientPort=2181
+secureClientPort=2281
+```
+
+并添加如下配置
+
+```
+serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory
+ssl.keyStore.location= path/to/your/KeyStore.jks
+ssl.keyStore.password= testpwd
+ssl.trustStore.location= path/to/your/TrustStore.jks
+ssl.trustStore.password= testpwd
+```
+
+
+
+- **b.修改zkCli.sh**
+
+  修改`bin/zkCli.sh`，在该命令行工具脚本文件第70行左右添加如下配置
+
+  ```
+  export CLIENT_JVMFLAGS="
+  -Dzookeeper.clientCnxnSocket=org.apache.zookeeper.ClientCnxnSocketNetty
+  -Dzookeeper.client.secure=true
+  -Dzookeeper.ssl.hostnameVerification=false
+  -Dzookeeper.ssl.keyStore.location=path/to/your/KeyStore.jks
+  -Dzookeeper.ssl.keyStore.password=testpwd
+  -Dzookeeper.ssl.trustStore.location=path/to/your/TrustStore.jks
+  -Dzookeeper.ssl.trustStore.password=testpwd
+  -Dzookeeper.ssl.hostnameVerification=false"
+  ```
+
+  至此 服务端操作就全部完成了，可以重启zk节点，使用zkCli.sh脚本登录zk进行crud操作了。
+
+- **c.客户端操作**
+
+   在客户端也生成SSL证书相关的keystore和cert，将cert提交给服务端，服务端使用如下命令导入
+
+```
+keytool -import -alias 客户端名字 -file 客户端证书.cer -keystore truststore路径
+```
+
+使用服务端提供的cert，同样用上面的指令将证书导入客户端truststore。
+
+上面的导入步骤是将客户端与服务端双方的cert证书导入到对方的truststore文件中去。
+
+完成证书互相导入操作后，使用java原生API连接Zk：
+
+```
+ZKClientConfig config = new ZKClientConfig();
+
+config.setProperty("zookeeper.clientCnxnSocket", "org.apache.zookeeper.ClientCnxnSocketNetty");
+config.setProperty("zookeeper.client.secure", "true");
+config.setProperty("zookeeper.ssl.keyStore.location", "/path/to/your/KeyStore.jks");
+config.setProperty("zookeeper.ssl.keyStore.password", "pwd");
+config.setProperty("zookeeper.ssl.trustStore.location",  "/path/to/yourtruststore.jks");
+config.setProperty("zookeeper.ssl.trustStore.password", "pwd");
+config.setProperty("zookeeper.ssl.hostnameVerification", "false");
+
+ZooKeeper connect = new ZooKeeper(dto.getParams().getConnectPath(), 3000, this.wh,sslcfg(dto.getParams()));
+```
+
+
+
+
+
+https://blog.csdn.net/qq_52595134/article/details/123467180)
+
+
+
+### 5、常用命令
 
 ## 七、常见问题
 

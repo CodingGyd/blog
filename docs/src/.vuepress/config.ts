@@ -4,7 +4,7 @@ import { searchProPlugin } from "vuepress-plugin-search-pro";
   
 
 export default defineUserConfig({
-  base: "/",
+  base: "/", 
   head: [
     //百度资源平台收录
     ['meta', {name: 'referrer', content: 'no-referrer-when-downgrade'}],
