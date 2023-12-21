@@ -17,3 +17,4 @@ head:
 * [Kafka知识点详解](./kafka.md)
 * [Kafka知识点详解-配置说明](./kafka-config.md)
 * [Kafka知识点详解-常用操作](./kafka-operations.md)
+* [zookeeper入门](./zookeeper.md)
