@@ -1,10 +1,22 @@
+---
+title: Zookeeper入门
+shortTitle: Zookeeper入门
+date: 2023-11-21
+category:
+  - 微服务中间件
+description: 记录Zookeeper的基础知识
+head:
+  - - meta
+    - name: keywords
+      content: Zookeeper,分布式,服务发现与注册,配置
+---
+
 # Zookeeper入门
 
 > 小郭写文章的目的是总结复盘学过的知识点，方便以后查阅。
 >
 > 如果本文对您也有帮助，可以动动您的小手点个关注和赞再走呀。
 
-[TOC]
 
 ## 一、前言
 

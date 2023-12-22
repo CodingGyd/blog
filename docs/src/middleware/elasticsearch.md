@@ -1,3 +1,17 @@
+---
+title: Elasticsearch入门
+shortTitle: Elasticsearch入门
+date: 2023-12-20
+category:
+  - 微服务中间件
+description: 记录elasticsearch的基础知识
+head:
+  - - meta
+    - name: keywords
+      content: Elasticsearch,全文检索,大数据搜索,分词查找,统计分析
+---
+
+# Elasticsearch入门
 ## 一、前言
 
 最近接了个需求，需要实现一个全文检索页面，客户直接点名了要我们使用ElasticSearch，小郭在之前并没有使用过这个组件，特意花了两天时间对它的基础知识进行了学习，总结出来分享给有兴趣的小伙伴。
