@@ -1,7 +1,7 @@
 ---
 home: true
 icon: home
-title: 主页
+title: 常用链接
 heroImage: /assets/icon/avata.svg
 heroText: 代码小郭的常用链接
 tagline: 技术学习、吹水讨论入口汇总(持续更新)

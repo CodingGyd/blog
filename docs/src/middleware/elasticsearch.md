@@ -6,6 +6,30 @@
 
 ## 二、简介
 
+Elasticsearch 为所有类型的数据提供近乎实时的搜索和分析。无论是具有结构化或非结构化文本、数字数据或地理空间数据， Elasticsearch 可以以支持快速搜索的方式有效地存储和索引它。随着数据和查询量的增长， Elasticsearch 的分布式特性也支持无缝扩展。
+
+Elasticsearch 提供了一个简单、连贯的 REST API，用于管理集群和建立索引 并搜索数据。我们可以直接从命令行或通过 Kibana 中的开发人员控制台提交搜索请求。或者使用所选语言的 Elasticsearch 客户端（Java、JavaScript、Go、.NET、PHP、Perl、Python 或 Ruby）从应用程序发起搜索请求。
+
+与传统关系型数据库将信息存储为行 列式数据格式不同的是，elasticsearch是一个分布式文档存储组件。将已序列化的复杂数据结构 存储为 JSON 文档。当在集群中有多个 Elasticsearch 节点时，可以从集群中的任何节点访问存储的任何文档。
+
+当文档被存储时，它会被索引并可在 1 秒内近乎实时地完全搜索。为什么这么快呢？因为Elasticsearch 使用一种称为 倒排索引，支持非常快速的全文搜索。倒排索引能 列出任何文档中出现的每个唯一单词，并标识所有 每个单词出现的文档。
+
+**那么，什么是文档、索引？**
+
+索引可以看作是文档的集合，每个 文档是字段的集合，这些字段是我们定义的业务数据。默认情况下，Elasticsearch 会为每个字段中的所有数据创建索引，并为每个索引应用专用的优化数据结构。例如，文本字段是 存储在倒排索引中，数字和地理字段存储在 BKD 树中。 能够使用每个字段的数据结构来组合和返回搜索 结果是 Elasticsearch 如此快速的原因。
+
+**索引的字段类型动态映射能力**
+
+Elasticsearch 还具有索引字段类型动态映射能力，也就是说我们在创建索引但未明确指定文档中每个不同的字段类型时， 如果启用了动态映射，Elasticsearch 将自动检测新字段并将其添加到索引中。 将检测并映射布尔值、浮点数等类型，并将整数值、日期和字符串转换为相应的 Elasticsearch 数据类型。
+
+有时候我们不需要动态映射，可以关闭这个能力，然后自定义映射字段类型，通过自定义，我们可以实现如下目标：
+
+- 区分全文字符串字段和精确值字符串字段
+- 执行特定于语言的文本分析
+- 优化字段以进行部分匹配
+- 使用自定义日期格式
+- 使用不能自动使用的数据类型，例如 和 检测`geo_point``geo_shape`
+
 ### 1、起源
 
 Elasticsearch 的起源于一家名为 Elasticsearch BV（现在的 Elastic N.V.） 的公司，该公司成立于 2012 年，总部位于荷兰阿姆斯特丹。Elasticsearch 的创始人之一是 Shay Banon（沙伊·巴农），他是 Elasticsearch BV 公司的创始人和首席技术官员（CTO）。Shay Banon 在创建 Elasticsearch 之前，曾经在开发搜索和实时分析方面的技术。他发现现有的搜索引擎在处理大规模数据时存在性能和扩展性方面的挑战，因此决定创建一个新的解决方案，以解决这些问题。
@@ -68,9 +92,11 @@ elasticsearch 最初的版本于 2010 年左右开始开发，并于 2010 年 2 
 
 
 
-### 2、2.x文档
+下面针对每个主版本的小版本，总结了官方文档入口，方便后续查阅。
 
-> 2.0之前的文档在官网未找到，因此本小节仅记录了2.0以后的版本文档
+> 2.0之前的文档在官网未找到，因此本小节仅记录了2.0以后的版本文档地址
+
+### 2、2.x文档
 
 | 版本号      | 官方发行说明                                                 |
 | ----------- | ------------------------------------------------------------ |
@@ -99,6 +125,8 @@ elasticsearch 最初的版本于 2010 年左右开始开发，并于 2010 年 2 
 | 2.4.4       | https://www.elastic.co/guide/en/elasticsearch/reference/2.4/release-notes-2.4.4.html |
 | 2.4.5       | https://www.elastic.co/guide/en/elasticsearch/reference/2.4/release-notes-2.4.5.html |
 | 2.4.6       | https://www.elastic.co/guide/en/elasticsearch/reference/2.4/release-notes-2.4.6.html |
+
+
 
 ### 3、5.x文档
 
@@ -134,21 +162,222 @@ elasticsearch 最初的版本于 2010 年左右开始开发，并于 2010 年 2 
 | 5.5.2           | https://www.elastic.co/guide/en/elasticsearch/reference/5.5/release-notes-5.5.2.html |
 | 5.5.3           | https://www.elastic.co/guide/en/elasticsearch/reference/5.5/release-notes-5.5.3.html |
 | 5.6.0           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.0.html |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
-|                 |                                                              |
+| 5.6.1           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.1.html |
+| 5.6.2           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.2.html |
+| 5.6.3           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.3.html |
+| 5.6.4           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.4.html |
+| 5.6.5           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.5.html |
+| 5.6.6           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.6.html |
+| 5.6.7           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.7.html |
+| 5.6.8           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.8.html |
+| 5.6.9           | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.9.html |
+| 5.6.10          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.10.html |
+| 5.6.11          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.11.html |
+| 5.6.12          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.12.html |
+| 5.6.13          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.13.html |
+| 5.6.14          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.14.html |
+| 5.6.15          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.15.html |
+| 5.6.16          | https://www.elastic.co/guide/en/elasticsearch/reference/5.6/release-notes-5.6.16.html |
 
-   
 
 
+### 4、6.x文档
+
+| 版本号          | 官方发行说明                                                 |
+| --------------- | ------------------------------------------------------------ |
+| 6.0.0-alpha1-5x | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-alpha1-5x.html |
+| 6.0.0-alpha1    | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-alpha1.html |
+| 6.0.0-alpha2    | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-alpha2.html |
+| 6.0.0-beta1     | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-beta1.html |
+| 6.0.0-beta2     | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-beta2.html |
+| 6.0.0-rc1       | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-rc1.html |
+| 6.0.0-rc2       | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0-rc2.html |
+| 6.0.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.0.html |
+| 6.0.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.0/release-notes-6.0.1.html |
+| 6.1.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.0.html |
+| 6.1.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.1.html |
+| 6.1.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.2.html |
+| 6.1.3           | https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.3.html |
+| 6.1.4           | https://www.elastic.co/guide/en/elasticsearch/reference/6.1/release-notes-6.1.4.html |
+| 6.2.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.0.html |
+| 6.2.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.1.html |
+| 6.2.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.2.html |
+| 6.2.3           | https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.3.html |
+| 6.2.4           | https://www.elastic.co/guide/en/elasticsearch/reference/6.2/release-notes-6.2.4.html |
+| 6.3.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.3/release-notes-6.3.0.html |
+| 6.3.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.3/release-notes-6.3.1.html |
+| 6.3.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.3/release-notes-6.3.2.html |
+| 6.4.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.0.html |
+| 6.4.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.1.html |
+| 6.4.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.2.html |
+| 6.4.3           | https://www.elastic.co/guide/en/elasticsearch/reference/6.4/release-notes-6.4.3.html |
+| 6.5.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.0.html |
+| 6.5.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.1.html |
+| 6.5.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.2.html |
+| 6.5.3           | https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.3.html |
+| 6.5.4           | https://www.elastic.co/guide/en/elasticsearch/reference/6.5/release-notes-6.5.4.html |
+| 6.6.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.6/release-notes-6.6.0.html |
+| 6.6.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.6/release-notes-6.6.1.html |
+| 6.6.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.6/release-notes-6.6.2.html |
+| 6.7.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.7/release-notes-6.7.0.html |
+| 6.7.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.7/release-notes-6.7.1.html |
+| 6.7.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.7/release-notes-6.7.2.html |
+| 6.8.0           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.0.html |
+| 6.8.1           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.1.html |
+| 6.8.2           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.2.html |
+| 6.8.3           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.3.html |
+| 6.8.4           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.4.html |
+| 6.8.5           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.5.html |
+| 6.8.6           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.6.html |
+| 6.8.7           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.7.html |
+| 6.8.8           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.8.html |
+| 6.8.9           | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.9.html |
+| 6.8.10          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.10.html |
+| 6.8.11          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.11.html |
+| 6.8.12          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.12.html |
+| 6.8.13          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.13.html |
+| 6.8.14          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.14.html |
+| 6.8.15          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.15.html |
+| 6.8.16          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.16.html |
+| 6.8.17          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.17.html |
+| 6.8.18          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.18.html |
+| 6.8.19          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.19.html |
+| 6.8.20          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.20.html |
+| 6.8.21          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.21.html |
+| 6.8.22          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.22.html |
+| 6.8.23          | https://www.elastic.co/guide/en/elasticsearch/reference/6.8/release-notes-6.8.23.html |
+
+
+
+### 5、7.x文档
+
+| 版本号       | 官方发行说明                                                 |
+| ------------ | ------------------------------------------------------------ |
+| 7.0.0-aplha1 | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0-alpha1.html |
+| 7.0.0-aplha2 | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0-alpha2.html |
+| 7.0.0-beta1  | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0-beta1.html |
+| 7.0.0-rc1    | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0-rc1.html |
+| 7.0.0-rc2    | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0-rc2.html |
+| 7.0.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.0.html |
+| 7.0.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.0/release-notes-7.0.1.html |
+| 7.1.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.1/release-notes-7.1.0.html |
+| 7.1.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.1/release-notes-7.1.1.html |
+| 7.2.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.2/release-notes-7.2.0.html |
+| 7.2.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.2/release-notes-7.2.1.html |
+| 7.3.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.3/release-notes-7.3.0.html |
+| 7.3.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.3/release-notes-7.3.1.html |
+| 7.3.2        | https://www.elastic.co/guide/en/elasticsearch/reference/7.3/release-notes-7.3.2.html |
+| 7.4.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.4/release-notes-7.4.0.html |
+| 7.4.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.4/release-notes-7.4.1.html |
+| 7.4.2        | https://www.elastic.co/guide/en/elasticsearch/reference/7.4/release-notes-7.4.2.html |
+| 7.5.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.5/release-notes-7.5.0.html |
+| 7.5.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.5/release-notes-7.5.1.html |
+| 7.5.2        | https://www.elastic.co/guide/en/elasticsearch/reference/7.5/release-notes-7.5.2.html |
+| 7.6.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.6/release-notes-7.6.0.html |
+| 7.6.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.6/release-notes-7.6.1.html |
+| 7.6.2        | https://www.elastic.co/guide/en/elasticsearch/reference/7.6/release-notes-7.6.2.html |
+| 7.7.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.7/release-notes-7.7.0.html |
+| 7.7.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.7/release-notes-7.7.1.html |
+| 7.8.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.0.html |
+| 7.8.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.8/release-notes-7.8.1.html |
+| 7.9.0        | https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.0.html |
+| 7.9.1        | https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.1.html |
+| 7.9.2        | https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.2.html |
+| 7.9.3        | https://www.elastic.co/guide/en/elasticsearch/reference/7.9/release-notes-7.9.3.html |
+| 7.10.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.0.html |
+| 7.10.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.1.html |
+| 7.10.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.10/release-notes-7.10.2.html |
+| 7.11.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.11/release-notes-7.11.0.html |
+| 7.11.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.11/release-notes-7.11.1.html |
+| 7.11.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.11/release-notes-7.11.2.html |
+| 7.12.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.12/release-notes-7.12.0.html |
+| 7.12.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.12/release-notes-7.12.1.html |
+| 7.13.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.13/release-notes-7.13.0.html |
+| 7.13.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.13/release-notes-7.13.1.html |
+| 7.13.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.13/release-notes-7.13.2.html |
+| 7.13.3       | https://www.elastic.co/guide/en/elasticsearch/reference/7.13/release-notes-7.13.3.html |
+| 7.13.4       | https://www.elastic.co/guide/en/elasticsearch/reference/7.13/release-notes-7.13.4.html |
+| 7.14.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.14/release-notes-7.14.0.html |
+| 7.14.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.14/release-notes-7.14.1.html |
+| 7.14.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.14/release-notes-7.14.2.html |
+| 7.15.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.15/release-notes-7.15.0.html |
+| 7.15.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.15/release-notes-7.15.1.html |
+| 7.15.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.15/release-notes-7.15.2.html |
+| 7.16.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.0.html |
+| 7.16.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.1.html |
+| 7.16.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.2.html |
+| 7.16.3       | https://www.elastic.co/guide/en/elasticsearch/reference/7.16/release-notes-7.16.3.html |
+| 7.17.0       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.0.html |
+| 7.17.1       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.1.html |
+| 7.17.2       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.2.html |
+| 7.17.3       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.3.html |
+| 7.17.4       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.4.html |
+| 7.17.5       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.5.html |
+| 7.17.6       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.6.html |
+| 7.17.7       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.7.html |
+| 7.17.8       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.8.html |
+| 7.17.9       | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.9.html |
+| 7.17.10      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.10.html |
+| 7.17.11      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.11.html |
+| 7.17.12      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.12.html |
+| 7.17.13      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.13.html |
+| 7.17.14      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.14.html |
+| 7.17.15      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.15.html |
+| 7.17.16      | https://www.elastic.co/guide/en/elasticsearch/reference/7.17/release-notes-7.17.16.html |
+
+
+
+### 6、8.x文档（目前最新）
+
+| 版本号       | 官方发行说明                                                 |
+| ------------ | ------------------------------------------------------------ |
+| 8.0.0-alpha1 | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-alpha1.html |
+| 8.0.0-alpha2 | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-alpha2.html |
+| 8.0.0-beta1  | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-beta1.html |
+| 8.0.0-rc1    | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-rc1.html |
+| 8.0.0-rc2    | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0-rc2.html |
+| 8.0.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.0.html |
+| 8.0.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.0/release-notes-8.0.1.html |
+| 8.1.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.1/release-notes-8.1.0.html |
+| 8.1.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.1/release-notes-8.1.1.html |
+| 8.1.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.1/release-notes-8.1.2.html |
+| 8.1.3        | https://www.elastic.co/guide/en/elasticsearch/reference/8.1/release-notes-8.1.3.html |
+| 8.2.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.2/release-notes-8.2.0.html |
+| 8.2.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.2/release-notes-8.2.1.html |
+| 8.2.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.2/release-notes-8.2.2.html |
+| 8.2.3        | https://www.elastic.co/guide/en/elasticsearch/reference/8.2/release-notes-8.2.3.html |
+| 8.3.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.3/release-notes-8.3.0.html |
+| 8.3.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.3/release-notes-8.3.1.html |
+| 8.3.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.3/release-notes-8.3.2.html |
+| 8.3.3        | https://www.elastic.co/guide/en/elasticsearch/reference/8.3/release-notes-8.3.3.html |
+| 8.4.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.4/release-notes-8.4.0.html |
+| 8.4.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.4/release-notes-8.4.1.html |
+| 8.4.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.4/release-notes-8.4.2.html |
+| 8.4.3        | https://www.elastic.co/guide/en/elasticsearch/reference/8.4/release-notes-8.4.3.html |
+| 8.5.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.5/release-notes-8.5.0.html |
+| 8.5.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.5/release-notes-8.5.1.html |
+| 8.5.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.5/release-notes-8.5.2.html |
+| 8.5.3        | https://www.elastic.co/guide/en/elasticsearch/reference/8.5/release-notes-8.5.3.html |
+| 8.6.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.6/release-notes-8.6.0.html |
+| 8.6.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.6/release-notes-8.6.1.html |
+| 8.6.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.6/release-notes-8.6.2.html |
+| 8.7.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.7/release-notes-8.7.0.html |
+| 8.7.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.7/release-notes-8.7.1.html |
+| 8.8.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.8/release-notes-8.8.0.html |
+| 8.8.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.8/release-notes-8.8.1.html |
+| 8.8.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.8/release-notes-8.8.2.html |
+| 8.9.0        | https://www.elastic.co/guide/en/elasticsearch/reference/8.9/release-notes-8.9.0.html |
+| 8.9.1        | https://www.elastic.co/guide/en/elasticsearch/reference/8.9/release-notes-8.9.1.html |
+| 8.9.2        | https://www.elastic.co/guide/en/elasticsearch/reference/8.9/release-notes-8.9.2.html |
+| 8.10.0       | https://www.elastic.co/guide/en/elasticsearch/reference/8.10/release-notes-8.10.0.html |
+| 8.10.1       | https://www.elastic.co/guide/en/elasticsearch/reference/8.10/release-notes-8.10.1.html |
+| 8.10.2       | https://www.elastic.co/guide/en/elasticsearch/reference/8.10/release-notes-8.10.2.html |
+| 8.10.3       | https://www.elastic.co/guide/en/elasticsearch/reference/8.10/release-notes-8.10.3.html |
+| 8.10.4       | https://www.elastic.co/guide/en/elasticsearch/reference/8.10/release-notes-8.10.4.html |
+| 8.11.0       | https://www.elastic.co/guide/en/elasticsearch/reference/8.11/release-notes-8.11.0.html |
+| 8.11.1       | https://www.elastic.co/guide/en/elasticsearch/reference/8.11/release-notes-8.11.1.html |
+| 8.11.2       | https://www.elastic.co/guide/en/elasticsearch/reference/8.11/release-notes-8.11.2.html |
+| 8.11.3       | https://www.elastic.co/guide/en/elasticsearch/reference/8.11/release-notes-8.11.3.html |
 
 
 
@@ -184,7 +413,74 @@ window：
 
 ## 五、基本知识
 
-### 1、数据查询语法
+### 1、数据类型
+
+数字类型有如下分类:
+
+| 类型         | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| byte         | 有符号的8位整数, 范围: [-128 ~ 127]                          |
+| short        | 有符号的16位整数, 范围: [-32768 ~ 32767]                     |
+| integer      | 有符号的32位整数, 范围: [−231−231 ~ 231231-1]                |
+| long         | 有符号的64位整数, 范围: [−263−263 ~ 263263-1]                |
+| float        | 32位单精度浮点数                                             |
+| double       | 64位双精度浮点数                                             |
+| half_float   | 16位半精度IEEE 754浮点类型                                   |
+| scaled_float | 缩放类型的的浮点数, 比如price字段只需精确到分, 57.34缩放因子为100, 存储结果为5734 |
+
+使用注意事项:
+
+> 尽可能选择范围小的数据类型, 字段的长度越短, 索引和搜索的效率越高;
+> 优先考虑使用带缩放因子的浮点类型.
+
+使用示例：
+
+```
+PUT shop
+{
+    "mappings": {
+        "my_table_index": {
+            "properties": {
+                "name": {"type": "text"},
+                "quantity": {"type": "integer"},  // integer类型
+                "price": {
+                    "type": "scaled_float",       // scaled_float类型
+                    "scaling_factor": 100
+                }
+            }
+        }
+    }
+}
+
+```
+
+###  2、索引
+
+#### 2.1、索引简介
+
+索引是es组织文档的基本方式，是拥有相同结构文档的集合，可以把es的索引类比为关系型数据库的一张数据表。
+
+#### 2.2、索引基本操作
+
+#### 1）创建索引
+
+EQL：
+
+```
+```
+
+
+
+Java写法：
+
+```
+```
+
+
+
+
+
+### 2、数据查询语法
 
 > 本节内容来源：[ElasticSearch进阶：一文全览各种ES查询在Java中的实现-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1897321)
 >
@@ -1037,9 +1333,17 @@ searchSourceBuilder.aggregation(maxBuilder);
 
 
 
-### 2、原生API
+### 3、REST API
+
+Elasticsearch REST API 支持结构化查询、全文查询和复杂查询（将两者结合在一起的查询）。
+
+*结构化查询*包括 类似于可以在 SQL 中构造的查询类型。例如，可以在索引`employee`中搜索 gender和 age字段，并对匹配结果 按字段`hire_date`排序。
+
+*全文查询*根据查询字符串查找所有文档并返回按*相关性*排序的匹配结果。
 
 #### 1）查看集群索引列表
+
+
 
 indices表示索引，是index的复数.
 
@@ -1221,7 +1525,7 @@ http://127.0.0.1:9200/demoindex
 
 
 
-### 3、基本配置
+### 4、基本配置
 
 本文最全！
 
@@ -1229,7 +1533,7 @@ http://127.0.0.1:9200/demoindex
 
 [Elasticsearch入门必备——ES中的字段类型以及常用属性-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1022264)
 
-### 4、命名规范
+### 5、命名规范
 
 实际中使用Elasticsearch，首要需要考虑定义索引、映射以及字段等，本小节总结了一些必要的命名规范。
 
@@ -1282,7 +1586,7 @@ http://127.0.0.1:9200/demoindex
 
 如果路由值包含逗号，会造成路由值解析错误。
 
-### 5、优化建议
+### 6、优化建议
 
 #### 1）索引性能调优建议
 
@@ -1445,6 +1749,19 @@ Elasticsearch 内置了很多分词器，包括 standard、cjk、nGram 等，也
 ​	本文的上一节有提到命名规范细则。
 
 ## 六、遇到的问题
+
+- 创建索引时报ElasticsearchStatusException[Elasticsearch exception [type=too_long_frame_exception, reason=An HTTP line is larger than 4096 bytes.]]
+
+  默认情况下ES对请求参数设置为4K，如果遇到请求参数长度限制可以在[elasticsearch](https://so.csdn.net/so/search?q=elasticsearch&spm=1001.2101.3001.7020).yml中修改如下相关参数：
+
+```
+http.max_initial_line_length: "8k"
+http.max_header_size: "16k"
+
+http.max_content_length: 500mb
+```
+
+然后重启服务
 
 - [ElasticSearch High Level REST] 精确搜索termQuery搜不到结果
 

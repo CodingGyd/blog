@@ -1,10 +1,12 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
-import { searchProPlugin } from "vuepress-plugin-search-pro";
-  
-
+import { searchProPlugin } from "vuepress-plugin-search-pro"
 export default defineUserConfig({
-  base: "/", 
+  base: "/",
+
+  lang: "zh-CN",
+  title: "代码小郭",
+  description: "代码小郭的技术博客",
   head: [
     //百度资源平台收录
     ['meta', {name: 'referrer', content: 'no-referrer-when-downgrade'}],
@@ -63,16 +65,6 @@ export default defineUserConfig({
     ["link", { rel: "icon", href: "/assets/icon/avata.svg" }],
 
   ],
-  locales: {
-    // 站点配置
-    "/": {
-      lang: "zh-CN",
-      title: "代码小郭",
-      description: "代码小郭的技术博客",
-      
-    },
-  },
- 
   plugins: [
    
     //搜索插件
@@ -82,10 +74,8 @@ export default defineUserConfig({
     }),
     
   ],
-
   theme,
- 
+
+  // Enable it with pwa
+  // shouldPrefetch: false,
 });
-
-
-

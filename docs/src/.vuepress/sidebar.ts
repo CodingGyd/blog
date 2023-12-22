@@ -1,13 +1,6 @@
 import { sidebar } from "vuepress-theme-hope";
 
-export const enSidebar = sidebar({
-  // "/": [
-  //   "",
-  //   "intro",
-  //   "slides",
-  // ],
-  
-  
+export default sidebar({
   "/zhencangziyuan/": [
     {
       text: '葵花宝典',
@@ -317,6 +310,5 @@ export const enSidebar = sidebar({
       ],
    
     }
-  ],
-  
+  ]
 });

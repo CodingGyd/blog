@@ -1,7 +1,7 @@
 {
-  "name": "code-g",
+  "name": "code-gyd",
   "version": "2.0.0",
-  "description": "我的博客",
+  "description": "code-blog",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -12,9 +12,12 @@
   },
   "devDependencies": {
     "@vuepress/client": "2.0.0-rc.0",
-    "vue": "^3.3.11",
+    "@waline/client": "3.0.0-alpha.8",
+    "vue": "^3.3.12",
     "vuepress": "2.0.0-rc.0",
-    "vuepress-plugin-search-pro": "2.0.0-rc.2",
-    "vuepress-theme-hope": "2.0.0-rc.2"
+    "vuepress-theme-hope": "2.0.0-rc.5"
+  },
+  "dependencies": {
+    "vuepress-plugin-search-pro": "2.0.0-rc.5"
   }
 }
