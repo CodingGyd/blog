@@ -1,20 +1,23 @@
 ---
-title: Elasticsearch入门
-shortTitle: Elasticsearch入门
+title: Elasticsearch入门-基本概念介绍
+shortTitle: Elasticsearch入门-基本概念介绍
 date: 2023-12-20
 category:
   - 微服务中间件
-description: 记录elasticsearch的基础知识
+description: 记录Elasticsearch的基本概念介绍
 head:
   - - meta
     - name: keywords
       content: Elasticsearch,全文检索,大数据搜索,分词查找,统计分析
 ---
 
-# Elasticsearch入门
+# Elasticsearch入门-基本概念介绍
+
+[TOC]
+
 ## 一、前言
 
-最近接了个需求，需要实现一个全文检索页面，客户直接点名了要我们使用ElasticSearch，小郭在之前并没有使用过这个组件，特意花了两天时间对它的基础知识进行了学习，总结出来分享给有兴趣的小伙伴。
+最近接了个需求，需要实现一个全文检索页面，客户直接要求我们使用ElasticSearch，小郭在之前并没有使用过这个组件，特意花了两天时间对它的基础知识进行了学习和总结，分享给有兴趣的小伙伴。
 
 > 本文适合ElasticSearch的初学者阅读。
 
@@ -22,7 +25,7 @@ head:
 
 Elasticsearch 为所有类型的数据提供近乎实时的搜索和分析。无论是具有结构化或非结构化文本、数字数据或地理空间数据， Elasticsearch 可以以支持快速搜索的方式有效地存储和索引它。随着数据和查询量的增长， Elasticsearch 的分布式特性也支持无缝扩展。
 
-Elasticsearch 提供了一个简单、连贯的 REST API，用于管理集群和建立索引 并搜索数据。我们可以直接从命令行或通过 Kibana 中的开发人员控制台提交搜索请求。或者使用所选语言的 Elasticsearch 客户端（Java、JavaScript、Go、.NET、PHP、Perl、Python 或 Ruby）从应用程序发起搜索请求。
+Elasticsearch 提供了一些 REST API，用于管理集群和建立索引 并搜索数据。我们可以直接从命令行或通过 Kibana 中的开发人员控制台提交搜索请求。或者使用所选语言的 Elasticsearch 客户端（Java、JavaScript、Go、.NET、PHP、Perl、Python 或 Ruby）从应用程序发起搜索请求。
 
 与传统关系型数据库将信息存储为行 列式数据格式不同的是，elasticsearch是一个分布式文档存储组件。将已序列化的复杂数据结构 存储为 JSON 文档。当在集群中有多个 Elasticsearch 节点时，可以从集群中的任何节点访问存储的任何文档。
 
@@ -30,7 +33,7 @@ Elasticsearch 提供了一个简单、连贯的 REST API，用于管理集群和
 
 **那么，什么是文档、索引？**
 
-索引可以看作是文档的集合，每个 文档是字段的集合，这些字段是我们定义的业务数据。默认情况下，Elasticsearch 会为每个字段中的所有数据创建索引，并为每个索引应用专用的优化数据结构。例如，文本字段是 存储在倒排索引中，数字和地理字段存储在 BKD 树中。 能够使用每个字段的数据结构来组合和返回搜索 结果是 Elasticsearch 如此快速的原因。
+索引可以看作是文档的集合，每个文档是字段的集合，这些字段是我们定义的业务数据。默认情况下，Elasticsearch 会为每个字段中的所有数据创建索引，并为每个索引应用专用的优化数据结构。例如，文本字段是存储在倒排索引中，数字和地理字段存储在 BKD 树中。 能够使用每个字段的数据结构来组合和返回搜索 结果是 Elasticsearch 如此快速的原因。
 
 **索引的字段类型动态映射能力**
 
@@ -52,7 +55,7 @@ elasticsearch 最初的版本于 2010 年左右开始开发，并于 2010 年 2 
 
 在 Shay Banon 的领导下，Elasticsearch 不断演进和改进，引入了许多创新的功能，包括分布式架构、实时索引、强大的聚合框架等。随着 Elastic N.V. 公司的成立，Elasticsearch 成为 Elastic Stack（也称为 ELK Stack，现在称为 Elastic Stack），其中还包括 Logstash 和 Kibana 等工具，形成了一个全面的实时数据分析解决方案。
 
-### 2、与传统数据库的区别
+### 2、区别
 
 与传统关系型数据库的区别，这里以MySQL为例：
 
@@ -79,16 +82,6 @@ elasticsearch 最初的版本于 2010 年左右开始开发，并于 2010 年 2 
 4、支持插件机制，分词插件、同步插件、Hadoop插件、可视化插件等 。
 
 ## 三、版本管理
-
-[5.0.0-alpha1 发行说明（之前在 2.x 中发布的更改） |Elasticsearch 指南 [5.3\] |弹性的](https://www.elastic.co/guide/en/elasticsearch/reference/5.3/release-notes-5.0.0-alpha1-2x.html)
-
-[Elasticsearch 版本历史及新特性变化 | 程序员笔记 (knowledgedict.com)](https://www.knowledgedict.com/tutorial/elasticsearch-version-history.html)
-
-[Past Releases of Elastic Stack Software | Elastic](https://www.elastic.co/cn/downloads/past-releases#elasticsearch)
-
-[Elasticsearch版本和客户端介绍 - wangzhen3798 - 博客园 (cnblogs.com)](https://www.cnblogs.com/wangzhen3798/p/13561211.html)
-
-[Elasticsearch发展史 - wangzhen3798 - 博客园 (cnblogs.com)](https://www.cnblogs.com/wangzhen3798/p/10751516.html)
 
 ### 1、主版本简介
 
@@ -427,9 +420,60 @@ window：
 
 ## 五、基本知识
 
-### 1、数据类型
+### 1、数据读写模型
 
-数字类型有如下分类:
+要理解Elasticsearch的数据读写模型，我们先要搞懂几个概念：
+
+- **分片**：最简单的理解就是分区。类似MySQL中的分区表。随着数据量的增大，不可能将所有数据都放到一起，这样在查询和删除的时候都会非常慢。其他系统如HBASE中Region的概念对应ES的shard概念。kafka中也有分区的概念可以近似对应分片的概念。
+- **复制组**：复制组是以分片和副本为基础的。上面讲到了分片的意义。一个ES索引可以有多个分片，同样也可以有多个副本。同一分片的不同副本就构成了一个复制组，只是在ES中分的比较清楚，主副本叫做primary，从副本叫做replica。很明显前者只能有一个，后者可以有多个。
+- **同步副本**：数据写入ES是先写到primary副本再同步到replica副本的。但是由于网络等一系列问题，很难保证所有备份副本都能跟primary副本一直同步，这些能保证同步的副本就是同步副本。很明显，同步副本集合是动态变化的。其实这里还有一个问题无法保证replica副本写入正常，那就能保证primary写入正常吗？当然不能。但是如果primary都没有写入正常，这就需要开发人员或者运维人员去排查并解决问题。但是为了效率，在配置ES集群的时候可能会容忍可以有一定数量的replica副本同步不正常也算成功。
+- **master节点和primary分片：**已经很明显了，前者代表集群的一个节点，而后者则代表一个索引一个分片的主分片。前者的主要功能是选举primary分片等。而后者的主要功能是协调数据写入 。
+
+#### 1.1 基本写模型
+
+![](http://cdn.gydblog.com/images/middleware/es-3.png)
+
+ES中的每个索引操作首先使用路由解析（通常基于文档ID）到一个复制组。一旦确定了目标复制组，该操作将在内部转发到该组的当前主分片（这一阶段称为协调阶段）。主分片primary负责验证操作并将其转发到其他副本分片replica（这一阶段称为主阶段）。由于replica可以离线，因此不需要primary复制到所有副本，相反，elasticsearch的master节点会维护一个同步副本列表（这一点跟kafka很类似），同步副本需要满足一个条件，即该副本的所有索引和删除操作都跟主分片是同步的。
+
+**主分片primary上的操作基于以下基本流程：**
+
+1）验证客户端的传入操作，如果结构无效，则拒绝它（例如：字段类型是数字，但是传入了字符串）
+
+2）在本地执行操作，即索引或删除相关文档。这也将验证字段的内容 并在需要时拒绝（例如：关键字值太长，无法在 Lucene 中建立索引）。
+
+3）将操作转发到当前同步副本集中的每个副本。如果有多个副本，则此操作将并行完成。
+
+4）一旦所有同步副本都成功执行了操作并响应了主副本，主副本就会确认成功 完成对客户端的请求。
+
+**错误处理方式：**
+
+> 在索引过程中，许多事情都可能出错。例如磁盘可能会损坏，节点之间可能会断开连接，或者某些配置错误可能导致副本上的操作失败，尽管该操作在主副本上成功。这些 不常见，但必须对它们做出反应。
+
+- 如果primary本身发生故障，primary分片所在的节点会向集群master节点发送故障信息，master节点将会把其中一个同步replica提升为新的primary分片。然后客户端的请求将会转发到这个新的primary分片进行处理。
+- 如果replica分片发生故障，导致primary的请求无法到达，或者master请求到达以后无法收到确认消息。primary会向master节点申请将该分片从同步副本集中删除。primary分片在确认master节点删除有问题的同步副本以后才会向客户端发送操作成功的确认消息。之后master会尝试在其他节点创建新的同步副本，以便将系统恢复到健康状态。 
+
+#### 1.2 基本读模型
+
+> Elasticsearch 中的读取可以是按 ID 进行非常轻量级的查找，也可以是具有复杂聚合的繁重搜索请求，主备份模型的优点之一是它使所有分片副本保持相同 （悬空操作除外）。因此，单个同步副本足以为读取请求提供完整的服务。
+
+当节点收到读取请求时，该节点负责将其转发到持有相关分片的节点， 整理响应，并响应客户端。我们将该节点称为该请求的*协调节点*。基本流程 具体如下：
+
+ 1）解析对相关分片的读取请求。由于大多数搜索将发送到一个或多个索引， 所以它们通常需要从多个分片中读取数据，每个分片代表不同的数据子集。
+
+2）从分片复制组中选择每个相关分片的活动副本。这可以是主分片primary或 复制分片replica。
+
+3）向所选副本发送分片级读取请求。
+
+4）合并结果并做出响应。在按 ID 查找的情况下，只有一个相关的分片，也就不需要合并。
+
+**错误处理：**
+
+- 如果所选分片没有响应读取请求，协调节点会将请求重新发送到同一复制组的其他分片。
+- 如果复制组中的所有分片都没有响应，那么会导致请求的结果不完整，但是为了确保快速响应，`search`/`mutil search`/`bulk`/`multi get`API会以部分结果响应，并且状态码为200.
+
+### 2、基本数据类型
+
+es的基本数字类型有如下分类:
 
 | 类型         | 说明                                                         |
 | ------------ | ------------------------------------------------------------ |
@@ -450,7 +494,7 @@ window：
 使用示例：
 
 ```
-PUT shop
+PUT my_index
 {
     "mappings": {
         "my_table_index": {
@@ -465,42 +509,11 @@ PUT shop
         }
     }
 }
-
-```
-
-###  2、索引
-
-#### 2.1、索引简介
-
-索引是es组织文档的基本方式，是拥有相同结构文档的集合，可以把es的索引类比为关系型数据库的一张数据表。
-
-#### 2.2、索引基本操作
-
-#### 1）创建索引
-
-EQL：
-
-```
 ```
 
 
 
-Java写法：
-
-```
-```
-
-
-
-
-
-### 2、数据查询语法
-
-> 本节内容来源：[ElasticSearch进阶：一文全览各种ES查询在Java中的实现-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1897321)
->
-> 、[Elasticsearch高级操作及集群 - 掘金 (juejin.cn)](https://juejin.cn/post/7208015349450997816#heading-15)
->
-> 感谢大佬们的总结！
+### 3、数据检索方式
 
 在传统关系型数据库中，原生的查询语句叫做`SQL`，在elasticsearch中，这类查询语句叫做`EQL`。除了EQL之外，ES还有针对各种编程语言提供了查询客户端，比如JAVA。本小节主要总结常用的EQL语法以及对应的JAVA-API实现。
 
@@ -512,7 +525,7 @@ Java写法：
 
 
 
-数据准备：
+**测试数据准备：**
 
 | id   | title | phone       | createTime          | modifyTime          | address   | age  |      |      |      |
 | ---- | ----- | ----------- | ------------------- | ------------------- | --------- | ---- | ---- | ---- | ---- |
@@ -542,7 +555,7 @@ Java写法：
 
 接下来演示使用各种查询方式查询上面的数据。
 
-####  1.1 词条查询-精确查询
+####  3.1 词条查询-精确查询
 
 ##### 1）单值查询
 
@@ -699,7 +712,7 @@ SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 searchSourceBuilder.query(QueryBuilders.termsQuery("title.keyword", Arrays.asList("张三", "李四")));
 ```
 
-#### 1.2 词条查询-模糊查询
+#### 3.2 词条查询-模糊查询
 
 模糊查询类似Mysql里的LIKE查询。细分为前缀查询和通配符查询。通配符查询，与前缀查询类似，都属于模糊查询的范畴，但通配符显然功能更强。
 
@@ -736,8 +749,6 @@ SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 searchSourceBuilder.query(QueryBuilders.wildcardQuery("title.keyword","张*"));
 ```
 
-
-
 ##### 2）前缀查询
 
 EQL：
@@ -765,7 +776,7 @@ searchSourceBuilder.query(QueryBuilders.prefixQuery("title.keyword","张"));
 
 
 
-#### 1.3 词条查询-范围查询
+#### 3.3 词条查询-范围查询
 
 范围查询，即查询某字段在特定区间的记录。
 
@@ -803,7 +814,7 @@ searchSourceBuilder.query(QueryBuilders.rangeQuery("id").gte(1).lte(3));
 
 
 
-#### 1.4 匹配查询
+#### 3.4 匹配查询
 
 匹配（Match）查询属于全文（Fulltext）查询，不同于词条查询，ElasticSearch引擎在处理全文搜索时，首先分析（analyze）查询字符串，然后根据分词构建查询，最终返回查询结果。匹配查询共有三种类型，分别是布尔（boolean）、短语（phrase）和短语前缀（phrase_prefix），默认的匹配查询是布尔类型，这意味着，ElasticSearch引擎首先分析查询字符串，根据分析器对其进行分词，例如，对于以下match查询：
 
@@ -811,6 +822,7 @@ searchSourceBuilder.query(QueryBuilders.rangeQuery("id").gte(1).lte(3));
 "query":{  
       "match":{  
          "title":"张三"
+      }
       }
 ```
 
@@ -821,11 +833,9 @@ if (doc.eventname contains "张" or doc.eventname contains "三")
 return doc
 ```
 
+小郭的业务开发中暂时没有需要用到匹配查询的需求，等后续有实际需求时再来学习补充本小节的知识。
 
-
-小郭的业务开发中暂时没有需要用到匹配查询的需求，等后续有实际需求时再来补充本小节的知识。
-
-#### 1.5 复合查询-bool查询
+#### 3.5 复合查询-bool查询
 
 前面的例子都是单个字段条件查询，在实际应用中，我们很有可能会过滤多个值或字段。先看一个简单的例子：
 
@@ -1110,7 +1120,7 @@ searchSourceBuilder.query(QueryBuilders.boolQuery()
 );
 ```
 
-#### 1.6 聚合查询
+#### 3.6 聚合查询
 
 ##### 1）最值/平均值/求和
 
@@ -1257,48 +1267,6 @@ AggregationBuilder aggBuilder = AggregationBuilders.terms("address_count").field
 searchSourceBuilder.aggregation(aggBuilder);
 ```
 
-
-
-**多条件分组**
-
-> 查询每个地区相同名字的人数
-
-SQL：
-
-```
-select address,title,count(id) from testindex group by address,title;
-```
-
-EQL：
-
-```
-{
-	"aggregations": {
-		"address_count": {
-			"terms": {
-				"field": "address.keyword",
-				"size": 10
-			},
-			"aggregations": {
-				"title_count": {
-					"terms": {
-						"field": "title.keyword",
-						"size": 10
-					}
-				}
-			}
-		}
-	}
-}
-```
-
-Java写法：
-
-```
-```
-
-
-
 **查询聚合**
 
 > 前面所有聚合的例子请求都省略了 query ，整个请求只不过是一个聚合。这意味着我们对全部数据进行了聚合，但现实应用中，我们常常对特定范围的数据进行聚合，先筛选一批数据，再聚合统计。
@@ -1345,213 +1313,11 @@ searchSourceBuilder.query(QueryBuilders.termQuery("address", "上海"));
 searchSourceBuilder.aggregation(maxBuilder);
 ```
 
-
-
-### 3、REST API
-
-Elasticsearch REST API 支持结构化查询、全文查询和复杂查询（将两者结合在一起的查询）。
-
-*结构化查询*包括 类似于可以在 SQL 中构造的查询类型。例如，可以在索引`employee`中搜索 gender和 age字段，并对匹配结果 按字段`hire_date`排序。
-
-*全文查询*根据查询字符串查找所有文档并返回按*相关性*排序的匹配结果。
-
-#### 1）查看集群索引列表
-
-
-
-indices表示索引，是index的复数.
-
-```
-curl -X GET http://ip:9200/_cat/indices?v
-#如果要模糊匹配，可以使用*，比如匹配test
-curl -X GET http://ip:9200/_cat/indices?test_*?v
-```
-
-返回字段如下：
-
-```
-health status index                   uuid                   pri rep docs.count docs.deleted store.size pri.store.size
-green  open   index_test~2022-06     6rb1BsHpSA-pHT7u_3UNWA  20   1        208            0      1.1mb        609.8kb
-green  open   index_test~2022-07     smyDnnX3QB-4N81p4Wq9fA  30   1          4            1    222.4kb        111.2kb
-```
-
-返回字段含义如下：
-
-- health:  green代表健康；yellow代表分配了所有主分片，但至少缺少一个副本，此时集群数据仍旧完整；red代表部分主分片不可用，可能已经丢失数据。 
-- status：状态
-- index：索引名称
-- uuid：唯一标识
-- pri：primary缩写，主分片数量 
-- rep：副分片数量 
-- docs.count： Lucene 级别的文档数量
--  docs.deleted： 删除的文档 
-- store.size：全部分片大小（包含副本）
--  pri.store.size：主分片大小
-
-
-
-#### 2）查看集群状态
-
-```
-curl -XGET http://ip:9200/_cat/health?v
-```
-
-返回字段含义分别如下：
-
-- cluster ，集群名称 
-- status，集群状态 green代表健康；yellow代表分配了所有主分片，但至少缺少一个副本，此时集群数据仍旧完整；red代表部分主分片不可用，可能已经丢失数据。 
-- node.total，代表在线的节点总数量 
-- node.data，代表在线的数据节点的数量 
-- shards， active_shards 存活的分片数量 
-- pri，active_primary_shards 存活的主分片数量 正常情况下 shards的数量是pri的两倍。 
-- relo， relocating_shards 迁移中的分片数量，正常情况为 0 
-- init， initializing_shards 初始化中的分片数量 正常情况为 0 
-- unassign， unassigned_shards 未分配的分片 正常情况为 0 
-- pending_tasks，准备中的任务，任务指迁移分片等 正常情况为 0 
-- max_task_wait_time，任务最长等待时间 
-- active_shards_percent，正常分片百分比 正常情况为 100%
-
-
-
-#### 3）查看分片信息
-
-- 查看es分片信息，精确匹配，比如匹配demoindex：
-
-```
-http://ip:9200/_cat/shards/demoindex?v
-```
-
-返回的信息如下：
-
-```
-index     shard prirep state      docs store ip            node
-demoindex 0     p      STARTED       2 6.6kb 10.241.141.29 host-186a146302f
-demoindex 0     r      UNASSIGNED    
-```
-
-字段含义如下：
-
-- index：所有名称 
-- shard：分片数 
-- prirep：分片类型，p=pri=primary为主分片，r=rep=replicas为复制分片 
-- state：分片状态，STARTED为正常分片，INITIALIZING为异常分片
--  docs：记录数 
-- store：存储大小
-- ip：es节点ip 
-- node：es节点名称
-
-
-
-#### 4）查看索引的元数据
-
-```
-http://IP:9200/indexName
-```
-
-示例：
-
-```
-http://127.0.0.1:9200/demoindex
-```
-
-返回结构：
-
-```
-{
-    "demoindex": {
-        "aliases": {},
-        "mappings": {
-            "properties": {
-                "name": {
-                    "type": "text",
-                    "fields": {
-                        "keyword": {
-                            "type": "keyword",
-                            "ignore_above": 256
-                        }
-                    }
-                },
-                "commentCount": {
-                    "type": "long"
-                },
-                "createTime": {
-                    "type": "long"
-                },
-                "id": {
-                    "type": "long"
-                },
-            
-                "score": {
-                    "type": "float"
-                },
-                "status": {
-                    "type": "long"
-                },
-                "type": {
-                    "type": "long"
-                },
-               
-                "userId": {
-                    "type": "long"
-                }
-            }
-        },
-        "settings": {
-            "index": {
-                "routing": {
-                    "allocation": {
-                        "include": {
-                            "_tier_preference": "data_content"
-                        }
-                    }
-                },
-                "number_of_shards": "1",
-                "provided_name": "demoindex",
-                "creation_date": "1702523639922",
-                "number_of_replicas": "1",
-                "uuid": "RjPiS89LRIed_TcjLGaFlA",
-                "version": {
-                    "created": "7170599"
-                }
-            }
-        }
-    }
-```
-
-上面列出的就是索引`demoindex`的字段属性配置，其中需要特别注意的是这个属性`ignore_above`，解释如下：
-
-```
-长度超过ignore_above设置的字符串将不会被索引。对于字符串数组，ignore_above将分别应用于每个数组元素，并且长度超过的字符串元素ignore_above不会被索引。
-```
-
-也就是说如果我们存储的对应text类型的字段值如果超过`ignore_above`的大小，则只会存储，不会做索引分词， 这样就会导致在搜索时你模糊查询可能搜索不到，但是如果精确查找还是可以搜到的。
-
-#### 5）文档增删改查
-
-| method | 请求url                                  | 示例                                             | 描述                   |
-| ------ | ---------------------------------------- | ------------------------------------------------ | ---------------------- |
-| PUT    | ip:9200/索引名称/类型名称/文档id         |                                                  | 创建文档（指定文档id） |
-| POST   | ip:9200/索引名称/索引类型                |                                                  | 创建文档（随机文档id） |
-| POST   | ip:9200/索引名称/类型名称/文档id/_update |                                                  | 修改文档               |
-| DELETE | ip:9200/索引名称/类型名称/文档id         |                                                  | 删除文档               |
-| GET    | ip:9200/索引名称/类型名称/文档id         | http://10.241.141.29:9200/comparisontools/_doc/1 | 通过文档id查询指定文档 |
-| POST   | ip:9200/索引名称/类型名称/_search        |                                                  | 条件检索所有文档数据   |
-
-
-
-### 4、基本配置
-
-本文最全！
-
-[Es 8.x Index和Mapping详解及Java API 注解-CSDN博客](https://blog.csdn.net/lixinkuan328/article/details/132695644)
-
-[Elasticsearch入门必备——ES中的字段类型以及常用属性-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1022264)
-
-### 5、命名规范
+### 4、命名规范
 
 实际中使用Elasticsearch，首要需要考虑定义索引、映射以及字段等，本小节总结了一些必要的命名规范。
 
-#### 1）索引
+#### 4.1 索引
 索引受文件系统的限制。仅可能为小写字母，不能下划线开头。同时需遵守下列规则：
 
 - 不能包括 , /, *, ?, ", <, >, |, 空格, 逗号, #。
@@ -1564,15 +1330,11 @@ http://127.0.0.1:9200/demoindex
 以上这些命名限制是因为当Elasticsearch使用索引名称作为磁盘上的目录名称，这些名称必须符合不同操作系统的约定。
 我猜想未来可能会放开这些限制，因为我们使用uuid关联索引放在磁盘上，而不使用索引名称 。
 
-
-
-#### 2）类型
+#### 4.2 类型
 
 类型名称可以包括除了null的任何字符，不能以下划线开头。7.0版本之后不再支持类型，默认为`_doc`。
 
-
-
-#### 3）字段
+#### 4.3 字段
 
 对于对象类型，举例：
 
@@ -1590,7 +1352,7 @@ http://127.0.0.1:9200/demoindex
 }
 ```
 
-#### 4）路由
+#### 4.4 路由
 
 路由命名也是除了空的任何字符。多个路由值传入查询字符串，使用逗号分隔，如：
 
@@ -1600,9 +1362,9 @@ http://127.0.0.1:9200/demoindex
 
 如果路由值包含逗号，会造成路由值解析错误。
 
-### 6、优化建议
+### 5、最佳实践
 
-#### 1）索引性能调优建议
+#### 5.1 索引性能调优
 
 > 经验来源于网络搜集
 
@@ -1664,9 +1426,7 @@ Elasticsearch的索引默认不支持join，建议应用程序自身处理。如
 
 ​    可以在集群节点上保存的分片数量与节点服务器可用的堆内存大小成正比，但这在Elasticsearch中没有固定的限制。 **一个很好的经验法则是：确保每个节点的分片数量保持在低于每1GB堆内存对应集群的分片在20-25之间。** 因此，具有30GB堆内存的节点最多可以有600-750个分片，但是这只是极限值，实际应用中建议低于此限制， 这通常会帮助九群保持处于健康状态。
 
-
-
-#### 2）查询性能调优建议
+#### 5.2 查询性能调优
 
 - **在查询中设置明确的超时时间**
 
@@ -1744,7 +1504,7 @@ Elasticsearch 内置了很多分词器，包括 standard、cjk、nGram 等，也
 
 **aliws**：阿里巴巴自研分词，支持多种模型和分词算法，词库丰富，分词结果准确，适用于电商等对查准要求高的场景。 
 
-#### 3）其它优化建议
+#### 5.3 其它优化
 
 - **不同的业务场景进行集群级别隔离**
 
@@ -1762,6 +1522,387 @@ Elasticsearch 内置了很多分词器，包括 standard、cjk、nGram 等，也
 
 ​	本文的上一节有提到命名规范细则。
 
+### 6、SpringBoot应用接入说明
+
+#### 6.1 引入依赖
+
+```
+<!---开箱即用，默认使用的和当前使用的springboot的一一致的spring-data-elasticsearch-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+</dependency>
+```
+
+这其中有个坑就是，如果你想升级单独升级pring-boot-starter-data-elasticsearch 的版本而不升级springboot的版本，启动的时候就会报错，建议还是按照官方的版本对应关系进行选择，避免不必要的麻烦：
+
+> 官方参考链接：https://docs.spring.io/spring-data/elasticsearch/docs/3.2.4.RELEASE/reference/html/#reference
+
+![](http://cdn.gydblog.com/images/middleware/es-4.png)
+
+#### 6.2 配置
+
+```java
+@Configuration
+@Slf4j
+public class EsClientConfig extends AbstractElasticsearchConfiguration {
+
+    @Resource
+    AppConfig appConfig;
+    @Override
+    @Bean
+    public RestHighLevelClient elasticsearchClient() {
+        log.info("[RestClientConfig] ----------> url={}", appConfig.getEsUrl());
+        final ClientConfiguration clientConfiguration = ClientConfiguration.builder()
+                .connectedTo(appConfig.getEsUrl())
+                .withBasicAuth(appConfig.getEsUsername(), appConfig.getEsPassword())
+                .build();
+        return RestClients.create(clientConfiguration).rest();
+    }
+}
+```
+
+#### 6.3 应用
+
+##### 1）索引配置初始化
+
+> 可以在程序运行过程中业务访问的时候动态创建索引，或者提前创建好索引。小郭这里选择了第二种方式
+
+定义索引结构实体类：
+
+```
+public class DemoBean {
+    private int id;
+    private String title;
+    private Date addDate;
+    public DemoBean(int id, String title, Date addDate) {
+        this.id = id;
+        this.title = title;
+        this.addDate = addDate
+    }
+}
+```
+
+准备一份符合elasticsearch规范的索引字段映射描述文件（包含三个字段：title、add_date、insert_time）
+
+```
+{
+  "properties": {
+      "id": {
+      "type": "long"
+    } ,
+    "title": {
+      "type": "text",
+      "fields": {
+        "keyword": {
+          "type": "keyword",
+          "ignore_above": 256
+        }
+      }
+    },
+    "add_date": {
+      "type": "date",
+      "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+    }
+  }
+}
+```
+
+在应用启动时加载描述文件，生成索引：
+
+```
+package com.gyd.es;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+ 
+@Component
+@Order(value = 0)
+@Slf4j
+public class InitEsIndex implements CommandLineRunner {
+
+    @Autowired
+    ApplicationContext applicationContext;
+
+    @Autowired
+    AppConfig appConfig;
+
+    @Autowired
+    RestHighLevelClient restHighLevelClient;
+    /**
+     * 项目启动的时候，如果elasticsearch已经存有索引，则不做任何操作
+     * 如果没有索引，则新建索引
+     *
+     * @param args
+     * @throws Exception
+     */
+    @Override
+    public void run(String... args) throws Exception {
+        if (appConfig.getEsEnable()) {
+            GetIndexRequest getIndexRequest = new GetIndexRequest(appConfig.getCaseEsIndexName());
+            boolean indexExists = restHighLevelClient.indices().exists(getIndexRequest, RequestOptions.DEFAULT);
+            if (indexExists){
+                log.warn("存在索引");
+            }else {
+                log.warn("索引不存在。。。");
+                try {
+                    String indexConfig = readIndexConfigFromJsonFile();
+                    CreateIndexRequest request = new CreateIndexRequest(appConfig.getCaseEsIndexName());
+                    request.mapping(appConfig.getEsType(),indexConfig,XContentType.JSON);
+                    // 2、执行请求
+                    CreateIndexResponse createIndexResponse = restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
+                    boolean acknowledged = createIndexResponse.isAcknowledged();
+                    boolean shardsAcknowledged = createIndexResponse.isShardsAcknowledged();
+                    log.info("创建es索引：acknowledged= {},shardsAcknowledged = {}",acknowledged,shardsAcknowledged);
+                }catch (Exception e){
+                    log.error("error: {}", e.getLocalizedMessage());
+                }
+            }
+        } else {
+            log.warn("未开启es...skip");
+        }
+
+    }
+
+    public String readIndexConfigFromJsonFile() throws IOException {
+        Resource resource = applicationContext.getResource("classpath:es.json");
+        InputStream inputStream = resource.getInputStream();
+        String indexConfig = IOUtils.toString(inputStream, String.valueOf(StandardCharsets.UTF_8));
+        return indexConfig;
+    }
+}
+
+```
+
+##### 2）索引操作
+
+```
+package com.gyd.controller;
+
+import io.swagger.annotations.ApiOperation;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.GetIndexRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+
+@RestController
+@RequestMapping("/es/tool/index/")
+@ApiIgnore
+public class ElasticSearchIndexToolController {
+    @Autowired(required = false)
+    RestHighLevelClient restHighLevelClient;
+  
+    @GetMapping(value = "/addIndex")
+    @ApiOperation("测试添加索引（不能重复添加相同索引）")
+    public ResultWrapper<String> addIndex(@RequestParam(name = "indexName") String indexName) throws IOException {
+        // 1、创建索引请求
+        CreateIndexRequest request = new CreateIndexRequest(indexName);
+        // 2、执行请求
+        CreateIndexResponse createIndexResponse = restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
+        return ResultWrapper.SUCCESS("测试"+createIndexResponse.toString());
+        //BulkRequest的方式可以支持批量操作
+        //        BulkRequest request = new BulkRequest();
+//        request.add(new IndexRequest("demoindex","doc").source(JSONObject.toJSONString(demoBean ), XContentType.JSON));
+//         BulkResponse bulk = restHighLevelClient.bulk(request);
+//        return ResultWrapper.SUCCESS("测试"+bulk.toString());
+    }
+  
+    @GetMapping(value = "/existIndex")
+    @ApiOperation("判断索引是否存在")
+    public ResultWrapper<Boolean> existIndex(@RequestParam(name = "indexName") String indexName) throws IOException {
+        GetIndexRequest request = new GetIndexRequest(indexName);
+        boolean exists = restHighLevelClient.indices().exists(request, RequestOptions.DEFAULT);
+        return ResultWrapper.SUCCESS(exists);
+    }
+    
+    @GetMapping(value = "/deleteIndex")
+    @ApiOperation("测试删除索引")
+    public ResultWrapper<AcknowledgedResponse> deleteIndex(@RequestParam(name = "indexName") String indexName) throws IOException {
+        DeleteIndexRequest request = new DeleteIndexRequest(indexName);
+        AcknowledgedResponse delete = restHighLevelClient.indices().delete(request, RequestOptions.DEFAULT);
+        return ResultWrapper.SUCCESS(delete);
+    }
+}
+```
+
+
+
+##### 3）文档操作
+
+```
+package com.gyd.controller;
+
+import com.alibaba.fastjson.JSON;
+import io.swagger.annotations.ApiOperation;
+
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@RestController
+@RequestMapping("/es/tool/doc/")
+@ApiIgnore
+public class ElasticSearchDocToolController {
+    @Autowired(required = false)
+    RestHighLevelClient restHighLevelClient;
+
+    private String indexName = "testindex";
+    private String type = "_doc";
+
+    @GetMapping(value = "/addDoc")
+    @ApiOperation("测试在索引中添加文档(如果没有索引会自动创建)")
+    public ResultWrapper<String> addDoc(@RequestParam(name = "indexName") String indexName,@RequestParam(name = "id") String id) throws IOException {
+        // 创建对象
+        DemoBean demoBean = new DemoBean(Integer.parseInt(id),"测试1",new Date());
+        // 创建请求 规则:put /testindex/_doc/1
+        IndexRequest indexRequest = new IndexRequest(indexName,type,String.valueOf(demoBean.getId()));
+        // 将我们的数据放入请求 json
+        String jsonUser = JSON.toJSONString(demoBean);
+        indexRequest.source(jsonUser, XContentType.JSON);
+        // 客户端发送请求
+        IndexResponse index = restHighLevelClient.index(indexRequest, RequestOptions.DEFAULT);
+        return ResultWrapper.SUCCESS(index.toString());
+
+    }
+
+    @GetMapping(value = "/queryDoc")
+    @ApiOperation("查询文档")
+    public ResultWrapper<String> queryDoc(@RequestParam(name = "indexName") String indexName,@RequestParam(name = "id") String id) throws IOException {
+        // get /index/_doc/1
+        GetRequest getRequest = new GetRequest(indexName, type,id);
+        GetResponse getResponse = restHighLevelClient.get(getRequest, RequestOptions.DEFAULT);
+        System.out.println("getResponse = " + getResponse);
+        return ResultWrapper.SUCCESS(getResponse.getSourceAsString());
+    }
+    
+    @GetMapping(value = "/updateDoc")
+    @ApiOperation("更新文档")
+    public ResultWrapper<UpdateResponse>  updateDocument(@RequestParam(name = "indexName") String indexName,@RequestParam(name = "id") String id) throws IOException {
+        // post /index/_doc/1/_update
+        UpdateRequest updateRequest = new UpdateRequest(indexName,type, id);
+        // 修改内容
+        DemoBean demoBean = new DemoBean(Integer.parseInt(id),"测试1",new Date());
+
+        String jsonUser = JSON.toJSONString(demoBean);
+        updateRequest.doc(jsonUser,XContentType.JSON);
+
+        UpdateResponse update = restHighLevelClient.update(updateRequest, RequestOptions.DEFAULT);
+        System.out.println("update = " + update);
+        return ResultWrapper.SUCCESS(update);
+    }
+
+    @GetMapping(value = "/deleteDoc")
+    @ApiOperation("删除文档")
+    public ResultWrapper<DeleteResponse>  deleteDoc(@RequestParam(name = "indexName") String indexName,@RequestParam(name = "id") String id) throws IOException {
+        // DELETE /index/_doc/1
+        DeleteRequest deleteRequest = new DeleteRequest(indexName, type,id);
+        DeleteResponse delete = restHighLevelClient.delete(deleteRequest, RequestOptions.DEFAULT);
+        System.out.println("delete.status() = " + delete.status());
+        return ResultWrapper.SUCCESS(delete);
+    }
+
+    @GetMapping(value = "/batchInsertDoc")
+    @ApiOperation("批量插入文档")
+    public ResultWrapper<BulkResponse> batchInsertDoc() throws IOException {
+        BulkRequest bulkRequest = new BulkRequest();
+
+        List<DemoBean> dataList = new ArrayList<>();
+        dataList.add(new DemoBean(1,"测试1",new Date()));
+        dataList.add(new DemoBean(2,"测试2",new Date()));
+        dataList.add(new DemoBean(3,"测试3",new Date()));
+        // 批处理请求
+        int size = dataList.size();
+        for (int i = 0; i < size; i++) {
+            DemoBean bean = dataList.get(i);
+            // 如果是批量更新、删除改这里就可以
+            bulkRequest.add(new IndexRequest(indexName)
+                    .id(""+bean.getId())
+                            .type(type)
+                    .source(JSON.toJSONString(bean),XContentType.JSON));
+        }
+        BulkResponse response = restHighLevelClient.bulk(bulkRequest,RequestOptions.DEFAULT);
+        return ResultWrapper.SUCCESS(response);
+
+    }
+
+    @GetMapping(value = "/searchDoc")
+    @ApiOperation("搜素文档")
+    public ResultWrapper<SearchHits> search1() throws IOException {
+        SearchRequest searchRequest = new SearchRequest(indexName);
+        // 使用搜索条件构造器，构造搜索条件
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
+        //查询条件，使用QueryBuilders 工具类，来实现
+        // QueryBuilders.termQuery 精确查询
+        //如果是中文需要在name后面增加'.keyword'!!!
+        TermQueryBuilder queryBuilder = QueryBuilders.termQuery("title.keyword", "测试1");
+        // QueryBuilders.matchAllQuery 匹配所有
+//		MatchAllQueryBuilder allQueryBuilder = QueryBuilders.matchAllQuery();
+
+        sourceBuilder.query(queryBuilder);
+        searchRequest.source(sourceBuilder);
+
+        SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
+        return ResultWrapper.SUCCESS(search.getHits());
+    }
+}
+
+```
+
+
+
+
+
 ## 六、遇到的问题
 
 - 创建索引时报ElasticsearchStatusException[Elasticsearch exception [type=too_long_frame_exception, reason=An HTTP line is larger than 4096 bytes.]]
@@ -1775,7 +1916,7 @@ http.max_header_size: "16k"
 http.max_content_length: 500mb
 ```
 
-然后重启服务
+​    修改完毕后重启服务
 
 - [ElasticSearch High Level REST] 精确搜索termQuery搜不到结果
 
@@ -1788,7 +1929,7 @@ http.max_content_length: 500mb
     SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
     //查询条件，使用QueryBuilders 工具类，来实现
     // QueryBuilders.termQuery 精确查询
-    TermQueryBuilder queryBuilder = QueryBuilders.termQuery("title", "测试223");
+    TermQueryBuilder queryBuilder = QueryBuilders.termQuery("title", "测试2");
     sourceBuilder.query(queryBuilder);
     searchRequest.source(sourceBuilder);
     SearchResponse search = restHighLevelClient.search(searchRequest, RequestOptions.DEFAULT);
@@ -1801,7 +1942,7 @@ http.max_content_length: 500mb
   发现查找不到，处理方法是在构造TermQueryBuilder对象时，在要检索的字段后面加上“.keyword”，亲测有效哦！
 
   ```
-  TermQueryBuilder queryBuilder = QueryBuilders.termQuery("title.keyword", "测试223");
+  TermQueryBuilder queryBuilder = QueryBuilders.termQuery("title.keyword", "测试2");
   ```
 
   
@@ -1827,18 +1968,9 @@ http.max_content_length: 500mb
 
    
 
-  
-
   网上还有一种说法是将字段的type设置为keyword ，小郭没试过，有兴趣的朋友可以验证一下。
-
-
-
-  学习资料：
-
-  https://zhuanlan.zhihu.com/p/496868297
-
 
 
 ## 七、参考资料
 
-[Quick start | Elasticsearch Guide [8.11\] | Elastic](https://www.elastic.co/guide/en/elasticsearch/reference/8.11/getting-started.html)
+[官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/8.11/getting-started.html)
