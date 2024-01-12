@@ -1,21 +1,30 @@
 ---
-# icon: lock
+title: 性能测试工具-JMeter入门
+shortTitle: 性能测试工具-JMeter入门
 date: 2023-07-05
-article: false 
 category:
   - 软件测试
 tag:
   - 性能测试
+head:
+  - - meta
+    - name: keywords
+      content: 性能测试,压力测试,软件测试,JMeter
 ---
 
-# 性能测试工具-JMeter入门
-性能测试(压测)是企业项目必须要做的一个环节。
 
-## JMeter的安装
+
+# 性能测试工具-JMeter入门
+
+## 一、前言
+
+性能测试(压测)是企业项目必须要做的一个环节，下面总结在性能测试中常用的工具`JMeter`的简单使用。
+
+## 二、安装
 官方下载链接：https://jmeter.apache.org/download_jmeter.cgi
 <img src="http://cdn.gydblog.com/images/test/jmeter-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## JMeter的系统参数配置和启动
+## 三、配置和启动
 - 配置：解压下载好的程序zip包，并找到文件 jmeter.properties 修改语言 [optional]
 <img src="http://cdn.gydblog.com/images/test/jmeter-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/test/jmeter-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -33,12 +42,12 @@ tag:
 图形化窗口：
 <img src="http://cdn.gydblog.com/images/test/jmeter-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## JMeter的入门简单使用。
-下面用一个接口压测来演示JMeter的简单使用。
+## 四、简单使用
+下面用一个接口压测场景来演示JMeter的简单使用。
 
 > 接口业务场景：对数据库同一条记录进行并发更新，主要统计当天进和出的人流量。
 
-### 业务表结构
+### 1、业务表结构
 ```sql
 
 CREATE TABLE `demo` (
@@ -54,7 +63,7 @@ CREATE TABLE `demo` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='人员进出统计';
 ```
 
-### 业务接口逻辑代码
+### 2、业务接口逻辑代码
 ```java
 package com.gyd.service.impl;
 
@@ -195,16 +204,16 @@ public class DemoController {
 }
 
 ```
- 
-### 压测参数配置-并发线程和执行次数
+
+### 3、压测参数配置-并发线程和执行次数
 > 计划100个线程并发1次
 
 <img src="http://cdn.gydblog.com/images/test/jmeter-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 压测参数配置-http请求入参配置
+### 4、压测参数配置-http请求入参配置
 <img src="http://cdn.gydblog.com/images/test/jmeter-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 压测结果数据查看
+### 5、压测结果数据查看
 - 选中线程组tab，执行压测
 <img src="http://cdn.gydblog.com/images/test/jmeter-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
@@ -231,14 +240,14 @@ public class DemoController {
 
 <img src="http://cdn.gydblog.com/images/test/jmeter-11.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 结论
+### 6、结论
 > 执行100个线程并发访问1次，预期是1000，数据库符合预期
 > 多次反复执行100个线程访问，数据库均符合预期
 
 > 并发线程数越高，接口聚合报告中的性能指标数据越差
 
 
-## 知识盲区
+## 五、遇到的问题
 压测过程遇到一个知识盲区：接口的service方法内增加了synchronized同步代码块机制，但是并发测试并没有生效。排查下来发现这是Spring事务管理下synchronized锁失效问题
 
 原因是：service方法有默认开启事务功能，Spring事务的底层是Spring AOP，而Spring AOP的底层是动态代理技术。 
