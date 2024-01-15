@@ -4,7 +4,7 @@
 
 # python学习笔记
 
-本文是小郭在学习[Python教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/1016959663602400)时按个人习惯总结的学习笔记，记录在此，方便后续查阅。
+>  本文是小郭在学习Python时按个人习惯总结的学习笔记，记录在此，方便后续查阅。
 
 ## 1、起源
 
@@ -12,31 +12,67 @@ python是著名的“龟叔”Guido van Rossum在1989年圣诞节期间，为了
 
 吉多·范罗苏姆（Guido van Rossum） ，是一名荷兰计算机程序员。为什么在中国被人叫`龟叔`呢？因为 吉多·范罗苏姆(Guido van Rossum)中的Guido（吉多），**拼音（哥威龟）Gui 龟**，所以被中国程序员**戏称**为“龟叔”。
 
-<img src="http://cdn.gydblog.com/images/python/python-1.png"  style="zoom: 30%;margin:0 auto;display:block"/><br/>
+<img src="http://cdn.gydblog.com/images/python/python-1.png"  style="zoom: 30%;margin:0 auto;display:block"/>
 
-## 2、和其它语言的区别
 
-**先来说说缺点**
+
+1989年圣诞节期间，在阿姆斯特丹，Guido为了打发圣诞节的无趣，决心开发一个新的脚本解释程序，作为ABC语言的一种继承。之所以选中单词Python（意为大蟒蛇）作为该编程语言的名字，是因为英国20世纪70年代首播的电视喜剧《蒙提·派森的飞行马戏团》（Monty Python's Flying Circus）。
+
+ABC语言是由Guido参加设计的一种教学语言。Guido本人认为ABC这种语言非常优美和强大，是专门为非专业程序员设计的。但是ABC语言并没有成功，究其原因，Guido认为是其非开放造成的。Guido决心在Python中避免这一错误。同时，他还想实现在ABC中闪现过但未曾实现的东西。
+
+## 2、优缺点
+
+**说说缺点**
 
 - 运行速度慢
 
    和C程序相比非常慢，因为Python是解释型语言，代码在执行时会一行一行地翻译成CPU能理解的机器码，这个翻译过程非常耗时，所以很慢。而C程序是运行前直接编译成CPU能执行的机器码，所以非常快。
 
-- 源代码不能加密。如果要发布Python程序，实际上就是发布源代码。
+- 源代码不能加密
+
+   如果要发布Python程序，实际上就是发布源代码。如果需要一段关键代码运行得更快或者希望某些算法不公开，可以部分程序用C或C++编写，然后在Python程序中使用它们。
+
+**说说优点**
+
+- 丰富的类库
+
+​		Python的库很庞大。它可以帮助处理各种工作，包括正则表达式、文档生成、单元测试、线程、数据库、[网页浏览器](https://baike.baidu.com/item/网页浏览器/8309940?fromModule=lemma_inlink)、CGI、		FTP、[电子邮件](https://baike.baidu.com/item/电子邮件/111106?fromModule=lemma_inlink)、XML、XML-RPC、HTML、WAV文件、密码系统、GUI（图形用户界面）、Tk和其他与系统有关的操作。这被称		作Python的“功能齐全”理念。除了标准库以外，还有许多其他高质量的库，如wxPython、Twisted和Python图像库等等
+
+其它优点：规范的代码、简单易学、速度较快、免费开源、面向对象、可扩展、可嵌入等等优点。
+
+
 
 ## 3、谁在用？
 
-许多大型网站就是用Python开发的，例如YouTube、[Instagram](http://instagram.com/)，还有国内的[豆瓣](http://www.douban.com/)。很多大公司，包括Google、Yahoo等，甚至[NASA](http://www.nasa.gov/)（美国航空航天局）都大量地使用Python。
+许多大型网站就是用Python开发的，例如YouTube、Instagram，还有国内的豆瓣。很多大公司，包括Google、Yahoo等，甚至[NASA](http://www.nasa.gov/)（美国航空航天局）都大量地使用Python。很多在线游戏的后台也都是Python开发的。
 
-python的首选场景是网络应用，包括网站、后台服务等等；
+在国外用Python做科学计算的研究机构也日益增多，一些知名大学已经采用Python来教授程序设计课程。例如卡耐基梅隆大学的编程基础、麻省理工学院的计算机科学及编程导论就使用Python语言讲授。众多开源的科学计算软件包都提供了Python的调用接口，例如著名的计算机视觉库OpenCV、三维可视化库VTK、医学图像处理库ITK。而Python专用的科学计算扩展库就更多了，例如如下3个十分经典的科学计算扩展库：NumPy、SciPy和matplotlib，它们分别为Python提供了快速数组处理、数值运算以及绘图功能。因此Python语言及其众多的扩展库所构成的开发环境十分适合工程技术、科研人员处理实验数据、制作图表，甚至开发科学计算应用程序。
 
-其次是许多日常需要的小工具，包括系统管理员需要的脚本任务等等；
+**适用领域总结** 
 
-另外就是把其他语言开发的程序再包装起来，方便使用。
+- 网络爬虫：只要提到爬虫技术，都会提及到Python，Python几乎是霸主地位，想爬什么就爬什么；
+
+- 自动化测试：编写为简单的实现脚本，运用在Selenium/lr中，实现自动化；
+
+- 数据分析：实现数据可视化，直观的展示数据；
+
+- 网站开发：借助django,flask框架自己搭建网站；
+
+- 人工智能：Python由于简便、库多、可读性强、可植入等优点，被作为人工智能的主要开发语言；
+
+- 自动化运维：自动化处理大量的运维任务，系统管理员需要的脚本任务等等；
+
+- 金融分析：目前为止，Python是金融分析、量化交易领域用的最多的语言；
+
+- 游戏开发：在网络游戏开发中Python也有很多应用。网易的两大游戏客户端引擎（NeoX和Messiah），都是使用Python作为脚本语言的；
+
+- 日常小工具：许多日常需要的小工具都可以考虑用Python开发，可以提高工作效率。
 
 ## 4、环境安装
 
-根据Windows版本（64位还是32位）从Python的官方网站下载Python 3.12对应的[安装程序](https://www.python.org/downloads/windows/)，然后，运行下载的exe安装包：
+> 截止20240115，Python最新的稳定版是3.12.1
+
+根据Windows版本（64位还是32位）从Python的官方网站下载Python 对应的最新[安装程序](https://www.python.org/downloads/windows/)，然后，运行下载的exe安装包：
 
 <img src="http://cdn.gydblog.com/images/python/python-2.png"  style="zoom: 30%;margin:0 auto;display:block"/>
 
@@ -54,11 +90,62 @@ python的首选场景是网络应用，包括网站、后台服务等等；
 
 ## 5、第一个程序
 
-**编译器**
+### 1）开发工具选型
 
-小郭选择轻量级的Visual Studio Code作为python的编写环境。
+支持Python的编辑器有非常多，下面摘录了百度百科中介绍的工具：
 
-**源代码编写**
+- IDLE：Python内置IDE（随python安装包提供）
+
+- PyCharm：详见百度百科PyCharm，由著名的JetBrains公司开发，带有一整套可以帮助用户在使用Python语言开发时提高其效率的工具，比如调试、语法高亮、Project管理、代码跳转、智能提示、自动完成、单元测试、版本控制。 [10]此外，该IDE提供了一些高级功能，以用于支持Django框架下的专业Web开发。
+
+- Komodo和Komodo Edit：后者是前者的免费精简版
+
+- Spyder：安装Anaconda自带的高级IDE
+
+- PythonWin：ActivePython或pywin32均提供该IDE，仅适用于Windows
+
+- SPE（Stani's Python Editor）：功能较多的自由软件，基于wxPython
+
+- Ulipad：功能较全的自由软件，基于wxPython；作者是中国Python高手limodou
+
+- WingIDE：可能是功能最全的IDE，但不是自由软件（教育用户和开源用户可以申请免费key）
+
+- Eric：基于PyQt的自由软件，功能强大。全名是：The Eric Python IDE
+
+- DrPython
+
+- PyScripter：使用Delphi开发的轻量级的开源Python IDE，支持Python2.6和3.0。
+
+- PyPE：一个开源的跨平台的PythonIDE。
+
+- bpython：类Unix操作系统下使用curses库开发的轻量级的Python解释器。语法提示功能。
+
+- eclipse+pydev插件：方便调试程序
+
+- emacs：自带python支持，自动补全、refactor等功能需要插件支持
+
+- Vim：最新7.3版编译时可以加入python支持，提供python代码自动提示支持
+
+- Visual Studio 2003+VisualPython：仅适用Windows，已停止维护，功能较差
+
+- SlickEdit
+
+- Visual Studio 2010+Python Tools for Visual Studio
+
+- TextMate
+
+- Netbeans IDE
+
+- Sublime
+
+- ipython
+- Visual Studio Code
+
+另外，诸如Notepad++、EditPlus、UltraEdit等通用的程序员文本编辑器软件也能对Python代码编辑提供一定的支持，比如代码自动着色、注释快捷键等，但是否够得上集成开发环境的水平，尚有待评估。
+
+小郭选择了轻量级的Visual Studio Code作为python的编写环境。
+
+### 2）源代码编写
 
 打开Visual Studio Code，新建`hello.py`文件，然后输入如下内容：
 
@@ -67,7 +154,7 @@ python的首选场景是网络应用，包括网站、后台服务等等；
 print('hello, world')
 ```
 
-**运行**
+### 3）运行
 
 在`hello.py`文件目录下打开命令行窗口，输入`python hello.py`，回车，即可运行：
 
@@ -794,7 +881,7 @@ new Hello().test_function(1,2)
 
 
 
-#### 3）内置函数
+#### 3）内置函数（functools）
 
 [Built-in Functions — Python 3.12.1 documentation](https://docs.python.org/3/library/functions.html#abs)
 
@@ -2363,7 +2450,7 @@ todo  [分布式进程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www
 
 Python提供了许多实用的内置模块，无需手动导入即可使用。
 
-#### 1）collections
+### 1）collections
 
 > collections是Python内建的一个集合模块，提供了许多有用的集合类。可以根据需要选用。
 
@@ -2409,9 +2496,7 @@ print(c)
 #ChainMap：可以把一组dict串起来并组成一个逻辑上的dict。ChainMap本身也是一个dict，但是查找的时候，会按照顺序在内部的dict依次查找。可以用ChainMap实现参数的优先级查找
 ```
 
-
-
-#### 2）datetime
+### 2）datetime
 
 > datetime是Python处理日期和时间的标准库。
 
@@ -2448,9 +2533,7 @@ print(now - timedelta(days=1))
 print(now + timedelta(days=2, hours=12))
 ```
 
-
-
-#### 3）base64
+### 3）base64
 
 > Python内置的`base64`可以直接进行base64的编解码
 
@@ -2467,9 +2550,7 @@ b'5L2g5aW9'
 你好
 ```
 
-
-
-#### 4）hashlib
+### 4）hashlib
 
 >  Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等。
 
@@ -2503,9 +2584,7 @@ b752d34ce353e2916e943dc92501021c8f6bca8c
 2c76b57293ce30acef38d98f6046927161b46a44
 ```
 
-
-
-#### 5）itertools
+### 5）itertools
 
 > Python的内建模块`itertools`提供了非常有用的用于操作迭代对象的函数。`itertools`模块提供的全部是处理迭代功能的函数，它们的返回值不是list，而是`Iterator`，只有用`for`循环迭代的时候才真正计算。
 
@@ -2540,11 +2619,11 @@ for key, group in itertools.groupby('AaaBBbcCAAa', lambda c: c.upper()):
 
 
 
-#### 6）contextlib
+### 6）contextlib
 
 > 某段代码执行前后自动执行特定代码
 
-#### 7）urllib
+### 7）urllib
 
 urllib提供的功能就是利用程序去执行各种HTTP请求。如果要模拟浏览器完成特定功能，需要把请求伪装成浏览器。伪装的方法是先监控浏览器发出的请求，再根据浏览器的请求头来伪装，`User-Agent`头就是用来标识浏览器的。
 
@@ -2592,7 +2671,7 @@ with request.urlopen(req, data=login_data.encode('utf-8')) as f:
     print('Data:', f.read().decode('utf-8'))
 ```
 
-#### 8）xml
+### 8）xml
 
 在Python中使用SAX解析XML非常简洁，我们只需要关心的事件是`start_element`，`end_element`和`char_data`，准备好这3个函数，然后就可以解析xml了。
 
@@ -2607,8 +2686,6 @@ with request.urlopen(req, data=login_data.encode('utf-8')) as f:
 1. start_element事件，在读取`<a href="/">`时；
 2. char_data事件，在读取`python`时；
 3. end_element事件，在读取`</a>`时
-
-
 
 - 解析xml示例
 
@@ -2684,8 +2761,6 @@ sax:char_data:
 sax:end_element: ol
 ```
 
-
-
 - 生成xml示例
 
 ```
@@ -2700,9 +2775,7 @@ print(''.join(L))
 <?xml version="1.0"?><root>some & data</root>
 ```
 
-
-
-#### 9）HTMLParser
+### 9）HTMLParser
 
 一般分析一个互联网网站，第一步是用爬虫把目标网站的页面抓下来，第二步就是解析该HTML页面，看看里面的内容到底是新闻、图片还是视频。
 
@@ -2749,7 +2822,525 @@ parser.feed('''<html>
 
 ## 8、常用第三方模块
 
-## 9、参考资料
+基本上，所有的第三方模块都会在[PyPI - the Python Package Index](https://pypi.python.org/)上注册，只要找到对应的模块名字，即可用pip安装。
+
+安装后，main环境的外部库储存在python安装目录的Lib/site-packages文件夹中，virtualenv的外部库在C:\Users\用户名\Envs\ENV环境名\Lib\site-packages文件夹中。
+
+pip安装示例：
+
+```
+#安装pillow
+pip install pillow
+```
+
+### 1）pillow
+
+PIL提供了操作图像的强大功能，可以通过简单的代码完成复杂的图像处理。
+
+```
+from PIL import Image,ImageFilter,ImageDraw, ImageFont
+import random
+
+# 打开一个jpg图像文件，注意是当前路径:
+im = Image.open('python-1.png')
+
+#######重新缩放图片
+# 获得图像尺寸:
+w, h = im.size
+print('Original image size: %sx%s' % (w, h))
+# 缩放到50%:
+im.thumbnail((w//2, h//2))
+print('Resize image to: %sx%s' % (w//2, h//2))
+# 把缩放后的图像用jpeg格式保存:
+im.save('thumbnail.jpg', 'jpeg')
+
+########应用模糊滤镜
+im2 = im.filter(ImageFilter.BLUR)
+im2.save('blur.jpg', 'jpeg')
+
+#########生成验证码
+# 随机字母:
+def rndChar():
+    return chr(random.randint(65, 90))
+
+# 随机颜色1:
+def rndColor():
+    return (random.randint(64, 255), random.randint(64, 255), random.randint(64, 255))
+
+# 随机颜色2:
+def rndColor2():
+    return (random.randint(32, 127), random.randint(32, 127), random.randint(32, 127))
+
+# 240 x 60:
+width = 60 * 4
+height = 60
+image = Image.new('RGB', (width, height), (255, 255, 255))
+# 创建Font对象:
+font = ImageFont.truetype('Arial.ttf', 36)
+# 创建Draw对象:
+draw = ImageDraw.Draw(image)
+# 填充每个像素:
+for x in range(width):
+    for y in range(height):
+        draw.point((x, y), fill=rndColor())
+# 输出文字:
+for t in range(4):
+    draw.text((60 * t + 10, 10), rndChar(), font=font, fill=rndColor2())
+# 模糊:
+image = image.filter(ImageFilter.BLUR)
+image.save('code.jpg', 'jpeg')
+```
+
+
+
+### 2）requests
+
+Python内置的urllib模块，用于访问网络资源。但是，它用起来比较麻烦，而且，缺少很多实用的高级功能。更好的方案是使用requests。它是一个Python第三方库，处理URL资源特别方便。
+
+安装requests
+
+```
+#如果安装了Anaconda，requests就已经可用了。否则，需要在命令行下通过pip安装：
+pip install requests
+```
+
+简单使用：
+
+```
+import requests
+#GET方式访问一个网页 不带参数
+r = requests.get('https://juejin.cn/') # 掘金社区首页
+print(r.status_code)
+print(r.text)
+print(r.encoding) #获得编码
+print(r.content) #获得byte格式内容
+print(r.headers) #获取响应头
+
+#GET方式访问一个网页， 传入一个dict作为URL的传参
+r = requests.get('https://www.douban.com/search', params={"aid":2608,"uuid":"7324137434249250343","spider":0,"query":"java","id_type":0,"cursor":0,"limit":20,"search_type":0,"sort_type":0,"version":1})
+
+
+# #需要传入HTTP Header时，传入一个dict作为headers参数：
+r = requests.get('https://api.juejin.cn/search_api/v1/search', headers={'authority':'api.juejin.cn','method':'GET','path':'/search_api/v1/search?aid=2608&uuid=7324137434249250343&spider=0&query=java&id_type=0&cursor=0&limit=20&search_type=0&sort_type=0&version=1','User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0"}, params={"aid":2608,"uuid":"7324137434249250343","spider":0,"query":"java","id_type":0,"cursor":0,"limit":20,"search_type":0,"sort_type":0,"version":1})
+# print(r.status_code)
+# print(r.text)
+# print(r.encoding) #获得编码
+# print(r.content) #获得byte格式内容
+
+#要发送POST请求，只需要把get()方法变成post()，然后传入data参数作为POST请求的数据，同时指定超时时间为2.5秒
+r = requests.post('https://accounts.douban.com/login', data={'form_email': 'abc@example.com', 'form_password': '123456'},timeout=2.5)
+print(r.status_code)
+print(r.text)
+
+#requests默认使用application/x-www-form-urlencoded对POST数据编码。如果要传递JSON数据
+params = {'key': 'value'}
+r = requests.post(url, json=params) # 内部自动序列化为JSON
+
+#上传文件需要更复杂的编码格式，但是requests把它简化成files参数：
+upload_files = {'file': open('report.xls', 'rb')}
+r = requests.post(url, files=upload_files)
+```
+
+
+
+### 3）psutil
+
+> `psutil`这个第三方模块。全称是psutil = process and system utilities，它不仅可以通过一两行代码实现系统监控，还可以跨平台使用，支持Linux／UNIX／OSX／Windows等，是系统管理员和运维小伙伴不可或缺的必备模块。
+
+```
+#安装psutil
+pip install psutil
+```
+
+```
+import psutil
+#官网 https://github.com/giampaolo/psutil
+print(psutil.cpu_count()) # CPU逻辑数量
+print(psutil.cpu_count(logical=False)) # CPU物理核心
+print(psutil.cpu_times()) #CPU的用户／系统／空闲时间
+print(psutil.virtual_memory()) #获取物理内存信息
+
+print(psutil.virtual_memory()) #获取物理内存信息
+print(psutil.swap_memory()) #获取交换内存信息
+
+# 可以通过psutil获取磁盘分区、磁盘使用率和磁盘IO信息：
+print(psutil.disk_partitions())# 磁盘分区信息
+print(psutil.disk_usage('/'))  # 磁盘使用情况
+print(psutil.disk_io_counters())  # 磁盘IO
+
+print(psutil.net_io_counters())  # 获取网络读写字节／包的个数
+print(psutil.net_if_addrs())  # 获取网络接口信息
+print(psutil.net_if_stats())  # 获取网络接口状态
+print(psutil.net_connections()) #获取当前网络连接信息
+
+#获取进程信息
+print(psutil.pids())  #所有进程ID
+p = psutil.Process(9512) # 获取指定进程ID=9512
+print(p.name())  # 进程名称
+print(p.exe()) #进程路径
+print(p.cwd()) # 进程工作目录
+print(p.cmdline())  # 进程启动的命令行
+print(p.ppid())  # 父进程ID
+print(p.parent())  # 父进程
+print(p.children())  # 子进程列表
+print(p.status())  # 进程状态
+print(p.username())  # 进程用户名
+print(p.create_time())  # 进程创建时间
+print(p.cpu_times())  # 进程使用的CPU时间
+print(p.memory_info())  # 进程使用的内存
+print(p.memory_info())  # 进程使用的内存
+print(p.open_files()) # 进程打开的文件
+print(p.open_files()) # 进程打开的文件
+print(p.connections())  # 进程相关网络连接
+print(p.num_threads())  # 进程的线程数量
+print(p.threads())  # 所有线程信息
+print(p.environ())  # 进程环境变量
+p.terminate() # 结束进程
+
+
+#实现类似top命令的CPU使用率，每秒刷新一次，累计10次：
+for x in range(10):
+  print(psutil.cpu_percent(interval=1, percpu=True))
+```
+
+
+
+## 9、网络编程
+
+### 1）TCP编程
+
+> TCP是建立可靠连接，并且通信双方都可以以流的形式发送数据。
+
+**服务端**
+
+```
+# 导入socket库:
+import socket,threading,time
+
+def tcplink(sock, addr):
+    print('Accept new connection from %s:%s...' % addr)
+    sock.send(b'Welcome!')
+    while True:
+        data = sock.recv(1024)
+        time.sleep(1)
+        if not data or data.decode('utf-8') == 'exit':
+            break
+        sock.send(('Hello, %s!' % data.decode('utf-8')).encode('utf-8'))
+    sock.close()
+    print('Connection from %s:%s closed.' % addr)
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# 监听端口:
+s.bind(('127.0.0.1', 8888))
+s.listen(5)
+print('Waiting for connection...')
+while True:
+    # 接受一个新连接:
+    sock, addr = s.accept()
+    # 创建新线程来处理TCP连接:
+    t = threading.Thread(target=tcplink, args=(sock, addr))
+    t.start()
+```
+
+
+
+**客户端**
+
+```
+# 导入socket库:
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# 建立连接:
+s.connect(('127.0.0.1', 8888))
+# 接收欢迎消息:
+print(s.recv(1024).decode('utf-8'))
+for data in [b'aaaaa', b'bbbb', b'cccc']:
+    # 发送数据:
+    s.send(data)
+    print(s.recv(1024).decode('utf-8'))
+s.send(b'exit')
+s.close()
+```
+
+
+
+### 2）UDP编程
+
+**服务端**
+
+```
+# 导入socket库:
+import socket,threading,time
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# 绑定端口:
+s.bind(('127.0.0.1', 7777))
+print('Bind UDP on 7777...')
+while True:
+    # 接收数据:
+    data, addr = s.recvfrom(1024)
+    print('Received from %s:%s.' % addr)
+    s.sendto(b'Hello, %s!' % data, addr)
+```
+
+
+
+**客户端**
+
+```
+# 导入socket库:
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+for data in [b'Michael', b'Tracy', b'Sarah']:
+    # 发送数据:
+    s.sendto(data, ('127.0.0.1', 7777))
+    # 接收数据:
+    print(s.recv(1024).decode('utf-8'))
+s.close()
+```
+
+
+
+## 10、数据库
+
+> 这里记录如何通过Python操作MySQL进行编程。
+
+安装MySQL驱动
+
+```
+pip install mysql-connector-python --allow-external mysql-connector-python
+```
+
+数据库操作
+
+```
+# 导入MySQL库:
+import mysql.connector
+
+# 注意把password设为你的root口令:
+conn = mysql.connector.connect(user='root', password='123456', database='gyd')
+cursor = conn.cursor()
+# 创建user表:
+cursor.execute('create table user (id varchar(20) primary key, name varchar(20))')
+# 插入一行记录，注意MySQL的占位符是%s:
+cursor.execute('insert into user (id, name) values (%s, %s)', ['2', 'TEST'])
+cursor.rowcount
+
+# 提交事务:
+conn.commit()
+cursor.close()
+# 运行查询:
+cursor = conn.cursor()
+cursor.execute('select * from user_info where id = %s', ('237',))
+values = cursor.fetchall()
+print(values)
+# 关闭Cursor和Connection:
+cursor.close()
+conn.close()
+```
+
+## 11、Web编程
+
+### 1）WSGI框架
+
+>  WSGI：Web Server Gateway Interface。
+
+先定义一个函数：
+
+```
+# hello.py
+#application()函数是符合WSGI标准的一个HTTP处理函数
+#environ：一个包含所有HTTP请求信息的dict对象；
+#start_response：一个发送HTTP响应的函数。
+
+start_response：一个发送HTTP响应的函数。
+def application(environ, start_response):
+    start_response('200 OK', [('Content-Type', 'text/html')])
+    return [b'<h1>Hello, web!</h1>']
+```
+
+启动WSGI服务器：
+
+```
+# server.py
+# 从wsgiref模块导入:
+from wsgiref.simple_server import make_server
+# 导入我们自己编写的application函数:
+from hello import application
+
+# 创建一个服务器，IP地址为空，端口是8000，处理函数是application:
+httpd = make_server('', 8000, application)
+print('Serving HTTP on port 8000...')
+# 开始监听HTTP请求:
+httpd.serve_forever()
+```
+
+打开浏览器，输入地址`localhost:8000` 访问页面：
+
+<img src="http://cdn.gydblog.com/images/python/python-4.png"  style="zoom: 30%;margin:0 auto;display:block"/>
+
+### 2）WebApp框架
+
+用Python开发一个Web框架十分容易，Python有上百个开源的Web框架。这里我们直接选择一个比较流行的Web框架——[Flask](http://flask.pocoo.org/)来使用。
+
+引入flask模块：
+
+```
+pip install flask
+```
+
+代码示例：
+
+```
+from flask import Flask
+from flask import request
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    return '<h1>Home</h1>'
+
+@app.route('/signin', methods=['GET'])
+def signin_form():
+    return '''<form action="/signin" method="post">
+              <p><input name="username"></p>
+              <p><input name="password" type="password"></p>
+              <p><button type="submit">Sign In</button></p>
+              </form>'''
+
+@app.route('/signin', methods=['POST'])
+def signin():
+    # 需要从request对象读取表单内容：
+    if request.form['username']=='admin' and request.form['password']=='password':
+        return '<h3>Hello, admin!</h3>'
+    return '<h3>Bad username or password.</h3>'
+
+if __name__ == '__main__':
+    app.run()
+```
+
+
+
+启动app.py，打开浏览器，输入`localhost:5000` 可以访问首页：
+
+<img src="http://cdn.gydblog.com/images/python/python-5.png"  style="zoom: 30%;margin:0 auto;display:block"/>
+
+继续输入`localhost:5000/signin`，可以访问登录表单页：
+
+<img src="http://cdn.gydblog.com/images/python/python-6.png"  style="zoom: 30%;margin:0 auto;display:block"/>
+
+输入账户密码admin\password，可以跳转登录成功页：
+
+<img src="http://cdn.gydblog.com/images/python/python-7.png"  style="zoom: 30%;margin:0 auto;display:block"/>
+
+### 3）HTML模板
+
+Flask通过`render_template()`函数来实现模板的渲染。和Web框架类似，Python的模板也有很多种。Flask默认支持的模板是[jinja2](http://jinja.pocoo.org/)，所以我们先直接安装jinja2：
+
+```
+pip install jinja2
+```
+
+HTML模板定义：
+
+```
+#home.html
+<html>
+<head>
+  <title>Home</title>
+</head>
+<body>
+  <h1 style="font-style:italic">Home</h1>
+</body>
+</html>
+```
+
+```
+#form.html
+<html>
+<head>
+  <title>Please Sign In</title>
+</head>
+<body>
+  {% if message %}
+  <p style="color:red">{{ message }}</p>
+  {% endif %}
+  <form action="/signin" method="post">
+    <legend>Please sign in:</legend>
+    <p><input name="username" placeholder="Username" value="{{ username }}"></p>
+    <p><input name="password" placeholder="Password" type="password"></p>
+    <p><button type="submit">Sign In</button></p>
+  </form>
+</body>
+</html>
+```
+
+```
+#signin-ok.html
+<html>
+<head>
+  <title>Welcome, {{ username }}</title>
+</head>
+<body>
+  <p>Welcome, {{ username }}!</p>
+</body>
+</html>
+```
+
+代码编写：
+
+```
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    return render_template('home.html')
+
+@app.route('/signin', methods=['GET'])
+def signin_form():
+    return render_template('form.html')
+
+@app.route('/signin', methods=['POST'])
+def signin():
+    username = request.form['username']
+    password = request.form['password']
+    if username=='admin' and password=='1':
+        return render_template('signin-ok.html', username=username)
+    return render_template('form.html', message='Bad username or password', username=username)
+
+if __name__ == '__main__':
+    app.run()
+```
+
+
+
+注意html模板和app.py文件的目录结构需要按如下：
+
+<img src="http://cdn.gydblog.com/images/python/python-8.png"  style="zoom: 30%;margin:0 auto;display:block"/>
+
+
+
+启动app.py，打开浏览器访问如下路径：
+
+```
+locahost:5000
+```
+
+启动app.py，打开浏览器，输入`localhost:5000` 可以访问首页；
+
+输入`localhost:5000/siginin`可以访问登录表单页；
+
+输入登录正确的用户名和密码后，可以访问登录成功页`localhost:5000/sign-ok.html`
+
+
+
+## 12、参考资料
+
+[3.12.1 Documentation (python.org)](https://docs.python.org/zh-cn/3.12/)
 
 [Python教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/1016959663602400)
 
