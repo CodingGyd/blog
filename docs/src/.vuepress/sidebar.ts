@@ -153,7 +153,7 @@ export default sidebar({
    
     },
     {
-      text: '三、企业级开发技术',
+      text: '三、JAVA企业级开发技术',
       collapsible: true,
       children: [   
         {
@@ -279,13 +279,22 @@ export default sidebar({
         "mysql-gf",
         "mysql-index",
         "mysql-tiaoyou",
-        "mysql-mianshi"
+        "mysql-mianshi",
+        "dm"
 
+      ],
+    },
+    {
+      text: '五、Python基础',
+      collapsible: true,
+      prefix: "python/",
+      children: [   
+        "python-hello",
       ],
    
     },
     {
-      text: '五、综合',
+      text: '六、综合',
       collapsible: true,
       prefix: "combined/",
       children: [   
@@ -297,7 +306,7 @@ export default sidebar({
    
     },
     {
-      text: '六、SOP库(持续更新)',
+      text: '七、SOP库(持续更新)',
       collapsible: true,
       prefix: "sop/",
       children: [   
