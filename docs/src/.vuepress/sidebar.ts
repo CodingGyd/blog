@@ -190,7 +190,9 @@ export default sidebar({
           "elasticjob",
           "nginx",
           "redis",
-          "elasticsearch",
+          "elasticsearch1",
+          "elasticsearch2",
+
           // "dubbo",
           "zookeeper",
           // "apollo",

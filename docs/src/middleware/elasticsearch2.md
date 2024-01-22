@@ -319,7 +319,7 @@ GET http://127.0.0.1:9200/_nodes/ra*:2*
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/cluster-state.html
 
-请求地址：/_cluster/state/<metrics>/<target>
+请求地址：`/_cluster/state/<metrics>/<target>`
 
 #### 7）返回集群统计信息
 
@@ -329,7 +329,7 @@ GET http://127.0.0.1:9200/_nodes/ra*:2*
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/cluster-stats.html
 
-请求地址：/_cluster/stats、/_cluster/stats/nodes/<node_filter>
+请求地址：`/_cluster/stats、/_cluster/stats/nodes/<node_filter>`
 
 #### 8）动态更新集群配置
 
@@ -520,7 +520,7 @@ GET /_nodes/stats?metric=ingest&filter_path=nodes.*.ingest.pipelines
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/cluster-info.html
 
-请求地址：/_info/<target>
+请求地址：`/_info/<target>`
 
 示例：
 
@@ -791,7 +791,7 @@ GET /_analyze
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-disk-usage.html
 
-请求地址：/<target>/_disk_usage
+请求地址：`/<target>/_disk_usage`
 
 示例：
 
@@ -886,7 +886,7 @@ POST /my-index-000001/_clone/
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-close.html
 
-请求地址：/<index>/_close
+请求地址：`/<index>/_close`
 
 示例：
 
@@ -917,7 +917,7 @@ POST /my-index-000001/_close
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-create-index.html
 
-请求地址：/<index>
+请求地址：`/<index>`
 
 示例：
 
@@ -1044,7 +1044,7 @@ PUT <target>/_aliases/<alias>
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-component-template.html
 
-请求地址：/_component_template/<component-template>
+请求地址：`/_component_template/<component-template>`
 
 示例：
 
@@ -1081,7 +1081,7 @@ PUT <target>/_aliases/<alias>
 
 > 使用删除组件模板 API 支持删除一个或多个组件模板 
 
-请求地址：PUT /_index_template/<index-template>
+请求地址：`PUT /_index_template/<index-template>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-put-template.html
 
@@ -1089,7 +1089,7 @@ PUT <target>/_aliases/<alias>
 
 >  创建或更新索引模板。索引模板定义可自动应用于新索引的[设置](https://www.elastic.co/guide/en/elasticsearch/reference/8.11/index-modules.html#index-modules-settings)、[映射](https://www.elastic.co/guide/en/elasticsearch/reference/8.11/mapping.html)和[别名](https://www.elastic.co/guide/en/elasticsearch/reference/8.11/aliases.html)。
 
-请求地址：DELETE /_component_template/<component-template>
+请求地址：DELETE `/_component_template/<component-template>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-put-template.html
 
@@ -1097,13 +1097,13 @@ PUT <target>/_aliases/<alias>
 
 > 删除一个或多个索引。删除索引会删除其文档、分片和元数据
 
-请求地址：DELETE /<index>
+请求地址：`DELETE /<index>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-delete-index.html
 
 #### 14）删除索引模板
 
-请求地址：DELETE /_index_template/<index-template>
+请求地址：`DELETE /_index_template/<index-template>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-delete-template.html
 
@@ -1111,7 +1111,7 @@ PUT <target>/_aliases/<alias>
 
 >  检查数据流、索引或别名是否存在。
 
-请求地址：HEAD <target>
+请求地址：`HEAD <target>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-exists.html
 
@@ -1188,7 +1188,7 @@ GET publications/_mapping/field/author.id,abstract,name
 
 #### 18）查询索引定义
 
-请求地址：GET /<target>
+请求地址：`GET /<target>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-get-index.html
 
@@ -1218,7 +1218,7 @@ GET /log_2099_-*/_settings/index.number_*
 
 #### 19）获取索引模板信息
 
-请求地址：GET /_index_template/<index-template>
+请求地址：`GET /_index_template/<index-template>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-get-template.html
 
@@ -1338,7 +1338,7 @@ GET /_stats/search?groups=group1,group2
 
 > 打开闭合索引。对于数据流，API 打开任何已关闭的后备索引。
 
-请求地址：POST /<target>/_open
+请求地址：`POST /<target>/_open`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-open-close.html
 
@@ -1418,7 +1418,7 @@ POST /my_source_index/_split/my_target_index
 
 #### 29）更新索引设置
 
-请求地址：PUT /<target>/_settings
+请求地址：`PUT /<target>/_settings`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-update-settings.html
 
@@ -1463,7 +1463,7 @@ POST /my-index-000001/_open
 
 > 实时更改动态索引字段映射设置，将新字段添加到现有数据流或索引。也可以用这个 用于更改现有字段的搜索设置的 API。
 
-请求地址：PUT /<target>/_mapping
+请求地址：`PUT /<target>/_mapping`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/indices-put-mapping.html
 
@@ -1705,7 +1705,7 @@ GET /_mget
 >
 > 已删除文档的版本号仍在 删除后较短的时间内可用查询，以便控制并发操作。已删除文档的版本保持可用的时间长度为 由索引设置`index.gc_deletes`确定，默认为 60 秒。 
 
-请求地址：DELETE /<index>/_doc/<_id>
+请求地址：`DELETE /<index>/_doc/<_id>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/docs-delete.html
 
@@ -1753,7 +1753,7 @@ DELETE /my-index-000001/_doc/1?timeout=5m
 
 > 删除与指定查询匹配的文档。可以在请求 URI 或请求正文中指定查询条件 使用与[搜索 API](https://www.elastic.co/guide/en/elasticsearch/reference/8.11/search-search.html) 相同的语法。
 
-请求地址：POST /<target>/_delete_by_query
+请求地址：`POST /<target>/_delete_by_query`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/docs-delete-by-query.html
 
@@ -1814,7 +1814,7 @@ POST my-index-000001/_delete_by_query
 
 #### 6）更新指定文档
 
-请求地址：POST /<index>/_update/<_id>
+请求地址：`POST /<index>/_update/<_id>`
 
 请求参数说明：https://www.elastic.co/guide/en/elasticsearch/reference/8.11/docs-update.html
 
