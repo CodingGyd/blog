@@ -32,12 +32,12 @@ export default sidebar({
       text: 'IT人生',
       link: '/it-life/',
       children: [   
-        { text: "开发好习惯", link: "better-coder" },
-        { text: "程序员的中年危机",  link: "fuye" },
-        { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
-        { text: "通用的现代写作技能，你学会了吗？",  link: "markdown" },
-        { text: "生命不熄,学习不止！",  link: "learn" },
-        { text: "每日必看！！！",  link: "todo-list" },
+        // { text: "开发好习惯", link: "better-coder" },
+        // { text: "程序员的中年危机",  link: "fuye" },
+        { text: "写作模板", link: "markdown-template" },
+        { text: "Markdown写作技巧",  link: "markdown" },
+        // { text: "生命不熄,学习不止！",  link: "learn" },
+        // { text: "每日打卡！！！",  link: "todo-list" },
 
       ],
       
@@ -45,9 +45,9 @@ export default sidebar({
   ],
   "/about/": [
     { text: "一、 网站内容介绍", link: "zd" },
-    {text: "二、 发版大事记", link: "blog-version"},
+    {text: "二、 发版记录", link: "blog-version"},
     {text: "三、网站技术方案", link: "blog-tech-list"},
-    {text: "W Waline接入总结", link: "waline"},
+    {text: "Waline接入总结", link: "waline"},
     { text: "关于作者", link: "intro" },
     { text: "五、版权的声明", link: "copyright" },
   ],

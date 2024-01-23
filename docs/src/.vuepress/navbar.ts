@@ -3,7 +3,7 @@ import { navbar } from "vuepress-theme-hope";
 export default navbar([
   { text: "小郭笔记", icon: "note", link: "/note-book.md" },
   { text: "常用链接", icon: "link",link: "/common-links.md" },
-  { text: "每日必看", icon: "notice",link: "/it-life/todo-list" },
+  // { text: "每日必看", icon: "notice",link: "/it-life/todo-list" },
 
   {
     text: "葵花宝典",
@@ -11,7 +11,7 @@ export default navbar([
     prefix: "/zhencangziyuan/",
     children: [
       { text: "工具软件", link: "tools" },
-      { text: "实用网站", link: "websites" },
+      { text: "常用网站", link: "websites" },
       { text: "代码轮子",link: "code" },
       { text: "摸鱼神器",link: "effect-raising" },
       { text: "编程规约",link: "coding-standard" }
@@ -34,12 +34,12 @@ export default navbar([
     icon: "ability",
     prefix: "/it-life/",
     children: [
-      { text: "开发好习惯", link: "better-coder" },
-      { text: "程序员的中年危机", link: "fuye" },
-      { text: "好用的写作模板，不用头疼排版啦！", link: "markdown-template" },
-      { text: "通用的现代写作技能，你学会了吗？", link: "markdown" },
-      { text: "生命不熄,学习不止！", link: "learn" },
-      { text: "每日必看！", link: "todo-list" },
+      // { text: "开发好习惯", link: "better-coder" },
+      // { text: "程序员的中年危机", link: "fuye" },
+      { text: "写作模板", link: "markdown-template" },
+      { text: "Markdown写作技巧", link: "markdown" },
+      // { text: "生命不熄,学习不止！", link: "learn" },
+      // { text: "每日打卡", link: "todo-list" },
 
     ],
   },
