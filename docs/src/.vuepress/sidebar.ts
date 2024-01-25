@@ -7,9 +7,9 @@ export default sidebar({
       link: '/zhencangziyuan/',
       collapsible: true,
       children: [
-        { text: "代码轮子-减少重复开发工作", link: "code" },
-        { text: "合格程序员必备的编程规约", link: "coding-standard" },
-        { text: "研发过程-提效工具(摸鱼神器)", link: "effect-raising" },
+        { text: "代码轮子", link: "code" },
+        { text: "编程规约", link: "coding-standard" },
+        { text: "摸鱼神器", link: "effect-raising" },
         { text: "工具软件", link: "tools" },
         { text: "常用网站", link: "websites" },        
       ],

@@ -14,6 +14,8 @@ head:
 # python学习笔记
 
 >  本文是小郭在学习Python时按个人习惯总结的学习笔记，记录在此，方便后续查阅。
+>
+>  官网中文文档：[Python 教程 — Python 3.12.1 文档](https://docs.python.org/zh-cn/3/tutorial/index.html)
 
 ## 1、起源
 
@@ -42,6 +44,14 @@ ABC语言是由Guido参加设计的一种教学语言。Guido本人认为ABC这�
    如果要发布Python程序，实际上就是发布源代码。如果需要一段关键代码运行得更快或者希望某些算法不公开，可以部分程序用C或C++编写，然后在Python程序中使用它们。
 
 **说说优点**
+
+- 易扩展 
+
+  使用C或者C++(或其他C能调用的语言) 都可为Python扩展新功能和数据类型
+
+- 解释型语言
+
+  不需要编译和链接，可以节省大量开发时间。
 
 - 丰富的类库
 
@@ -172,7 +182,7 @@ D:\code\python>python hello.py
 hello, world
 ```
 
-## 6、语法总结
+## 6、基础语法总结
 
 > 默认读者和小郭一样 已经有较好的Java语言基础
 
@@ -3370,11 +3380,25 @@ locahost:5000
 
 输入登录正确的用户名和密码后，可以访问登录成功页`localhost:5000/sign-ok.html`
 
+## 12、Python解释器
+
+### 1）调用解释器
+
+在Linux/Unix的系统上，一般默认安装的是python2.X的版本，我们可以将 python3.x 安装在 **/usr/local/python3** 目录中。安装完成后，将路径 **/usr/local/python3/bin** 添加到环境变量中，这样就可以通过 shell 终端输入下面的命令来启动 Python3 。
+
+```
+$ PATH=$PATH:/usr/local/python3/bin/python3    # 设置环境变量
+$ python3 --version
+Python 3.12.1
+```
+
+注意如果使用`python --version`，则使用的是python2.X的版本！
 
 
-## 12、参考资料
 
-[3.12.1 Documentation (python.org)](https://docs.python.org/zh-cn/3.12/)
+## 13、参考资料
+
+[Python 教程 — Python 3.12.1 文档](https://docs.python.org/zh-cn/3/tutorial/index.html)
 
 [Python教程 - 廖雪峰的官方网站 (liaoxuefeng.com)](https://www.liaoxuefeng.com/wiki/1016959663602400)
 
