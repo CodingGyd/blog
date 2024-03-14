@@ -394,7 +394,7 @@ DefaultListableBeanFactory 通过 registerSingleton(..) 和 registerBeanDefiniti
       class="examples.ClientService"
       factory-method="createInstance"/>
   ```
-- 3）用实例工厂方法进行实例化
+- 3）用实例工厂方法进行实例化  
   定义实例工厂方法
   ```
   public class DefaultServiceLocator {
@@ -452,28 +452,28 @@ public class MyConfiguration {
 
 ```
  
-**六种作用域的解释：**
-- 1）singleton
+**六种作用域的解释：**  
+- 1）singleton  
    默认情况，一个bean在同一个IOC容器中只会有一个实例，单例模式。
    ![singleton作用域](http://cdn.gydblog.com/images/spring/spring-ioc-4.png)
 
    
   作为一项规则，我们应该对无状态的 bean 使用 singleton scope。
-- 2）prototype
+- 2）prototype  
   将单个Bean定义的Scope扩大到任何数量的对象实例(每次都重新创建),原型模式。
   ![prototype作用域](http://cdn.gydblog.com/images/spring/spring-ioc-5.png)
 
   作为一项规则，我们应该对所有有状态的 bean 使用 prototype scope。
-- 3）request
+- 3）request  
   每个HTTP请求都有自己的Bean实例，该实例是在单个Bean定义的基础上创建的。只在Web感知的Spring ApplicationContext 的上下文中有效。
 
-- 4）session
+- 4）session  
   每个客户端session都有自己的Bean实例。只在Web感知的Spring ApplicationContext(如XmlWebApplicationContext) 的上下文中有效。
 
-- 5）application
+- 5）application  
   每个ServletContext都有自己的Bean实例。只在Web感知的Spring ApplicationContext 的上下文中有效。
 
-- 6）websocket
+- 6）websocket  
   每个websocket链接都有自己的Bean实例。仅在具有Web感知的 Spring ApplicationContext 的上下文中有效。
 
 Spring是扩展性极强的，也支持自定义作用域，若有兴趣的可以查阅Spring官方文档。
@@ -549,7 +549,7 @@ Spring框架提供了许多扩展点接口，让开发者可以干预Bean的创�
 :::
 
 上面这三个选项的使用方式类似，下面使用InitializingBean 和DisposableBean进行说明。
-1） 初始化回调InitializingBean 
+1） 初始化回调InitializingBean   
 InitializingBean 接口指定了一个方法：
 ```java
 void afterPropertiesSet() throws Exception;
@@ -559,7 +559,7 @@ org.springframework.beans.factory.InitializingBean 接口让Bean在容器对Bean
 最佳实践：建议不要直接使用 InitializingBean 接口，因为它将代码与Spring耦合。建议使用注解@PostConstruct。
 
 
-2）销毁回调DisposableBean 
+2）销毁回调DisposableBean   
 DisposableBean 接口指定了一个方法：
 ```
 void destroy() throws Exception;
@@ -777,7 +777,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 ```
 
 上方源码片段就是IOC容器使用三级缓存的Map对象进行Bean获取的整个过程，流程总结如下：
-1) 先从一级缓存singletonObjects中去i获取，如果获取到就直接返回
+1) 先从一级缓存singletonObjects中去获取，如果获取到就直接返回
 2) 如果获取不到或者对象正在创建中（sSingletonCurrentlyInCreation()），那就再从二级缓存earlySingletonObjects中获取，如果获取到就直接return。
 3) 如果第二步还是获取不到，且允许singletonFactories（allowEarlyReference=true）通过getObject()获取。就从三级缓存singletonFactory.getObject()获取。如果获取到了就从第三级缓存singletonFactories中移除，并且放进二级缓存earlySingletonObjects。
 

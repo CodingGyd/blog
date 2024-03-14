@@ -23,7 +23,7 @@ Spring Boot是由Pivotal团队提供的一套开源框架，其设计目的是�
 
 ## 二、为什么要用SpringBoot？
 
-**一句话概括：**  SpringBoot就是为了对Java web 的开发进行“简化”和加“快”速度，简化开发过程中引入或启动相关Spring 功能的配置。这样带来的好处就是降低开发人员对于框架的关注点，可以把更多的精力放在自己的业务代码上。
+**一句话概括：**  SpringBoot就是为了对Java web 的开发进行“简化”和“加快”速度，简化开发过程中引入或启动相关Spring 功能的配置。这样带来的好处就是降低开发人员对于框架的关注点，可以把更多的精力放在自己的业务代码上。
 
 **再展开说说：**
  - 提供了很多默认配置和很多组件化的依赖包，可以简化spring应用的创建及部署
@@ -227,7 +227,7 @@ class SpringbootHelloApplicationTests {
 }
 ```
 
-上述单元测试用例执行通过，证明了以下结论：
+上述单元测试用例执行通过，证明了以下结论：  
 **1）类继承关系中@Inherited的作用**  
 
 类继承关系中，子类会继承父类使用的注解中被@Inherited修饰的注解
@@ -266,7 +266,7 @@ public @interface SpringBootConfiguration {
 <font color="red">可以认为@SpringBootConfiguration是springboot的注解，而@Configuration是spring的注解。 </font>
 
 ### 3、@ComponentScan
-@ComponentScan注解用于实现spring主键的注解扫描，会扫描特定包内的类上的注解。
+@ComponentScan注解用于实现spring的注解扫描，会扫描特定包内的类上的注解。
 
 ```java
 @Retention(RetentionPolicy.RUNTIME)

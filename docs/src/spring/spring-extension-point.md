@@ -73,7 +73,7 @@ public class MyBean implements InitializingBean {
 
 从输出结果可以看出@PostConstruct会先于InitializingBean执行。  
 
-2）销毁回调DisposableBean/@PreDestroy
+2）销毁回调DisposableBean/@PreDestroy  
 DisposableBean 接口可以让Bean在包含它的容器被销毁时(Spring实例停止运行时)获得一个回调。DisposableBean 接口提供了一个方法destroy，凡是继承该接口的类，在Spring实例停止时会执行该方法。  
 
 @PreDestroy 是Spring提供的注解方式，功能和DisposableBean 一样，官方建议使用注解方式。
