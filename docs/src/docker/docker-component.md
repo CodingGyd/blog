@@ -14,7 +14,9 @@ head:
 
 # docker&docker-compose 离线部署各种组件
 
-> 本文总结了如何在linux环境下通过docker compose离线部署各种基础应用组件，后续会增加更多的应用组件部署说明，有需要的朋友可以先点赞收藏备用！
+> 本文总结了如何在linux环境下通过docker compose离线部署各种基础应用组件，后续会增加更多的应用组件部署说明，有需要的朋友可以关注我！
+
+[TOC]
 
 ## 一、离线部署 minio(单机)
 
@@ -840,6 +842,7 @@ docker compose down
 - 使用docker exec方式连接mysql。
 
 ```
+#进入mysql容器虚拟机
 [root@iZbp128dczen7roibd3xciZ log]# docker exec -it mysql  /bin/bash
 root@02a4b0391e94:/# ls
 bin  boot  dev	docker-entrypoint-initdb.d  entrypoint.sh  etc	home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
