@@ -1,26 +1,19 @@
 ---
-title: Redis常见面试题
-shortTitle: Redis常见面试题
+title: Redis面试题
+shortTitle: Redis面试题
 date: 2023-10-26
 category:
-  - 微服务中间件
+  - 面试手册
 description: 收集中间件Redis的常用面试题
 head:
   - - meta
     - name: keywords
-      content: Redis,非关系型数据库,缓存,NoSQL,分布式缓存,集群,哨兵
+      content: Redis,面试
 ---
 
+> 本篇收集了常见的Redis基础相关面试题。
 
-# Redis 
-
-## 一、前言
-
-Redis的相关知识在Java程序员的面试过程中是必问的，本文将持续收集最新的Redis常见面试题。
-
-[妈妈再也不担心我面试被Redis问得脸都绿了 (qq.com)](https://mp.weixin.qq.com/s/vXBFscXqDcXS_VaIERplMQ)
-
-## 二、经典面试题-基础概念篇
+## 一、基础概念篇
 
 ### 1、介绍一下Redis是什么?
 
@@ -231,9 +224,9 @@ bloom filter之所以能做到在时间和空间上的效率比较高，是因�
 
 在实现bloom filter时，绕不过的两点就是hash函数的选取以及bit数组的大小。
 
-## 三、经典面试题-数据结构篇
+## 二、数据结构篇
 
-### 1、介绍一下SDS(简单动态字符串)？
+### 1、谈谈SDS(简单动态字符串)
 
 在Redis中，string类型的底层数据结构是sds
 
@@ -327,15 +320,9 @@ Redis 使用了两个全局哈希表进行 rehash。
 
 zset的底层实现就是跳跃表。
 
-## 四、经典面试题-应用场景篇
+## 三、应用场景篇
 
-### 1、谈谈客户端请求Redis的执行过程
-
-从提交命令到获得命令结果经历的步骤
-
-
-
-### 2、Redis在高并发场景下可能会出现什么问题?
+### 1、Redis在高并发场景下可能会出现什么问题?
 
 解释缓存穿透、缓存击穿、缓存雪崩
 
@@ -391,7 +378,7 @@ zset的底层实现就是跳跃表。
 
   
 
-### 3、说说热Key问题和解决方案
+### 2、说说热Key问题和解决方案
 
 答案来源：[如何找出优化大Key与热Key,产生的原因和问题_云数据库 Redis-阿里云帮助中心 (aliyun.com)](https://help.aliyun.com/zh/redis/user-guide/identify-and-handle-large-keys-and-hotkeys)
 
@@ -420,7 +407,7 @@ zset的底层实现就是跳跃表。
 - 热点key打撒到其它分片节点
 - 使用读写分离架构
 
-### 4、说说大Key问题和解决方案
+### 3、说说大Key问题和解决方案
 
 答案来源：[如何找出优化大Key与热Key,产生的原因和问题_云数据库 Redis-阿里云帮助中心 (aliyun.com)](https://help.aliyun.com/zh/redis/user-guide/identify-and-handle-large-keys-and-hotkeys)
 
@@ -452,7 +439,7 @@ zset的底层实现就是跳跃表。
 - 定期对过期的大key进行清理
 - 监控Redis的内存水位，提前预防问题
 
-### 5、用过Redis的分布式锁吗？
+### 4、用过Redis的分布式锁吗？
 
 Redis实现分布式锁有多种方案：
 
@@ -480,7 +467,7 @@ Redis实现分布式锁有多种方案：
 
 - 方案七：多机实现的分布式锁Redlock
 
-###  6、如何保证Redis和数据库的双写一致性
+###  5、如何保证Redis和数据库的双写一致性
 
 首先要坚持一个观点：没有任何技术方案可以保证Redis和数据库的实时双写一致，都只能做到最终一致性。
 

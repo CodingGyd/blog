@@ -9,6 +9,6 @@ head:
 ---
 
 
-* [JAVA面试](./interview-java.md)
+* [JAVA基础题](./interview-java.md)
 * [Spring面试](./interview-spring.md)
 * [Redis面试](./interview-redis.md)
