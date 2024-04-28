@@ -22,9 +22,14 @@ export default navbar([
     icon: "repo",
     prefix: "/interview/",
     children: [
-      { text: "JAVA基础题", link: "interview-java" },
-      { text: "77道Spring面试题以及参考答案(转载)", link: "interview-spring" },
-      { text: "Redis基础题", link: "interview-redis" }
+
+      { text: "JAVA面试", link: "interview-java" },
+      { text: "Spring面试", link: "interview-spring" },
+      { text: "SpringCloud面试", link: "interview-springcloud" },
+      { text: "Redis面试", link: "interview-redis" },
+      { text: "Dubbo面试", link: "interview-dubbo" },
+      { text: "Netty面试", link: "interview-netty" }
+
 
     ],
   },
