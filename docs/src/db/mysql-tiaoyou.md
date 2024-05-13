@@ -3,7 +3,7 @@ title: MYSQL性能分析思路
 shortTitle:  MYSQL性能分析思路
 date: 2023-09-11
 category:
-  - JAVA企业级开发
+  - 数据库
 tag:
   - MySQL
 head:

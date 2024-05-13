@@ -3,9 +3,9 @@ title: Spring系列笔记-事务管理
 shortTitle: Spring的事务管理
 date: 2023-08-20
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - 事务
+  - Spring
 head:
   - - meta
     - name: keywords

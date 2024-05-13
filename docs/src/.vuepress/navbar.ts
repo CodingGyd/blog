@@ -13,50 +13,53 @@ export default navbar([
       { text: "工具软件", link: "tools" },
       { text: "常用网站", link: "websites" },
       { text: "代码轮子",link: "code" },
-      { text: "摸鱼神器",link: "effect-raising" },
-      { text: "编程规约",link: "coding-standard" }
+      { text: "编程利器",link: "effect-raising" },
+      { text: "编程规约",link: "coding-standard" },
+      { text: "写作模板", link: "markdown-template" },
+      { text: "Markdown", link: "markdown" },
     ],
   },
   {
-    text: "面试手册",
+    text: "技术题库",
     icon: "repo",
     prefix: "/interview/",
     children: [
 
-      { text: "JAVA面试", link: "interview-java" },
-      { text: "Spring面试", link: "interview-spring" },
-      { text: "SpringCloud面试", link: "interview-springcloud" },
-      { text: "Redis面试", link: "interview-redis" },
-      { text: "Dubbo面试", link: "interview-dubbo" },
-      { text: "Netty面试", link: "interview-netty" }
-
+      { text: "JAVA", link: "interview-java" },
+      { text: "Spring", link: "interview-spring" },
+      { text: "SpringCloud", link: "interview-springcloud" },
+      { text: "Redis", link: "interview-redis" },
+      { text: "Dubbo", link: "interview-dubbo" },
+      { text: "Netty", link: "interview-netty" },
+      { text: "MySQL", link: "interview-mysql" },
+      { text: "Zookeeper", link: "interview-zookeeper" },
 
     ],
   },
   
-  {
-    text: "IT人生",
-    icon: "ability",
-    prefix: "/it-life/",
-    children: [
-      // { text: "开发好习惯", link: "better-coder" },
-      // { text: "程序员的中年危机", link: "fuye" },
-      { text: "写作模板", link: "markdown-template" },
-      { text: "Markdown写作技巧", link: "markdown" },
-      // { text: "生命不熄,学习不止！", link: "learn" },
-      // { text: "每日打卡", link: "todo-list" },
+  // {
+  //   text: "IT人生",
+  //   icon: "ability",
+  //   prefix: "/it-life/",
+  //   children: [
+  //     // { text: "开发好习惯", link: "better-coder" },
+  //     // { text: "程序员的中年危机", link: "fuye" },
 
-    ],
-  },
+  //     // { text: "生命不熄,学习不止！", link: "learn" },
+  //     // { text: "每日打卡", link: "todo-list" },
+
+  //   ],
+  // },
   {
     text: "关于本站",
     icon: "info",
     prefix: "/about/",
     children: [
       { text: "网站内容介绍", link: "zd" },
-      { text: "发版大事记", link: "blog-version" },
+      { text: "发版记录", link: "blog-version" },
       { text: "网站技术方案", link: "blog-tech-list" },
-      { text: "关于作者",  link: "intro" },
+      {text: "Waline接入总结", link: "waline"},
+      // { text: "关于作者",  link: "intro" },
       { text: "版权声明", link: "copyright" },
     ],
   }

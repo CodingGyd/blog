@@ -2,7 +2,7 @@
 # icon: lock
 date: 2018-01-05
 category:
-  - JAVA基础
+  - JAVA
 ---
 
 # 数组

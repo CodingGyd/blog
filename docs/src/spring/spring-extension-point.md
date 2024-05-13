@@ -3,9 +3,9 @@ title: Spring系列笔记-Spring的内置常用扩展点
 shortTitle: Spring的内置常用扩展点
 date: 2023-08-15
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - spring
+  - Spring
 head:
   - - meta
     - name: keywords

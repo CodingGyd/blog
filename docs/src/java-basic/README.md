@@ -2,7 +2,7 @@
 title: JAVA基础-基础语法
 shortTitle: JAVA基础-基础语法
 category:
-  - JAVA基础
+  - JAVA
 article: false 
 head:
   - - meta

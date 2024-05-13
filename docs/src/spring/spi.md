@@ -3,9 +3,9 @@ title: Spring系列笔记-SPI机制
 shortTitle: SPI机制
 date: 2023-08-15
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - spring
+  - SPI编程
 head:
   - - meta
     - name: keywords

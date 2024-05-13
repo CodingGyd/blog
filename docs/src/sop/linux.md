@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-06-18
 category:
-  - 操作系统
+  - SOP
 tag:
   - linux
 ---

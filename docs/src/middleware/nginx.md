@@ -3,7 +3,9 @@ title: Nginx知识点详解
 shortTitle: Nginx知识点详解
 date: 2023-09-19
 category:
-  - 微服务中间件
+  - 开源框架
+tag:
+  - 负载均衡
 description: 记录中间件Nginx的常用知识点
 head:
   - - meta

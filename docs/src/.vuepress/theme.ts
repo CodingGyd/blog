@@ -11,7 +11,7 @@ export default hopeTheme({
     url: "/about/",
   },
 
-  iconAssets: "iconfont",
+  iconAssets: "iconify",
 
   //网站左上角logo
   logo: "/assets/icon/avata.svg",
@@ -44,8 +44,6 @@ export default hopeTheme({
    articlePerPage:10,
    // 博主头像
    avatar: "/assets/icon/avata.svg",
-   // 圆角  
-   roundAvatar: false,
    // 座右铭
    description: "专心写代码，写到没人要为止",
     // 个人介绍页地址
@@ -84,7 +82,6 @@ export default hopeTheme({
         "BiliBili",
         "CodePen",
         "PDF",
-        "Replit",
         "Share",
         "SiteInfo",
         "StackBlitz",
@@ -123,6 +120,10 @@ export default hopeTheme({
       tabs: true,
       vPre: true,
     },
+    searchPro:{
+      // 索引全部内容
+      indexContent: true,
+     },
   //该插件会监听页面滚动事件。当页面滚动至某个 标题锚点 后，如果存在对应的 标题链接 ，那么该插件会将路由 Hash 更改为该 标题锚点 。
   activeHeaderLinks: true,
   //文章评论插件

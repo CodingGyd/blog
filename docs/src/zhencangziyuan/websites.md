@@ -1,17 +1,17 @@
 ---
 date: 2023-05-25
 category:
-  - 常用网站
+  - 葵花宝典
 ---
 
-这里收集了我经常使用的网址，分享给大家,我会持续更新
+这里收集了我经常使用的网址。
 # 常用网站
 
 ## 一、程序员相关
 
 [程序员一站式导航|程序员的天堂](http://www.cxy521.com/)<br/>
 
-**在线工具**
+**在线工具**  
 [REDIS命令在线练习工具](https://try.redis.io/)<br/>
 [JSON在线解析](https://www.sojson.com/)<br/>
 [Hutool|Java工具集](https://hutool.cn/)<br/>

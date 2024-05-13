@@ -2,12 +2,10 @@
 # icon: lock
 date: 2024-04-25
 category:
-  - 面试手册
-tag:
-  - SpringCloud面试
+  - 技术题库
 ---
 
-# SpringCloud知识点
+# SpringCloud
 
 
 

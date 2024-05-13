@@ -3,9 +3,9 @@ title: Spring系列笔记-AOP-面向切面编程
 shortTitle: AOP-面向切面编程
 date: 2023-08-19
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - AOP
+  - Spring
 head:
   - - meta
     - name: keywords

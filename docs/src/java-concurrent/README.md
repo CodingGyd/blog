@@ -2,7 +2,7 @@
 title: JAVA基础-并发编程学习笔记
 shortTitle: JAVA基础-并发编程学习笔记
 category:
-  - JAVA基础
+  - JAVA
 article: false 
 head:
   - - meta

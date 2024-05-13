@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-01-07
 category:
-  - 团队协作
+  - SOP
 tag:
   - git
 ---

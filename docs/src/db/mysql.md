@@ -3,7 +3,7 @@ title: MYSQL知识点大全
 shortTitle: MYSQL知识点大全
 date: 2023-08-30
 category:
-  - JAVA企业级开发
+  - 数据库
 tag:
   - MySQL
 head:

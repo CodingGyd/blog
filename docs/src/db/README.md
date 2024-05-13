@@ -4,7 +4,7 @@ shortTitle: 数据库知识点大全
 date: 2023-08-30
 article: false
 category:
-  - JAVA企业级开发
+  - 数据库
 tag:
   - MySQL
   - 达梦

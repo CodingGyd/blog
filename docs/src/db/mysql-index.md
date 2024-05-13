@@ -3,7 +3,7 @@ title:  MySQL索引概念详解
 shortTitle:  MySQL索引概念详解
 date: 2023-09-07
 category:
-  - JAVA企业级开发
+  - 数据库
 tag:
   - MySQL
 head:

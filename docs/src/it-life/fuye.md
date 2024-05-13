@@ -1,9 +1,5 @@
 ---
 date: 2022-10-21
-category:
-  - 我的苦逼IT人生路
-tag:
-  - 副业探索
 star: false
 ---
 # 程序员的中年危机

@@ -65,15 +65,6 @@ export default defineUserConfig({
     ["link", { rel: "icon", href: "/assets/icon/avata.svg" }],
 
   ],
-  plugins: [
-   
-    //搜索插件
-    searchProPlugin({
-      // 索引全部内容
-      indexContent: true,
-    }),
-    
-  ],
   theme,
 
   // Enable it with pwa

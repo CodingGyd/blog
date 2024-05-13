@@ -4,8 +4,6 @@ shortTitle: 性能测试工具-JMeter入门
 date: 2023-07-05
 category:
   - 软件测试
-tag:
-  - 性能测试
 head:
   - - meta
     - name: keywords

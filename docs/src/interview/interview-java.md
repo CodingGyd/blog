@@ -1,9 +1,9 @@
 ---
-title: JAVA基础面试题
-shortTitle: JAVA基础面试题
+title: JAVA基础
+shortTitle: JAVA基础
 date: 2023-10-26
 category:
-  - 面试手册
+  - 技术题库
 description: 收集JAVA基础的常见面试题
 head:
   - - meta
@@ -12,41 +12,34 @@ head:
 ---
 
 
-> 本篇收集了常见的JAVA基础相关面试题。
 
 ## 一、集合框架
 
-### 1、HashMap
+### 1、HashMap知多少？
 
-<font color="red">1）考点1：数据结构</font>    <br/>
+<font color="red">1）数据结构</font>    <br/>
 
-<font color="green">答案：</font>
+- 基本结构：jdk1.8前数据结构是：链表 + 数组  jdk1.8之后是 ：链表 + 数组  + 红黑树
 
-1. 基本结构：jdk1.8前数据结构是：链表 + 数组  jdk1.8之后是 ：链表 + 数组  + 红黑树
-2. 何时转换：链表长度阈值(边界值) > 8 并且数组长度大于64，才将链表转换为红黑树，变为红黑树的目的是为了高效的查询。
+- 何时转换：链表长度阈值(边界值) > 8 并且数组长度大于64，才将链表转换为红黑树，变为红黑树的目的是为了高效的查询。
 
-<font color="red">2）考点2：扩容机制</font> <br/>
+<font color="red">2）扩容机制</font> <br/>
 
-<font color="green">答案：</font>
+- 何时扩容：当数组元素大于数组长度*负载因子的值时会扩容。例如默认情况下负载因子是0.75，数组长度是16，当数组中的元素超过0.75**16=12个时，会触发扩容机制。
 
-1. 何时扩容：当数组元素大于数组长度*负载因子的值时会扩容。例如默认情况下负载因子是0.75，数组长度是16，当数组中的元素超过0.75**16=12个时，会触发扩容机制。
-2. 如何扩容：在进行扩容时使用 resize() 方法申请一个容量是原先数组2倍的新数组，**计算 table 数组的新容量和 Node 在新数组中的新位置**，将旧数组中的值复制到新数组中，从而实现自动扩容，而这是一个非常耗性能的操作，所以如果我们已经预知HashMap中元素的个数，那么初始化时指定数组大小而不是使用默认值16，这能够有效的提高HashMap的性能。
+- 如何扩容：在进行扩容时使用 resize() 方法申请一个容量是原先数组2倍的新数组，**计算 table 数组的新容量和 Node 在新数组中的新位置**，将旧数组中的值复制到新数组中，从而实现自动扩容，而这是一个非常耗性能的操作，所以如果我们已经预知HashMap中元素的个数，那么初始化时指定数组大小而不是使用默认值16，这能够有效的提高HashMap的性能。
 
-<font color="red">3）考点3：put流程</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">3）put流程</font> <br/>
 
 ![](http://cdn.gydblog.com/images/java/collections/hashmap-3.png)
 
-重点要回答出下面三个要点：
+重点要了解下面三个要点：
 
 - 何时扩容
 - 何时触发红黑树和链表的转换
 - JDK1.7和1.8对于链表插入方式的修改：头插容易导致HashMap链表死循环，1.8改为了尾插法。
 
-<font color="red">4）考点4：get流程</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">4）get流程</font> <br/>
 
 - 获取元素在数组中的位置：根据key计算hash值，然后通过hash值&（数组长度-1）的方式获取到key在数组中的位置。
 - 判断当前数组位置上的元素是否为空且位置上的第一个结点对象hash值和要查找的一致，若一致则返回对应的value，否则继续查找该结点的下一个结点（链表遍历或者红黑树遍历），直到找到为止
@@ -55,9 +48,7 @@ head:
 
 ### 2、ConcurrentHashmap
 
-<font color="red">考点1：底层数据结构</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">1）底层数据结构</font> <br/>
 
 ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segment+HashEntry分段锁的方式实现，1.8则抛弃了Segment，改为使用CAS+synchronized+Node实现，同样也加入了红黑树，避免链表过长导致性能的问题。
 
@@ -67,9 +58,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ### 1、关键字
 
-<font color="red">考点1：谈谈对Synchronized的理解</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">1）谈谈对Synchronized的理解</font> <br/>
 
 > 主要从基本概念、使用场景、底层原理这三个方面进行回答即可
 
@@ -77,9 +66,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 使用场景：同步代码块、同步实例方法、同步静态方法
 底层原理：涉及对象头的基本构成（markword区、实例数据区、对齐填充区），以及monitor对象。用javap命令查看生成的字节码文件能看到其中的同步标记:ACC_SYNCHRONIZED、ACC_PUBLIC
 
-<font color="red">考点2：谈谈对Volatile的理解</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">2）谈谈对Volatile的理解</font> <br/>
 
 底层原理：先讲JMM内存模型，然后引出Volatile的作用，重点说出关键概念：可见性、有序性、内存读屏障、内存写屏障、缓存一致性协议、CPU多级缓存。其中有序性可以展开举例：一个对象实例的创建过程。
 
@@ -87,9 +74,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ### 2、线程池
 
-<font color="red">考点1：讲讲线程池的参数有哪些</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">1）讲讲线程池的参数有哪些</font> <br/>
 
 主要有七个参数：
 
@@ -101,17 +86,13 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 - TimeUnit unit：时间单位
 - RejectedExecutionHandler handler：拒绝策略
 
-<font color="red">考点2：讲讲线程池的处理流程</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">2）讲讲线程池的处理流程</font> <br/>
 
 > 重点是从提交一个task开始，把七大参数在流程中发挥的作用进行串联说明
 
 ![](http://cdn.gydblog.com/images/java/concurrent/threadpool-1.jpg)
 
-<font color="red">考点3：讲讲线程池的生命周期</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">3）讲讲线程池的生命周期</font> <br/>
 
 - RUNNING：该状态是线程池的初始化状态，表示线程池处于运行状态。
 - SHUTDOWN：表示线程池处于停止状态，不再接收新任务，但是会等待已经在运行中的线程正常执行完成。RUNNING状态时调用shutdown()会进入该状态
@@ -123,7 +104,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ### 3、线程
 
-<font color="red">考点1：讲讲线程的生命周期</font> <br/>
+<font color="red">1）讲讲线程的生命周期</font> <br/>
 
 <font color="green">答案：</font>
 
@@ -137,25 +118,21 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ![](http://cdn.gydblog.com/images/java/concurrent/thread-1.jpg)
 
-<font color="red">考点2：线程之间如何通信？</font> <br/>
+<font color="red">2）线程之间如何通信？</font> <br/>
 
-<font color="green">答案：</font>
-
-1）线程之间的中断判断
+a. 线程之间的中断判断
 
 - 通过volatile机制
 - AtomicBoolean
 - interrupt()和isInterrupted()
 
-2）线程之间的等待和唤醒
+b. 线程之间的等待和唤醒
 
 - wait()和notify()
 - Condition中的await()和signal()
 - LockSupport中的park()和unpark()
 
-<font color="red">考点3：常用API有哪些</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">3）常用API有哪些</font> <br/>
 
 - FutureTask
 - CompletableFuture
@@ -163,9 +140,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 
 
-<font color="red">考点4：谈谈对ThreadLocal的理解</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">4）谈谈对ThreadLocal的理解</font> <br/>
 
 底层原理：Thread源码中定义了ThreadLocalMap，是一个Map，Map的key就是ThreadLocal变量，value是指向的值。get和set操作是对这个map的操作。
 
@@ -177,9 +152,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ### 1、代码编译
 
-<font color="red">考点：谈谈JAVA代码编译过程</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">1）谈谈JAVA代码编译过程</font> <br/>
 
 开发者编写好的java代码在完整的JDK架构下，编译运行过程如下（图片来源于网络）：
 
@@ -191,9 +164,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ### 2、JAVA内存模型
 
-<font color="red">考点：谈谈对JVM内存模型的理解</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">2）谈谈对JVM内存模型的理解</font> <br/>
 
 - 堆：是JVM中内存分配最大的一块区域，被分为为新生代、老年代、元空间(1.8以前叫方法区或者永久代)
 - 虚拟机栈：描述的是Java方法执行的内存模型。每个方法执行的同时会创建一个栈帧，该方法从调用开始至执行结束的过程，都对应着一个栈帧在虚拟机栈里面从入栈到出栈的过程。虚拟机栈的生命周期与线程相同，会在栈深度溢出或者栈扩展失败时分别抛出StackOverflowError和OutOfMemoryError异常。
@@ -207,35 +178,27 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ### 3、双亲委派模型
 
-<font color="red">考点1：什么是双亲委派模型?</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">1）什么是双亲委派模型?</font> <br/>
 
 如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成。 每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到最顶层的启动类加载器中。只有当上一层类加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到这个类）时，下一层类加载器才会尝试自己去加载。
 
-<font color="red">考点2：双亲委派模型的实际应用</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">2）双亲委派模型的实际应用</font> <br/>
 
 双亲委派模型这种技术思想在许多框架中都被用到，比如以 Apache Tomcat 来说，容器不希望它下面的webapps之间能互相访问到，每个 Web 应用都有一个对应的类加载器实例。
 
-<font color="red">考点3：双亲委派模型可以被打破吗?</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">3）双亲委派模型可以被打破吗?</font> <br/>
 
 双亲委派模型可以被打破，需要自定义类加载器，继承ClassLoader类，重写LoadClass方法。
 
 ### 4、垃圾回收机制
 
-<font color="red">考点1：谈谈你对垃圾回收机制的理解</font> <br/>
+<font color="red">1）谈谈你对垃圾回收机制的理解</font> <br/>
 
-<font color="green">答案：</font>垃圾回收机制指的就是对象的内存回收机制(回收目标、回收策略)，这种回收是不需要程序员主动操作的，由虚拟机在后台完成。通过可达性分析、引用计数法等方式来判断某个对象是否可以被回收。
+垃圾回收机制指的就是对象的内存回收机制(回收目标、回收策略)，这种回收是不需要程序员主动操作的，由虚拟机在后台完成。通过可达性分析、引用计数法等方式来判断某个对象是否可以被回收。
 
 
 
-<font color="red">考点2：有哪些常用的垃圾回收算法</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">2）有哪些常用的垃圾回收算法</font> <br/>
 
 - 标记清除算法：是最开始时采用的垃圾回收算法，也是最简单最基础的垃圾处理算法，会造成内存碎片问题。
 
@@ -247,9 +210,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 - 分代收集算法：JVM将堆划分了不同的区域：新生代、老年代、永久代，每个区域的对象生命周期是不一样的。分代收集算法，其实就是针对不同生命周期的对象采用不同的垃圾回收算法进行回收
 
-<font color="red">考点2：有哪些常用的垃圾收集器</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">3）有哪些常用的垃圾收集器</font> <br/>
 
 - Serial 收集器：串行收集器，有Serial和Serial Old。会造成STW现象（ Stop-the-world）
 - ParNew 收集器：并行收集器，采用多个 GC 线程并行收集，在多处理器环境下工作的并行收集器能够极大地缩短 STW时间。ParNew 是针对新生代的垃圾回收器，采用“复制”算法，可以看成是 Serial 的多线程版本。
@@ -268,9 +229,7 @@ ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segmen
 
 ## 四、IO
 
-<font color="red">考点1：IO多路复用</font> <br/>
-
-<font color="green">答案：</font>
+<font color="red">1）IO多路复用</font> <br/>
 
 大白话总结一下。
 

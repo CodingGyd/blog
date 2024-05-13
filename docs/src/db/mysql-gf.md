@@ -3,7 +3,7 @@ title: MYSQL设计规约
 shortTitle:  MYSQL设计规约
 date: 2023-08-30
 category:
-  - JAVA企业级开发
+  - 数据库
 tag:
   - MySQL
 head:

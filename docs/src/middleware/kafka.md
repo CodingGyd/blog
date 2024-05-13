@@ -3,7 +3,9 @@ title: Kafka基本概念入门
 shortTitle: Kafka基本概念入门
 date: 2023-10-11
 category:
-  - 微服务中间件
+  - 开源框架
+tag:
+  - 消息组件
 description: 记录中间件Kafka的常用知识点
 head:
   - - meta

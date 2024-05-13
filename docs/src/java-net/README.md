@@ -2,7 +2,7 @@
 title: JAVA基础-网络编程
 shortTitle: JAVA基础-网络编程
 category:
-  - JAVA基础
+  - JAVA
 article: false 
 head:
   - - meta

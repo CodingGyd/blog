@@ -3,9 +3,9 @@ title: Spring系列笔记-事件监听机制
 shortTitle: 事件监听机制
 date: 2023-08-22
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - spring
+  - Spring
 head:
   - - meta
     - name: keywords

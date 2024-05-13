@@ -1,6 +1,6 @@
 ---
-title: 面试手册
-shortTitle: 面试手册
+title: 技术题库
+shortTitle: 技术题库
 article: false
 head:
   - - meta
@@ -9,10 +9,14 @@ head:
 ---
 
 
-* [JAVA基础题](./interview-java.md)
-* [Spring面试](./interview-spring.md)
-* [Redis面试](./interview-redis.md)
-* [SpringCloud面试](./interview-springcloud.md)
-* [Dubbo面试](./interview-dubbo.md)
-* [Netty面试](./interview-netty.md)
+* [JAVA](./interview-java.md)
+* [Spring](./interview-spring.md)
+* [Redis](./interview-redis.md)
+* [SpringCloud](./interview-springcloud.md)
+* [Dubbo](./interview-dubbo.md)
+* [Netty](./interview-netty.md)
+* [MySQL](./interview-mysql.md)
+* [Zookeeper](./interview-zookeeper.md)
+* [消息队列](./interview-mq.md)
+
 

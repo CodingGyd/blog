@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-05-24
 category:
-  - SOP资料库
+  - SOP
 ---
 
 # 笔记本使用常见问题

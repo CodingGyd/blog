@@ -3,9 +3,9 @@ title: Spring系列笔记-什么是Spring?
 shortTitle: 什么是Spring?
 date: 2023-08-14
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - spring
+  - Spring
 head:
   - - meta
     - name: keywords

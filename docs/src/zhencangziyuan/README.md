@@ -1,16 +1,18 @@
 ---
-title: 我的葵花宝典
-shortTitle: 我的葵花宝典
+title: 葵花宝典
+shortTitle: 葵花宝典
 article: false
 category:
-  - 我的葵花宝典
+  - 葵花宝典
 head:
   - - meta
     - name: keywords
-      content: 我的葵花宝典
+      content: 葵花宝典
 ---
 * [代码轮子](./code.md)
 * [编程规约](./coding-standard.md)
-* [摸鱼神器](./effect-raising.md)
+* [编程利器](./effect-raising.md)
 * [工具软件](./tools.md)
 * [常用网站](./websites.md)
+* [写作模板](./markdown-template.md)
+* [Markdown](./markdown.md)

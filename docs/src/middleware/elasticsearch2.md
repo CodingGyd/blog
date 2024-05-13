@@ -3,7 +3,9 @@ title: Elasticsearch入门-常用API介绍
 shortTitle: Elasticsearch入门-常用API介绍
 date: 2023-12-20
 category:
-  - 微服务中间件
+  - 开源框架
+tag:
+  - 搜索引擎
 description: 记录elasticsearch的常用API介绍
 head:
   - - meta

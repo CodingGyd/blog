@@ -2,7 +2,7 @@
 # icon: lock
 date: 2023-05-24
 category:
-  - SOP资料库
+  - SOP
 ---
 
 # 如何白嫖axure 10

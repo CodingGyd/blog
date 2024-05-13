@@ -2,9 +2,7 @@
 # icon: lock
 date: 2023-02-05
 category:
-  - SOP资料库
-tag:
-  - 跨域解决方案
+  - SOP
 ---
 
 # 跨域访问解决方案

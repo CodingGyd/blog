@@ -3,7 +3,7 @@
 date: 2018-01-05
 
 category:
-  - JAVA基础
+  - JAVA
 ---
 
 # 关键字和保留字

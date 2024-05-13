@@ -1,6 +1,10 @@
 ---
 # icon: lock
 date: 2023-08-13
+category:
+  - JAVA
+tag:
+  - JVM
 ---
 
 # 垃圾回收机制 

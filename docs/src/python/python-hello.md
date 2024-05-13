@@ -3,7 +3,7 @@ title: Python学习笔记
 shortTitle: Python学习笔记
 date: 2024-01-22
 category:
-  - Python基础
+  - Python
 head:
   - - meta
     - name: keywords

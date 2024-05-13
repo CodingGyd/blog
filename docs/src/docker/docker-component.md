@@ -1,7 +1,7 @@
 ---
 title: 基础组件的docker离线部署
 shortTitle: 基础组件docker部署
-date: 2024-02-03-12
+date: 2024-02-03
 category:
   - 容器化
 tag:

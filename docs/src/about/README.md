@@ -9,9 +9,9 @@ article: false
 ---
 
 
-* [网站的技术选型](./blog-tech-list.md)
-* [网站发版记录](./blog-version.md)
-* [网站版权声明](./copyright.md)
-* [关于作者](./intro.md)
-* [站点介绍](./zd.md)
-* [网站技术方案-waline](./waline.md)
+* [网站技术方案](./blog-tech-list.md)
+* [发版记录](./blog-version.md)
+* [版权的声明](./copyright.md)
+<!-- * [关于作者](./intro.md) -->
+* [网站内容介绍](./zd.md)
+* [Waline接入总结](./waline.md)

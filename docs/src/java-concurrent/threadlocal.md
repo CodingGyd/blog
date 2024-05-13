@@ -3,9 +3,9 @@
 date: 2023-07-03
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - threadlocal
+  - 并发编程
 ---
 # ThreadLocal的用法
 ## 一、原理

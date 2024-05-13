@@ -2,7 +2,7 @@
 title: JAVA基础-集合框架部分
 shortTitle: JAVA基础-集合框架部分
 category:
-  - JAVA基础
+  - JAVA
 article: false 
 head:
   - - meta

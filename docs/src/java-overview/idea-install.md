@@ -3,10 +3,10 @@
 date: 2023-06-25
 
 category:
-  - JAVA基础
+  - JAVA
 ---
 
-# IDEA安装
+# 开发环境准备-编译器IDEA安装
 ## 01、IDEA简介
 IDEA全称是IntelliJ IDEA，由JetBrains公司开发，是业界公认最好的JAVA编程工具之一。IDEA是具有高级代码导航和可靠代码重构的首批Java IDE中的一员，经过长期迭代已发展成为具备高效软件开发所需的所有关键工具和实用功能以及一套基于IntelliJ平台的其他IDE的综合型IDE。IDEA在智能代码助手、代码自动提示、J2EE支持、Ant、Junit、CVS整合、代码审查等方面的功能都是非常优秀的。<br/>
 

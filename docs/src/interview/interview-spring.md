@@ -2,9 +2,7 @@
 # icon: lock
 date: 2023-02-10
 category:
-  - 面试手册
-tag:
-  - Spring面试
+  - 技术题库
 ---
 
 # 77道Spring面试题以及参考答案(转载)
@@ -88,7 +86,7 @@ Spring 总共大约有 20 个模块， 由 1300 多个不同的文件构成。 �
 工厂模式：BeanFactory就是简单工厂模式的体现，用来创建对象的实例；
 单例模式：Bean默认为单例模式。
 代理模式：Spring的AOP功能用到了JDK的动态代理和CGLIB字节码生成技术；
-模板方法：用来解决代码重复的问题。比如. RestTemplate, JmsTemplate, JpaTemplate。
+模板方法：用来解决代码重复的问题。比如. JdbcTemplate，RestTemplate, JmsTemplate, JpaTemplate。
 观察者模式：定义对象键一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都会得到通知被制动更新，如Spring中listener的实现–ApplicationListener。
 
 
@@ -364,39 +362,20 @@ ThreadLocal和线程同步机制都是为了解决多线程中相同变量的访
 ThreadLocal会为每一个线程提供一个独立的变量副本，从而隔离了多个线程对数据的访问冲突。因为每一个线程都拥有自己的变量副本，从而也就没有必要对该变量进行同步了。ThreadLocal提供了线程安全的共享对象，在编写多线程代码时，可以把不安全的变量封装进ThreadLocal。
 
 ### **10. 解释Spring框架中bean的生命周期**
-在传统的Java应用中，bean的生命周期很简单。使用Java关键字new进行bean实例化，然后该bean就可以使用了。一旦该bean不再被使用，则由Java自动进行垃圾回收。相比之下，Spring容器中的bean的生命周期就显得相对复杂多了。正确理解Spring bean的生命周期非常重要，因为你或许要利用Spring提供的扩展点来自定义bean的创建过程。下图展示了bean装载到Spring应用上下文中的一个典型的生命周期过程。
+- a.**「实例化」**，实例化该 Bean 对象（在堆中开辟内存空间，属性默认值）
 
-![bean生命周期](http://cdn.gydblog.com/images/spring/interview-spring-2.png)
+- b**「填充属性」**，给该 Bean 赋值
 
+- c.**「初始化」**
 
+- - 如果实现了 Aware 接口，会通过其接口获取容器资源
+  - 如果实现了 BeanPostProcessor 接口，则会回调该接口的前置和后置处理增强
+  - 如果配置了 init-method 方法，]会执行该方法
 
-bean在Spring容器中从创建到销毁经历了若干阶段，每一阶段都可以针对Spring如何管理bean进行个性化定制。
+- d.**「销毁」**
 
-正如你所见，在bean准备就绪之前，bean工厂执行了若干启动步骤。
-
-我们对上图进行详细描述：
-
-Spring对bean进行实例化；
-
-Spring将值和bean的引用注入到bean对应的属性中；
-
-如果bean实现了BeanNameAware接口，Spring将bean的ID传递给setBean-Name()方法；
-
-如果bean实现了BeanFactoryAware接口，Spring将调用setBeanFactory()方法，将BeanFactory容器实例传入；
-
-如果bean实现了ApplicationContextAware接口，Spring将调用setApplicationContext()方法，将bean所在的应用上下文的引用传入进来；
-
-如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessBeforeInitialization()方法；
-
-如果bean实现了InitializingBean接口，Spring将调用它们的after-PropertiesSet()方法。类似地，如果bean使用initmethod声明了初始化方法，该方法也会被调用；
-
-如果bean实现了BeanPostProcessor接口，Spring将调用它们的post-ProcessAfterInitialization()方法；
-
-此时，bean已经准备就绪，可以被应用程序使用了，它们将一直驻留在应用上下文中，直到该应用上下文被销毁；
-
-如果bean实现了DisposableBean接口，Spring将调用它的destroy()接口方法。同样，如果bean使用destroy-method声明了销毁方法，该方法也会被调用。
-
-现在你已经了解了如何创建和加载一个Spring容器。但是一个空的容器并没有太大的价值，在你把东西放进去之前，它里面什么都没有。为了从Spring的DI(依赖注入)中受益，我们必须将应用对象装配进Spring容器中。
+- - 如果实现了 DisposableBean 接口，则会回调该接口的 destroy 方法
+  - 如果配置了 destroy-method 方法，则会执行 destroy-method 配置的方法
 
 ### **11. 哪些是重要的bean生命周期方法？ 你能重载它们吗？**
 有两个重要的bean 生命周期方法，第一个是setup ， 它是在容器加载bean的时候被调用。第二个方法是 teardown 它是在容器卸载类的时候被调用。
@@ -454,6 +433,40 @@ autodetect：自动探测，如果有构造方法，通过 construct的方式自
 
 ### **19. 你可以在Spring中注入一个null 和一个空字符串吗？**
 可以。
+
+
+
+### **20. 如何解决循环依赖？**
+
+循环依赖就是说两个对象相互依赖，形成了一个环形的调用链路
+
+spring 使用三级缓存去解决循环依赖的，其**「核心逻辑就是把实例化和初始化的步骤分开，然后放入缓存中」**，供另一个对象调用
+
+- **「第一级缓存」**：用来保存实例化、初始化都完成的对象
+- **「第二级缓存」**：用来保存实例化完成，但是未初始化完成的对象
+- **「第三级缓存」**：用来保存一个对象工厂，提供一个匿名内部类，用于创建二级缓存中的对象
+
+------
+
+当 A、B 两个类发生循环引用时 大致流程
+
+- 1.A 完成实例化后，去**「创建一个对象工厂，并放入三级缓存」**当中
+
+- - 如果 A 被 AOP 代理，那么通过这个工厂获取到的就是 A 代理后的对象
+  - 如果 A 没有被 AOP 代理，那么这个工厂获取到的就是 A 实例化的对象
+
+- 2.A 进行属性注入时，去**「创建 B」**
+
+- 3.B 进行属性注入，需要 A ，则**「从三级缓存中去取 A 工厂代理对象」**并注入，然后删除三级缓存中的 A 工厂，将 A 对象放入二级缓存
+
+- 4.B 完成后续属性注入，直到初始化结束，将 B 放入一级缓存
+
+- 5.**「A 从一级缓存中取到 B 并且注入 B」**, 直到完成后续操作，将 A 从二级缓存删除并且放入一级缓存，循环依赖结束
+
+spring 解决循环依赖有两个前提条件：
+
+- 1.**「不全是构造器方式」**的循环依赖(否则无法分离初始化和实例化的操作)
+- 2.**「必须是单例」**(否则无法保证是同一对象)
 
 ## **四、Spring注解**
 ### **1. 什么是基于Java的Spring注解配置? 给一些注解的例子**

@@ -2,7 +2,7 @@
 # icon: lock
 date: 2024-04-25
 category:
-  - 面试手册
+  - 技术题库
 tag:
   - Netty
 ---

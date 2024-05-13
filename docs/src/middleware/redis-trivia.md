@@ -3,7 +3,9 @@ title: Redis不为人知的冷知识
 shortTitle: Redis不为人知的冷知识
 date: 2023-11-01
 category:
-  - 微服务中间件
+  - 开源框架
+tag:
+  - 缓存组件
 description: 记录中间件Redis的冷门知识，
 head:
   - - meta

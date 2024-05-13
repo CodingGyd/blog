@@ -3,9 +3,9 @@
 date: 2023-06-26
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - 阻塞队列
+  - 并发编程
 ---
 
 # Java中的阻塞队列

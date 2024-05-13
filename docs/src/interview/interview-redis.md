@@ -1,9 +1,9 @@
 ---
-title: Redis面试题
-shortTitle: Redis面试题
+title: Redis
+shortTitle: Redis
 date: 2023-10-26
 category:
-  - 面试手册
+  - 技术题库
 description: 收集中间件Redis的常用面试题
 head:
   - - meta
@@ -11,7 +11,6 @@ head:
       content: Redis,面试
 ---
 
-> 本篇收集了常见的Redis基础相关面试题。
 
 ## 一、基础概念篇
 

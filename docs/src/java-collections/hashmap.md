@@ -3,9 +3,10 @@
 date: 2023-06-15
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - HashMap
+  - 集合框架
+
 ---
 
 # HashMap

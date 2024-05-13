@@ -3,9 +3,9 @@
 date: 2023-08-02
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - AQS基础知识
+  - 并发编程
 ---
 
 # AQS基础知识

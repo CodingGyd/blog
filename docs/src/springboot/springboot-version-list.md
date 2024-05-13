@@ -3,9 +3,9 @@ title: SpringBoot系列笔记-SpringBoot的迭代史
 shortTitle: SpringBoot的迭代史
 date: 2023-08-23
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - spring
+  - SpringBoot
 head:
   - - meta
     - name: keywords

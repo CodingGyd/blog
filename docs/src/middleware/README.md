@@ -2,7 +2,7 @@
 title: 常见微服务中间件
 shortTitle: 常见微服务中间件
 category:
-  - WEB开发
+  - 开源框架
 article: false 
 head:
   - - meta

@@ -3,9 +3,9 @@
 date: 2023-06-25
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - CompletableFuture
+  - 并发编程
 ---
 # 异步编程利器CompletableFuture
 ## 一、简介  

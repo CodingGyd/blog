@@ -2,7 +2,7 @@
 title: JAVA企业级开发技术-Spring
 shortTitle: JAVA企业级开发技术-Spring
 category:
-  - JAVA企业级开发
+  - 开源框架
 article: false 
 head:
   - - meta

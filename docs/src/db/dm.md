@@ -3,7 +3,7 @@ title: 达梦数据库使用记录
 shortTitle: 达梦数据库使用记录
 date: 2024-01-19
 category:
-  - JAVA企业级开发
+  - 数据库
 tag:
   - 达梦
 head:

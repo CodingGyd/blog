@@ -2,7 +2,7 @@
 title: JAVA基础-JVM
 shortTitle: JAVA基础-JVM
 category:
-  - JAVA基础
+  - JAVA
 article: false 
 head:
   - - meta

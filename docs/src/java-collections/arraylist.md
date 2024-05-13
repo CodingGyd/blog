@@ -3,10 +3,9 @@
 date: 2023-06-05
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
   - 集合框架
-  - ArrayList
 ---
 
 # ArrayList

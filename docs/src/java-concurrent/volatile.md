@@ -3,9 +3,9 @@
 date: 2023-07-03
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - volatile
+  - 并发编程
 ---
 # volatile关键字
 ## 一、简介

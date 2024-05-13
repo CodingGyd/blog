@@ -3,10 +3,9 @@
 date: 2023-07-03
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - 锁
-  - synchronized
+  - 并发编程
 ---
 # synchronized关键字
 

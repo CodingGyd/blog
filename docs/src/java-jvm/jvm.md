@@ -1,6 +1,10 @@
 ---
 # icon: lock
 date: 2023-08-10
+category:
+  - JAVA
+tag:
+  - JVM
 ---
 
 # JVM入门，看这一篇就够了！

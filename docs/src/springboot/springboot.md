@@ -3,9 +3,9 @@ title: SpringBoot系列笔记-知识点全面总结
 shortTitle: SpringBoot知识点全面总结
 date: 2023-08-28
 category:
-  - JAVA企业级开发
+  - 开源框架
 tag:
-  - springboot
+  - SpringBoot
 head:
   - - meta
     - name: keywords
@@ -1080,7 +1080,7 @@ public class MyLogProperties {
 
 **AOP切面逻辑**
 
-[AOP的基础知识](./spring-aop.md)
+[AOP的基础知识](../spring/spring-aop.md)
 
 ```java
 package com.gyd.gydstarterlog;

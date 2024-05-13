@@ -3,9 +3,9 @@
 date: 2023-07-09
 
 category:
-  - JAVA基础
+  - JAVA
 tag:
-  - 多线程
+  - 并发编程
 ---
 # 多线程入门
 

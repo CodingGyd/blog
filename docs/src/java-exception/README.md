@@ -2,7 +2,7 @@
 title: JAVA基础-异常框架
 shortTitle: JAVA基础-异常框架
 category:
-  - JAVA基础
+  - JAVA
 article: false 
 head:
   - - meta

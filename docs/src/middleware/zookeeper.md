@@ -3,7 +3,9 @@ title: Zookeeper入门
 shortTitle: Zookeeper入门
 date: 2023-11-21
 category:
-  - 微服务中间件
+  - 开源框架
+tag:
+  - 服务发现与注册
 description: 记录Zookeeper的基础知识
 head:
   - - meta

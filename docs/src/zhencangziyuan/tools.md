@@ -1,7 +1,7 @@
 ---
 date: 2022-01-09
 category:
-  - 工具软件
+  - 葵花宝典
 ---
 # 工具软件
 
@@ -65,5 +65,3 @@ https://www.jetbrains.com/idea/download/?var=1&section=windows
 
 ## 3、Navicate破解
 https://www.cnblogs.com/cdaniu/p/17300147.html
-
-## 4、截图工具

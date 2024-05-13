@@ -3,10 +3,10 @@
 date: 2023-04-02
 
 category:
-  - JAVA基础
+  - JAVA
 ---
 
-# JDK安装(傻瓜式教程)
+# 开发环境准备-JDK安装(傻瓜式教程)
 ## 01、什么是JDK?
 JDK全称是Java Development ToolKit，也就是Java开发工具包。  
 
