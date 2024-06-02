@@ -13,12 +13,12 @@ category:
 
 那么什么是变量呢？我认为变量就是申请内存来存储一个值。也就是说，当创建变量的时候，需要在内存中申请空间。内存管理系统会根据变量的类型为变量分配不同的存储空间，只要定义了变量的类型，就告诉了内存管理系统分配多少内存空间以及变量的存储方式。<br/>
 
-Java语言中划分了两大数据类型：基本数据类型(内置数据类型)、引用数据类型：
+Java语言中划分了两大数据类型：基本数据类型(内置数据类型)和引用数据类型。
  <img src="http://cdn.gydblog.com/images/java/java-basic-data-type-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 ## 02、基本数据类型
 基本数据类型分为三大类：数值型、字符型、布尔型。
-[官网](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)的描述：
+[官网](https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html)的描述如下：
 
 - byte：数据类型为 8 位有符号二进制的补码整数。它的最小值为 -128，最大值为 127（含）。数据类型对于节省大型数组中的内存非常有用，其中内存节省实际上很重要。它们也可以用来代替它们的限制有助于澄清你的代码的地方;变量的范围有限这一事实可以作为一种文档形式。bytebyteint
 
