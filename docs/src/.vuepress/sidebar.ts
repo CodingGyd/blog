@@ -25,13 +25,15 @@ export default sidebar({
       children: [
         { text: "JAVA", link: "interview-java" },
         { text: "Spring", link: "interview-spring" },
+        { text: "SpringBoot", link: "interview-springboot" },
         { text: "SpringCloud", link: "interview-springcloud" },
         { text: "Redis", link: "interview-redis" },
         { text: "Dubbo", link: "interview-dubbo" },
         { text: "Netty", link: "interview-netty" },
         { text: "MySQL", link: "interview-mysql" },
         { text: "Zookeeper", link: "interview-zookeeper" },
-        
+        { text: "MQ", link: "interview-mq" }
+
 
       ],
     }
@@ -155,7 +157,8 @@ export default sidebar({
           children: [
           "jvm",
           "jvm-gc",
-          "jvm-params"
+          "jvm-params",
+          "jvm-note"
           ],
         },
       ],

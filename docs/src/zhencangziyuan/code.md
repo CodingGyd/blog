@@ -8,8 +8,11 @@ star: true
 # 代码轮子
 > 更多实用代码轮子 <a href="https://github.com/CodingGyd/common-utils" text="戳这里！" target="_blank"></a>  
 > excel导入导出组件 <a href="https://github.com/CodingGyd/excel-utils" text="戳这里！" target="_blank"></a>
+> 
 
-## 一、参数校验
+## 一、代码片段
+
+### 1、参数校验
 
 需要在pom引入相关依赖  
 ```java
@@ -127,7 +130,7 @@ Exception in thread "main" java.lang.RuntimeException: 校验不通过：**name�
 	at com.codinggyd.User.main(User.java:27)
 ```
 
-## 二、枚举校验
+### 2、枚举校验
 在业务系统开发中，离散的枚举值校验是非常有必要的。而Jakarta的javax.validation包提供了方便的自定义校验的入口，就是javax.validation.ConstraintValidator,我们可以通过自定义校验枚举类型方式实现离散值校验。
 
 下面是一套校验工具，可以直接运用于项目中
@@ -329,7 +332,7 @@ Exception in thread "main" java.lang.RuntimeException: 校验不通过：**性�
 
 
 
-## 三、数值精确运算
+### 3、数值精确运算
 ```java
 package com.codinggyd.utils;
 import java.math.BigDecimal;
@@ -624,7 +627,7 @@ public class ArithmeticUtils {
 ```
 
 
-## 四、bean和map转换
+### 4、bean和map转换
 需要在pom引入相关依赖：
 ```java
 	<dependency>
@@ -734,3 +737,459 @@ public class BeanMapUtils {
 }
 
 ```
+
+
+
+
+
+## 二、开源组件
+### 1、验证码
+
+目前使用图片验证码较为广泛的是 Kaptcha ，Kaptcha 是一个Google开源、可自由配置的图片验证码生成工具。
+
+它只有一个版本：2.3.2，值得注意的是，在 springboot 3的环境下，使用该插件包大部分会使用到的 http 包，不能导入 javax 包内的，而是应该导入jakarta 包内的。
+
+它能够实现以下效果：水纹有干扰、鱼眼无干扰、水纹无干扰、阴影无干扰、阴影有干扰
+
+![](https://gydblog.fsh.bcebos.com/images/zhencangziyuan/yzm.png)
+
+**验证码的一般流程**
+
+**后端：**
+
+- 随机生成四位数字的验证码图片和数字
+- 结合随机生成的UUID作为Key，验证码值作为Value保存验证码到Redis中
+- 将UUID和验证码图片响应给用户，等用户提交后验证校验码是否有效
+
+**前端：**
+
+- 进入登录/注册页面时，获取验证码图片
+- 对用户输入的验证码进行简单的规则校验
+- 返回登录结果
+- 提供刷新验证码的动作，防止出现用户难以辨识的识别码
+
+**基本的使用步骤**
+
+1. 导入POM依赖
+2. 定义生成验证码图片时的一系列参数：图片的宽高、字符内容、干扰类型等
+3. 调用com.google.code.kaptcha.impl.DefaultKaptcha#createText()创建验证码值
+4. 调用com.google.code.kaptcha.impl.DefaultKaptcha#createText(kaptchaText)创建验证图片（BufferedImage）
+5. 将图片BufferedImage转换为目标流
+
+```
+<dependency>
+    <groupId>com.github.penggle</groupId>
+    <artifactId>kaptcha</artifactId>
+    <version>2.3.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+        </exclusion>
+      </exclusions>
+</dependency>
+```
+
+**配置参数说明**
+
+对于一张验证码图片来说，我们如何控制验证码图片的样式呢？这就是kaptcha提供的配置参数的意义。
+
+- 首先，它本质是一张图片，所以将会涉及图片的边框、宽高、背景颜色
+- 验证码是字符，这将会涉及到字体类型、字体大小、字体颜色、字体间距、字体数量
+- 验证码的另一个重要功能是干扰，这将会涉及干扰类型、干扰样式
+
+<table style="border-collapse: collapse; width: 444px; border-style: solid; margin-left: auto; margin-right: auto" border="1px">
+<tbody>
+<tr>
+<td width="198">
+<p>属性</p>
+</td>
+<td width="212">
+<p>说明</p>
+</td>
+<td width="287">
+<p>默认值</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.border</p>
+</td>
+<td width="212">
+<p>图片边框，合法值：yes , no</p>
+</td>
+<td width="287">
+<p>yes</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.border.color</p>
+</td>
+<td width="212">
+<p>边框颜色，合法值： r,g,b (and optional alpha) 或者 white,black,blue.</p>
+</td>
+<td width="287">
+<p>black</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.image.width</p>
+</td>
+<td width="212">
+<p>图片宽</p>
+</td>
+<td width="287">
+<p>200</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.image.height</p>
+</td>
+<td width="212">
+<p>图片高</p>
+</td>
+<td width="287">
+<p>50</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.producer.impl</p>
+</td>
+<td width="212">
+<p>图片实现类</p>
+</td>
+<td width="287">
+<p>com.google.code.kaptcha.impl.DefaultKaptcha</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.impl</p>
+</td>
+<td width="212">
+<p>文本实现类</p>
+</td>
+<td width="287">
+<p>com.google.code.kaptcha.text.impl.DefaultTextCreator</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.char.string</p>
+</td>
+<td width="212">
+<p>文本集合，验证码值从此集合中获取</p>
+</td>
+<td width="287">
+<p>abcde2345678gfynmnpwx</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.char.length</p>
+</td>
+<td width="212">
+<p>验证码长度</p>
+</td>
+<td width="287">
+<p>5</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.font.names</p>
+</td>
+<td width="212">
+<p>字体</p>
+</td>
+<td width="287">
+<p>Arial, Courier</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.font.size</p>
+</td>
+<td width="212">
+<p>字体大小</p>
+</td>
+<td width="287">
+<p>40px.</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.font.color</p>
+</td>
+<td width="212">
+<p>字体颜色，合法值： r,g,b 或者 white,black,blue.</p>
+</td>
+<td width="287">
+<p>black</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.textproducer.char.space</p>
+</td>
+<td width="212">
+<p>文字间隔</p>
+</td>
+<td width="287">
+<p>2</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.noise.impl</p>
+</td>
+<td width="212">
+<p>干扰实现类</p>
+</td>
+<td width="287">
+<p>com.google.code.kaptcha.impl.DefaultNoise</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.noise.color</p>
+</td>
+<td width="212">
+<p>干扰 颜色，合法值： r,g,b 或者 white,black,blue.</p>
+</td>
+<td width="287">
+<p>black</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.obscurificator.impl</p>
+</td>
+<td width="212">
+<p>图片样式：&lt;br /&gt;水纹 com.google.code.kaptcha.impl.WaterRipple &lt;br /&gt;</p>
+<p>鱼眼 com.google.code.kaptcha.impl.FishEyeGimpy &lt;br /&gt;</p>
+<p>阴影 com.google.code.kaptcha.impl.ShadowGimpy</p>
+</td>
+<td width="287">
+<p>com.google.code.kaptcha.impl.WaterRipple</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.background.impl</p>
+</td>
+<td width="212">
+<p>背景实现类</p>
+</td>
+<td width="287">
+<p>com.google.code.kaptcha.impl.DefaultBackground</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.background.clear.from</p>
+</td>
+<td width="212">
+<p>背景颜色渐变，开始颜色</p>
+</td>
+<td width="287">
+<p>light grey</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.background.clear.to</p>
+</td>
+<td width="212">
+<p>背景颜色渐变， 结束颜色</p>
+</td>
+<td width="287">
+<p>white</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.word.impl</p>
+</td>
+<td width="212">
+<p>文字渲染器</p>
+</td>
+<td width="287">
+<p>com.google.code.kaptcha.text.impl.DefaultWordRenderer</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.session.key</p>
+</td>
+<td width="212">
+<p>session key</p>
+</td>
+<td width="287">
+<p>KAPTCHA_SESSION_KEY</p>
+</td>
+</tr>
+<tr>
+<td width="198">
+<p>kaptcha.session.date</p>
+</td>
+<td width="212">
+<p>session date</p>
+</td>
+<td width="287">
+<p>KAPTCHA_SESSION_DATE</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+**配置类KaptchaConfig**
+
+```java
+package com.gydblog.base.config;
+
+import com.google.code.kaptcha.text.impl.DefaultTextCreator;
+
+import java.util.Random;
+
+/**
+ * 验证码文本生成器
+ */
+public class KaptchaTextCreator extends DefaultTextCreator {
+    private static final String[] CNUMBERS = "0,1,2,3,4,5,6,7,8,9,10".split(",");
+
+    @Override
+    public String getText() {
+        Integer result = 0;
+        Random random = new Random();
+        int x = random.nextInt(10);
+        int y = random.nextInt(10);
+        StringBuilder suChinese = new StringBuilder();
+        int randomoperands = random.nextInt(3);
+        if (randomoperands == 0) {
+            result = x * y;
+            suChinese.append(CNUMBERS[x]);
+            suChinese.append("*");
+            suChinese.append(CNUMBERS[y]);
+        } else if (randomoperands == 1) {
+            if ((x != 0) && y % x == 0) {
+                result = y / x;
+                suChinese.append(CNUMBERS[y]);
+                suChinese.append("/");
+                suChinese.append(CNUMBERS[x]);
+            } else {
+                result = x + y;
+                suChinese.append(CNUMBERS[x]);
+                suChinese.append("+");
+                suChinese.append(CNUMBERS[y]);
+            }
+        } else {
+            if (x >= y) {
+                result = x - y;
+                suChinese.append(CNUMBERS[x]);
+                suChinese.append("-");
+                suChinese.append(CNUMBERS[y]);
+            } else {
+                result = y - x;
+                suChinese.append(CNUMBERS[y]);
+                suChinese.append("-");
+                suChinese.append(CNUMBERS[x]);
+            }
+        }
+        suChinese.append("=?@" + result);
+        return suChinese.toString();
+    }
+}
+```
+
+
+
+```java
+package com.gydblog.base.config;
+
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.code.kaptcha.util.Config;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.Properties;
+
+import static com.google.code.kaptcha.Constants.*;
+
+/**
+ * 验证码配置
+ */
+@Configuration
+public class CaptchaConfig {
+    @Bean(name = "captchaProducer")
+    public DefaultKaptcha getKaptchaBean() {
+        DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
+        Properties properties = new Properties();
+        // 是否有边框 默认为true 我们可以自己设置yes，no
+        properties.setProperty(KAPTCHA_BORDER, "yes");
+        // 验证码文本字符颜色 默认为Color.BLACK
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "black");
+        // 验证码图片宽度 默认为200
+        properties.setProperty(KAPTCHA_IMAGE_WIDTH, "160");
+        // 验证码图片高度 默认为50
+        properties.setProperty(KAPTCHA_IMAGE_HEIGHT, "60");
+        // 验证码文本字符大小 默认为40
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_SIZE, "38");
+        // KAPTCHA_SESSION_KEY
+        properties.setProperty(KAPTCHA_SESSION_CONFIG_KEY, "kaptchaCode");
+        // 验证码文本字符长度 默认为5
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
+        // 验证码文本字体样式 默认为new Font("Arial", 1, fontSize), new Font("Courier", 1, fontSize)
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_NAMES, "Arial,Courier");
+        // 图片样式 水纹com.google.code.kaptcha.impl.WaterRipple 鱼眼com.google.code.kaptcha.impl.FishEyeGimpy 阴影com.google.code.kaptcha.impl.ShadowGimpy
+        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
+        Config config = new Config(properties);
+        defaultKaptcha.setConfig(config);
+        return defaultKaptcha;
+    }
+
+    @Bean(name = "captchaProducerMath")
+    public DefaultKaptcha getKaptchaBeanMath() {
+        DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
+        Properties properties = new Properties();
+        // 是否有边框 默认为true 我们可以自己设置yes，no
+        properties.setProperty(KAPTCHA_BORDER, "yes");
+        // 边框颜色 默认为Color.BLACK
+        properties.setProperty(KAPTCHA_BORDER_COLOR, "105,179,90");
+        // 验证码文本字符颜色 默认为Color.BLACK
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_COLOR, "blue");
+        // 验证码图片宽度 默认为200
+        properties.setProperty(KAPTCHA_IMAGE_WIDTH, "160");
+        // 验证码图片高度 默认为50
+        properties.setProperty(KAPTCHA_IMAGE_HEIGHT, "60");
+        // 验证码文本字符大小 默认为40
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_SIZE, "35");
+        // KAPTCHA_SESSION_KEY
+        properties.setProperty(KAPTCHA_SESSION_CONFIG_KEY, "kaptchaCodeMath");
+        // 验证码文本生成器
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_IMPL, "com.gydblog.base.config.KaptchaTextCreator");
+        // 验证码文本字符间距 默认为2
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_SPACE, "3");
+        // 验证码文本字符长度 默认为5
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "6");
+        // 验证码文本字体样式 默认为new Font("Arial", 1, fontSize), new Font("Courier", 1, fontSize)
+        properties.setProperty(KAPTCHA_TEXTPRODUCER_FONT_NAMES, "Arial,Courier");
+        // 验证码噪点颜色 默认为Color.BLACK
+        properties.setProperty(KAPTCHA_NOISE_COLOR, "white");
+        // 干扰实现类
+        properties.setProperty(KAPTCHA_NOISE_IMPL, "com.google.code.kaptcha.impl.NoNoise");
+        // 图片样式 水纹com.google.code.kaptcha.impl.WaterRipple 鱼眼com.google.code.kaptcha.impl.FishEyeGimpy 阴影com.google.code.kaptcha.impl.ShadowGimpy
+        properties.setProperty(KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
+        Config config = new Config(properties);
+        defaultKaptcha.setConfig(config);
+        return defaultKaptcha;
+    }
+}
+```
+

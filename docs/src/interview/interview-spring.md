@@ -99,29 +99,29 @@ Bean 工厂是工厂模式的一个实现，提供了控制反转功能，用来
 
 Spring 提供了以下5种标准的事件：
 
-上下文更新事件（ContextRefreshedEvent）：在调用ConfigurableApplicationContext 接口中的refresh()方法时被触发。
-上下文开始事件（ContextStartedEvent）：当容器调用ConfigurableApplicationContext的Start()方法开始/重新开始容器时触发该事件。
-上下文停止事件（ContextStoppedEvent）：当容器调用ConfigurableApplicationContext的Stop()方法停止容器时触发该事件。
-上下文关闭事件（ContextClosedEvent）：当ApplicationContext被关闭时触发该事件。容器被关闭时，其管理的所有单例Bean都被销毁。
-请求处理事件（RequestHandledEvent）：在Web应用中，当一个http请求（request）结束触发该事件。如果一个bean实现了ApplicationListener接口，当一个ApplicationEvent 被发布以后，bean会自动被通知。
+上下文更新事件（ContextRefreshedEvent）：在调用ConfigurableApplicationContext 接口中的refresh()方法时被触发。  
+上下文开始事件（ContextStartedEvent）：当容器调用ConfigurableApplicationContext的Start()方法开始/重新开始容器时触发该事件。  
+上下文停止事件（ContextStoppedEvent）：当容器调用ConfigurableApplicationContext的Stop()方法停止容器时触发该事件。  
+上下文关闭事件（ContextClosedEvent）：当ApplicationContext被关闭时触发该事件。容器被关闭时，其管理的所有单例Bean都被销毁。  
+请求处理事件（RequestHandledEvent）：在Web应用中，当一个http请求（request）结束触发该事件。如果一个bean实现了ApplicationListener接口，当一个ApplicationEvent 被发布以后，bean会自动被通知。  
 
 ### **9. Spring 应用程序有哪些不同组件？**
 Spring 应用一般有以下组件：
 
-接口 - 定义功能。
-Bean 类 - 它包含属性，setter 和 getter 方法，函数等。
-Bean 配置文件 - 包含类的信息以及如何配置它们。
-Spring 面向切面编程（AOP） - 提供面向切面编程的功能。
-用户程序 - 它使用接口。
+接口 - 定义功能。  
+Bean 类 - 它包含属性，setter 和 getter 方法，函数等。  
+Bean 配置文件 - 包含类的信息以及如何配置它们。  
+Spring 面向切面编程（AOP） - 提供面向切面编程的功能。  
+用户程序 - 它使用接口。  
 
 ### **10. 使用 Spring 有哪些方式？**
 
 使用 Spring 有以下方式：
 
-作为一个成熟的 Spring Web 应用程序。
-作为第三方 Web 框架，使用 Spring Frameworks 中间层。
-作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。
-用于远程使用。
+作为一个成熟的 Spring Web 应用程序。  
+作为第三方 Web 框架，使用 Spring Frameworks 中间层。  
+作为企业级 Java Bean，它可以包装现有的 POJO（Plain Old Java Objects）。  
+用于远程使用。  
 
 
 ## **二、Spring控制反转(IOC)**
@@ -545,7 +545,7 @@ public class Employee {
 
 ## **五、Spring数据访问**
 ### **1. 解释对象/关系映射集成模块**
-Spring 通过提供ORM模块，支持我们在直接JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate，JDO和 iBATIS，JPA，TopLink，JDO，OJB 。Spring的事务管理同样支持以上所有ORM框架及JDBC。
+Spring 通过提供ORM模块，支持我们直接在JDBC之上使用一个对象/关系映射映射(ORM)工具，Spring 支持集成主流的ORM框架，如Hiberate，JDO和 iBATIS，JPA，TopLink，JDO，OJB 。Spring的事务管理同样支持以上所有ORM框架及JDBC。
 
 ### **2. 在Spring框架中如何更有效地使用JDBC？**
 使用Spring JDBC 框架，资源管理和错误处理的代价都会被减轻。所以开发者只需写statements 和 queries从数据存取数据，JDBC也可以在Spring框架提供的模板类的帮助下更有效地被使用，这个模板叫JdbcTemplate

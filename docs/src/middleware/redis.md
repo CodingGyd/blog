@@ -577,7 +577,7 @@ Redis Cluster 采用**虚拟哈希槽分区**，所有的键根据哈希函数�
 - 节点 B 哈希槽范围为 5501 ~ 11000；
 - 节点 C 哈希槽范围为 11001 ~ 16383。
 
-此时，我们如果要存储数据，按照 Redis Cluster 哈希槽的算法，假设结果是： CRC16(key) % 16384 = 3200。 那么就会把这个 key 的存储分配到 A节点。此时连接 A、B、C 任何一个节点获取 key，都会这样计算，最终是通过 B 节点获取数据。
+此时，我们如果要存储数据，按照 Redis Cluster 哈希槽的算法，假设结果是： CRC16(key) % 16384 = 3200。 那么就会把这个 key 的存储分配到 A节点。此时连接 A、B、C 任何一个节点获取 key，都会这样计算，最终是通过 A节点获取数据。
 
 假如这时我们新增一个节点 D，Redis Cluster 会从各个节点中拿取一部分 Slot 到 D 上，比如会变成这样：
 
@@ -3457,7 +3457,7 @@ GEO的底层通过 Redis 有序集合（zset）实现。不过它并没有与 zs
 
 #### 常用命令
 
-**1）GEOADD **
+** 1）GEOADD **
 
 **语法：**
 
@@ -3478,7 +3478,7 @@ GEOADD key longitude latitude member [longitude latitude member ...]
 
 
 
-**2）GEODIST  **
+** 2）GEODIST  **
 
 **语法：**
 
@@ -3495,7 +3495,7 @@ GEODIST key member1 member2 [unit]
 - mi 表示单位为英里； 
 - ft 表示单位为英尺
 
-**3）GEORADIUS**
+** 3）GEORADIUS**
 
 **语法：**
 
@@ -3516,7 +3516,7 @@ GEORADIUS key longitude latitude radius m|km|ft|mi [WITHCOORD] [WITHDIST] [WITHH
 
 
 
-**4）GEORADIUSBYMEMBER**
+** 4）GEORADIUSBYMEMBER**
 
 **语法：**
 
@@ -3537,7 +3537,7 @@ georadiusbymember 和 GEORADIUS 命令一样， 都可以找出位于指定范�
 - ASC：根据距离将查找结果从近到远排序；
 - DESC：根据距离将查找结果从远到近排序。
 
-**5）GEOHASH**
+** 5）GEOHASH**
 
 **语法：**
 

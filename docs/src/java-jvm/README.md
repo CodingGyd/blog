@@ -12,5 +12,8 @@ head:
 
 
 * [JVM入门，看这一篇就够了！](./jvm.md)
- 
+* [垃圾回收机制 ](./jvm-gc.md)
+* [JVM参数配置](./jvm-params.md)
+* [深入理解JAVA虚拟机学习笔记](./jvm-note.md)
+
  
