@@ -14,5 +14,4 @@ head:
 * [编程利器](./effect-raising.md)
 * [工具软件](./tools.md)
 * [常用网站](./websites.md)
-* [写作模板](./markdown-template.md)
 * [Markdown](./markdown.md)

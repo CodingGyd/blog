@@ -47,7 +47,8 @@ export default hopeTheme({
    // 座右铭
    description: "专心写代码，写到没人要为止",
     // 个人介绍页地址
-   intro: "/about/intro.html",
+  //  intro: "/about/intro.html",
+  // intro: "/about/intro.html",
    medias: {
      GitHub: "https://github.com/CodingGyd/",
      Zhihu: "https://www.zhihu.com/people/guoyading",

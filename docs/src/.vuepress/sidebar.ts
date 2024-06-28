@@ -12,7 +12,6 @@ export default sidebar({
         { text: "编程利器", link: "effect-raising" },
         { text: "工具软件", link: "tools" },
         { text: "常用网站", link: "websites" },    
-        { text: "写作模板", link: "markdown-template" },    
         { text: "Markdown", link: "markdown" },    
 
       ],
@@ -45,7 +44,6 @@ export default sidebar({
 //     //   children: [   
 //     //     // { text: "开发好习惯", link: "better-coder" },
 //     //     // { text: "程序员的中年危机",  link: "fuye" },
-//     //     { text: "写作模板", link: "markdown-template" },
 //     //     { text: "Markdown写作技巧",  link: "markdown" },
 //     //     // { text: "生命不熄,学习不止！",  link: "learn" },
 //     //     // { text: "每日打卡！！！",  link: "todo-list" },

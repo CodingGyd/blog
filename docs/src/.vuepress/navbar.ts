@@ -15,7 +15,6 @@ export default navbar([
       { text: "代码轮子",link: "code" },
       { text: "编程利器",link: "effect-raising" },
       { text: "编程规约",link: "coding-standard" },
-      { text: "写作模板", link: "markdown-template" },
       { text: "Markdown", link: "markdown" },
     ],
   },
