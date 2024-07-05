@@ -859,5 +859,292 @@ public class EchoClientHandler extends ChannelHandlerAdapter {
 
 
 
+## **五、序列化技术**（编解码）
+
+### 1、JAVA序列化
+
+JAVA序列化技术在JDK1.1版本就已经提供，只需要对象实现java.io.Serializable并生成序列ID即可，但是它存在很多问题，因此在远程服务调用(RPC)中很少用Java序列化技术进行消息的编解码和传输。缺点如下：
+
+- 无法跨语言   
+
+  Java序列化技术使用的是Java语言内部协议，其它语言不支持，对于Java序列化后的字节数组，其它语言无法反序列化。
+
+- 序列化后的码流太大
+
+  针对如下的pojo对象：
+
+  ```
+  
+  public class UserInfo implements Serializable {
+      private static final long serialVersionUID = 1L;
+      private String userName;
+      private int userID;
+  }
+  ```
+
+  Java序列化技术序列化的字节数组大小是ByteBuffer通用二进制编码技术的5倍左右。
+
+- 序列化性能差
+
+  针对UserInfo这个POJO编码100万次，Java序列化技术耗时大约是7s，而二进制编码技术只需要不到1秒，Java序列化的性能只有二进制编码的6.17%左右。
+
+下面是示例代码。
+
+**服务端：**
+
+```
+package com.gyd.net.netty.serializable.jdk;
+
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
+
+/**
+ * @ClassName SubReqServer
+ * @Description 订购服务端
+ * @Author guoyading
+ * @Date 2024/7/3 10:21
+ * @Version 1.0
+ */
+public class SubReqServer {
+    public void bind(int port) throws InterruptedException {
+        //配置服务端的NIO线程组
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        try {
+            ServerBootstrap b = new ServerBootstrap();
+            b.group(bossGroup,workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.SO_BACKLOG,100)
+                    .handler(new LoggingHandler(LogLevel.INFO))
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            //ObjectDecoder负责对实现了Serializable的POJO对象进行解码（使用weakCachingConcurrentResolver创建线程安全的WeakReferenceMap对类加载器进行缓存，支持多线程并发访问）
+                            //同时为了防止异常码流和解码错位导致的内存溢出，这里将单个对象最大序列化后的字节数组长度设置为1M,作为demo完全够了
+                            ch.pipeline().addLast(new ObjectDecoder(1024*1024, ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
+                            //ObjectEncoder负责对实现了Serializable的POJO对象进行编码
+                            ch.pipeline().addLast(new ObjectEncoder());
+                            //SubReqServerHandler负责对客户端请求进行具体业务逻辑处理
+                            ch.pipeline().addLast(new SubReqServerHandler());
+                        }
+                    });
+            //绑定端口，同步等待成功
+            ChannelFuture f = b.bind(port).sync();
+            //等待服务端监听端口关闭
+            f.channel().closeFuture().sync();
+        }finally {
+            //优雅退出，释放线程池资源
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        int port = 8080;
+        new SubReqServer().bind(port);
+    }
+}
+```
+
+```
+package com.gyd.net.netty.serializable.jdk;
+
+import com.gyd.net.netty.serializable.SubscribeReq;
+import com.gyd.net.netty.serializable.SubscribeResp;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+
+/**
+ * @ClassName SubReqServerHandler
+ * @Description 服务端业务逻辑处理
+ * @Author guoyading
+ * @Date 2024/7/3 10:32
+ * @Version 1.0
+ */
+public class SubReqServerHandler extends ChannelHandlerAdapter {
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        //由于ObjectDecoder已经帮我们把字节数据自动解码成了SubscribeReq对象，这里直接强转即可。
+        SubscribeReq req = (SubscribeReq) msg;
+        if ("guoyading".equalsIgnoreCase(req.getUserName())){
+            System.out.println("Service accept client subscribe req : [" + req.toString() + "]");
+            ctx.writeAndFlush(resp(req.getSubReqID()));
+        }
+    }
+    private SubscribeResp resp(int subReqID) {
+        SubscribeResp resp = new SubscribeResp();
+        resp.setSubReqID(subReqID);
+        resp.setRespCode(0);
+        resp.setDesc("Netty book order succeed, 3days later, sent to the designated address");
+        return resp;
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();//发生异常，关闭链路
+    }
+}
+```
+
+
+
+**客户端：**
+
+```
+package com.gyd.net.netty.serializable.jdk;
+
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.serialization.ClassResolvers;
+import io.netty.handler.codec.serialization.ObjectDecoder;
+import io.netty.handler.codec.serialization.ObjectEncoder;
+
+/**
+ * @ClassName SubReqClient
+ * @Description 订购客户端
+ * @Author guoyading
+ * @Date 2024/7/3 11:25
+ * @Version 1.0
+ */
+public class SubReqClient {
+    public void connect(int port,String host) throws InterruptedException {
+        //配置客户端NIO线程组
+        NioEventLoopGroup group = new NioEventLoopGroup();
+        try {
+            Bootstrap b = new Bootstrap();
+            b.group(group).channel(NioSocketChannel.class)
+                    .option(ChannelOption.TCP_NODELAY,true)
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new ObjectDecoder(1024, ClassResolvers.cacheDisabled(this.getClass().getClassLoader())));
+                            ch.pipeline().addLast(new ObjectEncoder());
+                            ch.pipeline().addLast(new SubReqClientHandler());
+                        }
+                    });
+            //发起异步连接操作
+            ChannelFuture f = b.connect(host,port).sync();
+            //等待客户端链路关闭
+            f.channel().closeFuture().sync();
+        }finally {
+            //优雅退出，释放NIO线程组
+            group.shutdownGracefully();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        int port = 8080;
+        new SubReqClient().connect(port,"127.0.0.1");
+    }
+
+}
+```
+
+
+
+```
+package com.gyd.net.netty.serializable.jdk;
+
+import com.gyd.net.netty.serializable.SubscribeReq;
+import io.netty.channel.ChannelHandlerAdapter;
+import io.netty.channel.ChannelHandlerContext;
+
+/**
+ * @ClassName SubReqClientHandler
+ * @Description TODO
+ * @Author guoyading
+ * @Date 2024/7/3 14:21
+ * @Version 1.0
+ */
+public class SubReqClientHandler extends ChannelHandlerAdapter {
+    public SubReqClientHandler(){}
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        //在链路激活时，连续发送10条订购消息
+         for (int i=0;i<10;i++){
+             ctx.write(subReq(i));
+         }
+         ctx.flush();
+    }
+
+    private SubscribeReq subReq(int i) {
+        SubscribeReq req = new SubscribeReq();
+        req.setAddress("xxxx上海大学");
+        req.setPhoneNumber("133xxxxxx");
+        req.setProductName("redis入门教程");
+        req.setSubReqID(i);
+        req.setUserName("guoyading");
+        return req;
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("Received server response : ["+ msg + "]");
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        ctx.flush();
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
+    }
+}
+
+```
+
+
+
+### 2、业界主流序列化框架
+
+1）Protobuf
+
+Protobuf全称：Google Protocol Buffers。
+
+Protobuf是由谷歌开源，它将数据结构以.proto文件进行描述，通过代码生成工具可以生成对应数据结构的POJO对象和Protobuf相关的方法和属性。
+
+它的特点总结如下：
+
+- 结构化数据存储格式（XML、JSON等）；
+- 高效的编解码性能；
+- 语言无关、平台无关、扩展性好；
+- 官方支持Java、C++和Python这三种语言
+- 自动代码生成 
+
+2）Thrift
+
+Thrift是Facebook开源的项目，产生的初衷是为了解决Facebook各系统间大数据量的传输通信以及系统之间语言环境不同需要跨平台的特性。
+
+它支持多种程序语言，如C++、C#、Cocoa、Erlang、Haskell、Java、Ocami、Perl、PHP、Python、Ruby、Smalltalk；
+
+
+
+3）JBoss Marshalling
+
+JBoss Marshalling是一个Java对象序列化API包，解决了JDK自带序列化包的很多问题，但是又保持跟java.io.Serializable接口的兼容，同时增加了一些可调的参数和附加特性，并且这些参数和特性可以通过工厂类进行配置。
+
+相比Protobuf和Thrift，JBoss Marshalling更多是在JBoss内部使用，目前在业界应用范围比较小。
+
 
 
