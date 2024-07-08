@@ -45,7 +45,7 @@ export default hopeTheme({
    // 博主头像
    avatar: "/assets/icon/avata.svg",
    // 座右铭
-   description: "专心写代码，写到没人要为止",
+   description: "我们一起来搬砖",
     // 个人介绍页地址
   //  intro: "/about/intro.html",
   // intro: "/about/intro.html",

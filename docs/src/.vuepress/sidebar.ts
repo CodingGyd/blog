@@ -54,7 +54,6 @@ export default sidebar({
 //   ],
   "/about/": [
     { text: "一、 网站内容介绍", link: "zd" },
-    {text: "二、 发版记录", link: "blog-version"},
     {text: "三、网站技术方案", link: "blog-tech-list"},
     {text: "四、Waline接入总结", link: "waline"},
     // { text: "关于作者", link: "intro" },
@@ -200,6 +199,7 @@ export default sidebar({
           "elasticjob",
           "nginx",
           "redis",
+          "netty",
           "elasticsearch1",
           "elasticsearch2",
 

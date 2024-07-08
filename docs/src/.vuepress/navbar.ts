@@ -58,7 +58,6 @@ export default navbar([
     prefix: "/about/",
     children: [
       { text: "网站内容介绍", link: "zd" },
-      { text: "发版记录", link: "blog-version" },
       { text: "网站技术方案", link: "blog-tech-list" },
       {text: "Waline接入总结", link: "waline"},
       // { text: "关于作者",  link: "intro" },

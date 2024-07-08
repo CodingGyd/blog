@@ -1,9 +1,19 @@
 ---
-# icon: lock
-date: 2024-06-26
+title: Netty权威指南读书笔记
+shortTitle: Netty权威指南读书笔记
+date: 2024-05-19
+category:
+  - 开源框架
+tag:
+  - NIO
+description: 记录NIO框架
+head:
+  - - meta
+    - name: keywords
+      content: Netty,Rpc,通信
 ---
 
-## Netty权威指南读书笔记
+# Netty权威指南读书笔记
 
 ## 一、I/O基础概念
 
