@@ -1,6 +1,6 @@
 ---
-title: Spring的控制反转（IoC）容器
-shortTitle: Spring的控制反转（IoC）容器
+title: Spring的IoC容器
+shortTitle: Spring的IoC容器
 date: 2024-03-15
 category:
   - 开源框架
@@ -12,7 +12,7 @@ head:
       content: JAVA企业级开发,Spring笔记,Spring6,Spring官方文档,Spring核心知识
 ---
 
-# Spring的控制反转（IoC）容器
+# Spring的IOC容器
 
 > 基于官方文档翻译，根据个人理解总结于此。
 
@@ -43,6 +43,10 @@ head:
 **依赖注入（DI）**
 
 依赖注入指的是对象仅通过构造函数参数、工厂方法参数或在对象实例构造或从工厂方法返回后在对象实例上设置的属性来定义其依赖项。然后IOC容器在创建Bean时注入这些依赖项。
+
+使用DI原理，代码更干净，当为对象提供依赖项时，解耦更有效。对象不查找其依赖项，也不知道依赖项的位置或类。DI的方式主要有基于构造函数的依赖注入和基于Setter的依赖注入。
+
+由于可以混合使用基于构造函数和基于setter的DI，因此将构造函数用于强制依赖项，将setter方法或配置方法用于可选依赖项是一条很好的经验法则。请注意，在setter方法上使用@Autowired注释可以使该属性成为必需的依赖项；
 
 **控制反转（IOC）**
 

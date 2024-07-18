@@ -46,13 +46,28 @@ head:
 
 
 
-### 2、ConcurrentHashmap
+### 2、ConcurrentHashMap
 
 <font color="red">1）底层数据结构</font> <br/>
 
 ConcurrentHashmap在JDK1.7和1.8的版本改动差异比较大，1.7使用Segment+HashEntry分段锁的方式实现，1.8则抛弃了Segment，改为使用CAS+synchronized+Node实现，同样也加入了红黑树，避免链表过长导致性能的问题。
 
+Java8开始ConcurrentHashMap,为什么舍弃分段锁？  
+- 加入多个分段锁浪费内存空间。
+- 生产环境中， map 在放入时竞争同一个锁的概率非常小，分段锁反而会造成更新等操作的长时间等待。
+- 为了提高 GC 的效率。
 
+
+### 3、HashSet原理
+HashSet实际上就是一个HashMap实例，数据存储结构都是数组+链表。
+
+HashSet是基于HashMap实现的，HashSet中的元素都存放在HashMap的key上面，而value都是一个统一的对象PRESENT。
+
+
+private static final Object PRESENT = new Object();
+HashSet中add方法调用的是底层HashMap中的put方法，put方法要判断插入值是否存在，而HashSet的add方法，首先判断元素是否存在，如果存在则插入，如果不存在则不插入，这样就保证了HashSet中不存在重复值。
+
+通过对象的hashCode和equals方法保证对象的唯一性。
 
 ## 二、并发编程
 
