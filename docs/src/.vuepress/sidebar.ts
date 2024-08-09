@@ -285,6 +285,7 @@ export default sidebar({
       prefix: "db/",
       children: [   
         "mysql",
+        "mysql-install-linux",
         "mysql-gf",
         "mysql-index",
         "mysql-tiaoyou",
