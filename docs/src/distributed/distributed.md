@@ -75,7 +75,7 @@ CAP 是 Consistency、Availability、Partition tolerance 三个单词的缩写�
 
 <font color="red">通常分布式系统的各各结点部署在不同的子网，这就是网络分区，不可避免的会出现由于网络问题而导致结点之间通信失败，此时仍可对外提供服务，这叫分区容忍性。</font>
 
-**分区容忍性分是布式系统具备的基本能力**
+**分区容忍性是分布式系统具备的基本能力**
 
 上图中，商品信息读写满足分区容忍性就是要实现如下目标：
 
@@ -93,7 +93,7 @@ CAP 是 Consistency、Availability、Partition tolerance 三个单词的缩写�
 
 #### 1.4、CAP组合方式
 
-<font color="red">**在所有分布式事务场景中不会同时具备 CAP 三个特性，因为在具备了P的前提下C和A是不能共存的。**</font>
+** <font color="red">在所有分布式事务场景中不会同时具备 CAP 三个特性，因为在具备了P的前提下C和A是不能共存的。</font> **
 
 通过分析发现在满足P的前提下 C 和 A 存在矛盾性：
 
