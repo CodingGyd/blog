@@ -13,4 +13,4 @@ article: false
 * [版权的声明](./copyright.md)
 <!-- * [关于作者](./intro.md) -->
 * [网站内容介绍](./zd.md)
-* [Waline接入总结](./waline.md)
+* [评论接入总结](./waline.md)

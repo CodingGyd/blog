@@ -73,7 +73,7 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/get-started/" 
 
 :::tip 敲黑板
 waline接入细节查阅
-[Waline接入总结](./waline.md)
+[评论接入总结](./waline.md)
 :::
 
 百度统计支持对PVUV的统计，且开放了api用于网页查询和展示在页面上，但是api调用比较麻烦。      
