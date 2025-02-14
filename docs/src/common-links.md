@@ -16,6 +16,12 @@ tagline: 技术学习、吹水讨论入口汇总(持续更新)
     type: default -->
 
 docs1:
+  - name: DeepSeek大模型
+    desc: 人工智能 | 推理模型 | AI工具 | 火爆全球
+    logo: http://cdn.gydblog.com/images/index/logo-deepseek.webp
+    url:  https://www.deepseek.com/
+    preview: http://cdn.gydblog.com/images/index/bg-deepseek.png
+
   - name: IDEA 高效使用指南
     desc: 必备插件推荐 | 插件开发入门 | 重构小技巧 | 源码阅读技巧
     logo: http://cdn.gydblog.com/images/index/logo-idea.svg

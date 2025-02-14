@@ -10,7 +10,7 @@ description: 记录Logback日志组件的常见用法
 head:
   - - meta
     - name: keywords
-      content:Logback,日志
+    - content: Logback,日志
 ---
 
 # Logback日志组件
