@@ -34,34 +34,9 @@ star: false
 
 我目前采用的是方案二vuepress的博客模板vuepress-theme-hope来搭建的，前端功能基本使用现成的轮子组装使用即可，博客整体框架搭建和部署只花了大概2天的时间。接下来大部分精力可以用来思考如何写出好的文章啦。<br/>
 
-vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/cookbook/tutorial/" text="戳这里！" target="_blank"></a>  
+vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/get-started/" text="戳这里！" target="_blank"></a>  
 
-## ~~1.2、评论插件接入(废弃)~~
-
-~~详情参考：<a href="https://plugin-comment2.vuejs.press/zh/guide/giscus.html" text="戳这里！" target="_blank"></a>~~
-
-
-### ~~01、如何配置~~
-- ~~在github上新建一个公开的仓库，并开启评论功能~~
-<img src="http://cdn.gydblog.com/images/blog-create/blog-create-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-
-
-- ~~在[giscus配置页](https://giscus.app/zh-CN/) 页面填写仓库和 Discussion 分类，之后滚动到页面下部的 “启用 giscus” 部分，获取 data-repo, data-repo-id, data-category 和 data-category-id 这四个属性~~
-<img src="http://cdn.gydblog.com/images/blog-create/blog-create-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-
-- ~~在项目中config.ts文件内引入giscus配置页生成的四个属性值~~
-<img src="http://cdn.gydblog.com/images/blog-create/blog-create-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-
-~~完成以上配置工作后，默认评论插件就在每个md文档底部全局开启啦！~~ 
- 
-### ~~02、遇到的问题~~
-<img src="http://cdn.gydblog.com/images/blog-create/blog-create-error-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-
-- ~~解决方法：~~
-~~引入插件后依赖的组件版本和已有的版本有冲突，直接一键更新所有vuepress依赖的组件版本~~
-~~执行命令： pnpm dlx vp-update~~
-
-## 1.2、评论插件接入(最新)
+## 1.2、评论插件接入
 原本使用的是giscus方式，使用一段时间下来发现有一个最大的缺点：
 - 游客无法评论，必须有github账户。
    > 这也就限定了网站客户群体只能是IT相关人员，而我打算把网站打造成一个以IT行业为切入点，辐射到各个行业资讯的综合性博客，不符合我的定位。  

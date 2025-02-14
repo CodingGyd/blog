@@ -11,7 +11,6 @@ export default navbar([
     prefix: "/zhencangziyuan/",
     children: [
       { text: "工具软件", link: "tools" },
-      { text: "常用网站", link: "websites" },
       { text: "代码轮子",link: "code" },
       { text: "编程利器",link: "effect-raising" },
       { text: "编程规约",link: "coding-standard" },

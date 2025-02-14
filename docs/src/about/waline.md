@@ -66,11 +66,11 @@ category:
 
    :::
 
-1. 环境变量配置完成之后点击顶部的 `Deployments` 点击顶部最新的一次部署右侧的 `Redeploy` 按钮进行重新部署。该步骤是为了让刚才设置的环境变量生效。
+5. 环境变量配置完成之后点击顶部的 `Deployments` 点击顶部最新的一次部署右侧的 `Redeploy` 按钮进行重新部署。该步骤是为了让刚才设置的环境变量生效。
 
    ![redeploy](http://cdn.gydblog.com/images/blog-create/waline-8.png)
 
-1. 此时会跳转到 `Overview` 界面开始部署，等待片刻后 `STATUS` 会变成 `Ready`。此时请点击 `Visit` ，即可跳转到部署好的网站地址，此地址即为你的服务端地址。
+6. 此时会跳转到 `Overview` 界面开始部署，等待片刻后 `STATUS` 会变成 `Ready`。此时请点击 `Visit` ，即可跳转到部署好的网站地址，此地址即为你的服务端地址。
 
    ![redeploy success](http://cdn.gydblog.com/images/blog-create/waline-9.png)
 
@@ -91,11 +91,11 @@ category:
 
 1. 点击顶部的 `Settings` - `Domains` 进入域名配置页
 
-1. 输入需要绑定的域名并点击 `Add`
+2. 输入需要绑定的域名并点击 `Add`
 
    ![Add domain](http://cdn.gydblog.com/images/blog-create/waline-10.png)
 
-1. 在域名服务器商处添加新的 `CNAME` 解析记录
+3.  在域名服务器商处添加新的 `CNAME` 解析记录
 ![解析记录配置](http://cdn.gydblog.com/images/blog-create/waline-11.png)  
 
 > 注意这里容易踩坑，如果填写vercel域名配置页生成的dns服务器地址"cname.vercel-dns.com"，会发现自定义域名访问不通，其实这里由于 国内网络原因要填写的value是"cname-china.vercel-dns.com"！！！
@@ -120,10 +120,10 @@ category:
 1. 部署完成后，需要先访问 `<serverURL>/ui/register` 进行注册。首个注册的人会被设定成管理员。
   ![success](http://cdn.gydblog.com/images/blog-create/waline-14.png)
 
-1. 管理员登陆后，即可看到评论管理界面。在这里可以修改、标记或删除评论。
+2. 管理员登陆后，即可看到评论管理界面。在这里可以修改、标记或删除评论。
 ![success](http://cdn.gydblog.com/images/blog-create/waline-15.png)
 
-1. 用户也可通过评论框注册账号，登陆后会跳转到自己的档案页。
+3. 用户也可通过评论框注册账号，登陆后会跳转到自己的档案页。
 
 ## vuepress客户端接入
 > 这是接入的最后一步啦！！！

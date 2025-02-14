@@ -54,10 +54,10 @@ export default sidebar({
 //   ],
   "/about/": [
     { text: "一、 网站内容介绍", link: "zd" },
-    {text: "三、网站技术方案", link: "blog-tech-list"},
-    {text: "四、Waline接入总结", link: "waline"},
+    {text: "二、网站技术方案", link: "blog-tech-list"},
+    {text: "三、评论接入总结", link: "waline"},
     // { text: "关于作者", link: "intro" },
-    { text: "五、版权的声明", link: "copyright" },
+    { text: "四、版权的声明", link: "copyright" },
   ],
 
   "/": [
