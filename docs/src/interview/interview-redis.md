@@ -223,6 +223,39 @@ bloom filter之所以能做到在时间和空间上的效率比较高，是因�
 
 在实现bloom filter时，绕不过的两点就是hash函数的选取以及bit数组的大小。
 
+## 11、Redis使用什么协议进行通信？
+Redis使用自己设计的一种文本协议进行客户端和服务端之间的通信-RESP(Redis Serialization Protocol)。
+RESP协议基于TCP协议，采用请求/响应模式，每条请求由多个参数组成，以命令名称作为第一个参数。请求和响应都以行结束符（\r\n）作为分隔符，具体格式如下：
+
+```
+*<number of arguments>r\n
+$<length of argument 1>r\n
+<argument data>r\n
+...
+$<length of argument N>\r\n
+<argument data>\r\n
+```
+
+其中，"<number of arguments>" 表示参数个数，"<length of argument>"表示参数数据的长度，"<argument data>"表示参数数据。参数可以是字符串、整数、数组等数据类型。  
+
+以下是一个RESP协议的示例请求和响应：  
+**请求**
+```
+*3\r\n
+$3\r\n
+SET\r\n
+$4\r\n
+name\r\n
+$3\r\n
+gyd\r\n
+```
+**响应**
+```
++OK\r\n
+```
+
+上面的请求表示向redis服务器设置一个名为"name"的键，值为"gyd"。响应返回"+OK"表示操作成功
+
 ## 二、数据结构篇
 
 ### 1、谈谈SDS(简单动态字符串)
