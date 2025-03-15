@@ -154,23 +154,28 @@ Redis 所有的数据结构都是以唯一的key 字符串作为名称，然后�
 - 高效的数据结构
   如哈希表、有序集合、列表等，这些数据结构都能够在O(1)的时间复杂度内完成数据读写操作。
   
-  
 
 
+### 6、介绍Redis的内存策略
 
-### 6、介绍Redis的内存清理策略
-
-*redis对于已过期的key，有下面两种清理策略：*
+**redis对于已过期的key，有下面两种删除策略：**
 
 - 定期删除
 
-   redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会从字典中根据某种策略抽取一些key检查是否到期，已到期就删除。常用策略有no-envicition、allkeys-random、allkeys-lru、volatile-random、volatile-ttl、volatile-lru、volatile-lfu、allkeys-lfu
+   redis 会将每个设置了过期时间的 key 放入到一个独立的字典中，以后会从字典中根据某种策略抽取一些key检查是否到期，已到期就标记为可删除（Redis并不会马上删除，而是在内存满了之后才会执行淘汰策略来真正删除）。
 
-   算法
+   定期删除是Redis的主动删除策略，它可以确保过期的key能够被及时删除，但是会占用CPU资源去扫描key，可能影响Redis的性能。 
 
 - 惰性删除
 
    惰性策略就是在客户端访问这个key的时候，redis对key的过期时间进行检查，如果过期了就立即删除。
+   惰性删除是Redis的被动删除策略，它可以节省CPU资源，但是极端情况下会导致过期的key始终保存在内存中，占用内存空间。
+
+Redis默认同时开启了定期删除和惰性删除这两种过期策略。  
+
+**redis在内存满了之后，通过多种淘汰策略决定哪些key要被真正删除：**
+
+   常用淘汰策略有no-envicition、allkeys-random、allkeys-lru、volatile-random、volatile-ttl、volatile-lru、volatile-lfu、allkeys-lfu。
 
 ### 7、说说Redis的持久化机制
 
@@ -202,7 +207,7 @@ Redis 4.0 开始支持 RDB 和 AOF 的混合持久化（默认关闭，可以通
 
 但是redis的事务和关系型数据库的事务有一个最大的区别：redis事务不会回滚，即使事务中有某条/某些命令执行失败了， 事务队列中的其他命令仍然会继续执行完毕。
 
-MULTI 、 EXEC 、 DISCARD 和 WATCH 是 Redis 事务相关的命令。MULTI负责开启事务，EXEC负责执行事务中的命令，DISCARD负责清空事务中的命令队列并放弃执行当前事务，WATCH来监控某个键是否被修改。
+MULTI 、 EXEC 、 DISCARD、UNWATCH 和 WATCH 是 Redis 事务相关的命令。MULTI负责开启事务，EXEC负责执行事务中的命令，DISCARD负责清空事务中的命令队列并放弃执行当前事务，UNWATCH负责取消WATCH命令对所有key的监视，WATCH来监控某个键是否被修改。
 
 
 
