@@ -252,7 +252,7 @@ $<length of argument N>\r\n
 <argument data>\r\n
 ```
 
-其中，"<number of arguments>" 表示参数个数，"<length of argument>"表示参数数据的长度，"<argument data>"表示参数数据。参数可以是字符串、整数、数组等数据类型。  
+其中，```<number of arguments>``` 表示参数个数，```<length of argument>```表示参数数据的长度，```<argument data>```表示参数数据。参数可以是字符串、整数、数组等数据类型。  
 
 以下是一个RESP协议的示例请求和响应：  
 **请求**
