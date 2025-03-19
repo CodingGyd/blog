@@ -70,6 +70,8 @@ B+ 树只在叶子结点储存数据，非叶子结点不存具体数据，只�
 
 
 ## 5、使用 Innodb 的情况下，一条更新语句是怎么执行的?
+执行更新语句时redolog和binlog的配合流程：  
+![执行更新语句时redolog和binlog的配合流程](http://cdn.gydblog.com/images/database/mysql/mysql-tcc.png)
 
 用以下语句来举例，c 字段无索引，id 为主键索引
 
