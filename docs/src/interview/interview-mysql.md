@@ -114,9 +114,34 @@ update T set c=c+1 where id=2;
 
 
 ## 8、什么是索引下推?
+索引下推（INDEX CONDITION PUSHDOWN，简称ICP）是在MySQL5.6针对扫描二级索引的一项优化改进。
+如果存在某些被索引的列的判断条件时，MySQL 将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合 MySQL 服务器传递的条件，**「只有当索引符合条件时才会将数据检索出来返回给 MySQL 服务器」**    
 
-如果存在某些被索引的列的判断条件时，MySQL 将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合 MySQL 服务器传递的条件，**「只有当索引符合条件时才会将数据检索出来返回给 MySQL 服务器」**
 
+**查看索引下推是否开启**  
+```
+select @@optimizer_switch
+```
+
+**查看索引下推是否生效**
+需要使用一张表里的二级索引进行验证，如下图是表中有sender和sender_type组成的二级索引的explain结果。 
+
+- Extra列是Using index Condition代表ICP生效  
+ ![索引下推未生效](http://cdn.gydblog.com/images/database/mysql/mysql-icp-1.png)
+
+- Extra列是Using where代表ICP未生效  
+
+ ![索引下推生效了](http://cdn.gydblog.com/images/database/mysql/mysql-icp-2.png)
+
+**关闭索引下推**  
+```
+set optimizer_switch = 'index_condition_pushdown=off'
+```
+
+**开启索引下推**
+```
+set optimizer_switch = 'index_condition_pushdown=on'
+```
 
 
 ## 9、什么是覆盖索引？
