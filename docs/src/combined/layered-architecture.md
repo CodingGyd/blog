@@ -12,10 +12,10 @@ category:
 
 ```
 也不是固定死模板，在实际开发中要学会做适当的加减法
-源码已上传到github：https://github.com/CodingGyd/spring-demo/  会不定时迭代
+源码已上传到github：https://github.com/CodingGyd/spring-demo/  
 ```
 
-## 一、初学时简单分层-单个module
+## 一、单体项目-单个module
 初学时一般都是一些简单项目，单个module即可满足需求，该module内划分如下：
 
  <img src="http://cdn.gydblog.com/images/combined/layered-2.jpg"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -277,7 +277,7 @@ public class SwaggerConfig {
 }
 ```
 
-## 二、进阶多模块分层-多个module
+## 二、单体项目-多个module
  <img src="http://cdn.gydblog.com/images/combined/layered-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 主要分成以下几层来划分module：
 ```
@@ -435,7 +435,7 @@ DemoDTO demo = DemoDTO.builder()
 
 
 
-## 三、进阶-微服务工程结构
+## 三、微服务工程结构
 
 如今的互联网公司技术部门通常会采用微服务架构方式协作开发业务需求，划分不同的业务单元，每个业务单元都由某个部门或者部门下的某个小组负责具体应用开发迭代，
 所有业务单元的应用都通过统一的网关对外业务服务，同时每个应用都会统一注册到注册中心提供互相之间的服务注册发现和接口交互。通常情况还会有一个统一的分布式配置中心，所有应用的业务配置项会在这个分布式配置中心进行维护更新。

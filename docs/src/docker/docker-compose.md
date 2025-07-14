@@ -1,7 +1,7 @@
 ---
 title: 容器化docker技术-Docker Compose
 shortTitle: Docker Compose入门
-date: 2024-01-25
+date: 2024-12-01
 category:
   - 容器化
 tag:

@@ -9,7 +9,7 @@ star: false
 # 网站技术方案
 > 记录本网站用到的主要技术栈
  
-## 1.1、主体框架选型
+## 1.主体框架选型
 <table>
   <tr>
     <th>方案</th>
@@ -36,7 +36,7 @@ star: false
 
 vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/get-started/" text="戳这里！" target="_blank"></a>  
 
-## 1.2、评论插件接入
+## 2.评论插件接入
 原本使用的是giscus方式，使用一段时间下来发现有一个最大的缺点：
 - 游客无法评论，必须有github账户。
    > 这也就限定了网站客户群体只能是IT相关人员，而我打算把网站打造成一个以IT行业为切入点，辐射到各个行业资讯的综合性博客，不符合我的定位。  
@@ -48,9 +48,9 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/get-started/" 
 也可以看这里：[Waline接入总结记录](./waline.md)
 
  
-## 1.3、访问量统计
+## 3.访问量统计
 
-### 接入百度统计
+### 3.1 接入百度统计
 通过接入[百度统计](https://tongji.baidu.com/main/setting/10000555566/home/site/index) 平台来实现<br/>
 - 先在平台上新增一个网站配置
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -69,7 +69,7 @@ vuepress小白教程：<a href="https://theme-hope.vuejs.press/zh/get-started/" 
 - 在百度统计后台也可以看到相关pvuv数据(有延迟，建议半小时以后去看)
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-9.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 接入waline评论系统
+### 3.2 接入waline评论系统
 
 :::tip 敲黑板
 waline接入细节查阅
@@ -86,26 +86,26 @@ waline接入细节查阅
 效果：  
 <img src="http://cdn.gydblog.com/images/blog-create/blog-create-13.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 1.4、图片存储方案
+## 4. 图片存储方案
 本博客文章中用到了大量的图片资源，之前是直接将图片文件放在博客项目工程中，随着文章数量越来越多，大量的图片资源导致项目整体大小过于庞大(目前制品包已经54M了...)，因此我考虑将图片存储到第三方云端。
 
 目前主流的云服务商都提供了文件存储云服务，比如阿里云对象存储OSS和百度云对象存储OSS， 由于我的域名是在百度供应商处注册的，对象存储OSS需要自定义域名的方式，因此我选择了百度供应商的oss服务来存放博客的图片资源。
  
 此处记录一下接入百度云对象存储oss并实现自定义域名访问图片的主要步骤过程。
 
-### 01、 登录百度智能云控制台，找到对象存储OSS管理入口
+### 第一步：登录百度智能云控制台，找到对象存储OSS管理入口
 <img src="http://cdn.gydblog.com/images/blog-create/oss-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
-### 02、 进入对象存储BOS控制台的bucket列表菜单，创建一个bucket
+### 第二步：进入对象存储BOS控制台的bucket列表菜单，创建一个bucket
 > 我创建的bucket命名是"gydblog"  
 > 这里的配置按需选择  
 <img src="http://cdn.gydblog.com/images/blog-create/oss-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/blog-create/oss-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 03、 上传一张测试图片
+### 第三步：上传一张测试图片
 <img src="http://cdn.gydblog.com/images/blog-create/oss-4.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 <img src="http://cdn.gydblog.com/images/blog-create/oss-5.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-### 04、 预览图片
+### 第四步：预览图片
 回到文件列表，找到刚上传的图片记录，点击[复制链接]，在浏览器即可打开预览
 > 生成的文件url是https://gydblog.fsh.bcebos.com/images/blog-create/easycode-1.png
 <img src="http://cdn.gydblog.com/images/blog-create/oss-6.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
@@ -114,7 +114,7 @@ waline接入细节查阅
 <img src="http://cdn.gydblog.com/images/blog-create/oss-7.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
-### 05、 自定义预览url中的域名
+### 第五步：自定义预览url中的域名
 默认生成的域名是百度oss官方提供的官方域名，上面默认的官方域名是"gydblog.fsh.bcebos.com"，可以在tab【发布管理】中看到：
 <img src="http://cdn.gydblog.com/images/blog-create/oss-8.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 

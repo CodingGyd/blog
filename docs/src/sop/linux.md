@@ -6,10 +6,10 @@ category:
 tag:
   - linux
 ---
-# Linux常用命令&脚本&操作
 
-## 常用shell脚本
-### jar包启动/停止/重启   
+# Linux常用操作
+## 一、常用shell脚本模板
+### 1.jar包启动/停止/重启   
 脚本名称：server.sh  
 
 用途：用于执行springboot打包生成的可执行文件helloworld.jar ，jar包存放在/home/test/目录下。
@@ -130,8 +130,8 @@ esac
 ```
 
 
-
-## 根据端口查找进程文件
+## 二、常用命令
+### 1.根据端口查找进程文件
 - 根据端口查看占用进程
 ```
 netstat -tunlp | grep 8099
@@ -149,7 +149,7 @@ ps -ef|grep 22342
 
 
 
-## 程序在后台运行且不关闭
+### 2.程序在后台运行且不关闭
 
 一般来说，nohup 和 & 都是结合起来使用的。表示程序后台运行，不占用当前终端，而且终端关闭后，程序还能继续运行。
 
@@ -185,7 +185,7 @@ nohup bin/kafka-server-start.sh config/server.properties &
 
 
 
-## 查看内存和CPU占用排名前10相关
+### 3.查看内存和CPU占用排名前10相关
 
 - 查看内存占比占用最多前十排名
 
@@ -220,14 +220,14 @@ VSZ:：表示进程分配的虚拟内存，包括进程可以访问的所有内�
 RSS： 是常驻内存集（Resident Set Size），表示该进程分配的内存大小，RSS 包括所有分配的栈内存和堆内存。
 -k：后面跟数字，表示对第几列排序。
 
-## ssh连接远程服务器
+### 4.ssh连接远程服务器
 
 语法格式：ssh 用户名@IP地址 -p 端口号
 
 示例：
  <img src="http://cdn.gydblog.com/images/linux/linux-1.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 全文检索指定字符串-grep
+### 5.全文检索指定字符串-grep
 Linux grep (global regular expression) 命令用于查找文件里符合条件的字符串或正则表达式。  
 
 语法格式：grep [options] pattern [files]  
@@ -236,7 +236,7 @@ Linux grep (global regular expression) 命令用于查找文件里符合条件�
 
  <img src="http://cdn.gydblog.com/images/linux/linux-2.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
-## 文本分析命令-awk
+### 6.文本分析命令-awk
 AWK 是一种处理文本文件的语言，是一个强大的文本分析工具。  
 
 之所以叫 AWK 是因为其取了三位创始人 Alfred Aho，Peter Weinberger, 和 Brian Kernighan 的 Family Name 的首字符。
@@ -248,7 +248,7 @@ grep java.lang.Thread.State dump.txt | awk '{print $2$3$4$5}' | sort | uniq -c
  <img src="http://cdn.gydblog.com/images/linux/linux-3.png"  style="zoom: 50%;margin:0 auto;display:block"/><br/>
 
 
-## 线上查询及帮助命令（2个）
+### 7.线上查询及帮助命令（2个）
 
 ```
 man：查看命令帮助，更复杂的还有info，但不常用。
@@ -258,7 +258,7 @@ help：查看Linux内置命令的帮助，比如cd命令。
 
 
 
-## 文件和目录操作命令（18个）
+### 8.文件和目录操作命令（18个）
 
 ```
 查找大文件： du -h --max-depth=1 
@@ -302,7 +302,7 @@ md5sum：计算和校验文件的MD5值。
 
 
 
-## 查看文件及内容处理命令（21个）
+### 9.查看文件及内容处理命令（21个）
 
 ```
 cat：全拼concatenate，功能是用于连接多个文件并且打印到屏幕输出或重定向到指定文件中。
@@ -351,7 +351,7 @@ vi/vim：命令行文本编辑器。
 
 
 
-## 文件压缩及解压缩命令(4个)
+### 10.文件压缩及解压缩命令(4个)
 
 ```
 tar：打包压缩。
@@ -387,7 +387,7 @@ f：指定文件名
 
 
 
-## 信息显示命令(11个)
+### 11.信息显示命令(11个)
 
 ```
 uname：显示操作系统相关信息的命令。
@@ -416,7 +416,7 @@ cal：查看日历等时间信息。
 
 
 
-## 搜索文件命令(4个)
+### 12.搜索文件命令(4个)
 
 ```
 which：查找二进制命令，按环境变量PATH路径查找。
@@ -431,7 +431,7 @@ locate：从数据库 (/var/lib/mlocate/mlocate.db) 查找命令，使用updated
 
 
 
-## 用户管理命令(10个)
+### 13.用户管理命令(10个)
 
 ```
 useradd：添加用户。
@@ -458,7 +458,7 @@ sudo：以另外一个用户身份(默认root用户)执行事先在sudoers文件
 
 
 
-## 基础网络操作命令(11个)
+### 14.基础网络操作命令(11个)
 
 ```
 telnet：使用TELNET协议远程登录。
@@ -487,7 +487,7 @@ ss：查看网络状态。
 
 
 
-## 深入网络操作命令(9个)
+### 15.深入网络操作命令(9个)
 
 ```
 nmap：网络扫描命令。
@@ -512,7 +512,7 @@ tcpdump：命令行的抓包工具。
 
 
 
-## 磁盘与文件系统的命令(16个)
+### 16.磁盘与文件系统的命令(16个)
 
 ```
 df:  查看磁盘空间，   df -h
@@ -562,7 +562,7 @@ umask：显示或设置权限掩码。
 
 
 
-## 系统用户登录信息的命令(7个)
+### 17.系统用户登录信息的命令(7个)
 
 ```
 whoami：显示当前有效的用户名称，相当于执行id -un命令。
@@ -583,7 +583,7 @@ finger：查找并显示用户信息。
 
 
 
-## 内置命令及其它(19个)
+### 18.内置命令及其它(19个)
 
 ```
 echo：打印变量，或直接输出指定的字符串
@@ -628,7 +628,7 @@ bc：命令行科学计算器。
 
 
 
-## 系统管理与性能监视命令(9个)
+### 19.系统管理与性能监视命令(9个)
 
 ```
 chkconfig：管理Linux系统开机启动项。
@@ -668,7 +668,7 @@ Ctrl+d：退出当前登录的Shell的快捷键。
 
 
 
-## 进程管理相关命令(15个)
+### 20.进程管理相关命令(15个)
 
 ```
 bg：将一个在后台暂停的命令，变成继续执行 (在后台执行)。
@@ -707,7 +707,7 @@ ps -ef|grep xxx:  查找进程， 如ps -ef |grep "redis"得到redis进程是490
 
 
 
-## 时间调整命令
+### 21.时间调整命令
 
 ```
 调整时间实例：date -s 11:10:35
@@ -716,7 +716,7 @@ ps -ef|grep xxx:  查找进程， 如ps -ef |grep "redis"得到redis进程是490
 
 
 
-## 查看环境信息
+### 22.查看环境信息
 
 ```
 env：查看环境变量
@@ -725,7 +725,7 @@ echo $SHELL命令:看当前用户Shell类型
 
 ```
 
-## 查找文件路径
+### 23.查找文件路径
 ```
  which 文件关键字
 
@@ -734,7 +734,7 @@ echo $SHELL命令:看当前用户Shell类型
 ```
 
 
-## RPM 包的安装
+### 24.RPM 包的安装
 安装 RPM 的命令格式为：rpm -ivh 包全名
 此命令中各选项参数的含义为：  
 - -i：安装（install）;  

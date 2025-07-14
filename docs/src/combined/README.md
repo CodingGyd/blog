@@ -1,6 +1,6 @@
 ---
-title: 综合
-shortTitle: 综合
+title: 其它
+shortTitle: 其它
 head:
   - - meta
     - name: keywords
@@ -8,7 +8,12 @@ head:
 article: false 
 ---
 
-* [项目分层结构](./layered-architecture.md)
-* [域名备案流程](./domain.md)
+* [项目分层](./layered-architecture.md)
+* [域名备案](./domain.md)
 * [行业术语](./industry-lossary.md)
-* [JAVA导入导出组件](./poi.md)
+* [导入导出](./poi.md)
+* [代码轮子](./code.md)
+* [编程规约](./coding-standard.md)
+* [编程利器](./effect-raising.md)
+* [工具软件](./tools.md)
+* [Markdown](./markdown.md)

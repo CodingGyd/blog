@@ -4,7 +4,7 @@ icon: home
 title: 常用链接
 heroImage: /assets/icon/avata.svg
 heroText: 代码小郭的常用链接
-tagline: 技术学习、吹水讨论入口汇总(持续更新)
+tagline: 技术学习、吹水讨论入口汇总
 
 <!-- actions:
   - text: 小郭的笔记→
@@ -148,6 +148,7 @@ footer:
 />
  
 ## 4. 其它链接
+[视频转gif动图](https://cdkm.com/cn/wmv-to-gif)<br/>
 [程序员一站式导航|程序员的天堂](http://www.cxy521.com/)<br/>
 [JSON在线解析](https://www.sojson.com/)<br/>
 [Hutool|Java工具集](https://hutool.cn/)<br/>

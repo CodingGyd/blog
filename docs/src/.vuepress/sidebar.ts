@@ -1,63 +1,13 @@
 import { sidebar } from "vuepress-theme-hope";
 
 export default sidebar({
-  "/zhencangziyuan/": [
-    {
-      text: '葵花宝典',
-      link: '/zhencangziyuan/',
-      collapsible: true,
-      children: [
-        { text: "代码轮子", link: "code" },
-        { text: "编程规约", link: "coding-standard" },
-        { text: "编程利器", link: "effect-raising" },
-        { text: "工具软件", link: "tools" },
-        { text: "常用网站", link: "websites" },    
-        { text: "Markdown", link: "markdown" },    
 
-      ],
-    }
-  ],
-  "/interview/": [
-    {
-      text: '技术题库',
-      link: '/interview/',
-      children: [
-        { text: "JAVA", link: "interview-java" },
-        { text: "Spring", link: "interview-spring" },
-        { text: "SpringBoot", link: "interview-springboot" },
-        { text: "SpringCloud", link: "interview-springcloud" },
-        { text: "Redis", link: "interview-redis" },
-        { text: "Dubbo", link: "interview-dubbo" },
-        { text: "Netty", link: "interview-netty" },
-        { text: "MySQL", link: "interview-mysql" },
-        { text: "Zookeeper", link: "interview-zookeeper" },
-        { text: "MQ", link: "interview-mq" }
-
-
-      ],
-    }
-  ],
-// "/it-life/": [
-//     // {
-//     //   text: 'IT人生',
-//     //   link: '/it-life/',
-//     //   children: [   
-//     //     // { text: "开发好习惯", link: "better-coder" },
-//     //     // { text: "程序员的中年危机",  link: "fuye" },
-//     //     { text: "Markdown写作技巧",  link: "markdown" },
-//     //     // { text: "生命不熄,学习不止！",  link: "learn" },
-//     //     // { text: "每日打卡！！！",  link: "todo-list" },
-
-//     //   ],
-      
-//     // }
-//   ],
+ 
   "/about/": [
     { text: "一、 网站内容介绍", link: "zd" },
     {text: "二、网站技术方案", link: "blog-tech-list"},
     {text: "三、评论接入总结", link: "waline"},
-    // { text: "关于作者", link: "intro" },
-    { text: "四、版权的声明", link: "copyright" },
+    { text: "四、版权声明", link: "copyright" },
   ],
 
   "/": [
@@ -162,7 +112,7 @@ export default sidebar({
    
     },
     {
-      text: '三、JAVA企业级开发技术',
+      text: '三、JAVA企业级开发',
       collapsible: true,
       children: [   
         {
@@ -282,19 +232,33 @@ export default sidebar({
     {
       text: '四、数据库',
       collapsible: true,
-      prefix: "db/",
-      children: [   
-        "mysql",
-        "mysql-install-linux",
-        "mysql-gf",
-        "mysql-index",
-        "mysql-tiaoyou",
-        "dm"
-
-      ],
+      
+      children: [
+        {
+          prefix: "db/mysql/",
+          text: "MySQL",
+          collapsible: true,
+          children: [
+            "mysql",
+            "mysql-install-linux",
+            "mysql-gf",
+            "mysql-index",
+            "mysql-tiaoyou",
+            "mysql-like"
+          ],
+        },   
+        {
+          prefix: "db/dm/",
+          text: "达梦",
+          collapsible: true,
+          children: [
+            "dm"
+          ],
+        }
+      ]
     },
     {
-      text: '五、Python基础',
+      text: '五、Python',
       collapsible: true,
       prefix: "python/",
       children: [   
@@ -303,7 +267,47 @@ export default sidebar({
    
     },
     {
-      text: '六、综合',
+      text: '上、AI工具',
+      collapsible: true,
+      prefix: "ai/",
+      children: [   
+        "deepseek-demo"
+      ],
+   
+    },
+    {
+      text: '山、SOP库',
+      collapsible: true,
+      prefix: "sop/",
+      children: [   
+        "exception-sop",
+        "axure",
+        "cros",
+        "linux",
+        "git"
+
+      ],
+    },
+    {
+      text: '打、陈年八股',
+      collapsible: true,
+      prefix: "interview/",
+      children: [   
+        { text: "JAVA", link: "interview-java" },
+        { text: "Spring", link: "interview-spring" },
+        { text: "SpringBoot", link: "interview-springboot" },
+        { text: "SpringCloud", link: "interview-springcloud" },
+        { text: "Redis", link: "interview-redis" },
+        { text: "Dubbo", link: "interview-dubbo" },
+        { text: "Netty", link: "interview-netty" },
+        { text: "MySQL", link: "interview-mysql" },
+        { text: "Zookeeper", link: "interview-zookeeper" },
+        { text: "MQ", link: "interview-mq" }
+
+      ],
+    },
+    {
+      text: '老、其它',
       collapsible: true,
       prefix: "combined/",
       children: [   
@@ -311,23 +315,21 @@ export default sidebar({
         "domain",
         "industry-lossary",
         "poi",
+        { text: "工具软件", link: "tools" },
+        { text: "代码轮子",link: "code" },
+        { text: "编程利器",link: "effect-raising" },
+        { text: "编程规约",link: "coding-standard" },
+        { text: "Markdown", link: "markdown" }
       ],
-   
     },
     {
-      text: '七、SOP库(持续更新)',
+      text: '虎、感悟',
       collapsible: true,
-      prefix: "sop/",
+      prefix: "combined/",
       children: [   
-        "exception-sop",
-        "compute-sop",
-        "axure",
-        "cros",
-        "linux",
-        "git"
-
       ],
+    } 
    
-    }
+   
   ]
 });

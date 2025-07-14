@@ -1,7 +1,7 @@
 ---
 title: Spring系列笔记-SPI机制
 shortTitle: SPI机制
-date: 2023-08-15
+date: 2025-01-26
 category:
   - 开源框架
 tag:

@@ -1,7 +1,7 @@
 ---
 title: 基础组件的docker离线部署
 shortTitle: 基础组件docker部署
-date: 2024-02-03
+date: 2025-01-03
 category:
   - 容器化
 tag:
@@ -9,7 +9,7 @@ tag:
 head:
   - - meta
     - name: keywords
-      content: 容器化,docker,基础组件的docker部署
+      content: 容器化,docker,基础组件的docker部署,docker常用命令
 ---
 
 # docker&docker-compose 离线部署各种组件

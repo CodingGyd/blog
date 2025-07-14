@@ -1,6 +1,6 @@
 ---
-title: 技术题库
-shortTitle: 技术题库
+title: 陈年八股
+shortTitle: 陈年八股
 article: false
 head:
   - - meta

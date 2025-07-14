@@ -23,7 +23,7 @@ export default hopeTheme({
  //文章是否展示贡献者名称
  contributors:false,
  //文章是否展示最后编辑时间
- lastUpdated:true,
+ lastUpdated:false,
  //文章是否展示[编辑此页]的链接
  editLink:true,
 
