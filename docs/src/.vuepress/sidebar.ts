@@ -271,7 +271,7 @@ export default sidebar({
       collapsible: true,
       prefix: "ai/",
       children: [   
-        "deepseek-demo"
+        "deepseek-intro"
       ],
    
     },
