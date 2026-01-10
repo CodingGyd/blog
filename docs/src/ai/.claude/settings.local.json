@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(choco install:*)",
+      "Bash(where:*)",
+      "Bash(where plink)",
+      "Bash(curl:*)",
+      "Bash(unzip:*)",
+      "Bash(pnpm docs:build:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(PUTTY_DIR=\"C:/Users/lvqi/PuTTY\")",
+      "Bash(SERVER=\"47.111.1.180\")",
+      "Bash(USER=\"root\")",
+      "Bash(PASSWORD=\"Qwe9647.\")",
+      "Bash(LOCAL_DIR=\"D:/code/blog/docs/.vuepress/dist\")",
+      "Bash(REMOTE_DIR=\"/usr/local/nginx/html/gyd-blog/dist\")",
+      "Bash(__NEW_LINE_9ef890f5eac97bd3__ echo \"=== 清空远程目录 ===\")",
+      "Bash(\"$PUTTY_DIR/PLINK.EXE\" -pw \"$PASSWORD\" \"$USER@$SERVER\" \"rm -rf $REMOTE_DIR/*\")",
+      "Bash(\"$PUTTY_DIR/PSCP.EXE\" -pw \"$PASSWORD\" -r \"$LOCAL_DIR\"/* \"$USER@$SERVER:$REMOTE_DIR/\")",
+      "Bash(\"C:/Users/lvqi/PuTTY/PLINK.EXE\" -pw \"Qwe9647.\" root@47.111.1.180 \"rm -rf /usr/local/nginx/html/gyd-blog/dist/*\")",
+      "Bash(\"C:/Users/lvqi/PuTTY/PLINK.EXE\" -batch -pw \"Qwe9647.\" root@47.111.1.180 \"rm -rf /usr/local/nginx/html/gyd-blog/dist/*\")",
+      "Bash(\"C:/Users/lvqi/PuTTY/PSCP.EXE\":*)",
+      "Bash(/c/Users/lvqi/PuTTY/PLINK.EXE -batch -pw Qwe9647. root@47.111.1.180 \"rm -rf /usr/local/nginx/html/gyd-blog/dist/*\")",
+      "Bash(/c/Users/lvqi/PuTTY/PLINK.EXE -hostkey ssh-ed25519 255:SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc -pw Qwe9647. root@47.111.1.180 \"rm -rf /usr/local/nginx/html/gyd-blog/dist/*\")",
+      "Bash(/c/Users/lvqi/PuTTY/PLINK.EXE -hostkey \"ssh-ed25519 0 SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc\" -pw Qwe9647. root@47.111.1.180 \"rm -rf /usr/local/nginx/html/gyd-blog/dist/*\")",
+      "Bash(/c/Users/lvqi/PuTTY/PSCP.EXE -hostkey \"ssh-ed25519 0 SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc\" -pw Qwe9647. -r \"//d/code/blog/docs/.vuepress/dist\"/* root@47.111.1.180:/usr/local/nginx/html/gyd-blog/dist/)",
+      "Bash(/c/Users/lvqi/PuTTY/PSCP.EXE -hostkey \"ssh-ed25519 0 SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc\" -pw Qwe9647. -r \"D:/code/blog/docs/.vuepress/dist\"/* root@47.111.1.180:/usr/local/nginx/html/gyd-blog/dist/)",
+      "Bash(/c/Users/lvqi/PuTTY/PSCP.EXE:*)",
+      "Bash(/c/Users/lvqi/PuTTY/PLINK.EXE:*)",
+      "Bash(powershell.exe:*)",
+      "Bash(pnpm deploy:*)",
+      "Bash(pnpm run build)",
+      "Bash(HOSTKEY=\"ssh-ed25519 0 SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc\")",
+      "Bash(LOCAL_DIR=\"D:/code/blog/docs/src/.vuepress/dist\")",
+      "Bash(__NEW_LINE_0ac8a85ecce67be5__ echo \"=== 清空远程目录 ===\")",
+      "Bash(\"$PUTTY_DIR/PLINK.EXE\" -hostkey \"$HOSTKEY\" -pw \"$PASSWORD\" \"$USER@$SERVER\" \"rm -rf $REMOTE_DIR/*\")",
+      "Bash(ls:*)",
+      "Bash(printf '@echo off\\\\nchcp 936 >nul\\\\necho ========================================\\\\necho   博客一键部署\\\\necho ========================================\\\\necho.\\\\necho [1/2] 正在构建项目...\\\\ncd /d D:\\\\\\\\code\\\\\\\\blog\\\\\\\\docs\\\\ncall pnpm run build\\\\nif %%ERRORLEVEL%% NEQ 0 \\(\\\\n    echo.\\\\n    echo 构建失败！\\\\n    pause\\\\n    exit /b 1\\\\n\\)\\\\necho.\\\\necho [2/2] 正在上传到服务器...\\\\nset PUTTY_DIR=C:\\\\\\\\Users\\\\\\\\lvqi\\\\\\\\PuTTY\\\\nset SERVER=47.111.1.180\\\\nset USER=root\\\\nset PASSWORD=Qwe9647.\\\\nset HOSTKEY=ssh-ed25519 0 SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc\\\\nset LOCAL_DIR=D:\\\\\\\\code\\\\\\\\blog\\\\\\\\docs\\\\\\\\src\\\\\\\\.vuepress\\\\\\\\dist\\\\nset REMOTE_DIR=/usr/local/nginx/html/gyd-blog/dist\\\\necho 正在清空远程目录...\\\\n\"\"%%PUTTY_DIR%%\\\\\\\\PLINK.EXE\"\" -batch -hostkey \"\"%%HOSTKEY%%\"\" -pw %%PASSWORD%% %%USER%%@%%SERVER%% \"\"rm -rf %%REMOTE_DIR%%/*\"\"\\\\necho 正在上传文件...\\\\n\"\"%%PUTTY_DIR%%\\\\\\\\PSCP.EXE\"\" -batch -hostkey \"\"%%HOSTKEY%%\"\" -pw %%PASSWORD%% -r %%LOCAL_DIR%%\\\\\\\\* %%USER%%@%%SERVER%%:%%REMOTE_DIR%%/\\\\necho.\\\\necho ========================================\\\\necho   部署完成！\\\\necho   访问地址: http://www.gydblog.com\\\\necho ========================================\\\\npause\\\\n')",
+      "Bash(python3 -c \"\ncontent = ''''''@echo off\nchcp 936 >nul\necho ========================================\necho   博客一键部署\necho ========================================\necho.\n\necho [1/2] 正在构建项目...\ncd /d D:\\\\code\\\\blog\\\\docs\ncall pnpm run build\n\nif %ERRORLEVEL% NEQ 0 \\(\n    echo.\n    echo 构建失败！\n    pause\n    exit /b 1\n\\)\n\necho.\necho [2/2] 正在上传到服务器...\n\nset PUTTY_DIR=C:\\\\Users\\\\lvqi\\\\PuTTY\nset SERVER=47.111.1.180\nset USER=root\nset PASSWORD=Qwe9647.\nset HOSTKEY=ssh-ed25519 0 SHA256:6R7sVNdsSNncWUQ0diOY0SxEMqNY8do8rwKj+68fFKc\nset LOCAL_DIR=D:\\\\code\\\\blog\\\\docs\\\\src\\\\.vuepress\\\\dist\nset REMOTE_DIR=/usr/local/nginx/html/gyd-blog/dist\n\necho 正在清空远程目录...\n\"\"%PUTTY_DIR%\\\\PLINK.EXE\"\" -batch -hostkey \"\"%HOSTKEY%\"\" -pw %PASSWORD% %USER%@%SERVER% \"\"rm -rf %REMOTE_DIR%/*\"\"\n\necho 正在上传文件...\n\"\"%PUTTY_DIR%\\\\PSCP.EXE\"\" -batch -hostkey \"\"%HOSTKEY%\"\" -pw %PASSWORD% -r %LOCAL_DIR%\\\\* %USER%@%SERVER%:%REMOTE_DIR%/\n\necho.\necho ========================================\necho   部署完成！\necho   访问地址: http://www.gydblog.com\necho ========================================\npause\n''''''\nwith open\\(''deploy-cn-fixed.bat'', ''w'', encoding=''gbk''\\) as f:\n    f.write\\(content\\)\nprint\\(''Chinese version created''\\)\n\")"
+    ]
+  }
+}

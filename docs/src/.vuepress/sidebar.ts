@@ -270,10 +270,11 @@ export default sidebar({
       text: '上、AI工具',
       collapsible: true,
       prefix: "ai/",
-      children: [   
-        "deepseek-intro"
+      children: [
+        "deepseek-intro",
+        "claude-code-guide"
       ],
-   
+
     },
     {
       text: '山、SOP库',
@@ -310,7 +311,7 @@ export default sidebar({
       text: '老、其它',
       collapsible: true,
       prefix: "combined/",
-      children: [   
+      children: [
         "layered-architecture",
         "domain",
         "industry-lossary",
@@ -319,7 +320,8 @@ export default sidebar({
         { text: "代码轮子",link: "code" },
         { text: "编程利器",link: "effect-raising" },
         { text: "编程规约",link: "coding-standard" },
-        { text: "Markdown", link: "markdown" }
+        { text: "Markdown", link: "markdown" },
+        { text: "一键自动化部署方案实战", link: "one-click-deploy" }
       ],
     },
     {
