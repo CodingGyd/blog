@@ -321,7 +321,8 @@ export default sidebar({
         { text: "编程利器",link: "effect-raising" },
         { text: "编程规约",link: "coding-standard" },
         { text: "Markdown", link: "markdown" },
-        { text: "一键自动化部署方案实战", link: "one-click-deploy" }
+        { text: "一键自动化部署方案实战", link: "one-click-deploy" },
+        { text: "三项目域名部署架构与自动化方案实战", link: "deployment-architecture" }
       ],
     },
     {

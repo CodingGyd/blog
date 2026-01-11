@@ -130,7 +130,7 @@ brew install --cask cc-switch
 
 ### 4.5 开通 GLM Coding Plan
 
-1. 登录后进入 [GLM Coding Plan 页面](https://bigmodel.cn/usercenter/glm-coding/overview)
+1. 登录后进入 [GLM Coding Plan 页面](https://www.bigmodel.cn/glm-coding?ic=CNEW3EQAJF)
 2. 选择合适的订阅套餐（最低 20 元/月）
 3. 完成支付开通
 
