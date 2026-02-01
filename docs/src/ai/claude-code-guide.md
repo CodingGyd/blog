@@ -191,7 +191,10 @@ pnpm config set registry https://registry.npmmirror.com
 pnpm add -g @anthropic-ai/claude-code
 ```
 
-### 4.9 验证配置
+### 4.9 启用插件配置（重要！）
+打开cc-switch，在设置页面找到【窗口行为】，选择应用到Claude Code插件！
+
+### 4.10 验证配置
 
 ```bash
 # 启动 Claude Code
@@ -212,7 +215,7 @@ claude-code
 3. GLM Coding Plan 是否已开通
 4. 网络连接是否正常
 
-### 4.10 cc-switch 高级功能
+### 4.11 cc-switch 高级功能
 
 **系统托盘快速切换：**
 
